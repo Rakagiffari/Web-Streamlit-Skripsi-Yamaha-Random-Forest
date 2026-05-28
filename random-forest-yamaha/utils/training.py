@@ -57,7 +57,7 @@ def train_model(X, y):
     )
 
     # =====================================
-    # TRAINING
+    # TRAINING MODEL
     # =====================================
 
     rf.fit(X_train, y_train)
