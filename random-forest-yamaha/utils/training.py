@@ -1,116 +1,214 @@
-# =========================================
-# utils/training.py
-# =========================================
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import joblib
 
-from sklearn.model_selection import train_test_split
+from pathlib import Path
 
-from sklearn.ensemble import RandomForestClassifier
+from utils.preprocessing import preprocess_data
 
-from sklearn.metrics import (
+st.title("📈 Feature Importance")
 
-    accuracy_score,
-    classification_report,
-    confusion_matrix,
-
-    precision_score,
-    recall_score,
-    f1_score
+uploaded_file = st.file_uploader(
+    "📂 Upload Dataset",
+    type=['csv']
 )
 
-def train_model(X, y):
+if uploaded_file:
 
     # =====================================
-    # SPLIT DATA
+    # LOAD DATASET
     # =====================================
 
-    X_train, X_test, y_train, y_test = train_test_split(
+    df = pd.read_csv(uploaded_file)
 
-        X,
-        y,
+    X, y = preprocess_data(df)
 
-        test_size=0.2,
+    # =====================================
+    # LOAD MODEL
+    # =====================================
 
-        random_state=42,
+    BASE_DIR = Path(__file__).parent.parent
 
-        stratify=y
+    model_path = (
+        BASE_DIR / "model" / "random_forest_model.pkl"
     )
 
-    # =====================================
-    # RANDOM FOREST
-    # =====================================
+    if not model_path.exists():
 
-    rf = RandomForestClassifier(
+        st.warning(
+            "Silakan training model terlebih dahulu."
+        )
 
-        n_estimators=300,
+    else:
 
-        max_depth=20,
+        model = joblib.load(model_path)
 
-        min_samples_split=2,
+        # =====================================
+        # FEATURE IMPORTANCE
+        # =====================================
 
-        min_samples_leaf=1,
+        importance = pd.DataFrame({
 
-        class_weight='balanced',
+            'Fitur': X.columns,
 
-        random_state=42,
+            'Importance':
+            model.feature_importances_
 
-        n_jobs=-1
-    )
+        })
 
-    # =====================================
-    # TRAINING MODEL
-    # =====================================
+        # =====================================
+        # GROUP FEATURE IMPORTANCE
+        # =====================================
 
-    rf.fit(X_train, y_train)
+        grouped_importance = {
 
-    # =====================================
-    # PREDIKSI
-    # =====================================
+            'Last Kilometer': 0,
+            'Usia Motor': 0,
 
-    y_pred = rf.predict(X_test)
+            'Model Name': 0,
+            'Category': 0,
+            'Brand': 0,
+            'Status': 0,
 
-    # =====================================
-    # EVALUASI
-    # =====================================
+            'Parts Name': 0,
+            'Parts Qty': 0,
+            'Total Payment': 0
+        }
 
-    accuracy = accuracy_score(
-        y_test,
-        y_pred
-    )
+        # =====================================
+        # LOOP FEATURE
+        # =====================================
 
-    precision = precision_score(
-        y_test,
-        y_pred
-    )
+        for index, row in importance.iterrows():
 
-    recall = recall_score(
-        y_test,
-        y_pred
-    )
+            fitur = row['Fitur']
 
-    f1 = f1_score(
-        y_test,
-        y_pred
-    )
+            nilai = row['Importance']
 
-    report = classification_report(
-        y_test,
-        y_pred
-    )
+            # =========================
+            # MODEL NAME
+            # =========================
+            if fitur.startswith('Model Name_'):
 
-    matrix = confusion_matrix(
-        y_test,
-        y_pred
-    )
+                grouped_importance[
+                    'Model Name'
+                ] += nilai
 
-    return (
+            # =========================
+            # CATEGORY
+            # =========================
+            elif fitur.startswith('Category_'):
 
-        rf,
+                grouped_importance[
+                    'Category'
+                ] += nilai
 
-        accuracy,
-        precision,
-        recall,
-        f1,
+            # =========================
+            # BRAND
+            # =========================
+            elif fitur.startswith('Brand_'):
 
-        report,
-        matrix
-    )
+                grouped_importance[
+                    'Brand'
+                ] += nilai
+
+            # =========================
+            # STATUS
+            # =========================
+            elif fitur.startswith('Status_'):
+
+                grouped_importance[
+                    'Status'
+                ] += nilai
+
+            # =========================
+            # PARTS NAME
+            # =========================
+            elif fitur.startswith('Parts Name_'):
+
+                grouped_importance[
+                    'Parts Name'
+                ] += nilai
+
+            # =========================
+            # PARTS QTY
+            # =========================
+            elif fitur == 'Parts Qty':
+
+                grouped_importance[
+                    'Parts Qty'
+                ] += nilai
+
+            # =========================
+            # TOTAL PAYMENT
+            # =========================
+            elif fitur == 'Total Payment':
+
+                grouped_importance[
+                    'Total Payment'
+                ] += nilai
+
+            # =========================
+            # LAST KILOMETER
+            # =========================
+            elif fitur == 'Last Kilometer':
+
+                grouped_importance[
+                    'Last Kilometer'
+                ] += nilai
+
+            # =========================
+            # USIA MOTOR
+            # =========================
+            elif fitur == 'Usia Motor':
+
+                grouped_importance[
+                    'Usia Motor'
+                ] += nilai
+
+        # =====================================
+        # DATAFRAME
+        # =====================================
+
+        importance_grouped = pd.DataFrame({
+
+            'Fitur':
+            grouped_importance.keys(),
+
+            'Importance':
+            grouped_importance.values()
+
+        })
+
+        importance_grouped = (
+            importance_grouped.sort_values(
+
+                by='Importance',
+
+                ascending=False
+            )
+        )
+
+        # =====================================
+        # VISUALISASI
+        # =====================================
+
+        fig = px.bar(
+
+            importance_grouped,
+
+            x='Importance',
+            y='Fitur',
+
+            orientation='h',
+
+            title='Feature Importance',
+
+            text_auto='.3f'
+        )
+
+        st.plotly_chart(
+            fig,
+            use_container_width=True
+        )
