@@ -80,47 +80,31 @@ MAIN TITLE
 }
 
 /* ========================================
-SUB TITLE BUBBLE
+SUB TITLE RED BAR
 ======================================== */
 
-.sub-title-box {
+.sub-title {
 
-    width: fit-content;
+    width: 100%;
 
-    margin: auto;
-
-    margin-bottom: 50px;
-
-    background: linear-gradient(
-        135deg,
-        #dc2626,
-        #b91c1c
-    );
+    background: #dc2626;
 
     color: white;
 
-    padding: 18px 35px;
+    text-align: center;
 
-    border-radius: 999px;
+    padding: 20px;
 
-    font-size: 17px;
+    font-size: 18px;
 
     font-weight: 600;
 
-    text-align: center;
+    margin-bottom: 50px;
+
+    border-radius: 0px;
 
     box-shadow:
-        0 12px 30px rgba(0,0,0,0.20);
-
-    transition: 0.3s ease;
-}
-
-.sub-title-box:hover {
-
-    transform: translateY(-3px);
-
-    box-shadow:
-        0 18px 40px rgba(0,0,0,0.30);
+        0 8px 20px rgba(0,0,0,0.15);
 }
 
 /* ========================================
@@ -149,8 +133,6 @@ METRIC BUBBLE
 
     box-shadow:
         0 15px 35px rgba(0,0,0,0.25);
-
-    transition: 0.3s ease;
 }
 
 /* bubble effect */
@@ -172,16 +154,6 @@ METRIC BUBBLE
     top: -70px;
 
     right: -70px;
-}
-
-/* hover */
-
-.metric-box:hover {
-
-    transform: translateY(-5px);
-
-    box-shadow:
-        0 25px 50px rgba(0,0,0,0.35);
 }
 
 /* metric title */
@@ -233,8 +205,6 @@ STATUS BOX
 
     padding: 25px;
 
-    border-radius: 22px;
-
     font-size: 18px;
 
     font-weight: 600;
@@ -276,7 +246,7 @@ UPLOAD FILE
 
     border: 2px dashed #dc2626;
 
-    border-radius: 20px;
+    border-radius: 0px;
 
     padding: 20px;
 
@@ -303,25 +273,18 @@ BUTTON
 
     border: none;
 
-    border-radius: 14px;
+    border-radius: 0px;
 
     padding: 14px 35px;
 
     font-weight: 700;
 
     font-size: 16px;
-
-    transition: 0.3s ease;
 }
 
 .stButton > button:hover {
 
     background-color: #b91c1c;
-
-    transform: scale(1.03);
-
-    box-shadow:
-        0 12px 25px rgba(0,0,0,0.20);
 }
 
 /* ========================================
@@ -330,7 +293,7 @@ DATAFRAME
 
 [data-testid="stDataFrame"] {
 
-    border-radius: 20px;
+    border-radius: 0px;
 
     overflow: hidden;
 
@@ -370,7 +333,7 @@ st.markdown("""
     KLASIFIKASI LAYANAN SERVIS YAMAHA
 </div>
 
-<div class="sub-title-box">
+<div class="sub-title">
     Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yamaha
 </div>
 """, unsafe_allow_html=True)
