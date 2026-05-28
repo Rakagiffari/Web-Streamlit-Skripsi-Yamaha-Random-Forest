@@ -38,7 +38,7 @@ st.markdown("""
    BACKGROUND
 ========================= */
 .stApp{
-    background-color: #7A3F3C;
+    background-color: #000000;
 }
 
 /* =========================
@@ -64,7 +64,7 @@ section[data-testid="stSidebar"]{
     text-align: center;
     font-size: 58px;
     font-weight: 900;
-    color: black;
+    color: #E1DCC9;
     line-height: 1.1;
     margin-top: 5px;
     margin-bottom: 10px;
