@@ -26,18 +26,6 @@ utc_now = datetime.utcnow()
 
 wib_now = utc_now + timedelta(hours=7)
 
-hari_indonesia = {
-    "Monday": "SENIN",
-    "Tuesday": "SELASA",
-    "Wednesday": "RABU",
-    "Thursday": "KAMIS",
-    "Friday": "JUMAT",
-    "Saturday": "SABTU",
-    "Sunday": "MINGGU"
-}
-
-hari = hari_indonesia[wib_now.strftime("%A")]
-
 tanggal_jam = wib_now.strftime("%d-%m-%Y | %H:%M")
 
 # =========================================
@@ -105,6 +93,11 @@ section[data-testid="stSidebar"]{
     text-align: center;
     transition: 0.3s ease;
     box-shadow: 0 0 15px rgba(0,0,0,0.25);
+    min-height: 150px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 }
 
 /* =========================
@@ -173,7 +166,7 @@ col1, col2, col3 = st.columns([2,1,2])
 with col2:
     st.image(
         str(logo_path),
-        width=240
+        width=220
     )
 
 # =========================================
@@ -201,9 +194,9 @@ st.markdown(
 )
 
 # =========================================
-# METRIC CARDS
+# 3 CENTER CARDS
 # =========================================
-col1, col2, col3, col4 = st.columns(4)
+space1, col1, col2, col3, space2 = st.columns([0.7,1,1,1,0.7])
 
 with col1:
     st.markdown(f"""
@@ -241,18 +234,6 @@ with col3:
     </div>
     """, unsafe_allow_html=True)
 
-with col4:
-    st.markdown(f"""
-    <div class="metric-card">
-        <div class="metric-title">
-            Hari
-        </div>
-        <div class="metric-value">
-            {hari}
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
 # =========================================
 # SPACE
 # =========================================
@@ -262,5 +243,5 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 # SUCCESS MESSAGE
 # =========================================
 st.success(
-        " ⓘ Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
+    "ⓘ Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
 )
