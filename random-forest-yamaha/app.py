@@ -2,19 +2,26 @@ import streamlit as st
 from pathlib import Path
 
 # =========================================
+
 # PAGE CONFIG
+
 # =========================================
+
 st.set_page_config(
-    page_title="Yamaha Random Forest",
-    page_icon="🏍️",
-    layout="wide",
-    initial_sidebar_state="expanded"
+page_title="Yamaha Random Forest",
+page_icon="🏍️",
+layout="wide",
+initial_sidebar_state="expanded"
 )
 
 # =========================================
+
 # CUSTOM CSS
+
 # =========================================
+
 st.markdown("""
+
 <style>
 
 html, body, [class*="css"]  {
@@ -113,61 +120,62 @@ html, body, [class*="css"]  {
     color: white;
 }
 
-/* UPLOAD AREA */
-.upload-box{
-    background: rgba(255,255,255,0.04);
-    padding: 30px;
-    border-radius: 24px;
-    border: 1px dashed rgba(255,255,255,0.15);
-}
-
 </style>
+
 """, unsafe_allow_html=True)
 
 # =========================================
+
 # LOGO
+
 # =========================================
-BASE_DIR = Path(__file__).parent
+
+BASE_DIR = Path(**file**).parent
 logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
 
 if logo_path.exists():
-    st.sidebar.image(str(logo_path), width=180)
+st.sidebar.image(str(logo_path), width=180)
 
 # =========================================
+
 # SIDEBAR
+
 # =========================================
+
 st.sidebar.markdown("## 🏍️ Yamaha ML Dashboard")
 st.sidebar.success("System Connected")
 
 st.sidebar.markdown("---")
 
 st.sidebar.markdown("""
+
 ### 📌 Menu Sistem
-- Dashboard
-- Upload Dataset
-- Training Model
-- Prediksi Data
-- Evaluasi Model
-""")
 
-st.sidebar.markdown("---")
-
-st.sidebar.info(
-    "Model menggunakan algoritma Random Forest "
-    "untuk klasifikasi layanan servis kendaraan Yamaha."
-)
+* Dashboard
+* Upload Dataset
+* Training Model
+* Prediksi Data
+* Evaluasi Model
+  """)
 
 # =========================================
+
 # SESSION STATE
+
 # =========================================
+
 accuracy = st.session_state.get("accuracy", 0)
 total_data = st.session_state.get("total_data", 0)
 total_feature = st.session_state.get("total_feature", 0)
 
 # =========================================
+
 # HEADER
+
 # =========================================
+
 st.markdown("""
+
 <div class="main-title">
 KLASIFIKASI LAYANAN SERVIS YAMAHA
 </div>
@@ -178,60 +186,60 @@ Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yam
 """, unsafe_allow_html=True)
 
 # =========================================
+
 # METRIC
+
 # =========================================
+
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.metric(
-        label="🎯 Accuracy Model",
-        value=f"{accuracy}%"
-    )
+st.metric(
+label="🎯 Accuracy Model",
+value=f"{accuracy}%"
+)
 
 with col2:
-    st.metric(
-        label="📊 Total Data",
-        value=total_data
-    )
+st.metric(
+label="📊 Total Data",
+value=total_data
+)
 
 with col3:
-    st.metric(
-        label="🧠 Total Feature",
-        value=total_feature
-    )
+st.metric(
+label="🧠 Total Feature",
+value=total_feature
+)
 
 with col4:
-    st.metric(
-        label="⚙️ Algoritma",
-        value="Random Forest"
-    )
+st.metric(
+label="⚙️ Algoritma",
+value="Random Forest"
+)
 
 # =========================================
+
 # STATUS
+
 # =========================================
+
 st.markdown("""
+
 <div class="status-box">
 ✅ Sistem siap digunakan untuk training dan klasifikasi layanan servis Yamaha
 </div>
 """, unsafe_allow_html=True)
 
 # =========================================
-# SECTION
-# =========================================
-st.markdown(
-    '<div class="section-title">📂 Upload Dataset CSV</div>',
-    unsafe_allow_html=True
-)
+
+# UPLOAD FILE
 
 # =========================================
-# UPLOAD FILE
-# =========================================
+
 uploaded_file = st.file_uploader(
-    "Upload dataset layanan servis Yamaha",
-    type=["csv"]
+"Upload dataset layanan servis Yamaha",
+type=["csv"]
 )
 
 if uploaded_file is not None:
-    st.success("Dataset berhasil diupload!")
-
-```
+st.success("Dataset berhasil diupload!")
