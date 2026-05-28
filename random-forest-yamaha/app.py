@@ -131,8 +131,29 @@ section[data-testid="stSidebar"]{
 /* =========================
    SUCCESS BOX
 ========================= */
-.stAlert{
-    border-radius: 15px;
+div[data-testid="stAlert"]{
+    background: linear-gradient(145deg, #111827, #1e293b);
+    border: 1px solid #334155;
+    border-radius: 18px;
+    padding: 18px;
+    color: white !important;
+    box-shadow: 0 0 15px rgba(0,0,0,0.20);
+}
+
+/* =========================
+   SUCCESS TEXT
+========================= */
+div[data-testid="stAlert"] p{
+    color: white !important;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* =========================
+   SUCCESS ICON
+========================= */
+div[data-testid="stAlert"] svg{
+    fill: white !important;
 }
 
 /* =========================
