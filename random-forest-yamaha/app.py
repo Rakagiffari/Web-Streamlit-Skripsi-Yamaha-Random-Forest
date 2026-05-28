@@ -40,19 +40,11 @@ section[data-testid="stSidebar"]{
 }
 
 /* =========================
-   REMOVE TOP SPACE
+   MAIN CONTAINER
 ========================= */
 .block-container{
-    padding-top: 1.5rem;
+    padding-top: 1rem;
     padding-bottom: 2rem;
-}
-
-/* =========================
-   CENTER IMAGE
-========================= */
-[data-testid="stImage"]{
-    display: flex;
-    justify-content: center;
 }
 
 /* =========================
@@ -64,20 +56,9 @@ section[data-testid="stSidebar"]{
     font-weight: 900;
     color: white;
     line-height: 1.1;
-    margin-top: 0px;
+    margin-top: 5px;
     margin-bottom: 10px;
     letter-spacing: 1px;
-}
-
-/* =========================
-   SUB TITLE
-========================= */
-.sub-title{
-    text-align: center;
-    font-size: 32px;
-    font-weight: 800;
-    color: white;
-    margin-bottom: 15px;
 }
 
 /* =========================
@@ -86,9 +67,9 @@ section[data-testid="stSidebar"]{
 .desc{
     text-align: center;
     color: #cbd5e1;
-    font-size: 19px;
-    margin-bottom: 45px;
+    font-size: 20px;
     margin-top: 0px;
+    margin-bottom: 45px;
 }
 
 /* =========================
@@ -96,7 +77,7 @@ section[data-testid="stSidebar"]{
 ========================= */
 .metric-card{
     background: linear-gradient(145deg, #111827, #1e293b);
-    padding: 30px 20px;
+    padding: 28px 20px;
     border-radius: 22px;
     border: 1px solid #334155;
     text-align: center;
@@ -105,7 +86,7 @@ section[data-testid="stSidebar"]{
 }
 
 /* =========================
-   HOVER
+   HOVER EFFECT
 ========================= */
 .metric-card:hover{
     transform: translateY(-6px);
@@ -133,18 +114,6 @@ section[data-testid="stSidebar"]{
 }
 
 /* =========================
-   SIDEBAR TITLE
-========================= */
-.sidebar-title{
-    text-align: center;
-    font-size: 30px;
-    font-weight: 900;
-    color: white;
-    margin-top: 10px;
-    margin-bottom: 25px;
-}
-
-/* =========================
    SUCCESS BOX
 ========================= */
 .stAlert{
@@ -154,15 +123,15 @@ section[data-testid="stSidebar"]{
 /* =========================
    HIDE STREAMLIT MENU
 ========================= */
-#MainMenu {
+#MainMenu{
     visibility: hidden;
 }
 
-footer {
+footer{
     visibility: hidden;
 }
 
-header {
+header{
     visibility: hidden;
 }
 
@@ -170,14 +139,20 @@ header {
 """, unsafe_allow_html=True)
 
 # =========================================
-# LOGO
+# SPACE TOP
 # =========================================
 st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
 
-st.image(
-    str(logo_path),
-    width=240
-)
+# =========================================
+# CENTER LOGO
+# =========================================
+col1, col2, col3 = st.columns([2,1,2])
+
+with col2:
+    st.image(
+        str(logo_path),
+        width=240
+    )
 
 # =========================================
 # MAIN TITLE
