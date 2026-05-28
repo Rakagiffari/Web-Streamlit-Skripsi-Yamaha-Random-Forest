@@ -1,22 +1,31 @@
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder
 
 def preprocess_data(df):
 
-    # Hapus data duplikat
+    # =========================
+    # HAPUS DUPLIKAT
+    # =========================
     df = df.drop_duplicates()
 
-    # Isi missing value kategori
-    categorical_cols = df.select_dtypes(include='object').columns
+    # =========================
+    # HANDLE MISSING VALUE
+    # =========================
+    categorical_cols = [
+        "Category",
+        "Brand",
+        "Model Name",
+        "Status"
+    ]
 
     for col in categorical_cols:
-        df[col] = df[col].fillna('Unknown')
 
-    # Kolom numerik
+        if col in df.columns:
+
+            df[col] = df[col].fillna("Unknown")
+
     numeric_cols = [
-        'Tahun Motor',
-        'Last Kilometer',
-        'Harga'
+        "Tahun Motor",
+        "Last Kilometer"
     ]
 
     for col in numeric_cols:
@@ -32,19 +41,54 @@ def preprocess_data(df):
                 df[col].median()
             )
 
-    # Feature engineering
-    df['Usia Motor'] = 2026 - df['Tahun Motor']
+    # =========================
+    # FEATURE ENGINEERING
+    # =========================
+    tahun_sekarang = 2026
 
-    # Target
-    y = df['Service']
+    df["Usia Motor"] = (
+        tahun_sekarang - df["Tahun Motor"]
+    )
 
-    # Kolom yang tidak dipakai
+    # =========================
+    # TARGET
+    # =========================
+    y = df["Service"].map({
+
+        "Ringan": 0,
+        "Berat": 1
+
+    })
+
+    # =========================
+    # DROP COLUMN
+    # =========================
     drop_columns = [
-        'Service',
-        'Nama',
-        'Telepon',
-        'KTP',
-        'Invoice'
+
+        "Service",
+
+        "Nama",
+        "KTP",
+        "Telepon",
+        "Invoice",
+        "Plate",
+        "Technical Name",
+
+        "Dealer",
+        "Point",
+        "YSS",
+        "Order",
+        "No Work Order",
+
+        "Reg Date",
+
+        # LEAKAGE
+        "Parts Name",
+        "Parts Qty",
+        "Total Payment",
+
+        # SUDAH DIGANTI
+        "Tahun Motor"
     ]
 
     X = df.drop(
@@ -52,22 +96,12 @@ def preprocess_data(df):
         errors='ignore'
     )
 
-    # Encoding fitur kategori
-    label_encoders = {}
+    # =========================
+    # ONE HOT ENCODING
+    # =========================
+    X = pd.get_dummies(
+        X,
+        drop_first=True
+    )
 
-    for col in X.select_dtypes(include='object').columns:
-
-        le = LabelEncoder()
-
-        X[col] = le.fit_transform(
-            X[col].astype(str)
-        )
-
-        label_encoders[col] = le
-
-    # Encoding target
-    target_encoder = LabelEncoder()
-
-    y = target_encoder.fit_transform(y)
-
-    return X, y, label_encoders, target_encoder
+    return X, y
