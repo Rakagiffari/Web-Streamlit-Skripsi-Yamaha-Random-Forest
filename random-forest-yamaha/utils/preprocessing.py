@@ -1,26 +1,126 @@
+# =========================================
+# utils/preprocessing.py
+# =========================================
+
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder
 
 def preprocess_data(df):
 
-    df = df.copy()
+    # =====================================
+    # HAPUS DUPLIKAT
+    # =====================================
+    df = df.drop_duplicates()
 
-    target_column = "Service"
+    # =====================================
+    # HANDLE MISSING VALUE
+    # =====================================
 
-    categorical_columns = df.select_dtypes(include=['object']).columns
+    categorical_cols = [
 
-    label_encoders = {}
+        "Category",
+        "Brand",
+        "Model Name",
+        "Status"
 
-    for col in categorical_columns:
+    ]
 
-        le = LabelEncoder()
+    for col in categorical_cols:
 
-        df[col] = le.fit_transform(df[col].astype(str))
+        if col in df.columns:
 
-        label_encoders[col] = le
+            df[col] = df[col].fillna(
+                "Unknown"
+            )
 
-    X = df.drop(target_column, axis=1)
+    numeric_cols = [
 
-    y = df[target_column]
+        "Tahun Motor",
+        "Last Kilometer"
 
-    return X, y, label_encoders
+    ]
+
+    for col in numeric_cols:
+
+        if col in df.columns:
+
+            df[col] = pd.to_numeric(
+                df[col],
+                errors='coerce'
+            )
+
+            df[col] = df[col].fillna(
+                df[col].median()
+            )
+
+    # =====================================
+    # FEATURE ENGINEERING
+    # =====================================
+
+    tahun_sekarang = 2026
+
+    df["Usia Motor"] = (
+        tahun_sekarang - df["Tahun Motor"]
+    )
+
+    # =====================================
+    # TARGET
+    # =====================================
+
+    y = df["Service"].map({
+
+        "Ringan": 0,
+        "Berat": 1
+
+    })
+
+    # =====================================
+    # DROP COLUMN
+    # =====================================
+
+    drop_columns = [
+
+        # TARGET
+        "Service",
+
+        # IDENTITAS
+        "Nama",
+        "KTP",
+        "Telepon",
+        "Invoice",
+        "Plate",
+        "Technical Name",
+
+        # TIDAK PENTING
+        "Dealer",
+        "Point",
+        "YSS",
+        "Order",
+        "No Work Order",
+
+        # TANGGAL
+        "Reg Date",
+
+        # DATA LEAKAGE
+        "Parts Name",
+        "Parts Qty",
+        "Total Payment",
+
+        # SUDAH DIGANTI
+        "Tahun Motor"
+    ]
+
+    X = df.drop(
+        columns=drop_columns,
+        errors='ignore'
+    )
+
+    # =====================================
+    # ONE HOT ENCODING
+    # =====================================
+
+    X = pd.get_dummies(
+        X,
+        drop_first=True
+    )
+
+    return X, y
