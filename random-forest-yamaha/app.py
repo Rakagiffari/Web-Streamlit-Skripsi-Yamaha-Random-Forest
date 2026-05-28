@@ -2,7 +2,6 @@ import streamlit as st
 from pathlib import Path
 from PIL import Image
 from datetime import datetime
-from streamlit_autorefresh import st_autorefresh
 
 # =========================================
 # PAGE CONFIG
@@ -10,6 +9,7 @@ from streamlit_autorefresh import st_autorefresh
 BASE_DIR = Path(__file__).parent
 
 logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
+
 logo = Image.open(logo_path)
 
 st.set_page_config(
@@ -18,11 +18,6 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
-
-# =========================================
-# AUTO REFRESH 1 DETIK
-# =========================================
-st_autorefresh(interval=1000, key="clock_refresh")
 
 # =========================================
 # CUSTOM CSS
@@ -50,11 +45,11 @@ section[data-testid="stSidebar"]{
 ========================= */
 .block-container{
     padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-bottom: 2rem;
 }
 
 /* =========================
-   TITLE
+   MAIN TITLE
 ========================= */
 .main-title{
     text-align: center;
@@ -63,7 +58,7 @@ section[data-testid="stSidebar"]{
     color: white;
     line-height: 1.1;
     margin-top: 5px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     letter-spacing: 1px;
 }
 
@@ -74,30 +69,30 @@ section[data-testid="stSidebar"]{
     text-align: center;
     color: #cbd5e1;
     font-size: 20px;
+    margin-top: 0px;
     margin-bottom: 45px;
 }
 
 /* =========================
-   CARD
+   METRIC CARD
 ========================= */
 .metric-card{
     background: linear-gradient(145deg, #111827, #1e293b);
-    border: 1px solid #334155;
-    border-radius: 22px;
     padding: 30px 20px;
+    border-radius: 22px;
+    border: 1px solid #334155;
+    text-align: center;
+    transition: 0.3s ease;
+    box-shadow: 0 0 15px rgba(0,0,0,0.25);
     min-height: 170px;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-
-    text-align: center;
-
-    transition: 0.3s ease;
-    box-shadow: 0 0 15px rgba(0,0,0,0.25);
 }
 
+/* =========================
+   HOVER EFFECT
+========================= */
 .metric-card:hover{
     transform: translateY(-6px);
     border: 1px solid #ef4444;
@@ -105,17 +100,17 @@ section[data-testid="stSidebar"]{
 }
 
 /* =========================
-   CARD TITLE
+   METRIC TITLE
 ========================= */
 .metric-title{
     color: #94a3b8;
     font-size: 15px;
-    font-weight: 600;
     margin-bottom: 14px;
+    font-weight: 600;
 }
 
 /* =========================
-   CARD VALUE
+   METRIC VALUE
 ========================= */
 .metric-value{
     color: white;
@@ -124,7 +119,7 @@ section[data-testid="stSidebar"]{
 }
 
 /* =========================
-   DATE TEXT
+   DATE
 ========================= */
 .date-text{
     color: white;
@@ -134,7 +129,7 @@ section[data-testid="stSidebar"]{
 }
 
 /* =========================
-   TIME TEXT
+   TIME
 ========================= */
 .time-text{
     color: #ef4444;
@@ -143,10 +138,23 @@ section[data-testid="stSidebar"]{
 }
 
 /* =========================
-   HIDE STREAMLIT
+   SUCCESS BOX
 ========================= */
-#MainMenu,
-footer,
+.stAlert{
+    border-radius: 15px;
+}
+
+/* =========================
+   HIDE STREAMLIT MENU
+========================= */
+#MainMenu{
+    visibility: hidden;
+}
+
+footer{
+    visibility: hidden;
+}
+
 header{
     visibility: hidden;
 }
@@ -155,11 +163,11 @@ header{
 """, unsafe_allow_html=True)
 
 # =========================================
-# DATETIME
+# DATE & TIME
 # =========================================
 now = datetime.now()
 
-hari_dict = {
+hari_indonesia = {
     "Monday": "Senin",
     "Tuesday": "Selasa",
     "Wednesday": "Rabu",
@@ -169,12 +177,21 @@ hari_dict = {
     "Sunday": "Minggu"
 }
 
-hari = hari_dict[now.strftime("%A")]
+hari = hari_indonesia[now.strftime("%A")]
+
 tanggal = now.strftime("%d-%m-%Y")
 jam = now.strftime("%H:%M:%S")
 
 # =========================================
-# LOGO
+# SPACE TOP
+# =========================================
+st.markdown(
+    "<div style='margin-top:10px;'></div>",
+    unsafe_allow_html=True
+)
+
+# =========================================
+# CENTER LOGO
 # =========================================
 col1, col2, col3 = st.columns([2,1,2])
 
@@ -185,22 +202,28 @@ with col2:
     )
 
 # =========================================
-# TITLE
+# MAIN TITLE
 # =========================================
-st.markdown("""
-<h1 class="main-title">
-KLASIFIKASI LAYANAN SERVIS YAMAHA
-</h1>
-""", unsafe_allow_html=True)
+st.markdown(
+    """
+    <div class="main-title">
+        KLASIFIKASI LAYANAN SERVIS YAMAHA
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # =========================================
 # DESCRIPTION
 # =========================================
-st.markdown("""
-<p class="desc">
-Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yamaha.
-</p>
-""", unsafe_allow_html=True)
+st.markdown(
+    """
+    <div class="desc">
+        Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yamaha.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # =========================================
 # METRIC CARDS
@@ -213,8 +236,13 @@ col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.markdown(f"""
     <div class="metric-card">
-        <span class="metric-title">Algoritma</span>
-        <span class="metric-value">Random Forest</span>
+        <div class="metric-title">
+            Algoritma
+        </div>
+
+        <div class="metric-value">
+            Random Forest
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -224,8 +252,13 @@ with col1:
 with col2:
     st.markdown(f"""
     <div class="metric-card">
-        <span class="metric-title">Dataset</span>
-        <span class="metric-value">CSV File</span>
+        <div class="metric-title">
+            Dataset
+        </div>
+
+        <div class="metric-value">
+            CSV File
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -235,15 +268,17 @@ with col2:
 with col3:
     st.markdown(f"""
     <div class="metric-card">
-        <span class="metric-title">Tanggal & Jam</span>
+        <div class="metric-title">
+            Tanggal & Jam
+        </div>
 
-        <span class="date-text">
+        <div class="date-text">
             {tanggal}
-        </span>
+        </div>
 
-        <span class="time-text">
+        <div class="time-text">
             {jam}
-        </span>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -253,10 +288,20 @@ with col3:
 with col4:
     st.markdown(f"""
     <div class="metric-card">
-        <span class="metric-title">Hari</span>
-        <span class="metric-value">{hari}</span>
+        <div class="metric-title">
+            Hari
+        </div>
+
+        <div class="metric-value">
+            {hari}
+        </div>
     </div>
     """, unsafe_allow_html=True)
+
+# =========================================
+# SPACE
+# =========================================
+st.markdown("<br><br>", unsafe_allow_html=True)
 
 # =========================================
 # SUCCESS MESSAGE
