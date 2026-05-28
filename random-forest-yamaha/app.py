@@ -140,11 +140,15 @@ header{
 """, unsafe_allow_html=True)
 
 # =========================================
-# DATE & TIME
+# DATETIME WIB
 # =========================================
-now = datetime.now()
+import pytz
 
-hari_indonesia = {
+timezone = pytz.timezone("Asia/Jakarta")
+
+now = datetime.now(timezone)
+
+hari_dict = {
     "Monday": "Senin",
     "Tuesday": "Selasa",
     "Wednesday": "Rabu",
@@ -154,10 +158,11 @@ hari_indonesia = {
     "Sunday": "Minggu"
 }
 
-hari = hari_indonesia[now.strftime("%A")]
+hari = hari_dict[now.strftime("%A")]
 
-tanggal_jam = now.strftime("%d-%m-%Y | %H:%M:%S")
+tanggal = now.strftime("%d-%m-%Y")
 
+jam = now.strftime("%H:%M")
 # =========================================
 # SPACE TOP
 # =========================================
