@@ -44,20 +44,11 @@ def train_model(X, y):
 
     accuracy = accuracy_score(y_test, y_pred)
 
-    precision = precision_score(
-        y_test,
-        y_pred
-    )
+    precision = precision_score(y_test, y_pred)
 
-    recall = recall_score(
-        y_test,
-        y_pred
-    )
+    recall = recall_score(y_test, y_pred)
 
-    f1 = f1_score(
-        y_test,
-        y_pred
-    )
+    f1 = f1_score(y_test, y_pred)
 
     report = classification_report(
         y_test,
