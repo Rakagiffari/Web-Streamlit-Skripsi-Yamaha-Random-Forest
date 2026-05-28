@@ -104,6 +104,11 @@ def preprocess_data(df):
         # TANGGAL
         "Reg Date",
 
+        # DATA LEAKAGE 
+        "Parts Name", 
+        "Parts Qty", 
+        "Total Payment",
+        
         # SUDAH DIGANTI
         "Tahun Motor"
     ]
