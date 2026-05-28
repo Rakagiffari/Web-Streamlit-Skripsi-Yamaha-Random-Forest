@@ -79,36 +79,31 @@ def preprocess_data(df):
 
     drop_columns = [
 
-        # TARGET
-        "Service",
+    # TARGET
+    "Service",
 
-        # IDENTITAS
-        "Nama",
-        "KTP",
-        "Telepon",
-        "Invoice",
-        "Plate",
-        "Technical Name",
+    # IDENTITAS
+    "Nama",
+    "KTP",
+    "Telepon",
+    "Invoice",
+    "Plate",
+    "Technical Name",
 
-        # TIDAK PENTING
-        "Dealer",
-        "Point",
-        "YSS",
-        "Order",
-        "No Work Order",
+    # TIDAK PENTING
+    "Dealer",
+    "Point",
+    "YSS",
+    "Order",
+    "No Work Order",
 
-        # TANGGAL
-        "Reg Date",
+    # TANGGAL
+    "Reg Date",
 
-        # DATA LEAKAGE
-        "Parts Name",
-        "Parts Qty",
-        "Total Payment",
-
-        # SUDAH DIGANTI
-        "Tahun Motor"
-    ]
-
+    # SUDAH DIGANTI
+    "Tahun Motor"
+]
+    
     X = df.drop(
         columns=drop_columns,
         errors='ignore'
