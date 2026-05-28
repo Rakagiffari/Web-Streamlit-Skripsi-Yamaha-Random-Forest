@@ -46,7 +46,7 @@ def preprocess_data(df):
     # =========================
     # FEATURE ENGINEERING
     # =========================
-    tahun_sekarang = 2026
+    tahun_sekarang = 2025
 
     df["Usia Motor"] = (
         tahun_sekarang - df["Tahun Motor"]
@@ -75,7 +75,6 @@ def preprocess_data(df):
         "Reg Date",
 
         "Parts Name",
-        "Parts Qty",
         "Total Payment",
 
         "Tahun Motor"
