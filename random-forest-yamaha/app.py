@@ -1,3 +1,4 @@
+```python
 import streamlit as st
 from pathlib import Path
 
@@ -20,21 +21,32 @@ st.markdown("""
 <style>
 
 /* =========================================
-BACKGROUND
+GLOBAL
+========================================= */
+
+html, body, [class*="css"] {
+
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* =========================================
+MAIN BACKGROUND
 ========================================= */
 
 [data-testid="stAppViewContainer"] {
+
     background: #ffffff;
+
     color: #111827;
 }
 
-[data-testid="stHeader"] {
-    background: rgba(255,255,255,0);
-}
+/* =========================================
+HEADER
+========================================= */
 
-.block-container {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+[data-testid="stHeader"] {
+
+    background: rgba(0,0,0,0);
 }
 
 /* =========================================
@@ -42,12 +54,30 @@ SIDEBAR
 ========================================= */
 
 [data-testid="stSidebar"] {
+
     background: #111111;
+
     border-right: 2px solid #dc2626;
 }
 
 [data-testid="stSidebar"] * {
+
     color: white;
+}
+
+/* =========================================
+MAIN CONTAINER
+========================================= */
+
+.block-container {
+
+    padding-top: 2rem;
+
+    padding-bottom: 2rem;
+
+    padding-left: 3rem;
+
+    padding-right: 3rem;
 }
 
 /* =========================================
@@ -55,110 +85,147 @@ TITLE
 ========================================= */
 
 .main-title {
-    font-size: 52px;
+
+    font-size: 55px;
+
     font-weight: 800;
+
     color: #111827;
+
     line-height: 1.1;
 }
 
 .sub-title {
-    color: #6b7280;
+
+    margin-top: 12px;
+
     font-size: 18px;
-    margin-top: 10px;
-    margin-bottom: 40px;
+
+    color: #6b7280;
+
+    margin-bottom: 45px;
 }
 
 /* =========================================
-METRIC CARD
+BUBBLE METRIC CARD
 ========================================= */
 
-[data-testid="metric-container"] {
-    background: white;
-    border-radius: 24px;
-    padding: 28px 20px;
-    border: 1px solid #e5e7eb;
+.metric-box {
 
-    box-shadow:
-        0 10px 25px rgba(0,0,0,0.08);
+    background: linear-gradient(
+        135deg,
+        #dc2626,
+        #b91c1c
+    );
 
-    transition: 0.3s ease;
-}
+    border-radius: 30px;
 
-[data-testid="metric-container"]:hover {
-
-    transform: translateY(-5px);
-
-    box-shadow:
-        0 20px 40px rgba(0,0,0,0.15);
-}
-
-/* metric label */
-
-[data-testid="metric-container"] label {
-    color: #6b7280 !important;
-    font-size: 15px !important;
-    font-weight: 600;
-}
-
-/* metric value */
-
-[data-testid="metric-container"] [data-testid="stMetricValue"] {
-    color: #dc2626;
-    font-size: 34px;
-    font-weight: 800;
-}
-
-/* =========================================
-BUBBLE CHAT STYLE
-========================================= */
-
-.bubble-container {
-    margin-top: 45px;
-}
-
-.chat-bubble {
-
-    background: #dc2626;
+    padding: 30px 25px;
 
     color: white;
 
-    padding: 22px 28px;
-
-    border-radius: 24px;
-
-    font-size: 18px;
-
-    font-weight: 600;
-
-    width: fit-content;
-
-    max-width: 850px;
-
     position: relative;
 
+    overflow: hidden;
+
+    transition: 0.3s ease;
+
     box-shadow:
-        0 15px 35px rgba(0,0,0,0.30);
+        0 15px 35px rgba(0,0,0,0.25);
 }
 
-/* bubble tail */
+/* bubble effect */
 
-.chat-bubble::after {
+.metric-box::before {
 
     content: "";
 
     position: absolute;
 
-    bottom: -12px;
+    width: 160px;
 
-    left: 40px;
+    height: 160px;
 
-    width: 25px;
+    background: rgba(255,255,255,0.08);
 
-    height: 25px;
+    border-radius: 50%;
 
-    background: #dc2626;
+    top: -70px;
 
-    transform: rotate(45deg);
+    right: -70px;
+}
+
+.metric-box:hover {
+
+    transform: translateY(-6px);
+
+    box-shadow:
+        0 25px 50px rgba(0,0,0,0.35);
+}
+
+/* title */
+
+.metric-title {
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    opacity: 0.9;
+
+    margin-bottom: 15px;
+}
+
+/* value */
+
+.metric-value {
+
+    font-size: 40px;
+
+    font-weight: 800;
+
+    line-height: 1;
+}
+
+/* icon */
+
+.metric-icon {
+
+    position: absolute;
+
+    right: 20px;
+
+    bottom: 15px;
+
+    font-size: 45px;
+
+    opacity: 0.18;
+}
+
+/* =========================================
+STATUS BOX
+========================================= */
+
+.status-box {
+
+    margin-top: 45px;
+
+    background: white;
+
+    border-left: 8px solid #dc2626;
+
+    padding: 24px;
+
+    border-radius: 22px;
+
+    font-size: 17px;
+
+    font-weight: 600;
+
+    color: #111827;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.08);
 }
 
 /* =========================================
@@ -166,11 +233,34 @@ SECTION TITLE
 ========================================= */
 
 .section-title {
+
     margin-top: 50px;
+
     margin-bottom: 20px;
+
     font-size: 28px;
+
     font-weight: 800;
+
     color: #111827;
+}
+
+/* =========================================
+UPLOAD FILE
+========================================= */
+
+[data-testid="stFileUploader"] {
+
+    background: white;
+
+    border: 2px dashed #dc2626;
+
+    border-radius: 25px;
+
+    padding: 20px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.08);
 }
 
 /* =========================================
@@ -187,11 +277,11 @@ BUTTON
 
     border-radius: 14px;
 
-    padding: 12px 24px;
+    padding: 12px 25px;
 
     font-weight: 700;
 
-    transition: 0.3s;
+    transition: 0.3s ease;
 }
 
 .stButton > button:hover {
@@ -201,39 +291,30 @@ BUTTON
     transform: scale(1.02);
 
     box-shadow:
-        0 10px 20px rgba(0,0,0,0.20);
+        0 12px 25px rgba(0,0,0,0.20);
 }
 
 /* =========================================
-UPLOAD FILE
-========================================= */
-
-[data-testid="stFileUploader"] {
-
-    background: white;
-
-    border: 2px dashed #dc2626;
-
-    border-radius: 20px;
-
-    padding: 20px;
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,0.08);
-}
-
-/* =========================================
-TABLE
+DATAFRAME
 ========================================= */
 
 [data-testid="stDataFrame"] {
 
-    border-radius: 20px;
+    border-radius: 22px;
 
     overflow: hidden;
 
     box-shadow:
         0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* =========================================
+SUCCESS ALERT
+========================================= */
+
+.stSuccess {
+
+    border-radius: 16px;
 }
 
 </style>
@@ -265,11 +346,11 @@ st.sidebar.success("System Connected")
 st.sidebar.markdown("---")
 
 st.sidebar.markdown("""
-### Menu Navigasi
+### Navigasi Menu
 
 - Dashboard
-- Training Model
 - Upload Dataset
+- Training Model
 - Evaluasi Model
 - Prediksi Data
 """)
@@ -278,11 +359,11 @@ st.sidebar.markdown("""
 # SESSION STATE
 # =========================================
 
-accuracy = st.session_state.get("accuracy", 0)
+accuracy = st.session_state.get("accuracy", 74)
 
-total_data = st.session_state.get("total_data", 0)
+total_data = st.session_state.get("total_data", 1500)
 
-total_feature = st.session_state.get("total_feature", 0)
+total_feature = st.session_state.get("total_feature", 12)
 
 # =========================================
 # HEADER
@@ -302,76 +383,136 @@ st.markdown(
 )
 
 # =========================================
-# METRIC
+# METRIC BUBBLE COLUMN
 # =========================================
 
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
 
-    st.metric(
-        label="Accuracy Model",
-        value=f"{accuracy}%"
-    )
+    st.markdown(f"""
+    <div class="metric-box">
+
+        <div class="metric-title">
+            Accuracy Model
+        </div>
+
+        <div class="metric-value">
+            {accuracy}%
+        </div>
+
+        <div class="metric-icon">
+            🎯
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
 
 with col2:
 
-    st.metric(
-        label="Total Data",
-        value=total_data
-    )
+    st.markdown(f"""
+    <div class="metric-box">
+
+        <div class="metric-title">
+            Total Data
+        </div>
+
+        <div class="metric-value">
+            {total_data}
+        </div>
+
+        <div class="metric-icon">
+            📊
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
 
 with col3:
 
-    st.metric(
-        label="Total Feature",
-        value=total_feature
-    )
+    st.markdown(f"""
+    <div class="metric-box">
+
+        <div class="metric-title">
+            Total Feature
+        </div>
+
+        <div class="metric-value">
+            {total_feature}
+        </div>
+
+        <div class="metric-icon">
+            ⚙️
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
 
 with col4:
 
-    st.metric(
-        label="Algoritma",
-        value="Random Forest"
-    )
+    st.markdown("""
+    <div class="metric-box">
 
-# =========================================
-# BUBBLE CHAT STATUS
-# =========================================
-
-st.markdown(
-    """
-    <div class="bubble-container">
-        <div class="chat-bubble">
-            🚀 Sistem siap digunakan untuk training dan klasifikasi layanan servis Yamaha menggunakan algoritma Random Forest.
+        <div class="metric-title">
+            Algoritma
         </div>
+
+        <div class="metric-value" style="font-size:28px;">
+            Random Forest
+        </div>
+
+        <div class="metric-icon">
+            🌲
+        </div>
+
     </div>
-    """,
-    unsafe_allow_html=True
-)
+    """, unsafe_allow_html=True)
 
 # =========================================
-# SECTION
+# STATUS
 # =========================================
 
-st.markdown(
-    """
-    <div class="section-title">
-        Dashboard Overview
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown("""
+<div class="status-box">
+    🚀 Sistem siap digunakan untuk training dan klasifikasi layanan servis Yamaha menggunakan algoritma Random Forest.
+</div>
+""", unsafe_allow_html=True)
 
 # =========================================
-# SAMPLE CONTENT
+# SECTION TITLE
+# =========================================
+
+st.markdown("""
+<div class="section-title">
+    Upload Dataset
+</div>
+""", unsafe_allow_html=True)
+
+# =========================================
+# FILE UPLOAD
 # =========================================
 
 uploaded_file = st.file_uploader(
-    "📂 Upload Dataset CSV",
+    "📂 Upload file CSV",
     type=["csv"]
 )
 
 if uploaded_file:
 
     st.success("Dataset berhasil diupload")
+
+# =========================================
+# SAMPLE BUTTON
+# =========================================
+
+st.markdown("""
+<div class="section-title">
+    Training Model
+</div>
+""", unsafe_allow_html=True)
+
+if st.button("🚀 Mulai Training"):
+
+    st.success("Training model berhasil dilakukan")
+
+```
