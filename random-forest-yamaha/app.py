@@ -28,7 +28,7 @@ st.markdown("""
    BACKGROUND
 ========================= */
 .stApp{
-    background-color: #FFFFFF;
+    background-color: #020617;
 }
 
 /* =========================
