@@ -1,5 +1,9 @@
 import streamlit as st
+from pathlib import Path
 
+# =====================================
+# PAGE CONFIG
+# =====================================
 st.set_page_config(
     page_title="Yamaha Random Forest",
     page_icon="🏍️",
@@ -7,6 +11,9 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# =====================================
+# CUSTOM CSS
+# =====================================
 st.markdown("""
 <style>
 .main {
@@ -40,13 +47,29 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.sidebar.image(
-    "assets/yamaha_logo.png",
-    width=180
-)
+# =====================================
+# LOAD LOGO
+# =====================================
+BASE_DIR = Path(__file__).parent
 
+logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
+
+if logo_path.exists():
+    st.sidebar.image(
+        str(logo_path),
+        width=180
+    )
+else:
+    st.sidebar.warning("Logo tidak ditemukan")
+
+# =====================================
+# SIDEBAR
+# =====================================
 st.sidebar.title("🏍️ Yamaha ML Dashboard")
 
+# =====================================
+# MAIN TITLE
+# =====================================
 st.title("🏍️ Klasifikasi Layanan Servis Yamaha")
 
 st.markdown("""
@@ -55,6 +78,9 @@ st.markdown("""
 Sistem machine learning untuk klasifikasi layanan servis kendaraan Yamaha menggunakan algoritma Random Forest.
 """)
 
+# =====================================
+# METRICS
+# =====================================
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
@@ -69,4 +95,7 @@ with col3:
 with col4:
     st.metric("Status", "Ready")
 
+# =====================================
+# INFO
+# =====================================
 st.success("Gunakan sidebar untuk memulai analisis.")
