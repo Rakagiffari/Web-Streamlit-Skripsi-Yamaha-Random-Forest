@@ -1,6 +1,7 @@
 import streamlit as st
 from pathlib import Path
 from PIL import Image
+from datetime import datetime
 
 # =========================================
 # PAGE CONFIG
@@ -139,6 +140,25 @@ header{
 """, unsafe_allow_html=True)
 
 # =========================================
+# DATE & TIME
+# =========================================
+now = datetime.now()
+
+hari_indonesia = {
+    "Monday": "Senin",
+    "Tuesday": "Selasa",
+    "Wednesday": "Rabu",
+    "Thursday": "Kamis",
+    "Friday": "Jumat",
+    "Saturday": "Sabtu",
+    "Sunday": "Minggu"
+}
+
+hari = hari_indonesia[now.strftime("%A")]
+
+tanggal_jam = now.strftime("%d-%m-%Y | %H:%M:%S")
+
+# =========================================
 # SPACE TOP
 # =========================================
 st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
@@ -184,7 +204,7 @@ st.markdown(
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.markdown("""
+    st.markdown(f"""
     <div class="metric-card">
         <div class="metric-title">
             Algoritma
@@ -196,19 +216,7 @@ with col1:
     """, unsafe_allow_html=True)
 
 with col2:
-    st.markdown("""
-    <div class="metric-card">
-        <div class="metric-title">
-            Target
-        </div>
-        <div class="metric-value">
-            2 Class
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col3:
-    st.markdown("""
+    st.markdown(f"""
     <div class="metric-card">
         <div class="metric-title">
             Dataset
@@ -219,14 +227,26 @@ with col3:
     </div>
     """, unsafe_allow_html=True)
 
-with col4:
-    st.markdown("""
+with col3:
+    st.markdown(f"""
     <div class="metric-card">
         <div class="metric-title">
-            Status
+            Tanggal & Jam
+        </div>
+        <div class="metric-value" style="font-size:20px;">
+            {tanggal_jam}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col4:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-title">
+            Hari
         </div>
         <div class="metric-value">
-            Ready
+            {hari}
         </div>
     </div>
     """, unsafe_allow_html=True)
