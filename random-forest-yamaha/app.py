@@ -1,8 +1,8 @@
 import streamlit as st
 
-# =========================================
+# ========================================
 # PAGE CONFIG
-# =========================================
+# ========================================
 
 st.set_page_config(
     page_title="Yamaha Random Forest",
@@ -10,9 +10,9 @@ st.set_page_config(
     layout="wide"
 )
 
-# =========================================
+# ========================================
 # CUSTOM CSS
-# =========================================
+# ========================================
 
 st.markdown("""
 <style>
@@ -52,12 +52,14 @@ MAIN CONTAINER
 .block-container {
 
     padding-top: 2rem;
+
     padding-left: 3rem;
+
     padding-right: 3rem;
 }
 
 /* ========================================
-TITLE
+MAIN TITLE
 ======================================== */
 
 .main-title {
@@ -71,7 +73,15 @@ TITLE
     color: #111827;
 
     margin-bottom: 10px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 2px;
 }
+
+/* ========================================
+SUB TITLE
+======================================== */
 
 .sub-title {
 
@@ -135,6 +145,8 @@ METRIC BUBBLE
     right: -70px;
 }
 
+/* hover effect */
+
 .metric-box:hover {
 
     transform: translateY(-5px);
@@ -143,7 +155,7 @@ METRIC BUBBLE
         0 25px 50px rgba(0,0,0,0.35);
 }
 
-/* title */
+/* metric title */
 
 .metric-title {
 
@@ -156,7 +168,7 @@ METRIC BUBBLE
     margin-bottom: 18px;
 }
 
-/* value */
+/* metric value */
 
 .metric-value {
 
@@ -167,7 +179,7 @@ METRIC BUBBLE
     line-height: 1;
 }
 
-/* icon */
+/* metric icon */
 
 .metric-icon {
 
@@ -300,9 +312,9 @@ DATAFRAME
 </style>
 """, unsafe_allow_html=True)
 
-# =========================================
+# ========================================
 # SIDEBAR
-# =========================================
+# ========================================
 
 st.sidebar.title("🏍️ Yamaha Dashboard")
 
@@ -320,13 +332,13 @@ st.sidebar.markdown("""
 - Prediksi
 """)
 
-# =========================================
+# ========================================
 # HEADER
-# =========================================
+# ========================================
 
 st.markdown("""
 <div class="main-title">
-    Klasifikasi Layanan Servis Yamaha
+    KLASIFIKASI LAYANAN SERVIS YAMAHA
 </div>
 
 <div class="sub-title">
@@ -334,17 +346,17 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# =========================================
+# ========================================
 # DATA
-# =========================================
+# ========================================
 
 accuracy = 74
 total_data = 1500
 total_feature = 12
 
-# =========================================
+# ========================================
 # METRIC CARDS
-# =========================================
+# ========================================
 
 col1, col2, col3, col4 = st.columns(4)
 
@@ -428,9 +440,9 @@ with col4:
     </div>
     """, unsafe_allow_html=True)
 
-# =========================================
-# STATUS
-# =========================================
+# ========================================
+# STATUS BOX
+# ========================================
 
 st.markdown("""
 <div class="status-box">
@@ -438,9 +450,9 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# =========================================
+# ========================================
 # UPLOAD SECTION
-# =========================================
+# ========================================
 
 st.markdown("""
 <div class="section-title">
@@ -457,9 +469,9 @@ if uploaded_file:
 
     st.success("Dataset berhasil diupload")
 
-# =========================================
+# ========================================
 # TRAINING SECTION
-# =========================================
+# ========================================
 
 st.markdown("""
 <div class="section-title">
