@@ -9,6 +9,7 @@ def preprocess_data(df):
     # =====================================
     # HAPUS DUPLIKAT
     # =====================================
+
     df = df.drop_duplicates()
 
     # =====================================
@@ -20,7 +21,8 @@ def preprocess_data(df):
         "Category",
         "Brand",
         "Model Name",
-        "Status"
+        "Status",
+        "Parts Name"
 
     ]
 
@@ -35,7 +37,9 @@ def preprocess_data(df):
     numeric_cols = [
 
         "Tahun Motor",
-        "Last Kilometer"
+        "Last Kilometer",
+        "Parts Qty",
+        "Total Payment"
 
     ]
 
@@ -79,31 +83,31 @@ def preprocess_data(df):
 
     drop_columns = [
 
-    # TARGET
-    "Service",
+        # TARGET
+        "Service",
 
-    # IDENTITAS
-    "Nama",
-    "KTP",
-    "Telepon",
-    "Invoice",
-    "Plate",
-    "Technical Name",
+        # IDENTITAS
+        "Nama",
+        "KTP",
+        "Telepon",
+        "Invoice",
+        "Plate",
+        "Technical Name",
 
-    # TIDAK PENTING
-    "Dealer",
-    "Point",
-    "YSS",
-    "Order",
-    "No Work Order",
+        # TIDAK PENTING
+        "Dealer",
+        "Point",
+        "YSS",
+        "Order",
+        "No Work Order",
 
-    # TANGGAL
-    "Reg Date",
+        # TANGGAL
+        "Reg Date",
 
-    # SUDAH DIGANTI
-    "Tahun Motor"
-]
-    
+        # SUDAH DIGANTI
+        "Tahun Motor"
+    ]
+
     X = df.drop(
         columns=drop_columns,
         errors='ignore'
