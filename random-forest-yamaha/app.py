@@ -147,7 +147,7 @@ col1, col2, col3 = st.columns([1.2,1.6,1.2])
 with col2:
     st.image(
         str(logo_path),
-        width=285
+        width=280
     )
 
 # =========================================
@@ -157,18 +157,6 @@ st.markdown(
     """
     <div class="main-title">
         KLASIFIKASI LAYANAN SERVIS YAMAHA
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-# =========================================
-# SUBTITLE
-# =========================================
-st.markdown(
-    """
-    <div class="sub-title">
-        Penerapan Algoritma Random Forest
     </div>
     """,
     unsafe_allow_html=True
