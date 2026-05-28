@@ -24,99 +24,123 @@ st.set_page_config(
 st.markdown("""
 <style>
 
-/* ===== MAIN BACKGROUND ===== */
+/* =========================
+   BACKGROUND
+========================= */
 .stApp{
     background-color: #020617;
 }
 
-/* ===== SIDEBAR ===== */
+/* =========================
+   SIDEBAR
+========================= */
 section[data-testid="stSidebar"]{
     background-color: #0f172a;
     border-right: 1px solid #1e293b;
 }
 
-/* ===== REMOVE EXTRA SPACE ===== */
+/* =========================
+   REMOVE TOP SPACE
+========================= */
 .block-container{
     padding-top: 1rem;
 }
 
-/* ===== TOP LOGO ===== */
-.top-logo{
+/* =========================
+   LOGO TOP
+========================= */
+.logo-top{
     display: flex;
     justify-content: center;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: -10px;
+    margin-bottom: 10px;
 }
 
-/* ===== MAIN TITLE ===== */
+/* =========================
+   MAIN TITLE
+========================= */
 .main-title{
     text-align: center;
-    font-size: 52px;
+    font-size: 58px;
     font-weight: 900;
     color: white;
     line-height: 1.1;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
-/* ===== SUBTITLE ===== */
+/* =========================
+   SUB TITLE
+========================= */
 .sub-title{
     text-align: center;
-    font-size: 28px;
-    font-weight: 700;
-    color: #ef4444;
-    margin-bottom: 10px;
+    font-size: 34px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 12px;
 }
 
-/* ===== DESCRIPTION ===== */
+/* =========================
+   DESCRIPTION
+========================= */
 .desc{
     text-align: center;
     color: #cbd5e1;
-    font-size: 17px;
-    margin-bottom: 35px;
+    font-size: 18px;
+    margin-bottom: 40px;
 }
 
-/* ===== METRIC CARD ===== */
+/* =========================
+   METRIC CARD
+========================= */
 .metric-card{
     background: linear-gradient(145deg, #111827, #1e293b);
-    padding: 25px;
-    border-radius: 18px;
+    padding: 28px;
+    border-radius: 20px;
     border: 1px solid #334155;
     text-align: center;
     transition: 0.3s;
 }
 
 .metric-card:hover{
-    transform: translateY(-4px);
+    transform: translateY(-5px);
     border: 1px solid #ef4444;
 }
 
-/* ===== METRIC TITLE ===== */
+/* =========================
+   METRIC TITLE
+========================= */
 .metric-title{
     color: #94a3b8;
     font-size: 15px;
     margin-bottom: 10px;
 }
 
-/* ===== METRIC VALUE ===== */
+/* =========================
+   METRIC VALUE
+========================= */
 .metric-value{
     color: white;
-    font-size: 34px;
+    font-size: 36px;
     font-weight: 800;
 }
 
-/* ===== SUCCESS BOX ===== */
-.stAlert{
-    border-radius: 15px;
-}
-
-/* ===== SIDEBAR TITLE ===== */
+/* =========================
+   SIDEBAR TITLE
+========================= */
 .sidebar-title{
     text-align: center;
-    font-size: 28px;
-    font-weight: 800;
+    font-size: 30px;
+    font-weight: 900;
     color: white;
     margin-top: 10px;
     margin-bottom: 25px;
+}
+
+/* =========================
+   SUCCESS BOX
+========================= */
+.stAlert{
+    border-radius: 15px;
 }
 
 </style>
@@ -136,19 +160,21 @@ st.sidebar.markdown(
 
 st.sidebar.markdown("---")
 
-st.sidebar.write("### 📌 Menu")
-st.sidebar.write("• About Research")
-st.sidebar.write("• Dashboard")
-st.sidebar.write("• Feature Importance")
-st.sidebar.write("• Training Model")
+st.sidebar.write("📌 About Research")
+st.sidebar.write("📌 Dashboard")
+st.sidebar.write("📌 Feature Importance")
+st.sidebar.write("📌 Training Model")
 
 # =========================================
 # LOGO PALING ATAS
 # =========================================
-col1, col2, col3 = st.columns([1,1,1])
+col1, col2, col3 = st.columns([1,2,1])
 
 with col2:
-    st.image(str(logo_path), width=180)
+    st.image(
+        str(logo_path),
+        width=320
+    )
 
 # =========================================
 # TITLE
