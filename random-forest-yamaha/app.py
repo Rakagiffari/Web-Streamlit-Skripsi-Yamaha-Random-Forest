@@ -60,6 +60,15 @@ SIDEBAR
 }
 
 /* =========================================
+GLOBAL TEXT
+========================================= */
+
+html, body, [class*="css"] {
+
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* =========================================
 TITLE
 ========================================= */
 
@@ -102,7 +111,7 @@ CARD
     box-shadow:
         0 8px 30px rgba(0,0,0,0.35);
 
-    transition: 0.3s;
+    transition: all 0.3s ease;
 }
 
 .card:hover {
@@ -110,6 +119,9 @@ CARD
     transform: translateY(-5px);
 
     border: 1px solid rgba(59,130,246,0.4);
+
+    box-shadow:
+        0 10px 35px rgba(59,130,246,0.2);
 }
 
 /* =========================================
@@ -123,6 +135,8 @@ METRIC
     font-size: 14px;
 
     margin-bottom: 10px;
+
+    font-weight: 500;
 }
 
 .metric-value {
@@ -135,7 +149,7 @@ METRIC
 }
 
 /* =========================================
-COLORS
+CARD COLORS
 ========================================= */
 
 .green {
@@ -186,7 +200,7 @@ STATUS BOX
 
     margin-top: 30px;
 
-    padding: 20px;
+    padding: 22px;
 
     border-radius: 20px;
 
@@ -201,6 +215,8 @@ STATUS BOX
 
     text-align: center;
 
+    font-size: 16px;
+
     font-weight: 700;
 
     color: white;
@@ -210,7 +226,7 @@ STATUS BOX
 SIDEBAR TEXT
 ========================================= */
 
-.sidebar-text {
+.sidebar-title {
 
     color: white;
 
@@ -218,7 +234,7 @@ SIDEBAR TEXT
 
     font-weight: 700;
 
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .sidebar-sub {
@@ -301,7 +317,7 @@ if logo_path.exists():
 
 st.sidebar.markdown(
     """
-    <div class="sidebar-text">
+    <div class="sidebar-title">
         Yamaha Machine Learning Dashboard
     </div>
 
@@ -442,12 +458,12 @@ with info1:
         """
         <div class="card">
 
-        <h3>Tujuan Penelitian</h3>
+            <h3>Tujuan Penelitian</h3>
 
-        <p>
-        Sistem ini digunakan untuk melakukan klasifikasi layanan servis kendaraan Yamaha
-        menggunakan algoritma Random Forest berdasarkan dataset servis kendaraan.
-        </p>
+            <p>
+            Sistem ini digunakan untuk melakukan klasifikasi layanan servis kendaraan Yamaha
+            menggunakan algoritma Random Forest berdasarkan dataset servis kendaraan.
+            </p>
 
         </div>
         """,
@@ -460,15 +476,15 @@ with info2:
         """
         <div class="card">
 
-        <h3>Teknologi</h3>
+            <h3>Teknologi</h3>
 
-        <ul>
-            <li>Python</li>
-            <li>Streamlit</li>
-            <li>Scikit-Learn</li>
-            <li>Random Forest</li>
-            <li>Pandas</li>
-        </ul>
+            <ul>
+                <li>Python</li>
+                <li>Streamlit</li>
+                <li>Scikit-Learn</li>
+                <li>Random Forest</li>
+                <li>Pandas</li>
+            </ul>
 
         </div>
         """,
