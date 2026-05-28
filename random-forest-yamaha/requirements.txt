@@ -6,6 +6,3 @@ plotly
 matplotlib
 seaborn
 joblib
-streamlit
-pillow
-streamlit-autorefresh
