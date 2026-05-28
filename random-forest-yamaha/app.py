@@ -1,7 +1,7 @@
 import streamlit as st
 from pathlib import Path
 from PIL import Image
-from datetime import datetime, timedelta
+from datetime import datetime
 
 # =========================================
 # PAGE CONFIG
@@ -19,9 +19,9 @@ st.set_page_config(
 )
 
 # =========================================
-# DATETIME WIB
+# DATETIME
 # =========================================
-now = datetime.utcnow() + timedelta(hours=7)
+now = datetime.now()
 
 hari_dict = {
     "Monday": "Senin",
@@ -34,9 +34,7 @@ hari_dict = {
 }
 
 hari = hari_dict[now.strftime("%A")]
-
 tanggal = now.strftime("%d-%m-%Y")
-
 jam = now.strftime("%H:%M")
 
 # =========================================
@@ -217,13 +215,15 @@ col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.markdown("""
     <div class="metric-card">
-        <span class="metric-title">
-            Algoritma
-        </span>
 
-        <span class="metric-value">
+        <div class="metric-title">
+            Algoritma
+        </div>
+
+        <div class="metric-value">
             Random Forest
-        </span>
+        </div>
+
     </div>
     """, unsafe_allow_html=True)
 
@@ -233,13 +233,15 @@ with col1:
 with col2:
     st.markdown("""
     <div class="metric-card">
-        <span class="metric-title">
-            Dataset
-        </span>
 
-        <span class="metric-value">
+        <div class="metric-title">
+            Dataset
+        </div>
+
+        <div class="metric-value">
             CSV File
-        </span>
+        </div>
+
     </div>
     """, unsafe_allow_html=True)
 
@@ -250,9 +252,9 @@ with col3:
     st.markdown(f"""
     <div class="metric-card">
 
-        <span class="metric-title">
+        <div class="metric-title">
             Tanggal & Jam
-        </span>
+        </div>
 
         <div class="date-text">
             {tanggal}
@@ -272,13 +274,13 @@ with col4:
     st.markdown(f"""
     <div class="metric-card">
 
-        <span class="metric-title">
+        <div class="metric-title">
             Hari
-        </span>
+        </div>
 
-        <span class="metric-value">
+        <div class="metric-value">
             {hari}
-        </span>
+        </div>
 
     </div>
     """, unsafe_allow_html=True)
