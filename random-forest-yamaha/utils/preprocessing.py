@@ -1,64 +1,88 @@
+# =========================================
+# utils/preprocessing.py
+# =========================================
+
 import pandas as pd
 
 def preprocess_data(df):
 
-    # =========================
+    # =====================================
     # HAPUS DUPLIKAT
-    # =========================
+    # =====================================
     df = df.drop_duplicates()
 
-    # =========================
+    # =====================================
     # HANDLE MISSING VALUE
-    # =========================
-    df["Category"] = df["Category"].fillna("Unknown")
+    # =====================================
 
-    df["Brand"] = df["Brand"].fillna("Unknown")
+    categorical_cols = [
 
-    df["Model Name"] = df["Model Name"].fillna("Unknown")
+        "Category",
+        "Brand",
+        "Model Name",
+        "Status"
 
-    df["Status"] = df["Status"].fillna("Unknown")
+    ]
 
-    # =========================
-    # NUMERIK
-    # =========================
-    df["Tahun Motor"] = pd.to_numeric(
-        df["Tahun Motor"],
-        errors='coerce'
-    )
+    for col in categorical_cols:
 
-    df["Last Kilometer"] = pd.to_numeric(
-        df["Last Kilometer"],
-        errors='coerce'
-    )
+        if col in df.columns:
 
-    df["Tahun Motor"] = df[
-        "Tahun Motor"
-    ].fillna(
-        df["Tahun Motor"].median()
-    )
+            df[col] = df[col].fillna(
+                "Unknown"
+            )
 
-    df["Last Kilometer"] = df[
+    numeric_cols = [
+
+        "Tahun Motor",
         "Last Kilometer"
-    ].fillna(
-        df["Last Kilometer"].median()
-    )
 
-    # =========================
+    ]
+
+    for col in numeric_cols:
+
+        if col in df.columns:
+
+            df[col] = pd.to_numeric(
+                df[col],
+                errors='coerce'
+            )
+
+            df[col] = df[col].fillna(
+                df[col].median()
+            )
+
+    # =====================================
     # FEATURE ENGINEERING
-    # =========================
-    tahun_sekarang = 2025
+    # =====================================
+
+    tahun_sekarang = 2026
 
     df["Usia Motor"] = (
         tahun_sekarang - df["Tahun Motor"]
     )
 
-    # =========================
+    # =====================================
+    # TARGET
+    # =====================================
+
+    y = df["Service"].map({
+
+        "Ringan": 0,
+        "Berat": 1
+
+    })
+
+    # =====================================
     # DROP COLUMN
-    # =========================
+    # =====================================
+
     drop_columns = [
 
+        # TARGET
         "Service",
 
+        # IDENTITAS
         "Nama",
         "KTP",
         "Telepon",
@@ -66,17 +90,22 @@ def preprocess_data(df):
         "Plate",
         "Technical Name",
 
+        # TIDAK PENTING
         "Dealer",
         "Point",
         "YSS",
         "Order",
         "No Work Order",
 
+        # TANGGAL
         "Reg Date",
 
+        # DATA LEAKAGE
         "Parts Name",
+        "Parts Qty",
         "Total Payment",
 
+        # SUDAH DIGANTI
         "Tahun Motor"
     ]
 
@@ -85,19 +114,10 @@ def preprocess_data(df):
         errors='ignore'
     )
 
-    # =========================
-    # TARGET
-    # =========================
-    y = df["Service"].map({
-
-        "Ringan": 0,
-        "Berat": 1
-
-    })
-
-    # =========================
+    # =====================================
     # ONE HOT ENCODING
-    # =========================
+    # =====================================
+
     X = pd.get_dummies(
         X,
         drop_first=True
