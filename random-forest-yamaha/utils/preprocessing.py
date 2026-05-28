@@ -1,63 +1,71 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 
-
 def preprocess_data(df):
 
+    # Hapus data duplikat
     df = df.drop_duplicates()
 
-    categorical_cols = [
-        'Category',
-        'Brand',
-        'Model Name',
-        'Status'
-    ]
+    # Isi missing value kategori
+    categorical_cols = df.select_dtypes(include='object').columns
 
     for col in categorical_cols:
-        if col in df.columns:
-            df[col] = df[col].fillna('Unknown')
+        df[col] = df[col].fillna('Unknown')
 
+    # Kolom numerik
     numeric_cols = [
         'Tahun Motor',
-        'Last Kilometer'
+        'Last Kilometer',
+        'Harga'
     ]
 
     for col in numeric_cols:
+
         if col in df.columns:
-            df[col] = pd.to_numeric(df[col], errors='coerce')
-            df[col] = df[col].fillna(df[col].median())
 
-    tahun_sekarang = 2026
+            df[col] = pd.to_numeric(
+                df[col],
+                errors='coerce'
+            )
 
-    df['Usia Motor'] = (
-        tahun_sekarang - df['Tahun Motor']
-    )
+            df[col] = df[col].fillna(
+                df[col].median()
+            )
 
+    # Feature engineering
+    df['Usia Motor'] = 2026 - df['Tahun Motor']
+
+    # Target
+    y = df['Service']
+
+    # Kolom yang tidak dipakai
     drop_columns = [
         'Service',
         'Nama',
-        'KTP',
         'Telepon',
-        'Invoice',
-        'Plate',
-        'Technical Name',
-        'Dealer'
+        'KTP',
+        'Invoice'
     ]
 
-    X = df.drop(columns=drop_columns, errors='ignore')
+    X = df.drop(
+        columns=drop_columns,
+        errors='ignore'
+    )
 
-    y = df['Service']
-
+    # Encoding fitur kategori
     label_encoders = {}
 
     for col in X.select_dtypes(include='object').columns:
 
         le = LabelEncoder()
 
-        X[col] = le.fit_transform(X[col].astype(str))
+        X[col] = le.fit_transform(
+            X[col].astype(str)
+        )
 
         label_encoders[col] = le
 
+    # Encoding target
     target_encoder = LabelEncoder()
 
     y = target_encoder.fit_transform(y)
