@@ -137,7 +137,7 @@ div[data-testid="stAlert"]{
     border-radius: 18px;
     padding: 18px;
     color: white !important;
-    box-shadow: 0 0 15px rgba(0,0,0,0.20);
+    box-shadow: 0 0 0px rgba(0,0,0,0.20);
 }
 
 /* =========================
