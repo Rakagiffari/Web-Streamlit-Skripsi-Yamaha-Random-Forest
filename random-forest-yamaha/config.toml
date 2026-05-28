@@ -1,1 +1,14 @@
-[theme] primaryColor="#E60012" backgroundColor="#FFFFFF" secondaryBackgroundColor="#F5F5F5" textColor="#111111" font="sans serif"
+[theme]
+base="dark"
+primaryColor="#3B82F6"
+backgroundColor="#050816"
+secondaryBackgroundColor="#111827"
+textColor="#FFFFFF"
+font="sans serif"
+
+[server]
+headless = true
+runOnSave = true
+
+[browser]
+gatherUsageStats = false
