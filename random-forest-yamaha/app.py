@@ -20,6 +20,14 @@ st.markdown("""
 <style>
 
 /* =================================
+GLOBAL
+================================= */
+
+html, body, [class*="css"] {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* =================================
 BACKGROUND
 ================================= */
 
@@ -30,7 +38,6 @@ BACKGROUND
         #09111f 50%,
         #0b1220 100%
     );
-
     color: white;
 }
 
@@ -209,7 +216,7 @@ SIDEBAR TEXT
 
     color: white;
 
-    font-size: 20px;
+    font-size: 22px;
 
     font-weight: 700;
 
@@ -221,6 +228,55 @@ SIDEBAR TEXT
     color: #94a3b8;
 
     font-size: 14px;
+}
+
+/* =================================
+BUTTON
+================================= */
+
+.stButton > button {
+
+    width: 100%;
+
+    border-radius: 14px;
+
+    border: none;
+
+    padding: 12px;
+
+    font-weight: 700;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #3b82f6
+        );
+
+    color: white;
+
+    transition: 0.3s;
+}
+
+.stButton > button:hover {
+
+    transform: scale(1.02);
+
+    box-shadow:
+        0 8px 25px rgba(59,130,246,0.35);
+}
+
+/* =================================
+DATAFRAME
+================================= */
+
+[data-testid="stDataFrame"] {
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255,255,255,0.08);
 }
 
 </style>
@@ -245,15 +301,18 @@ if logo_path.exists():
         width=180
     )
 
-st.sidebar.markdown("""
-<div class="sidebar-text">
-Yamaha Machine Learning Dashboard
-</div>
+st.sidebar.markdown(
+    """
+    <div class="sidebar-text">
+        Yamaha Machine Learning Dashboard
+    </div>
 
-<div class="sidebar-sub">
-Random Forest Classification System
-</div>
-""", unsafe_allow_html=True)
+    <div class="sidebar-sub">
+        Random Forest Classification System
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 st.sidebar.markdown("---")
 
@@ -263,15 +322,18 @@ st.sidebar.success("✅ System Ready")
 # HEADER
 # =========================================
 
-st.markdown("""
-<div class="main-title">
-🏍️ Klasifikasi Layanan Servis Yamaha
-</div>
+st.markdown(
+    """
+    <div class="main-title">
+        🏍️ Klasifikasi Layanan Servis Yamaha
+    </div>
 
-<div class="sub-title">
-Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yamaha
-</div>
-""", unsafe_allow_html=True)
+    <div class="sub-title">
+        Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yamaha
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # =========================================
 # METRIC CARDS
@@ -281,74 +343,136 @@ col1, col2, col3, col4 = st.columns(4)
 
 with col1:
 
-    st.markdown("""
-    <div class="card green">
+    st.markdown(
+        """
+        <div class="card green">
 
-        <div class="metric-title">
-        Algoritma
+            <div class="metric-title">
+                Algoritma
+            </div>
+
+            <div class="metric-value">
+                Random Forest
+            </div>
+
         </div>
-
-        <div class="metric-value">
-        Random Forest
-        </div>
-
-    </div>
-    """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True
+    )
 
 with col2:
 
-    st.markdown("""
-    <div class="card blue">
+    st.markdown(
+        """
+        <div class="card blue">
 
-        <div class="metric-title">
-        Target
+            <div class="metric-title">
+                Target
+            </div>
+
+            <div class="metric-value">
+                2 Class
+            </div>
+
         </div>
-
-        <div class="metric-value">
-        2 Class
-        </div>
-
-    </div>
-    """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True
+    )
 
 with col3:
 
-    st.markdown("""
-    <div class="card orange">
+    st.markdown(
+        """
+        <div class="card orange">
 
-        <div class="metric-title">
-        Dataset
+            <div class="metric-title">
+                Dataset
+            </div>
+
+            <div class="metric-value">
+                CSV
+            </div>
+
         </div>
-
-        <div class="metric-value">
-        CSV
-        </div>
-
-    </div>
-    """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True
+    )
 
 with col4:
 
-    st.markdown("""
-    <div class="card purple">
+    st.markdown(
+        """
+        <div class="card purple">
 
-        <div class="metric-title">
-        Status
+            <div class="metric-title">
+                Status
+            </div>
+
+            <div class="metric-value">
+                Ready
+            </div>
+
         </div>
-
-        <div class="metric-value">
-        Ready
-        </div>
-
-    </div>
-    """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True
+    )
 
 # =========================================
 # STATUS BOX
 # =========================================
 
-st.markdown("""
-<div class="status-box">
-✅ Sistem siap digunakan untuk training dan klasifikasi layanan servis Yamaha
-</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    """
+    <div class="status-box">
+        ✅ Sistem siap digunakan untuk training dan klasifikasi layanan servis Yamaha
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# =========================================
+# EXTRA SECTION
+# =========================================
+
+st.markdown("## 📊 Informasi Sistem")
+
+info1, info2 = st.columns(2)
+
+with info1:
+
+    st.markdown(
+        """
+        <div class="card">
+
+        <h3>🎯 Tujuan Penelitian</h3>
+
+        <p>
+        Sistem ini digunakan untuk melakukan klasifikasi layanan servis kendaraan Yamaha
+        menggunakan algoritma Random Forest berdasarkan dataset servis kendaraan.
+        </p>
+
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+with info2:
+
+    st.markdown(
+        """
+        <div class="card">
+
+        <h3>⚙️ Teknologi</h3>
+
+        <ul>
+            <li>Python</li>
+            <li>Streamlit</li>
+            <li>Scikit-Learn</li>
+            <li>Random Forest</li>
+            <li>Pandas</li>
+        </ul>
+
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
