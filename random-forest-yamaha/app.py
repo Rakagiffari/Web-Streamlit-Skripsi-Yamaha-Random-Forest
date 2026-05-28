@@ -138,25 +138,6 @@ section[data-testid="stSidebar"]{
 """, unsafe_allow_html=True)
 
 # =========================================
-# SIDEBAR
-# =========================================
-st.sidebar.markdown(
-    """
-    <div class="sidebar-title">
-        Yamaha ML Dashboard
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-st.sidebar.markdown("---")
-
-st.sidebar.write("📌 About Research")
-st.sidebar.write("📌 Dashboard")
-st.sidebar.write("📌 Feature Importance")
-st.sidebar.write("📌 Training Model")
-
-# =========================================
 # LOGO PALING ATAS
 # =========================================
 st.markdown("<div style='margin-top:25px;'></div>", unsafe_allow_html=True)
