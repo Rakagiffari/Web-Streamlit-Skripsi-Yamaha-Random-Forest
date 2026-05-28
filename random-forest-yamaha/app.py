@@ -132,23 +132,7 @@ section[data-testid="stSidebar"]{
    SUCCESS BOX
 ========================= */
 .stAlert{
-    background-color: #15803d !important;
-    color: white !important;
     border-radius: 15px;
-    border: none;
-    padding: 14px;
-    font-weight: 600;
-}
-
-/* SUCCESS TEXT */
-.stAlert p{
-    color: white !important;
-    font-size: 15px;
-}
-
-/* SUCCESS ICON */
-.stAlert svg{
-    fill: white !important;
 }
 
 /* =========================
