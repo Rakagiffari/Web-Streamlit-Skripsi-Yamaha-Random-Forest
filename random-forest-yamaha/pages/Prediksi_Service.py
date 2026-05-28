@@ -2,91 +2,76 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-st.title("🔍 Prediksi Layanan Service")
+from pathlib import Path
 
-try:
+from utils.preprocessing import preprocess_data
 
-    # Load model
-    model = joblib.load(
-        'model/random_forest_model.pkl'
-    )
+st.title("🔍 Prediksi Service")
 
-    # =========================
-    # INPUT USER
-    # =========================
-    col1, col2 = st.columns(2)
+# =========================
+# LOAD MODEL
+# =========================
+BASE_DIR = Path(__file__).parent.parent
 
-    with col1:
+model_path = (
+    BASE_DIR / "model" / "random_forest_model.pkl"
+)
 
-        usia_motor = st.number_input(
-            'Usia Motor',
-            min_value=0,
-            max_value=30,
-            value=5
-        )
-
-        kilometer = st.number_input(
-            'Last Kilometer',
-            min_value=0,
-            value=20000
-        )
-
-    with col2:
-
-        harga = st.number_input(
-            'Harga Service',
-            min_value=0,
-            value=300000
-        )
-
-        tahun_motor = st.number_input(
-            'Tahun Motor',
-            min_value=2000,
-            max_value=2026,
-            value=2020
-        )
-
-    # =========================
-    # PREDIKSI
-    # =========================
-    if st.button("🚀 Prediksi Service"):
-
-        input_data = pd.DataFrame({
-            'Usia Motor': [usia_motor],
-            'Last Kilometer': [kilometer],
-            'Harga': [harga],
-            'Tahun Motor': [tahun_motor]
-        })
-
-        prediction = model.predict(input_data)
-
-        probability = model.predict_proba(input_data)
-
-        hasil = (
-            'Service Berat'
-            if prediction[0] == 1
-            else 'Service Ringan'
-        )
-
-        st.success(
-            f'Hasil Prediksi: {hasil}'
-        )
-
-        # =========================
-        # PROBABILITAS
-        # =========================
-        st.subheader("📊 Probabilitas")
-
-        st.write(
-            f"Service Ringan: {probability[0][0]*100:.2f}%"
-        )
-
-        st.write(
-            f"Service Berat: {probability[0][1]*100:.2f}%"
-        )
-
-except:
+if not model_path.exists():
 
     st.warning(
         "Silakan training model terlebih dahulu."
     )
+
+else:
+
+    model = joblib.load(model_path)
+
+    # =========================
+    # UPLOAD DATA
+    # =========================
+    uploaded_file = st.file_uploader(
+
+        "📂 Upload Data Prediksi CSV",
+
+        type=['csv']
+    )
+
+    if uploaded_file:
+
+        df = pd.read_csv(uploaded_file)
+
+        st.subheader("📋 Data Input")
+
+        st.dataframe(df)
+
+        # =========================
+        # PREPROCESS
+        # =========================
+        X, y = preprocess_data(df)
+
+        # =========================
+        # PREDIKSI
+        # =========================
+        prediction = model.predict(X)
+
+        hasil = []
+
+        for pred in prediction:
+
+            if pred == 1:
+
+                hasil.append("Service Berat")
+
+            else:
+
+                hasil.append("Service Ringan")
+
+        df["Hasil Prediksi"] = hasil
+
+        # =========================
+        # HASIL
+        # =========================
+        st.subheader("✅ Hasil Prediksi")
+
+        st.dataframe(df)
