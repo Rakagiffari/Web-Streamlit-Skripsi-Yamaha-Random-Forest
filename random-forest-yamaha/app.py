@@ -6,6 +6,7 @@ from PIL import Image
 # PAGE CONFIG
 # =========================================
 BASE_DIR = Path(__file__).parent
+
 logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
 
 logo = Image.open(logo_path)
@@ -23,51 +24,58 @@ st.set_page_config(
 st.markdown("""
 <style>
 
-/* ===== Background ===== */
+/* ===== MAIN BACKGROUND ===== */
 .stApp{
     background-color: #020617;
 }
 
-/* ===== Sidebar ===== */
+/* ===== SIDEBAR ===== */
 section[data-testid="stSidebar"]{
     background-color: #0f172a;
     border-right: 1px solid #1e293b;
 }
 
-/* ===== Main Title ===== */
-.main-title{
-    font-size: 52px;
-    font-weight: 800;
-    color: white;
-    margin-bottom: 0px;
-    line-height: 1.1;
+/* ===== REMOVE EXTRA SPACE ===== */
+.block-container{
+    padding-top: 1rem;
 }
 
-/* ===== Subtitle ===== */
-.sub-title{
-    font-size: 34px;
-    font-weight: 700;
+/* ===== TOP LOGO ===== */
+.top-logo{
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/* ===== MAIN TITLE ===== */
+.main-title{
+    text-align: center;
+    font-size: 52px;
+    font-weight: 900;
     color: white;
-    margin-top: -5px;
+    line-height: 1.1;
     margin-bottom: 10px;
 }
 
-/* ===== Description ===== */
+/* ===== SUBTITLE ===== */
+.sub-title{
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: #ef4444;
+    margin-bottom: 10px;
+}
+
+/* ===== DESCRIPTION ===== */
 .desc{
+    text-align: center;
     color: #cbd5e1;
     font-size: 17px;
     margin-bottom: 35px;
 }
 
-/* ===== Yamaha Logo Center ===== */
-.logo-center{
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    margin-bottom: 25px;
-}
-
-/* ===== Metric Card ===== */
+/* ===== METRIC CARD ===== */
 .metric-card{
     background: linear-gradient(145deg, #111827, #1e293b);
     padding: 25px;
@@ -78,42 +86,37 @@ section[data-testid="stSidebar"]{
 }
 
 .metric-card:hover{
-    transform: translateY(-3px);
+    transform: translateY(-4px);
     border: 1px solid #ef4444;
 }
 
-/* ===== Metric Title ===== */
+/* ===== METRIC TITLE ===== */
 .metric-title{
     color: #94a3b8;
     font-size: 15px;
     margin-bottom: 10px;
 }
 
-/* ===== Metric Value ===== */
+/* ===== METRIC VALUE ===== */
 .metric-value{
     color: white;
     font-size: 34px;
-    font-weight: 700;
+    font-weight: 800;
 }
 
-/* ===== Success Box ===== */
+/* ===== SUCCESS BOX ===== */
 .stAlert{
     border-radius: 15px;
 }
 
-/* ===== Sidebar Text ===== */
+/* ===== SIDEBAR TITLE ===== */
 .sidebar-title{
+    text-align: center;
     font-size: 28px;
     font-weight: 800;
     color: white;
     margin-top: 10px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-/* ===== Remove top spacing ===== */
-.block-container{
-    padding-top: 2rem;
+    margin-bottom: 25px;
 }
 
 </style>
@@ -123,7 +126,11 @@ section[data-testid="stSidebar"]{
 # SIDEBAR
 # =========================================
 st.sidebar.markdown(
-    '<div class="sidebar-title">Yamaha ML Dashboard</div>',
+    """
+    <div class="sidebar-title">
+        Yamaha ML Dashboard
+    </div>
+    """,
     unsafe_allow_html=True
 )
 
@@ -136,7 +143,15 @@ st.sidebar.write("• Feature Importance")
 st.sidebar.write("• Training Model")
 
 # =========================================
-# HEADER
+# LOGO PALING ATAS
+# =========================================
+col1, col2, col3 = st.columns([1,1,1])
+
+with col2:
+    st.image(str(logo_path), width=180)
+
+# =========================================
+# TITLE
 # =========================================
 st.markdown(
     """
@@ -147,6 +162,9 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# =========================================
+# SUBTITLE
+# =========================================
 st.markdown(
     """
     <div class="sub-title">
@@ -156,6 +174,9 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# =========================================
+# DESCRIPTION
+# =========================================
 st.markdown(
     """
     <div class="desc">
@@ -164,16 +185,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-# =========================================
-# LOGO TENGAH
-# =========================================
-if logo_path.exists():
-
-    col1, col2, col3 = st.columns([1,1,1])
-
-    with col2:
-        st.image(str(logo_path), width=220)
 
 # =========================================
 # METRIC CARDS
