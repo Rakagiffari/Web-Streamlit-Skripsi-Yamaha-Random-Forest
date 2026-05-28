@@ -10,7 +10,6 @@ import time
 BASE_DIR = Path(__file__).parent
 
 logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
-
 logo = Image.open(logo_path)
 
 st.set_page_config(
@@ -46,11 +45,11 @@ section[data-testid="stSidebar"]{
 ========================= */
 .block-container{
     padding-top: 1rem;
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
 }
 
 /* =========================
-   MAIN TITLE
+   TITLE
 ========================= */
 .main-title{
     text-align: center;
@@ -59,7 +58,7 @@ section[data-testid="stSidebar"]{
     color: white;
     line-height: 1.1;
     margin-top: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     letter-spacing: 1px;
 }
 
@@ -70,30 +69,30 @@ section[data-testid="stSidebar"]{
     text-align: center;
     color: #cbd5e1;
     font-size: 20px;
-    margin-top: 0px;
     margin-bottom: 45px;
 }
 
 /* =========================
-   METRIC CARD
+   CARD
 ========================= */
 .metric-card{
     background: linear-gradient(145deg, #111827, #1e293b);
-    padding: 30px 20px;
-    border-radius: 22px;
     border: 1px solid #334155;
-    text-align: center;
-    transition: 0.3s ease;
-    box-shadow: 0 0 15px rgba(0,0,0,0.25);
+    border-radius: 22px;
+    padding: 30px 20px;
     min-height: 170px;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    transition: 0.3s ease;
+    box-shadow: 0 0 15px rgba(0,0,0,0.25);
 }
 
-/* =========================
-   HOVER EFFECT
-========================= */
 .metric-card:hover{
     transform: translateY(-6px);
     border: 1px solid #ef4444;
@@ -101,17 +100,17 @@ section[data-testid="stSidebar"]{
 }
 
 /* =========================
-   METRIC TITLE
+   CARD TITLE
 ========================= */
 .metric-title{
     color: #94a3b8;
     font-size: 15px;
-    margin-bottom: 14px;
     font-weight: 600;
+    margin-bottom: 14px;
 }
 
 /* =========================
-   METRIC VALUE
+   CARD VALUE
 ========================= */
 .metric-value{
     color: white;
@@ -120,7 +119,7 @@ section[data-testid="stSidebar"]{
 }
 
 /* =========================
-   DATE TEXT
+   DATE
 ========================= */
 .date-text{
     color: white;
@@ -130,7 +129,7 @@ section[data-testid="stSidebar"]{
 }
 
 /* =========================
-   TIME TEXT
+   TIME
 ========================= */
 .time-text{
     color: #ef4444;
@@ -139,23 +138,17 @@ section[data-testid="stSidebar"]{
 }
 
 /* =========================
-   SUCCESS BOX
+   ALERT
 ========================= */
 .stAlert{
     border-radius: 15px;
 }
 
 /* =========================
-   HIDE STREAMLIT MENU
+   HIDE STREAMLIT
 ========================= */
-#MainMenu{
-    visibility: hidden;
-}
-
-footer{
-    visibility: hidden;
-}
-
+#MainMenu,
+footer,
 header{
     visibility: hidden;
 }
@@ -164,15 +157,7 @@ header{
 """, unsafe_allow_html=True)
 
 # =========================================
-# SPACE TOP
-# =========================================
-st.markdown(
-    "<div style='margin-top:10px;'></div>",
-    unsafe_allow_html=True
-)
-
-# =========================================
-# CENTER LOGO
+# LOGO
 # =========================================
 col1, col2, col3 = st.columns([2,1,2])
 
@@ -183,31 +168,25 @@ with col2:
     )
 
 # =========================================
-# MAIN TITLE
+# TITLE
 # =========================================
-st.markdown(
-    """
-    <div class="main-title">
-        KLASIFIKASI LAYANAN SERVICE YAMAHA
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown("""
+<h1 class="main-title">
+KLASIFIKASI LAYANAN SERVIS YAMAHA
+</h1>
+""", unsafe_allow_html=True)
 
 # =========================================
 # DESCRIPTION
 # =========================================
-st.markdown(
-    """
-    <div class="desc">
-        Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yamaha.
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown("""
+<p class="desc">
+Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yamaha.
+</p>
+""", unsafe_allow_html=True)
 
 # =========================================
-# REALTIME METRIC CARDS
+# REALTIME CARD
 # =========================================
 placeholder = st.empty()
 
@@ -215,7 +194,7 @@ while True:
 
     now = datetime.now()
 
-    hari_indonesia = {
+    hari_dict = {
         "Monday": "Senin",
         "Tuesday": "Selasa",
         "Wednesday": "Rabu",
@@ -225,10 +204,8 @@ while True:
         "Sunday": "Minggu"
     }
 
-    hari = hari_indonesia[now.strftime("%A")]
-
+    hari = hari_dict[now.strftime("%A")]
     tanggal = now.strftime("%d-%m-%Y")
-
     jam = now.strftime("%H:%M:%S")
 
     with placeholder.container():
@@ -241,13 +218,8 @@ while True:
         with col1:
             st.markdown(f"""
             <div class="metric-card">
-                <div class="metric-title">
-                    Algoritma
-                </div>
-
-                <div class="metric-value">
-                    Random Forest
-                </div>
+                <span class="metric-title">Algoritma</span>
+                <span class="metric-value">Random Forest</span>
             </div>
             """, unsafe_allow_html=True)
 
@@ -257,13 +229,8 @@ while True:
         with col2:
             st.markdown(f"""
             <div class="metric-card">
-                <div class="metric-title">
-                    Dataset
-                </div>
-
-                <div class="metric-value">
-                    CSV File
-                </div>
+                <span class="metric-title">Dataset</span>
+                <span class="metric-value">CSV File</span>
             </div>
             """, unsafe_allow_html=True)
 
@@ -273,17 +240,15 @@ while True:
         with col3:
             st.markdown(f"""
             <div class="metric-card">
-                <div class="metric-title">
-                    Tanggal & Jam
-                </div>
+                <span class="metric-title">Tanggal & Jam</span>
 
-                <div class="date-text">
+                <span class="date-text">
                     {tanggal}
-                </div>
+                </span>
 
-                <div class="time-text">
+                <span class="time-text">
                     {jam}
-                </div>
+                </span>
             </div>
             """, unsafe_allow_html=True)
 
@@ -293,26 +258,9 @@ while True:
         with col4:
             st.markdown(f"""
             <div class="metric-card">
-                <div class="metric-title">
-                    Hari
-                </div>
-
-                <div class="metric-value">
-                    {hari}
-                </div>
+                <span class="metric-title">Hari</span>
+                <span class="metric-value">{hari}</span>
             </div>
             """, unsafe_allow_html=True)
 
     time.sleep(1)
-
-# =========================================
-# SPACE
-# =========================================
-st.markdown("<br><br>", unsafe_allow_html=True)
-
-# =========================================
-# SUCCESS MESSAGE
-# =========================================
-st.success(
-    "Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
-)
