@@ -10,29 +10,80 @@ def preprocess_data(df):
     # =========================
     # HANDLE MISSING VALUE
     # =========================
-    numeric_cols = [
-        "Tahun Motor",
+    df["Category"] = df["Category"].fillna("Unknown")
+
+    df["Brand"] = df["Brand"].fillna("Unknown")
+
+    df["Model Name"] = df["Model Name"].fillna("Unknown")
+
+    df["Status"] = df["Status"].fillna("Unknown")
+
+    # =========================
+    # NUMERIK
+    # =========================
+    df["Tahun Motor"] = pd.to_numeric(
+        df["Tahun Motor"],
+        errors='coerce'
+    )
+
+    df["Last Kilometer"] = pd.to_numeric(
+        df["Last Kilometer"],
+        errors='coerce'
+    )
+
+    df["Tahun Motor"] = df[
+        "Tahun Motor"
+    ].fillna(
+        df["Tahun Motor"].median()
+    )
+
+    df["Last Kilometer"] = df[
         "Last Kilometer"
-    ]
-
-    for col in numeric_cols:
-
-        if col in df.columns:
-
-            df[col] = pd.to_numeric(
-                df[col],
-                errors='coerce'
-            )
-
-            df[col] = df[col].fillna(
-                df[col].median()
-            )
+    ].fillna(
+        df["Last Kilometer"].median()
+    )
 
     # =========================
     # FEATURE ENGINEERING
     # =========================
+    tahun_sekarang = 2026
+
     df["Usia Motor"] = (
-        2026 - df["Tahun Motor"]
+        tahun_sekarang - df["Tahun Motor"]
+    )
+
+    # =========================
+    # DROP COLUMN
+    # =========================
+    drop_columns = [
+
+        "Service",
+
+        "Nama",
+        "KTP",
+        "Telepon",
+        "Invoice",
+        "Plate",
+        "Technical Name",
+
+        "Dealer",
+        "Point",
+        "YSS",
+        "Order",
+        "No Work Order",
+
+        "Reg Date",
+
+        "Parts Name",
+        "Parts Qty",
+        "Total Payment",
+
+        "Tahun Motor"
+    ]
+
+    X = df.drop(
+        columns=drop_columns,
+        errors='ignore'
     )
 
     # =========================
@@ -44,28 +95,6 @@ def preprocess_data(df):
         "Berat": 1
 
     })
-
-    # =========================
-    # DROP KOLOM
-    # =========================
-    drop_columns = [
-
-        "Service",
-
-        "Nama",
-        "KTP",
-        "Telepon",
-        "Invoice",
-
-        "Parts Name",
-        "Parts Qty",
-        "Total Payment"
-    ]
-
-    X = df.drop(
-        columns=drop_columns,
-        errors='ignore'
-    )
 
     # =========================
     # ONE HOT ENCODING
