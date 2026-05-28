@@ -2,14 +2,10 @@ import pandas as pd
 
 def preprocess_data(df):
 
-    # =========================
-    # HAPUS DUPLIKAT
-    # =========================
+    # Hapus duplikat
     df = df.drop_duplicates()
 
-    # =========================
-    # HANDLE MISSING VALUE
-    # =========================
+    # Missing value kategori
     categorical_cols = [
         "Category",
         "Brand",
@@ -23,6 +19,7 @@ def preprocess_data(df):
 
             df[col] = df[col].fillna("Unknown")
 
+    # Missing value numerik
     numeric_cols = [
         "Tahun Motor",
         "Last Kilometer"
@@ -41,28 +38,20 @@ def preprocess_data(df):
                 df[col].median()
             )
 
-    # =========================
-    # FEATURE ENGINEERING
-    # =========================
+    # Feature engineering
     tahun_sekarang = 2026
 
     df["Usia Motor"] = (
         tahun_sekarang - df["Tahun Motor"]
     )
 
-    # =========================
-    # TARGET
-    # =========================
+    # Target
     y = df["Service"].map({
-
         "Ringan": 0,
         "Berat": 1
-
     })
 
-    # =========================
-    # DROP COLUMN
-    # =========================
+    # Drop column
     drop_columns = [
 
         "Service",
@@ -71,6 +60,7 @@ def preprocess_data(df):
         "KTP",
         "Telepon",
         "Invoice",
+
         "Plate",
         "Technical Name",
 
@@ -82,12 +72,10 @@ def preprocess_data(df):
 
         "Reg Date",
 
-        # LEAKAGE
         "Parts Name",
         "Parts Qty",
         "Total Payment",
 
-        # SUDAH DIGANTI
         "Tahun Motor"
     ]
 
@@ -96,9 +84,7 @@ def preprocess_data(df):
         errors='ignore'
     )
 
-    # =========================
-    # ONE HOT ENCODING
-    # =========================
+    # One Hot Encoding
     X = pd.get_dummies(
         X,
         drop_first=True
