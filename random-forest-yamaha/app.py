@@ -1,488 +1,238 @@
+```python
 import streamlit as st
+from pathlib import Path
 
-# ========================================
+# =========================================
 # PAGE CONFIG
-# ========================================
-
+# =========================================
 st.set_page_config(
     page_title="Yamaha Random Forest",
     page_icon="🏍️",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# ========================================
+# =========================================
 # CUSTOM CSS
-# ========================================
-
+# =========================================
 st.markdown("""
 <style>
 
-/* ========================================
-BACKGROUND
-======================================== */
-
-[data-testid="stAppViewContainer"] {
-
-    background-color: white;
+html, body, [class*="css"]  {
+    font-family: 'Segoe UI', sans-serif;
 }
 
-[data-testid="stHeader"] {
+/* MAIN BACKGROUND */
+[data-testid="stAppViewContainer"]{
+    background: linear-gradient(
+        135deg,
+        #050816 0%,
+        #081120 45%,
+        #0b1220 100%
+    );
+    color: white;
+}
 
+/* HEADER */
+[data-testid="stHeader"]{
     background: rgba(0,0,0,0);
 }
 
-/* ========================================
-SIDEBAR
-======================================== */
-
-[data-testid="stSidebar"] {
-
-    background-color: #111111;
+/* SIDEBAR */
+[data-testid="stSidebar"]{
+    background: linear-gradient(
+        180deg,
+        #111827 0%,
+        #0f172a 100%
+    );
+    border-right: 1px solid rgba(255,255,255,0.05);
 }
 
-[data-testid="stSidebar"] * {
-
-    color: white;
-}
-
-/* ========================================
-MAIN CONTAINER
-======================================== */
-
-.block-container {
-
-    padding-top: 2rem;
-
-    padding-left: 3rem;
-
-    padding-right: 3rem;
-}
-
-/* ========================================
-MAIN TITLE
-======================================== */
-
-.main-title {
-
-    text-align: center;
-
-    font-size: 56px;
-
+/* TITLE */
+.main-title{
+    font-size: 58px;
     font-weight: 800;
-
-    color: #111827;
-
-    text-transform: uppercase;
-
-    letter-spacing: 2px;
-
-    margin-bottom: 5px;
-}
-
-/* ========================================
-SUB TITLE
-======================================== */
-
-.sub-title {
-
+    color: white;
     text-align: center;
-
-    font-size: 20px;
-
-    color: #dc2626;
-
-    margin-top: -5px;
-
-    margin-bottom: 40px;
-
-    font-weight: 600;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
 }
 
-/* ========================================
-METRIC BUBBLE
-======================================== */
+/* SUBTITLE */
+.sub-title{
+    text-align: center;
+    color: #ef4444;
+    font-size: 18px;
+    margin-bottom: 35px;
+    font-weight: 500;
+}
 
-.metric-box {
+/* METRIC CARD */
+[data-testid="metric-container"]{
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 22px;
+    border-radius: 22px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.30);
+    transition: 0.3s;
+}
+
+/* HOVER */
+[data-testid="metric-container"]:hover{
+    transform: translateY(-4px);
+    border: 1px solid rgba(239,68,68,0.5);
+}
+
+/* STATUS BOX */
+.status-box{
+    margin-top: 35px;
+    padding: 24px;
+    border-radius: 24px;
 
     background: linear-gradient(
         135deg,
-        #dc2626,
-        #b91c1c
+        rgba(34,197,94,0.20),
+        rgba(22,163,74,0.10)
     );
 
-    padding: 35px 25px;
-
-    border-radius: 30px;
-
-    position: relative;
-
-    overflow: hidden;
-
-    color: white;
+    border: 1px solid rgba(34,197,94,0.30);
 
     text-align: center;
-
-    box-shadow:
-        0 15px 35px rgba(0,0,0,0.25);
-
-    transition: 0.3s ease;
-}
-
-/* bubble effect */
-
-.metric-box::before {
-
-    content: "";
-
-    position: absolute;
-
-    width: 160px;
-
-    height: 160px;
-
-    background: rgba(255,255,255,0.08);
-
-    border-radius: 50%;
-
-    top: -70px;
-
-    right: -70px;
-}
-
-/* hover effect */
-
-.metric-box:hover {
-
-    transform: translateY(-5px);
-
-    box-shadow:
-        0 25px 50px rgba(0,0,0,0.35);
-}
-
-/* metric title */
-
-.metric-title {
-
-    font-size: 16px;
-
-    font-weight: 600;
-
-    opacity: 0.9;
-
-    margin-bottom: 18px;
-}
-
-/* metric value */
-
-.metric-value {
-
-    font-size: 42px;
-
-    font-weight: 800;
-
-    line-height: 1;
-}
-
-/* metric icon */
-
-.metric-icon {
-
-    margin-top: 18px;
-
-    font-size: 42px;
-
-    opacity: 0.25;
-}
-
-/* ========================================
-STATUS BOX
-======================================== */
-
-.status-box {
-
-    margin-top: 45px;
-
-    background: white;
-
-    border-left: 8px solid #dc2626;
-
-    padding: 25px;
-
-    border-radius: 22px;
-
     font-size: 18px;
-
-    font-weight: 600;
-
-    color: #111827;
-
-    text-align: center;
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,0.08);
-}
-
-/* ========================================
-SECTION TITLE
-======================================== */
-
-.section-title {
-
-    text-align: center;
-
-    margin-top: 50px;
-
-    margin-bottom: 20px;
-
-    font-size: 30px;
-
-    font-weight: 800;
-
-    color: #111827;
-}
-
-/* ========================================
-UPLOAD FILE
-======================================== */
-
-[data-testid="stFileUploader"] {
-
-    background: white;
-
-    border: 2px dashed #dc2626;
-
-    border-radius: 20px;
-
-    padding: 20px;
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,0.08);
-}
-
-/* ========================================
-BUTTON
-======================================== */
-
-.stButton {
-
-    display: flex;
-
-    justify-content: center;
-}
-
-.stButton > button {
-
-    background-color: #dc2626;
-
-    color: white;
-
-    border: none;
-
-    border-radius: 14px;
-
-    padding: 14px 35px;
-
     font-weight: 700;
 
-    font-size: 16px;
-
-    transition: 0.3s ease;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
 }
 
-.stButton > button:hover {
-
-    background-color: #b91c1c;
-
-    transform: scale(1.03);
-
-    box-shadow:
-        0 12px 25px rgba(0,0,0,0.20);
+/* SECTION */
+.section-title{
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 45px;
+    margin-bottom: 15px;
+    color: white;
 }
 
-/* ========================================
-DATAFRAME
-======================================== */
-
-[data-testid="stDataFrame"] {
-
-    border-radius: 20px;
-
-    overflow: hidden;
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,0.08);
+/* UPLOAD AREA */
+.upload-box{
+    background: rgba(255,255,255,0.04);
+    padding: 30px;
+    border-radius: 24px;
+    border: 1px dashed rgba(255,255,255,0.15);
 }
 
 </style>
 """, unsafe_allow_html=True)
 
-# ========================================
+# =========================================
+# LOGO
+# =========================================
+BASE_DIR = Path(__file__).parent
+logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
+
+if logo_path.exists():
+    st.sidebar.image(str(logo_path), width=180)
+
+# =========================================
 # SIDEBAR
-# ========================================
-
-st.sidebar.title("🏍️ Yamaha Dashboard")
-
+# =========================================
+st.sidebar.markdown("## 🏍️ Yamaha ML Dashboard")
 st.sidebar.success("System Connected")
 
 st.sidebar.markdown("---")
 
 st.sidebar.markdown("""
-### Menu
-
+### 📌 Menu Sistem
 - Dashboard
 - Upload Dataset
 - Training Model
-- Evaluasi
-- Prediksi
+- Prediksi Data
+- Evaluasi Model
 """)
 
-# ========================================
-# HEADER
-# ========================================
+st.sidebar.markdown("---")
 
+st.sidebar.info(
+    "Model menggunakan algoritma Random Forest "
+    "untuk klasifikasi layanan servis kendaraan Yamaha."
+)
+
+# =========================================
+# SESSION STATE
+# =========================================
+accuracy = st.session_state.get("accuracy", 0)
+total_data = st.session_state.get("total_data", 0)
+total_feature = st.session_state.get("total_feature", 0)
+
+# =========================================
+# HEADER
+# =========================================
 st.markdown("""
 <div class="main-title">
-    KLASIFIKASI LAYANAN SERVIS YAMAHA
+KLASIFIKASI LAYANAN SERVIS YAMAHA
 </div>
 
 <div class="sub-title">
-    Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yamaha
+Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yamaha
 </div>
 """, unsafe_allow_html=True)
 
-# ========================================
-# DATA
-# ========================================
-
-accuracy = 74
-total_data = 1500
-total_feature = 12
-
-# ========================================
-# METRIC CARDS
-# ========================================
-
+# =========================================
+# METRIC
+# =========================================
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-
-    st.markdown(f"""
-    <div class="metric-box">
-
-        <div class="metric-title">
-            Accuracy Model
-        </div>
-
-        <div class="metric-value">
-            {accuracy}%
-        </div>
-
-        <div class="metric-icon">
-            🎯
-        </div>
-
-    </div>
-    """, unsafe_allow_html=True)
+    st.metric(
+        label="🎯 Accuracy Model",
+        value=f"{accuracy}%"
+    )
 
 with col2:
-
-    st.markdown(f"""
-    <div class="metric-box">
-
-        <div class="metric-title">
-            Total Data
-        </div>
-
-        <div class="metric-value">
-            {total_data}
-        </div>
-
-        <div class="metric-icon">
-            📊
-        </div>
-
-    </div>
-    """, unsafe_allow_html=True)
+    st.metric(
+        label="📊 Total Data",
+        value=total_data
+    )
 
 with col3:
-
-    st.markdown(f"""
-    <div class="metric-box">
-
-        <div class="metric-title">
-            Total Feature
-        </div>
-
-        <div class="metric-value">
-            {total_feature}
-        </div>
-
-        <div class="metric-icon">
-            ⚙️
-        </div>
-
-    </div>
-    """, unsafe_allow_html=True)
+    st.metric(
+        label="🧠 Total Feature",
+        value=total_feature
+    )
 
 with col4:
+    st.metric(
+        label="⚙️ Algoritma",
+        value="Random Forest"
+    )
 
-    st.markdown("""
-    <div class="metric-box">
-
-        <div class="metric-title">
-            Algoritma
-        </div>
-
-        <div class="metric-value" style="font-size:28px;">
-            Random Forest
-        </div>
-
-        <div class="metric-icon">
-            🌲
-        </div>
-
-    </div>
-    """, unsafe_allow_html=True)
-
-# ========================================
-# STATUS BOX
-# ========================================
-
+# =========================================
+# STATUS
+# =========================================
 st.markdown("""
 <div class="status-box">
-    🚀 Sistem siap digunakan untuk training dan klasifikasi layanan servis Yamaha
+✅ Sistem siap digunakan untuk training dan klasifikasi layanan servis Yamaha
 </div>
 """, unsafe_allow_html=True)
 
-# ========================================
-# UPLOAD SECTION
-# ========================================
+# =========================================
+# SECTION
+# =========================================
+st.markdown(
+    '<div class="section-title">📂 Upload Dataset CSV</div>',
+    unsafe_allow_html=True
+)
 
-st.markdown("""
-<div class="section-title">
-    Upload Dataset CSV
-</div>
-""", unsafe_allow_html=True)
-
+# =========================================
+# UPLOAD FILE
+# =========================================
 uploaded_file = st.file_uploader(
-    "Upload file CSV",
+    "Upload dataset layanan servis Yamaha",
     type=["csv"]
 )
 
-if uploaded_file:
+if uploaded_file is not None:
+    st.success("Dataset berhasil diupload!")
 
-    st.success("Dataset berhasil diupload")
-
-# ========================================
-# TRAINING SECTION
-# ========================================
-
-st.markdown("""
-<div class="section-title">
-    Training Model
-</div>
-""", unsafe_allow_html=True)
-
-if st.button("🚀 Mulai Training"):
-
-    st.success("Training model berhasil dilakukan")
+```
