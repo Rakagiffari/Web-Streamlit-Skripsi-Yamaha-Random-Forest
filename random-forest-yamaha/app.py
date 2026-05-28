@@ -72,7 +72,7 @@ MAIN TITLE
 
     color: #111827;
 
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 
     text-transform: uppercase;
 
@@ -80,18 +80,47 @@ MAIN TITLE
 }
 
 /* ========================================
-SUB TITLE
+SUB TITLE BUBBLE
 ======================================== */
 
-.sub-title {
+.sub-title-box {
+
+    width: fit-content;
+
+    margin: auto;
+
+    margin-bottom: 50px;
+
+    background: linear-gradient(
+        135deg,
+        #dc2626,
+        #b91c1c
+    );
+
+    color: white;
+
+    padding: 18px 35px;
+
+    border-radius: 999px;
+
+    font-size: 17px;
+
+    font-weight: 600;
 
     text-align: center;
 
-    font-size: 18px;
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.20);
 
-    color: #6b7280;
+    transition: 0.3s ease;
+}
 
-    margin-bottom: 50px;
+.sub-title-box:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,0.30);
 }
 
 /* ========================================
@@ -145,7 +174,7 @@ METRIC BUBBLE
     right: -70px;
 }
 
-/* hover effect */
+/* hover */
 
 .metric-box:hover {
 
@@ -341,7 +370,7 @@ st.markdown("""
     KLASIFIKASI LAYANAN SERVIS YAMAHA
 </div>
 
-<div class="sub-title">
+<div class="sub-title-box">
     Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yamaha
 </div>
 """, unsafe_allow_html=True)
