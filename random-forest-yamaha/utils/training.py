@@ -1,165 +1,116 @@
-import streamlit as st
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import joblib
+# =========================================
+# utils/training.py
+# =========================================
 
-from utils.preprocessing import preprocess_data
-from utils.training import train_model
+from sklearn.model_selection import train_test_split
 
-# =========================
-# PAGE CONFIG
-# =========================
-st.set_page_config(
-    page_title="Random Forest Yamaha",
-    page_icon="⚙️",
-    layout="wide"
+from sklearn.ensemble import RandomForestClassifier
+
+from sklearn.metrics import (
+
+    accuracy_score,
+    classification_report,
+    confusion_matrix,
+
+    precision_score,
+    recall_score,
+    f1_score
 )
 
-# =========================
-# TITLE
-# =========================
-st.title("⚙️ Training Random Forest")
-st.markdown("Sistem klasifikasi layanan servis Yamaha menggunakan algoritma Random Forest")
+def train_model(X, y):
 
-# =========================
-# FILE UPLOAD
-# =========================
-uploaded_file = st.file_uploader(
-    "📂 Upload Dataset CSV",
-    type=["csv"]
-)
+    # =====================================
+    # SPLIT DATA
+    # =====================================
 
-# =========================
-# PROCESS DATA
-# =========================
-if uploaded_file is not None:
+    X_train, X_test, y_train, y_test = train_test_split(
 
-    # Load dataset
-    df = pd.read_csv(uploaded_file)
+        X,
+        y,
 
-    st.subheader("📄 Preview Dataset")
-    st.dataframe(df.head())
+        test_size=0.2,
 
-    # Preprocessing
-    with st.spinner("Melakukan preprocessing data..."):
+        random_state=42,
 
-        X, y, label_encoders, target_encoder = preprocess_data(df)
+        stratify=y
+    )
 
-    st.success("✅ Preprocessing selesai")
+    # =====================================
+    # RANDOM FOREST
+    # =====================================
 
-    # =========================
-    # TRAIN BUTTON
-    # =========================
-    if st.button("🚀 Training Model"):
+    rf = RandomForestClassifier(
 
-        progress_bar = st.progress(0)
-        status_text = st.empty()
+        n_estimators=300,
 
-        # Fake loading animation
-        for i in range(100):
-            progress_bar.progress(i + 1)
-            status_text.text(f"Training model... {i+1}%")
+        max_depth=20,
 
-        # Training model
-        (
-            model,
-            accuracy,
-            precision,
-            recall,
-            f1,
-            report,
-            matrix
-        ) = train_model(X, y)
+        min_samples_split=2,
 
-        # Save model
-        joblib.dump(
-            model,
-            "model/random_forest_model.pkl"
-        )
+        min_samples_leaf=1,
 
-        st.success("✅ Model berhasil ditraining")
+        class_weight='balanced',
 
-        # =========================
-        # METRICS
-        # =========================
-        st.subheader("📊 Evaluasi Model")
+        random_state=42,
 
-        col1, col2, col3, col4 = st.columns(4)
+        n_jobs=-1
+    )
 
-        with col1:
-            st.metric(
-                "Accuracy",
-                f"{accuracy:.2%}"
-            )
+    # =====================================
+    # TRAINING MODEL
+    # =====================================
 
-        with col2:
-            st.metric(
-                "Precision",
-                f"{precision:.2%}"
-            )
+    rf.fit(X_train, y_train)
 
-        with col3:
-            st.metric(
-                "Recall",
-                f"{recall:.2%}"
-            )
+    # =====================================
+    # PREDIKSI
+    # =====================================
 
-        with col4:
-            st.metric(
-                "F1 Score",
-                f"{f1:.2%}"
-            )
+    y_pred = rf.predict(X_test)
 
-        # =========================
-        # CLASSIFICATION REPORT
-        # =========================
-        st.subheader("📋 Classification Report")
+    # =====================================
+    # EVALUASI
+    # =====================================
 
-        st.code(report)
+    accuracy = accuracy_score(
+        y_test,
+        y_pred
+    )
 
-        # =========================
-        # CONFUSION MATRIX
-        # =========================
-        st.subheader("📉 Confusion Matrix")
+    precision = precision_score(
+        y_test,
+        y_pred
+    )
 
-        fig, ax = plt.subplots(figsize=(6, 4))
+    recall = recall_score(
+        y_test,
+        y_pred
+    )
 
-        sns.heatmap(
-            matrix,
-            annot=True,
-            fmt='d',
-            cmap='Reds',
-            ax=ax
-        )
+    f1 = f1_score(
+        y_test,
+        y_pred
+    )
 
-        ax.set_xlabel("Predicted")
-        ax.set_ylabel("Actual")
+    report = classification_report(
+        y_test,
+        y_pred
+    )
 
-        st.pyplot(fig)
+    matrix = confusion_matrix(
+        y_test,
+        y_pred
+    )
 
-        # =========================
-        # FEATURE IMPORTANCE
-        # =========================
-        st.subheader("🔥 Feature Importance")
+    return (
 
-        importance_df = pd.DataFrame({
-            "Feature": X.columns,
-            "Importance": model.feature_importances_
-        }).sort_values(
-            by="Importance",
-            ascending=False
-        )
+        rf,
 
-        st.dataframe(importance_df)
+        accuracy,
+        precision,
+        recall,
+        f1,
 
-        fig2, ax2 = plt.subplots(figsize=(10, 5))
-
-        sns.barplot(
-            data=importance_df.head(10),
-            x="Importance",
-            y="Feature",
-            ax=ax2
-        )
-
-        st.pyplot(fig2)
+        report,
+        matrix
+    )
