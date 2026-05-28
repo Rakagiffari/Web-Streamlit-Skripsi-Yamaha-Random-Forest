@@ -101,8 +101,8 @@ def preprocess_data(df):
         "Reg Date",
 
         # DATA LEAKAGE
-        "Parts Name",
-        "Parts Qty",
+        #"Parts Name",
+        #"Parts Qty",
         "Total Payment",
 
         # SUDAH DIGANTI
