@@ -4,11 +4,19 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import joblib
 
+from pathlib import Path
+
 from utils.preprocessing import preprocess_data
 from utils.training import train_model
 
+# =====================================
+# TITLE
+# =====================================
 st.title("⚙️ Training Random Forest")
 
+# =====================================
+# UPLOAD DATASET
+# =====================================
 uploaded_file = st.file_uploader(
     "📂 Upload Dataset",
     type=['csv']
@@ -16,8 +24,12 @@ uploaded_file = st.file_uploader(
 
 if uploaded_file:
 
-    # Membaca dataset
+    # =========================
+    # LOAD DATASET
+    # =========================
     df = pd.read_csv(uploaded_file)
+
+    st.success("Dataset berhasil diupload")
 
     # =========================
     # PREPROCESSING
@@ -29,82 +41,124 @@ if uploaded_file:
     st.success("Preprocessing selesai")
 
     # =========================
-    # TRAINING MODEL
+    # TRAIN MODEL
     # =========================
     if st.button("🚀 Training Model"):
 
-        progress = st.progress(0)
+        with st.spinner("Melakukan training model..."):
 
-        for i in range(100):
-            progress.progress(i + 1)
+            try:
 
-        (
-            model,
-            accuracy,
-            precision,
-            recall,
-            f1,
-            report,
-            matrix
-        ) = train_model(X, y)
+                (
+                    model,
+                    accuracy,
+                    precision,
+                    recall,
+                    f1,
+                    report,
+                    matrix
+                ) = train_model(X, y)
 
-        # Simpan model
-        joblib.dump(
-            model,
-            'model/random_forest_model.pkl'
-        )
+                # =========================
+                # MEMBUAT FOLDER MODEL
+                # =========================
+                BASE_DIR = Path(__file__).parent.parent
 
-        st.success("Model berhasil ditraining")
+                model_dir = BASE_DIR / "model"
 
-        # =========================
-        # METRIK EVALUASI
-        # =========================
-        col1, col2, col3, col4 = st.columns(4)
+                model_dir.mkdir(exist_ok=True)
 
-        with col1:
-            st.metric(
-                "Accuracy",
-                f"{accuracy:.2%}"
-            )
+                # =========================
+                # SAVE MODEL
+                # =========================
+                model_path = model_dir / "random_forest_model.pkl"
 
-        with col2:
-            st.metric(
-                "Precision",
-                f"{precision:.2%}"
-            )
+                joblib.dump(model, model_path)
 
-        with col3:
-            st.metric(
-                "Recall",
-                f"{recall:.2%}"
-            )
+                # =========================
+                # VALIDASI MODEL
+                # =========================
+                if model_path.exists():
 
-        with col4:
-            st.metric(
-                "F1 Score",
-                f"{f1:.2%}"
-            )
+                    file_size = model_path.stat().st_size
 
-        # =========================
-        # CLASSIFICATION REPORT
-        # =========================
-        st.subheader("📋 Classification Report")
+                    if file_size > 0:
 
-        st.text(report)
+                        st.success(
+                            "Model berhasil ditraining dan disimpan"
+                        )
 
-        # =========================
-        # CONFUSION MATRIX
-        # =========================
-        st.subheader("📉 Confusion Matrix")
+                        st.write(
+                            f"Ukuran model: {file_size / 1024:.2f} KB"
+                        )
 
-        fig, ax = plt.subplots(figsize=(5, 4))
+                    else:
 
-        sns.heatmap(
-            matrix,
-            annot=True,
-            fmt='d',
-            cmap='Reds',
-            ax=ax
-        )
+                        st.error(
+                            "Model gagal disimpan (file kosong)"
+                        )
 
-        st.pyplot(fig)
+                else:
+
+                    st.error(
+                        "File model tidak ditemukan"
+                    )
+
+                # =========================
+                # METRIK EVALUASI
+                # =========================
+                col1, col2, col3, col4 = st.columns(4)
+
+                with col1:
+                    st.metric(
+                        "Accuracy",
+                        f"{accuracy:.2%}"
+                    )
+
+                with col2:
+                    st.metric(
+                        "Precision",
+                        f"{precision:.2%}"
+                    )
+
+                with col3:
+                    st.metric(
+                        "Recall",
+                        f"{recall:.2%}"
+                    )
+
+                with col4:
+                    st.metric(
+                        "F1 Score",
+                        f"{f1:.2%}"
+                    )
+
+                # =========================
+                # CLASSIFICATION REPORT
+                # =========================
+                st.subheader("📋 Classification Report")
+
+                st.text(report)
+
+                # =========================
+                # CONFUSION MATRIX
+                # =========================
+                st.subheader("📉 Confusion Matrix")
+
+                fig, ax = plt.subplots(figsize=(5, 4))
+
+                sns.heatmap(
+                    matrix,
+                    annot=True,
+                    fmt='d',
+                    cmap='Reds',
+                    ax=ax
+                )
+
+                st.pyplot(fig)
+
+            except Exception as e:
+
+                st.error(
+                    f"Terjadi error saat training: {e}"
+                )
