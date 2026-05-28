@@ -1,7 +1,7 @@
 import streamlit as st
 from pathlib import Path
 from PIL import Image
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # =========================================
 # PAGE CONFIG
@@ -18,6 +18,27 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# =========================================
+# DATE & TIME WIB
+# =========================================
+utc_now = datetime.utcnow()
+
+wib_now = utc_now + timedelta(hours=7)
+
+hari_indonesia = {
+    "Monday": "Senin",
+    "Tuesday": "Selasa",
+    "Wednesday": "Rabu",
+    "Thursday": "Kamis",
+    "Friday": "Jumat",
+    "Saturday": "Sabtu",
+    "Sunday": "Minggu"
+}
+
+hari = hari_indonesia[wib_now.strftime("%A")]
+
+tanggal_jam = wib_now.strftime("%d-%m-%Y | %H:%M")
 
 # =========================================
 # CUSTOM CSS
@@ -140,25 +161,6 @@ header{
 """, unsafe_allow_html=True)
 
 # =========================================
-# DATE & TIME
-# =========================================
-now = datetime.now()
-
-hari_indonesia = {
-    "Monday": "Senin",
-    "Tuesday": "Selasa",
-    "Wednesday": "Rabu",
-    "Thursday": "Kamis",
-    "Friday": "Jumat",
-    "Saturday": "Sabtu",
-    "Sunday": "Minggu"
-}
-
-hari = hari_indonesia[now.strftime("%A")]
-
-tanggal_jam = now.strftime("%d-%m-%Y | %H:%M:%S")
-
-# =========================================
 # SPACE TOP
 # =========================================
 st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
@@ -231,7 +233,7 @@ with col3:
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-title">
-            Tanggal & Jam
+            Tanggal & Jam WIB
         </div>
         <div class="metric-value" style="font-size:20px;">
             {tanggal_jam}
