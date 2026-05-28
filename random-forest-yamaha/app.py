@@ -262,7 +262,5 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 # SUCCESS MESSAGE
 # =========================================
 st.success(
-    <div ="main-title">
         "Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
-    </div>
 )
