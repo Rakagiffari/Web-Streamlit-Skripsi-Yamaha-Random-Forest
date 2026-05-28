@@ -1,16 +1,27 @@
+# =========================================
+# utils/training.py
+# =========================================
+
 from sklearn.model_selection import train_test_split
+
 from sklearn.ensemble import RandomForestClassifier
 
 from sklearn.metrics import (
+
     accuracy_score,
     classification_report,
     confusion_matrix,
+
     precision_score,
     recall_score,
     f1_score
 )
 
 def train_model(X, y):
+
+    # =====================================
+    # SPLIT DATA
+    # =====================================
 
     X_train, X_test, y_train, y_test = train_test_split(
 
@@ -24,7 +35,11 @@ def train_model(X, y):
         stratify=y
     )
 
-    model = RandomForestClassifier(
+    # =====================================
+    # RANDOM FOREST
+    # =====================================
+
+    rf = RandomForestClassifier(
 
         n_estimators=300,
 
@@ -36,12 +51,26 @@ def train_model(X, y):
 
         class_weight='balanced',
 
-        random_state=42
+        random_state=42,
+
+        n_jobs=-1
     )
 
-    model.fit(X_train, y_train)
+    # =====================================
+    # TRAINING
+    # =====================================
 
-    y_pred = model.predict(X_test)
+    rf.fit(X_train, y_train)
+
+    # =====================================
+    # PREDIKSI
+    # =====================================
+
+    y_pred = rf.predict(X_test)
+
+    # =====================================
+    # EVALUASI
+    # =====================================
 
     accuracy = accuracy_score(
         y_test,
@@ -74,11 +103,14 @@ def train_model(X, y):
     )
 
     return (
-        model,
+
+        rf,
+
         accuracy,
         precision,
         recall,
         f1,
+
         report,
         matrix
     )
