@@ -43,17 +43,7 @@ section[data-testid="stSidebar"]{
    REMOVE TOP SPACE
 ========================= */
 .block-container{
-    padding-top: 1rem;
-}
-
-/* =========================
-   LOGO TOP
-========================= */
-.logo-top{
-    display: flex;
-    justify-content: center;
-    margin-top: -10px;
-    margin-bottom: 10px;
+    padding-top: 2rem;
 }
 
 /* =========================
@@ -61,11 +51,12 @@ section[data-testid="stSidebar"]{
 ========================= */
 .main-title{
     text-align: center;
-    font-size: 58px;
+    font-size: 56px;
     font-weight: 900;
     color: white;
     line-height: 1.1;
-    margin-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 8px;
 }
 
 /* =========================
@@ -73,10 +64,10 @@ section[data-testid="stSidebar"]{
 ========================= */
 .sub-title{
     text-align: center;
-    font-size: 34px;
+    font-size: 32px;
     font-weight: 800;
     color: white;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
 
 /* =========================
@@ -168,12 +159,14 @@ st.sidebar.write("📌 Training Model")
 # =========================================
 # LOGO PALING ATAS
 # =========================================
-col1, col2, col3 = st.columns([1,2,1])
+st.markdown("<div style='margin-top:25px;'></div>", unsafe_allow_html=True)
+
+col1, col2, col3 = st.columns([1.2,1.6,1.2])
 
 with col2:
     st.image(
         str(logo_path),
-        width=320
+        width=285
     )
 
 # =========================================
