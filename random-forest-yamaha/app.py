@@ -1,98 +1,311 @@
+import streamlit as st
+from pathlib import Path
+from PIL import Image
+from datetime import datetime
+
 # =========================================
-# REALTIME DATE & TIME
+# PAGE CONFIG
 # =========================================
-clock_placeholder = st.empty()
+BASE_DIR = Path(__file__).parent
 
-while True:
+logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
 
-    now = datetime.now()
+logo = Image.open(logo_path)
 
-    hari_indonesia = {
-        "Monday": "Senin",
-        "Tuesday": "Selasa",
-        "Wednesday": "Rabu",
-        "Thursday": "Kamis",
-        "Friday": "Jumat",
-        "Saturday": "Sabtu",
-        "Sunday": "Minggu"
-    }
+st.set_page_config(
+    page_title="Yamaha Random Forest",
+    page_icon=logo,
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-    hari = hari_indonesia[now.strftime("%A")]
+# =========================================
+# CUSTOM CSS
+# =========================================
+st.markdown("""
+<style>
 
-    tanggal = now.strftime("%d-%m-%Y")
+/* =========================
+   BACKGROUND
+========================= */
+.stApp{
+    background-color: #020617;
+}
 
-    jam = now.strftime("%H:%M:%S")
+/* =========================
+   SIDEBAR
+========================= */
+section[data-testid="stSidebar"]{
+    background-color: #0f172a;
+    border-right: 1px solid #1e293b;
+}
 
-    with clock_placeholder.container():
+/* =========================
+   MAIN CONTAINER
+========================= */
+.block-container{
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+}
 
-        col1, col2, col3, col4 = st.columns(4)
+/* =========================
+   MAIN TITLE
+========================= */
+.main-title{
+    text-align: center;
+    font-size: 58px;
+    font-weight: 900;
+    color: white;
+    line-height: 1.1;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
 
-        # =========================================
-        # CARD 1
-        # =========================================
-        with col1:
-            st.markdown(f"""
-            <div class="metric-card">
-                <div class="metric-title">
-                    Algoritma
-                </div>
+/* =========================
+   DESCRIPTION
+========================= */
+.desc{
+    text-align: center;
+    color: #cbd5e1;
+    font-size: 20px;
+    margin-top: 0px;
+    margin-bottom: 45px;
+}
 
-                <div class="metric-value">
-                    Random Forest
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+/* =========================
+   METRIC CARD
+========================= */
+.metric-card{
+    background: linear-gradient(145deg, #111827, #1e293b);
+    padding: 30px 20px;
+    border-radius: 22px;
+    border: 1px solid #334155;
+    text-align: center;
+    transition: 0.3s ease;
+    box-shadow: 0 0 15px rgba(0,0,0,0.25);
+    min-height: 170px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
-        # =========================================
-        # CARD 2
-        # =========================================
-        with col2:
-            st.markdown(f"""
-            <div class="metric-card">
-                <div class="metric-title">
-                    Dataset
-                </div>
+/* =========================
+   HOVER EFFECT
+========================= */
+.metric-card:hover{
+    transform: translateY(-6px);
+    border: 1px solid #ef4444;
+    box-shadow: 0 0 20px rgba(239,68,68,0.25);
+}
 
-                <div class="metric-value">
-                    CSV File
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+/* =========================
+   METRIC TITLE
+========================= */
+.metric-title{
+    color: #94a3b8;
+    font-size: 15px;
+    margin-bottom: 14px;
+    font-weight: 600;
+}
 
-        # =========================================
-        # CARD 3
-        # =========================================
-        with col3:
-            st.markdown(f"""
-            <div class="metric-card">
-                <div class="metric-title">
-                    Tanggal & Jam
-                </div>
+/* =========================
+   METRIC VALUE
+========================= */
+.metric-value{
+    color: white;
+    font-size: 30px;
+    font-weight: 800;
+}
 
-                <div class="date-text">
-                    {tanggal}
-                </div>
+/* =========================
+   DATE
+========================= */
+.date-text{
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
 
-                <div class="time-text">
-                    {jam}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+/* =========================
+   TIME
+========================= */
+.time-text{
+    color: #ef4444;
+    font-size: 30px;
+    font-weight: 900;
+}
 
-        # =========================================
-        # CARD 4
-        # =========================================
-        with col4:
-            st.markdown(f"""
-            <div class="metric-card">
-                <div class="metric-title">
-                    Hari
-                </div>
+/* =========================
+   SUCCESS BOX
+========================= */
+.stAlert{
+    border-radius: 15px;
+}
 
-                <div class="metric-value">
-                    {hari}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+/* =========================
+   HIDE STREAMLIT MENU
+========================= */
+#MainMenu{
+    visibility: hidden;
+}
 
-    time.sleep(1)
+footer{
+    visibility: hidden;
+}
+
+header{
+    visibility: hidden;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# =========================================
+# DATE & TIME
+# =========================================
+now = datetime.now()
+
+hari_indonesia = {
+    "Monday": "Senin",
+    "Tuesday": "Selasa",
+    "Wednesday": "Rabu",
+    "Thursday": "Kamis",
+    "Friday": "Jumat",
+    "Saturday": "Sabtu",
+    "Sunday": "Minggu"
+}
+
+hari = hari_indonesia[now.strftime("%A")]
+
+tanggal = now.strftime("%d-%m-%Y")
+jam = now.strftime("%H:%M:%S")
+
+# =========================================
+# SPACE TOP
+# =========================================
+st.markdown(
+    "<div style='margin-top:10px;'></div>",
+    unsafe_allow_html=True
+)
+
+# =========================================
+# CENTER LOGO
+# =========================================
+col1, col2, col3 = st.columns([2,1,2])
+
+with col2:
+    st.image(
+        str(logo_path),
+        width=240
+    )
+
+# =========================================
+# MAIN TITLE
+# =========================================
+st.markdown(
+    """
+    <div class="main-title">
+        KLASIFIKASI LAYANAN SERVIS YAMAHA
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# =========================================
+# DESCRIPTION
+# =========================================
+st.markdown(
+    """
+    <div class="desc">
+        Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yamaha.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# =========================================
+# METRIC CARDS
+# =========================================
+col1, col2, col3, col4 = st.columns(4)
+
+# =========================================
+# CARD 1
+# =========================================
+with col1:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-title">
+            Algoritma
+        </div>
+
+        <div class="metric-value">
+            Random Forest
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+# =========================================
+# CARD 2
+# =========================================
+with col2:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-title">
+            Dataset
+        </div>
+
+        <div class="metric-value">
+            CSV File
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+# =========================================
+# CARD 3
+# =========================================
+with col3:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-title">
+            Tanggal & Jam
+        </div>
+
+        <div class="date-text">
+            {tanggal}
+        </div>
+
+        <div class="time-text">
+            {jam}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+# =========================================
+# CARD 4
+# =========================================
+with col4:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-title">
+            Hari
+        </div>
+
+        <div class="metric-value">
+            {hari}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+# =========================================
+# SPACE
+# =========================================
+st.markdown("<br><br>", unsafe_allow_html=True)
+
+# =========================================
+# SUCCESS MESSAGE
+# =========================================
+st.success(
+    "Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
+)
