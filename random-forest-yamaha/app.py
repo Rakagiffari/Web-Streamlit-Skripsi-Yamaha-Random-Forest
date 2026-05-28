@@ -13,90 +13,227 @@ st.set_page_config(
 )
 
 # =========================================
-# CSS
+# CUSTOM CSS
 # =========================================
 
 st.markdown("""
 <style>
 
+/* =========================================
+BACKGROUND
+========================================= */
+
 [data-testid="stAppViewContainer"] {
-
-    background: linear-gradient(
-        135deg,
-        #050816 0%,
-        #09111f 50%,
-        #0b1220 100%
-    );
-
-    color: white;
+    background: #ffffff;
+    color: #111827;
 }
 
 [data-testid="stHeader"] {
-
-    background: rgba(0,0,0,0);
+    background: rgba(255,255,255,0);
 }
+
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* =========================================
+SIDEBAR
+========================================= */
 
 [data-testid="stSidebar"] {
-
-    background: linear-gradient(
-        180deg,
-        #111827 0%,
-        #0f172a 100%
-    );
+    background: #111111;
+    border-right: 2px solid #dc2626;
 }
 
-.main-title {
-
-    font-size: 52px;
-
-    font-weight: 800;
-
+[data-testid="stSidebar"] * {
     color: white;
 }
 
-.sub-title {
+/* =========================================
+TITLE
+========================================= */
 
-    color: #94a3b8;
+.main-title {
+    font-size: 52px;
+    font-weight: 800;
+    color: #111827;
+    line-height: 1.1;
+}
+
+.sub-title {
+    color: #6b7280;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+
+/* =========================================
+METRIC CARD
+========================================= */
+
+[data-testid="metric-container"] {
+    background: white;
+    border-radius: 24px;
+    padding: 28px 20px;
+    border: 1px solid #e5e7eb;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.08);
+
+    transition: 0.3s ease;
+}
+
+[data-testid="metric-container"]:hover {
+
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* metric label */
+
+[data-testid="metric-container"] label {
+    color: #6b7280 !important;
+    font-size: 15px !important;
+    font-weight: 600;
+}
+
+/* metric value */
+
+[data-testid="metric-container"] [data-testid="stMetricValue"] {
+    color: #dc2626;
+    font-size: 34px;
+    font-weight: 800;
+}
+
+/* =========================================
+BUBBLE CHAT STYLE
+========================================= */
+
+.bubble-container {
+    margin-top: 45px;
+}
+
+.chat-bubble {
+
+    background: #dc2626;
+
+    color: white;
+
+    padding: 22px 28px;
+
+    border-radius: 24px;
 
     font-size: 18px;
 
-    margin-bottom: 35px;
-}
+    font-weight: 600;
 
-[data-testid="metric-container"] {
+    width: fit-content;
 
-    background: rgba(255,255,255,0.05);
+    max-width: 850px;
 
-    border: 1px solid rgba(255,255,255,0.08);
-
-    padding: 20px;
-
-    border-radius: 20px;
-
-    backdrop-filter: blur(10px);
+    position: relative;
 
     box-shadow:
-        0 8px 30px rgba(0,0,0,0.25);
+        0 15px 35px rgba(0,0,0,0.30);
 }
 
-.status-box {
+/* bubble tail */
 
-    margin-top: 30px;
+.chat-bubble::after {
 
-    padding: 20px;
+    content: "";
+
+    position: absolute;
+
+    bottom: -12px;
+
+    left: 40px;
+
+    width: 25px;
+
+    height: 25px;
+
+    background: #dc2626;
+
+    transform: rotate(45deg);
+}
+
+/* =========================================
+SECTION TITLE
+========================================= */
+
+.section-title {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: 800;
+    color: #111827;
+}
+
+/* =========================================
+BUTTON
+========================================= */
+
+.stButton > button {
+
+    background: #dc2626;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 14px;
+
+    padding: 12px 24px;
+
+    font-weight: 700;
+
+    transition: 0.3s;
+}
+
+.stButton > button:hover {
+
+    background: #b91c1c;
+
+    transform: scale(1.02);
+
+    box-shadow:
+        0 10px 20px rgba(0,0,0,0.20);
+}
+
+/* =========================================
+UPLOAD FILE
+========================================= */
+
+[data-testid="stFileUploader"] {
+
+    background: white;
+
+    border: 2px dashed #dc2626;
 
     border-radius: 20px;
 
-    background:
-        linear-gradient(
-            135deg,
-            rgba(34,197,94,0.20),
-            rgba(22,163,74,0.12)
-        );
+    padding: 20px;
 
-    text-align: center;
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.08);
+}
 
-    font-weight: 700;
+/* =========================================
+TABLE
+========================================= */
+
+[data-testid="stDataFrame"] {
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.08);
 }
 
 </style>
@@ -117,9 +254,25 @@ if logo_path.exists():
         width=180
     )
 
-st.sidebar.title("Yamaha ML Dashboard")
+# =========================================
+# SIDEBAR
+# =========================================
+
+st.sidebar.markdown("## 🏍️ Yamaha Dashboard")
 
 st.sidebar.success("System Connected")
+
+st.sidebar.markdown("---")
+
+st.sidebar.markdown("""
+### Menu Navigasi
+
+- Dashboard
+- Training Model
+- Upload Dataset
+- Evaluasi Model
+- Prediksi Data
+""")
 
 # =========================================
 # SESSION STATE
@@ -183,14 +336,42 @@ with col4:
     )
 
 # =========================================
-# STATUS
+# BUBBLE CHAT STATUS
 # =========================================
 
 st.markdown(
     """
-    <div class="status-box">
-        Sistem siap digunakan untuk training dan klasifikasi layanan servis Yamaha
+    <div class="bubble-container">
+        <div class="chat-bubble">
+            🚀 Sistem siap digunakan untuk training dan klasifikasi layanan servis Yamaha menggunakan algoritma Random Forest.
+        </div>
     </div>
     """,
     unsafe_allow_html=True
 )
+
+# =========================================
+# SECTION
+# =========================================
+
+st.markdown(
+    """
+    <div class="section-title">
+        Dashboard Overview
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# =========================================
+# SAMPLE CONTENT
+# =========================================
+
+uploaded_file = st.file_uploader(
+    "📂 Upload Dataset CSV",
+    type=["csv"]
+)
+
+if uploaded_file:
+
+    st.success("Dataset berhasil diupload")
