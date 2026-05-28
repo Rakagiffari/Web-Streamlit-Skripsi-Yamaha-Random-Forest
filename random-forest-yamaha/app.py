@@ -38,9 +38,7 @@ hari_indonesia = {
 
 hari = hari_indonesia[wib_now.strftime("%A")]
 
-tanggal = wib_now.strftime("%d-%m-%Y")
-
-jam = wib_now.strftime("%H:%M")
+tanggal_jam = wib_now.strftime("%d-%m-%Y | %H:%M")
 
 # =========================================
 # CUSTOM CSS
@@ -107,11 +105,6 @@ section[data-testid="stSidebar"]{
     text-align: center;
     transition: 0.3s ease;
     box-shadow: 0 0 15px rgba(0,0,0,0.25);
-    min-height: 170px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 /* =========================
@@ -129,7 +122,7 @@ section[data-testid="stSidebar"]{
 .metric-title{
     color: #94a3b8;
     font-size: 15px;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     font-weight: 600;
 }
 
@@ -140,26 +133,6 @@ section[data-testid="stSidebar"]{
     color: white;
     font-size: 30px;
     font-weight: 800;
-}
-
-/* =========================
-   DATE TEXT
-========================= */
-.date-text{
-    color: #cbd5e1;
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-
-/* =========================
-   TIME TEXT
-========================= */
-.time-text{
-    color: #ef4444;
-    font-size: 38px;
-    font-weight: 900;
-    letter-spacing: 2px;
 }
 
 /* =========================
@@ -232,75 +205,51 @@ st.markdown(
 # =========================================
 col1, col2, col3, col4 = st.columns(4)
 
-# =========================================
-# CARD 1
-# =========================================
 with col1:
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-title">
             Algoritma
         </div>
-
         <div class="metric-value">
             Random Forest
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-# =========================================
-# CARD 2
-# =========================================
 with col2:
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-title">
             Dataset
         </div>
-
         <div class="metric-value">
             CSV File
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-# =========================================
-# CARD 3
-# =========================================
 with col3:
     st.markdown(f"""
     <div class="metric-card">
-
         <div class="metric-title">
             Tanggal & Jam WIB
         </div>
-
-        <div class="date-text">
-            {tanggal}
+        <div class="metric-value" style="font-size:20px;">
+            {tanggal_jam}
         </div>
-
-        <div class="time-text">
-            {jam}
-        </div>
-
     </div>
     """, unsafe_allow_html=True)
 
-# =========================================
-# CARD 4
-# =========================================
 with col4:
     st.markdown(f"""
     <div class="metric-card">
-
         <div class="metric-title">
             Hari
         </div>
-
         <div class="metric-value">
             {hari}
         </div>
-
     </div>
     """, unsafe_allow_html=True)
 
