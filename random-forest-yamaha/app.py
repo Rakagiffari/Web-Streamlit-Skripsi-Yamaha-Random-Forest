@@ -27,13 +27,13 @@ utc_now = datetime.utcnow()
 wib_now = utc_now + timedelta(hours=7)
 
 hari_indonesia = {
-    "Monday": "Senin",
-    "Tuesday": "Selasa",
-    "Wednesday": "Rabu",
-    "Thursday": "Kamis",
-    "Friday": "Jumat",
-    "Saturday": "Sabtu",
-    "Sunday": "Minggu"
+    "Monday": "SENIN",
+    "Tuesday": "SELASA",
+    "Wednesday": "RABU",
+    "Thursday": "KAMIS",
+    "Friday": "JUMAT",
+    "Saturday": "SABTU",
+    "Sunday": "MINGGU"
 }
 
 hari = hari_indonesia[wib_now.strftime("%A")]
@@ -262,5 +262,7 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 # SUCCESS MESSAGE
 # =========================================
 st.success(
-    "Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
+    <div ="main-title">
+        "Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
+    </div>
 )
