@@ -19,11 +19,11 @@ if logo_path.exists():
     )
 
 st.sidebar.title(
-    "🏍️ Yamaha ML Dashboard"
+    "Yamaha Machine Learning Dashboard"
 )
 
 st.title(
-    "🏍️ Klasifikasi Layanan Servis Yamaha"
+    "Klasifikasi Layanan Servis Yamaha"
 )
 
 st.markdown("""
