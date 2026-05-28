@@ -2,24 +2,14 @@ import pandas as pd
 
 def preprocess_data(df):
 
-    # Hapus duplikat
+    # =========================
+    # HAPUS DUPLIKAT
+    # =========================
     df = df.drop_duplicates()
 
-    # Missing value kategori
-    categorical_cols = [
-        "Category",
-        "Brand",
-        "Model Name",
-        "Status"
-    ]
-
-    for col in categorical_cols:
-
-        if col in df.columns:
-
-            df[col] = df[col].fillna("Unknown")
-
-    # Missing value numerik
+    # =========================
+    # HANDLE MISSING VALUE
+    # =========================
     numeric_cols = [
         "Tahun Motor",
         "Last Kilometer"
@@ -38,20 +28,26 @@ def preprocess_data(df):
                 df[col].median()
             )
 
-    # Feature engineering
-    tahun_sekarang = 2026
-
+    # =========================
+    # FEATURE ENGINEERING
+    # =========================
     df["Usia Motor"] = (
-        tahun_sekarang - df["Tahun Motor"]
+        2026 - df["Tahun Motor"]
     )
 
-    # Target
+    # =========================
+    # TARGET
+    # =========================
     y = df["Service"].map({
+
         "Ringan": 0,
         "Berat": 1
+
     })
 
-    # Drop column
+    # =========================
+    # DROP KOLOM
+    # =========================
     drop_columns = [
 
         "Service",
@@ -61,22 +57,9 @@ def preprocess_data(df):
         "Telepon",
         "Invoice",
 
-        "Plate",
-        "Technical Name",
-
-        "Dealer",
-        "Point",
-        "YSS",
-        "Order",
-        "No Work Order",
-
-        "Reg Date",
-
         "Parts Name",
         "Parts Qty",
-        "Total Payment",
-
-        "Tahun Motor"
+        "Total Payment"
     ]
 
     X = df.drop(
@@ -84,7 +67,9 @@ def preprocess_data(df):
         errors='ignore'
     )
 
-    # One Hot Encoding
+    # =========================
+    # ONE HOT ENCODING
+    # =========================
     X = pd.get_dummies(
         X,
         drop_first=True
