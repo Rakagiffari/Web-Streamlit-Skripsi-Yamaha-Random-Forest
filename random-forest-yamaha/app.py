@@ -72,39 +72,30 @@ MAIN TITLE
 
     color: #111827;
 
-    margin-bottom: 20px;
-
     text-transform: uppercase;
 
     letter-spacing: 2px;
+
+    margin-bottom: 5px;
 }
 
 /* ========================================
-SUB TITLE RED BAR
+SUB TITLE
 ======================================== */
 
 .sub-title {
 
-    width: 100%;
-
-    background: #dc2626;
-
-    color: white;
-
     text-align: center;
 
-    padding: 20px;
+    font-size: 20px;
 
-    font-size: 18px;
+    color: #dc2626;
+
+    margin-top: -5px;
+
+    margin-bottom: 40px;
 
     font-weight: 600;
-
-    margin-bottom: 50px;
-
-    border-radius: 0px;
-
-    box-shadow:
-        0 8px 20px rgba(0,0,0,0.15);
 }
 
 /* ========================================
@@ -133,6 +124,8 @@ METRIC BUBBLE
 
     box-shadow:
         0 15px 35px rgba(0,0,0,0.25);
+
+    transition: 0.3s ease;
 }
 
 /* bubble effect */
@@ -154,6 +147,16 @@ METRIC BUBBLE
     top: -70px;
 
     right: -70px;
+}
+
+/* hover effect */
+
+.metric-box:hover {
+
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 25px 50px rgba(0,0,0,0.35);
 }
 
 /* metric title */
@@ -205,6 +208,8 @@ STATUS BOX
 
     padding: 25px;
 
+    border-radius: 22px;
+
     font-size: 18px;
 
     font-weight: 600;
@@ -246,7 +251,7 @@ UPLOAD FILE
 
     border: 2px dashed #dc2626;
 
-    border-radius: 0px;
+    border-radius: 20px;
 
     padding: 20px;
 
@@ -273,18 +278,25 @@ BUTTON
 
     border: none;
 
-    border-radius: 0px;
+    border-radius: 14px;
 
     padding: 14px 35px;
 
     font-weight: 700;
 
     font-size: 16px;
+
+    transition: 0.3s ease;
 }
 
 .stButton > button:hover {
 
     background-color: #b91c1c;
+
+    transform: scale(1.03);
+
+    box-shadow:
+        0 12px 25px rgba(0,0,0,0.20);
 }
 
 /* ========================================
@@ -293,7 +305,7 @@ DATAFRAME
 
 [data-testid="stDataFrame"] {
 
-    border-radius: 0px;
+    border-radius: 20px;
 
     overflow: hidden;
 
