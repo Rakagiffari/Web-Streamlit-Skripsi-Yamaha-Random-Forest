@@ -1,86 +1,37 @@
 import streamlit as st
 from pathlib import Path
 
-# =====================================
-# PAGE CONFIG
-# =====================================
 st.set_page_config(
     page_title="Yamaha Random Forest",
     page_icon="🏍️",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    layout="wide"
 )
 
-# =====================================
-# CUSTOM CSS
-# =====================================
-st.markdown("""
-<style>
-.main {
-    background-color: #F8F9FA;
-}
-
-.block-container {
-    padding-top: 2rem;
-}
-
-.metric-card {
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0px 3px 10px rgba(0,0,0,0.1);
-}
-
-.stButton>button {
-    background-color: #E60012;
-    color: white;
-    border-radius: 10px;
-    height: 50px;
-    width: 100%;
-    font-size: 18px;
-    border: none;
-}
-
-.stButton>button:hover {
-    background-color: #B8000E;
-}
-</style>
-""", unsafe_allow_html=True)
-
-# =====================================
-# LOAD LOGO
-# =====================================
 BASE_DIR = Path(__file__).parent
 
 logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
 
 if logo_path.exists():
+
     st.sidebar.image(
         str(logo_path),
         width=180
     )
-else:
-    st.sidebar.warning("Logo tidak ditemukan")
 
-# =====================================
-# SIDEBAR
-# =====================================
-st.sidebar.title("🏍️ Yamaha ML Dashboard")
+st.sidebar.title(
+    "🏍️ Yamaha ML Dashboard"
+)
 
-# =====================================
-# MAIN TITLE
-# =====================================
-st.title("🏍️ Klasifikasi Layanan Servis Yamaha")
+st.title(
+    "🏍️ Klasifikasi Layanan Servis Yamaha"
+)
 
 st.markdown("""
 ### Penerapan Algoritma Random Forest
 
-Sistem machine learning untuk klasifikasi layanan servis kendaraan Yamaha menggunakan algoritma Random Forest.
+Sistem machine learning untuk klasifikasi layanan servis kendaraan Yamaha.
 """)
 
-# =====================================
-# METRICS
-# =====================================
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
@@ -90,12 +41,11 @@ with col2:
     st.metric("Target", "2 Class")
 
 with col3:
-    st.metric("Kategori", "Service")
+    st.metric("Dataset", "CSV")
 
 with col4:
     st.metric("Status", "Ready")
 
-# =====================================
-# INFO
-# =====================================
-st.success("Gunakan sidebar untuk memulai analisis.")
+st.success(
+    "Gunakan menu sidebar untuk memulai."
+)
