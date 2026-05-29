@@ -7,7 +7,11 @@ from datetime import datetime, timedelta
 # PAGE CONFIG
 # =========================================
 BASE_DIR = Path(__file__).parent
+
 logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
+
+css_path = BASE_DIR / "global.css"
+
 logo = Image.open(logo_path)
 
 st.set_page_config(
@@ -18,157 +22,43 @@ st.set_page_config(
 )
 
 # =========================================
+# LOAD CSS
+# =========================================
+with open(css_path) as f:
+
+    st.markdown(
+        f"<style>{f.read()}</style>",
+        unsafe_allow_html=True
+    )
+
+# =========================================
 # DATE & TIME WIB
 # =========================================
-# Menggunakan datetime.now() alternatif untuk internal UTC jika diperlukan
 utc_now = datetime.utcnow()
+
 wib_now = utc_now + timedelta(hours=7)
+
 tanggal_jam = wib_now.strftime("%d-%m-%Y | %H:%M")
-
-# =========================================
-# LOAD GLOBAL.CSS
-# =========================================
-css_path = BASE_DIR / "global.css"
-if css_path.exists():
-    with open(css_path, "r") as f:
-        global_css = f.read()
-else:
-    global_css = ""
-
-# =========================================
-# CUSTOM CSS
-# =========================================
-st.markdown(f"""
-<style>
-/* Inject file global.css */
-{global_css}
-
-/* =========================
-   BACKGROUND
-========================= */
-.stApp{{
-    background-color: #020617;
-}}
-
-/* =========================
-   MAIN CONTAINER
-========================= */
-.block-container{{
-    padding-top: 1rem;
-    padding-bottom: 2rem;
-}}
-
-/* =========================
-   MAIN TITLE
-========================= */
-.main-title{{
-    text-align: center;
-    font-size: 58px;
-    font-weight: 900;
-    color: white;
-    line-height: 1.1;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
-}}
-
-/* =========================
-   DESCRIPTION
-========================= */
-.desc{{
-    text-align: center;
-    color: #cbd5e1;
-    font-size: 20px;
-    margin-top: 0px;
-    margin-bottom: 45px;
-}}
-
-/* =========================
-   METRIC CARD
-========================= */
-.metric-card{{
-    background: linear-gradient(145deg, #111827, #1e293b);
-    padding: 28px 20px;
-    border-radius: 22px;
-    border: 1px solid #334155;
-    text-align: center;
-    transition: 0.3s ease;
-    box-shadow: 0 0 15px rgba(0,0,0,0.25);
-    min-height: 150px;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-}}
-
-/* =========================
-   HOVER EFFECT
-========================= */
-.metric-card:hover{{
-    transform: translateY(-6px);
-    border: 1px solid #ef4444;
-    box-shadow: 0 0 20px rgba(239,68,68,0.25);
-}}
-
-/* =========================
-   METRIC TITLE
-========================= */
-.metric-title{{
-    color: #94a3b8;
-    font-size: 15px;
-    margin-bottom: 12px;
-    font-weight: 600;
-}}
-
-/* =========================
-   METRIC VALUE
-========================= */
-.metric-value{{
-    color: white;
-    font-size: 30px;
-    font-weight: 800;
-}}
-
-/* =========================
-   SUCCESS BOX
-========================= */
-.stAlert{{
-    border-radius: 15px;
-}}
-
-/* =========================
-   HIDE STREAMLIT MENU
-========================= */
-#MainMenu{{
-    visibility: hidden;
-}}
-
-footer{{
-    visibility: hidden;
-}}
-
-header{{
-    visibility: hidden;
-}}
-
-</style>
-""", unsafe_allow_html=True)
 
 # =========================================
 # SPACE TOP
 # =========================================
-st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
+st.markdown(
+    "<div style='margin-top:10px;'></div>",
+    unsafe_allow_html=True
+)
 
 # =========================================
 # CENTER LOGO
 # =========================================
-col1, col2, col3 = st.columns([2,1,2])
+left_space, center_logo, right_space = st.columns([1.5,1,1.5])
 
-with col2:
-    if logo_path.exists():
-        st.image(str(logo_path), width=220)
-    else:
-        st.warning("Logo tidak ditemukan di folder assets/")
+with center_logo:
+
+    st.image(
+        str(logo_path),
+        width=210
+    )
 
 # =========================================
 # MAIN TITLE
@@ -195,45 +85,75 @@ st.markdown(
 )
 
 # =========================================
-# 3 CENTER CARDS
+# CARD SECTION
 # =========================================
-space1, col1, col2, col3, space2 = st.columns([0.7,1,1,1,0.7])
+space1, col1, col2, col3, space2 = st.columns([0.5,1,1,1,0.5])
 
+# =========================================
+# CARD 1
+# =========================================
 with col1:
-    st.markdown(f"""
-    <div class="metric-card">
-        <div class="metric-title">
-            Algoritma
-        </div>
-        <div class="metric-value">
-            Random Forest
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
 
+    st.markdown(
+        f"""
+        <div class="metric-card">
+
+            <div class="metric-title">
+                Algoritma
+            </div>
+
+            <div class="metric-value">
+                Random Forest
+            </div>
+
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+# =========================================
+# CARD 2
+# =========================================
 with col2:
-    st.markdown(f"""
-    <div class="metric-card">
-        <div class="metric-title">
-            Dataset
-        </div>
-        <div class="metric-value">
-            CSV File
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
 
+    st.markdown(
+        f"""
+        <div class="metric-card">
+
+            <div class="metric-title">
+                Dataset
+            </div>
+
+            <div class="metric-value">
+                CSV File
+            </div>
+
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+# =========================================
+# CARD 3
+# =========================================
 with col3:
-    st.markdown(f"""
-    <div class="metric-card">
-        <div class="metric-title">
-            Tanggal & Jam WIB
+
+    st.markdown(
+        f"""
+        <div class="metric-card">
+
+            <div class="metric-title">
+                Tanggal & Jam WIB
+            </div>
+
+            <div class="metric-value" style="font-size:20px;">
+                {tanggal_jam}
+            </div>
+
         </div>
-        <div class="metric-value" style="font-size:20px;">
-            {tanggal_jam}
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True
+    )
 
 # =========================================
 # SPACE
@@ -241,7 +161,7 @@ with col3:
 st.markdown("<br><br>", unsafe_allow_html=True)
 
 # =========================================
-# SUCCESS MESSAGE
+# SUCCESS BOX
 # =========================================
 st.success(
     "ⓘ Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
