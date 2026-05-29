@@ -1,137 +1,116 @@
 # =========================================
-# utils/preprocessing.py
+# utils/training.py
 # =========================================
 
-import pandas as pd
+from sklearn.model_selection import train_test_split
 
+from sklearn.ensemble import RandomForestClassifier
 
-def preprocess_data(df):
+from sklearn.metrics import (
 
-    # =====================================
-    # HAPUS DUPLIKAT
-    # =====================================
+    accuracy_score,
+    classification_report,
+    confusion_matrix,
 
-    df = df.drop_duplicates()
+    precision_score,
+    recall_score,
+    f1_score
+)
 
-    # =====================================
-    # HANDLE MISSING VALUE
-    # =====================================
-
-    categorical_cols = [
-
-        "Category",
-        "Brand",
-        "Model Name",
-        "Status"
-
-    ]
-
-    for col in categorical_cols:
-
-        if col in df.columns:
-
-            df[col] = df[col].fillna("Unknown")
+def train_model(X, y):
 
     # =====================================
-    # HANDLE NUMERIC
+    # SPLIT DATA
     # =====================================
 
-    numeric_cols = [
-
-        "Tahun Motor",
-        "Last Kilometer"
-
-    ]
-
-    for col in numeric_cols:
-
-        if col in df.columns:
-
-            df[col] = pd.to_numeric(
-                df[col],
-                errors='coerce'
-            )
-
-            df[col] = df[col].fillna(
-                df[col].median()
-            )
-
-    # =====================================
-    # FEATURE ENGINEERING
-    # =====================================
-
-    tahun_sekarang = 2026
-
-    df["Usia Motor"] = (
-        tahun_sekarang - df["Tahun Motor"]
-    )
-
-    # =====================================
-    # TARGET
-    # =====================================
-
-    y = df["Service"].map({
-
-        "Ringan": 0,
-        "Berat": 1
-
-    })
-
-    # =====================================
-    # DROP COLUMN
-    # =====================================
-
-    drop_columns = [
-
-        # TARGET
-        "Service",
-
-        # IDENTITAS
-        "Nama",
-        "KTP",
-        "Telepon",
-        "Invoice",
-        "Plate",
-        "Technical Name",
-
-        # TIDAK PENTING
-        "Dealer",
-        "Point",
-        "YSS",
-        "Order",
-        "No Work Order",
-
-        # TANGGAL
-        "Reg Date",
-
-        # DATA LEAKAGE
-        "Parts Name",
-        "Parts Qty",
-        "Total Payment",
-
-        # SUDAH DIGANTI
-        "Tahun Motor"
-    ]
-
-    # =====================================
-    # FEATURES
-    # =====================================
-
-    X = df.drop(
-        columns=drop_columns,
-        errors='ignore'
-    )
-
-    # =====================================
-    # ONE HOT ENCODING
-    # =====================================
-
-    X = pd.get_dummies(
+    X_train, X_test, y_train, y_test = train_test_split(
 
         X,
+        y,
 
-        drop_first=True
+        test_size=0.2,
 
+        random_state=42,
+
+        stratify=y
     )
 
-    return X, y
+    # =====================================
+    # RANDOM FOREST
+    # =====================================
+
+    rf = RandomForestClassifier(
+
+        n_estimators=300,
+
+        max_depth=20,
+
+        min_samples_split=2,
+
+        min_samples_leaf=1,
+
+        class_weight='balanced',
+
+        random_state=42,
+
+        n_jobs=-1
+    )
+
+    # =====================================
+    # TRAINING
+    # =====================================
+
+    rf.fit(X_train, y_train)
+
+    # =====================================
+    # PREDIKSI
+    # =====================================
+
+    y_pred = rf.predict(X_test)
+
+    # =====================================
+    # EVALUASI
+    # =====================================
+
+    accuracy = accuracy_score(
+        y_test,
+        y_pred
+    )
+
+    precision = precision_score(
+        y_test,
+        y_pred
+    )
+
+    recall = recall_score(
+        y_test,
+        y_pred
+    )
+
+    f1 = f1_score(
+        y_test,
+        y_pred
+    )
+
+    report = classification_report(
+        y_test,
+        y_pred
+    )
+
+    matrix = confusion_matrix(
+        y_test,
+        y_pred
+    )
+
+    return (
+
+        rf,
+
+        accuracy,
+        precision,
+        recall,
+        f1,
+
+        report,
+        matrix
+    )
