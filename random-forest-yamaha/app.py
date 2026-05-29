@@ -34,32 +34,192 @@ tanggal_jam = wib_now.strftime("%d-%m-%Y | %H:%M")
 st.markdown("""
 <style>
 
-/* =========================
-   BACKGROUND
-========================= */
+/* =========================================
+BACKGROUND
+========================================= */
 .stApp{
     background-color: #020617;
 }
 
-/* =========================
-   SIDEBAR
-========================= */
-section[data-testid="stSidebar"]{
-    background-color: #0f172a;
-    border-right: 1px solid #1e293b;
+/* =========================================
+SIDEBAR
+========================================= */
+section[data-testid="stSidebar"] {
+
+    min-width: 290px !important;
+    max-width: 290px !important;
+
+    background:
+        linear-gradient(
+            180deg,
+            #020617 0%,
+            #081225 50%,
+            #0f172a 100%
+        );
+
+    border-right: 1px solid rgba(255,255,255,0.05);
+
+    box-shadow:
+        4px 0 25px rgba(0,0,0,0.35);
 }
 
-/* =========================
-   MAIN CONTAINER
-========================= */
+/* =========================================
+SIDEBAR CONTENT
+========================================= */
+[data-testid="stSidebarContent"] {
+
+    padding-top: 22px;
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-bottom: 20px;
+}
+
+/* =========================================
+SIDEBAR TITLE
+========================================= */
+[data-testid="stSidebarNav"]::before {
+
+    content: "YAMAHA AI SYSTEM";
+
+    display: block;
+
+    text-align: center;
+
+    color: white;
+
+    font-size: 24px;
+
+    font-weight: 900;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 28px;
+
+    padding: 18px;
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(239,68,68,0.18),
+            rgba(239,68,68,0.04)
+        );
+
+    border:
+        1px solid rgba(239,68,68,0.20);
+
+    box-shadow:
+        0 0 25px rgba(239,68,68,0.12);
+}
+
+/* =========================================
+MENU LIST
+========================================= */
+[data-testid="stSidebarNav"] ul {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+}
+
+/* =========================================
+BUBBLE MENU
+========================================= */
+[data-testid="stSidebarNav"] li {
+
+    list-style: none;
+
+    border-radius: 999px;
+
+    overflow: hidden;
+
+    background:
+        rgba(255,255,255,0.04);
+
+    border:
+        1px solid rgba(255,255,255,0.06);
+
+    backdrop-filter: blur(10px);
+
+    transition:
+        all 0.25s ease;
+
+    box-shadow:
+        0 4px 14px rgba(0,0,0,0.22);
+}
+
+/* =========================================
+MENU HOVER
+========================================= */
+[data-testid="stSidebarNav"] li:hover {
+
+    transform:
+        translateX(6px)
+        scale(1.02);
+
+    background:
+        rgba(255,255,255,0.08);
+
+    border:
+        1px solid rgba(239,68,68,0.30);
+
+    box-shadow:
+        0 0 18px rgba(239,68,68,0.16);
+}
+
+/* =========================================
+ACTIVE MENU
+========================================= */
+[data-testid="stSidebarNav"] li:has([aria-current="page"]) {
+
+    background:
+        linear-gradient(
+            90deg,
+            #ef4444,
+            #b91c1c
+        );
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 0 24px rgba(239,68,68,0.30);
+}
+
+/* =========================================
+MENU LINK
+========================================= */
+[data-testid="stSidebarNav"] a {
+
+    color: white !important;
+
+    font-size: 15px !important;
+
+    font-weight: 700 !important;
+
+    padding:
+        15px 22px;
+
+    border-radius: 999px;
+
+    text-decoration: none;
+
+    transition: all 0.2s ease;
+}
+
+/* =========================================
+MAIN CONTAINER
+========================================= */
 .block-container{
     padding-top: 1rem;
     padding-bottom: 2rem;
 }
 
-/* =========================
-   MAIN TITLE
-========================= */
+/* =========================================
+MAIN TITLE
+========================================= */
 .main-title{
     text-align: center;
     font-size: 58px;
@@ -71,9 +231,9 @@ section[data-testid="stSidebar"]{
     letter-spacing: 1px;
 }
 
-/* =========================
-   DESCRIPTION
-========================= */
+/* =========================================
+DESCRIPTION
+========================================= */
 .desc{
     text-align: center;
     color: #cbd5e1;
@@ -82,62 +242,96 @@ section[data-testid="stSidebar"]{
     margin-bottom: 45px;
 }
 
-/* =========================
-   METRIC CARD
-========================= */
+/* =========================================
+METRIC CARD
+========================================= */
 .metric-card{
-    background: linear-gradient(145deg, #111827, #1e293b);
+
+    background:
+        linear-gradient(
+            145deg,
+            #111827,
+            #1e293b
+        );
+
     padding: 28px 20px;
-    border-radius: 22px;
-    border: 1px solid #334155;
+
+    border-radius: 24px;
+
+    border:
+        1px solid #334155;
+
     text-align: center;
+
     transition: 0.3s ease;
-    box-shadow: 0 0 15px rgba(0,0,0,0.25);
-    min-height: 150px;
+
+    box-shadow:
+        0 0 18px rgba(0,0,0,0.30);
+
+    min-height: 160px;
 
     display:flex;
     flex-direction:column;
     justify-content:center;
 }
 
-/* =========================
-   HOVER EFFECT
-========================= */
+/* =========================================
+HOVER EFFECT
+========================================= */
 .metric-card:hover{
-    transform: translateY(-6px);
-    border: 1px solid #ef4444;
-    box-shadow: 0 0 20px rgba(239,68,68,0.25);
+
+    transform: translateY(-8px);
+
+    border:
+        1px solid #ef4444;
+
+    box-shadow:
+        0 0 22px rgba(239,68,68,0.20);
 }
 
-/* =========================
-   METRIC TITLE
-========================= */
+/* =========================================
+METRIC TITLE
+========================================= */
 .metric-title{
+
     color: #94a3b8;
+
     font-size: 15px;
+
     margin-bottom: 12px;
+
     font-weight: 600;
 }
 
-/* =========================
-   METRIC VALUE
-========================= */
+/* =========================================
+METRIC VALUE
+========================================= */
 .metric-value{
+
     color: white;
+
     font-size: 30px;
+
     font-weight: 800;
 }
 
-/* =========================
-   SUCCESS BOX
-========================= */
+/* =========================================
+SUCCESS BOX
+========================================= */
 .stAlert{
-    border-radius: 15px;
+
+    border-radius: 18px;
+
+    background:
+        rgba(15,23,42,0.75);
+
+    border:
+        1px solid rgba(239,68,68,0.18);
 }
 
-/* =========================
-   HIDE STREAMLIT MENU
-========================= */
+/* =========================================
+HIDE STREAMLIT
+========================================= */
 #MainMenu{
     visibility: hidden;
 }
@@ -154,6 +348,39 @@ header{
 """, unsafe_allow_html=True)
 
 # =========================================
+# SIDEBAR EXTRA
+# =========================================
+with st.sidebar:
+
+    st.markdown("""
+    <div style="
+        margin-top:-10px;
+        margin-bottom:25px;
+        padding:18px;
+        border-radius:22px;
+        background:rgba(255,255,255,0.04);
+        border:1px solid rgba(255,255,255,0.06);
+        text-align:center;
+    ">
+        <div style="
+            color:white;
+            font-size:17px;
+            font-weight:800;
+            margin-bottom:6px;
+        ">
+            RANDOM FOREST
+        </div>
+
+        <div style="
+            color:#94a3b8;
+            font-size:13px;
+        ">
+            Machine Learning Dashboard
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+# =========================================
 # SPACE TOP
 # =========================================
 st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
@@ -166,7 +393,7 @@ col1, col2, col3 = st.columns([2,1,2])
 with col2:
     st.image(
         str(logo_path),
-        width=220
+        width=210
     )
 
 # =========================================
@@ -194,7 +421,7 @@ st.markdown(
 )
 
 # =========================================
-# 3 CENTER CARDS
+# METRIC CARDS
 # =========================================
 space1, col1, col2, col3, space2 = st.columns([0.7,1,1,1,0.7])
 
@@ -204,6 +431,7 @@ with col1:
         <div class="metric-title">
             Algoritma
         </div>
+
         <div class="metric-value">
             Random Forest
         </div>
@@ -216,6 +444,7 @@ with col2:
         <div class="metric-title">
             Dataset
         </div>
+
         <div class="metric-value">
             CSV File
         </div>
@@ -228,6 +457,7 @@ with col3:
         <div class="metric-title">
             Tanggal & Jam WIB
         </div>
+
         <div class="metric-value" style="font-size:20px;">
             {tanggal_jam}
         </div>
