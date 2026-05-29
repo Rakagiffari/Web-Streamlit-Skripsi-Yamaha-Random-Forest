@@ -42,14 +42,6 @@ st.markdown("""
 }
 
 /* =========================
-   SIDEBAR
-========================= */
-section[data-testid="stSidebar"]{
-    background-color: #0f172a;
-    border-right: 1px solid #1e293b;
-}
-
-/* =========================
    MAIN CONTAINER
 ========================= */
 .block-container{
