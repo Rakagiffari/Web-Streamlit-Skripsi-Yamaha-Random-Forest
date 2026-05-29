@@ -252,25 +252,27 @@ METRIC CARD
     background:
         linear-gradient(
             145deg,
-            #111827,
+            #0f172a,
             #1e293b
         );
 
-    padding: 20px 16px;
+    padding: 16px 14px;
 
-    border-radius: 18px;
+    border-radius: 16px;
 
     border:
-        1px solid #334155;
+        1px solid rgba(255,255,255,0.06);
 
     text-align: center;
 
-    transition: 0.25s ease;
+    transition: 0.22s ease;
 
-    min-height: 125px;
+    min-height: 105px;
 
     display:flex;
+
     flex-direction:column;
+
     justify-content:center;
 }
 
@@ -279,13 +281,13 @@ CARD HOVER
 ========================================= */
 .metric-card:hover{
 
-    transform: translateY(-5px);
+    transform: translateY(-4px);
 
     border:
-        1px solid #ef4444;
+        1px solid rgba(239,68,68,0.30);
 
     box-shadow:
-        0 0 18px rgba(239,68,68,0.15);
+        0 0 14px rgba(239,68,68,0.10);
 }
 
 /* =========================================
@@ -295,11 +297,13 @@ CARD TITLE
 
     color: #94a3b8;
 
-    font-size: 13px;
-
-    margin-bottom: 10px;
+    font-size: 12px;
 
     font-weight: 600;
+
+    margin-bottom: 8px;
+
+    letter-spacing: 0.3px;
 }
 
 /* =========================================
@@ -309,9 +313,21 @@ CARD VALUE
 
     color: white;
 
-    font-size: 23px;
+    font-size: 19px;
 
     font-weight: 800;
+
+    line-height: 1.2;
+
+    margin: 0;
+}
+
+/* =========================================
+TIME VALUE
+========================================= */
+.time-value{
+
+    font-size: 15px;
 }
 
 /* =========================================
@@ -342,7 +358,7 @@ RESPONSIVE
     }
 
     .metric-value{
-        font-size: 20px !important;
+        font-size: 18px !important;
     }
 }
 
@@ -454,7 +470,7 @@ st.markdown(
 # METRIC CARDS
 # =========================================
 space1, col1, col2, col3, space2 = st.columns(
-    [0.7,1,1,1,0.7]
+    [1.2,0.9,0.9,0.9,1.2]
 )
 
 # =========================================
@@ -464,15 +480,8 @@ with col1:
 
     st.markdown("""
     <div class="metric-card">
-
-        <div class="metric-title">
-            Algoritma
-        </div>
-
-        <div class="metric-value">
-            Random Forest
-        </div>
-
+        <p class="metric-title">Algoritma</p>
+        <p class="metric-value">Random Forest</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -483,15 +492,8 @@ with col2:
 
     st.markdown("""
     <div class="metric-card">
-
-        <div class="metric-title">
-            Dataset
-        </div>
-
-        <div class="metric-value">
-            CSV File
-        </div>
-
+        <p class="metric-title">Dataset</p>
+        <p class="metric-value">CSV File</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -502,15 +504,8 @@ with col3:
 
     st.markdown(f"""
     <div class="metric-card">
-
-        <div class="metric-title">
-            Tanggal & Jam WIB
-        </div>
-
-        <div class="metric-value" style="font-size:18px;">
-            {tanggal_jam}
-        </div>
-
+        <p class="metric-title">Tanggal & Jam WIB</p>
+        <p class="metric-value time-value">{tanggal_jam}</p>
     </div>
     """, unsafe_allow_html=True)
 
