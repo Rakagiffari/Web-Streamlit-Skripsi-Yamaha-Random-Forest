@@ -1,13 +1,6 @@
-/* =========================================
-BACKGROUND
-========================================= */
-.stApp{
-    background-color: #020617;
-}
-
-/* =========================================
-SIDEBAR
-========================================= */
+/* ========================================
+SIDEBAR WIDTH
+======================================== */
 section[data-testid="stSidebar"] {
 
     min-width: 250px !important;
@@ -22,9 +15,9 @@ section[data-testid="stSidebar"] {
     border-right: 1px solid rgba(255,255,255,0.08);
 }
 
-/* =========================================
+/* ========================================
 SIDEBAR CONTENT
-========================================= */
+======================================== */
 [data-testid="stSidebarContent"] {
 
     padding-top: 15px;
@@ -32,9 +25,9 @@ SIDEBAR CONTENT
     padding-right: 12px;
 }
 
-/* =========================================
+/* ========================================
 SIDEBAR TITLE
-========================================= */
+======================================== */
 [data-testid="stSidebarNav"]::before {
 
     content: "YAMAHA MENU";
@@ -54,9 +47,9 @@ SIDEBAR TITLE
     letter-spacing: 1px;
 }
 
-/* =========================================
+/* ========================================
 MENU LIST
-========================================= */
+======================================== */
 [data-testid="stSidebarNav"] ul {
 
     display: flex;
@@ -64,9 +57,9 @@ MENU LIST
     gap: 10px;
 }
 
-/* =========================================
+/* ========================================
 MENU CARD
-========================================= */
+======================================== */
 [data-testid="stSidebarNav"] li {
 
     background: rgba(255,255,255,0.04);
@@ -78,9 +71,9 @@ MENU CARD
     transition: all 0.25s ease;
 }
 
-/* =========================================
+/* ========================================
 MENU HOVER
-========================================= */
+======================================== */
 [data-testid="stSidebarNav"] li:hover {
 
     background: rgba(255,255,255,0.10);
@@ -90,9 +83,9 @@ MENU HOVER
     transform: translateX(3px);
 }
 
-/* =========================================
+/* ========================================
 ACTIVE PAGE
-========================================= */
+======================================== */
 [data-testid="stSidebarNav"] li:has([aria-current="page"]) {
 
     background: linear-gradient(
@@ -106,9 +99,9 @@ ACTIVE PAGE
     box-shadow: 0 0 15px rgba(239,68,68,0.30);
 }
 
-/* =========================================
+/* ========================================
 MENU TEXT
-========================================= */
+======================================== */
 [data-testid="stSidebarNav"] a {
 
     color: white !important;
@@ -122,9 +115,9 @@ MENU TEXT
     text-decoration: none;
 }
 
-/* =========================================
+/* ========================================
 ABOUT MENU BOTTOM
-========================================= */
+======================================== */
 [data-testid="stSidebarNav"] {
 
     display: flex;
@@ -142,140 +135,9 @@ ABOUT MENU BOTTOM
     margin-top: auto;
 }
 
-/* =========================================
-MAIN CONTAINER
-========================================= */
-.block-container{
-
-    padding-top: 1rem;
-    padding-bottom: 2rem;
-}
-
-/* =========================================
-MAIN TITLE
-========================================= */
-.main-title{
-
-    text-align: center;
-
-    font-size: 58px;
-
-    font-weight: 900;
-
-    color: white;
-
-    line-height: 1.1;
-
-    margin-top: 5px;
-
-    margin-bottom: 10px;
-
-    letter-spacing: 1px;
-}
-
-/* =========================================
-DESCRIPTION
-========================================= */
-.desc{
-
-    text-align: center;
-
-    color: #cbd5e1;
-
-    font-size: 20px;
-
-    margin-top: 0px;
-
-    margin-bottom: 45px;
-}
-
-/* =========================================
-METRIC CARD
-========================================= */
-.metric-card{
-
-    background: linear-gradient(
-        145deg,
-        #111827,
-        #1e293b
-    );
-
-    padding: 28px 20px;
-
-    border-radius: 22px;
-
-    border: 1px solid #334155;
-
-    text-align: center;
-
-    transition: 0.3s ease;
-
-    box-shadow: 0 0 15px rgba(0,0,0,0.25);
-
-    min-height: 150px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-}
-
-/* =========================================
-CARD HOVER
-========================================= */
-.metric-card:hover{
-
-    transform: translateY(-6px);
-
-    border: 1px solid #ef4444;
-
-    box-shadow: 0 0 20px rgba(239,68,68,0.25);
-}
-
-/* =========================================
-METRIC TITLE
-========================================= */
-.metric-title{
-
-    color: #94a3b8;
-
-    font-size: 15px;
-
-    margin-bottom: 12px;
-
-    font-weight: 600;
-}
-
-/* =========================================
-METRIC VALUE
-========================================= */
-.metric-value{
-
-    color: white;
-
-    font-size: 30px;
-
-    font-weight: 800;
-}
-
-/* =========================================
-SUCCESS BOX
-========================================= */
-.stAlert{
-
-    background: rgba(34,197,94,0.25);
-
-    border: 1px solid rgba(34,197,94,0.45);
-
-    border-radius: 16px;
-
-    color: white;
-}
-
-/* =========================================
+/* ========================================
 SCROLLBAR
-========================================= */
+======================================== */
 ::-webkit-scrollbar {
 
     width: 6px;
@@ -286,22 +148,4 @@ SCROLLBAR
     background: #475569;
 
     border-radius: 10px;
-}
-
-/* =========================================
-HIDE STREAMLIT
-========================================= */
-#MainMenu{
-
-    visibility: hidden;
-}
-
-footer{
-
-    visibility: hidden;
-}
-
-header{
-
-    visibility: hidden;
 }
