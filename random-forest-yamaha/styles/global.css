@@ -53,14 +53,6 @@ SIDEBAR TITLE
 }
 
 /* ========================================
-NAVIGATION CONTAINER
-======================================== */
-[data-testid="stSidebarNav"] {
-
-    flex-grow: 1;
-}
-
-/* ========================================
 MENU LIST
 ======================================== */
 [data-testid="stSidebarNav"] ul {
@@ -148,37 +140,4 @@ ABOUT MENU -> BOTTOM
     background: rgba(255,255,255,0.04);
 
     border: 1px solid rgba(255,255,255,0.06);
-}
-
-/* ========================================
-REMOVE DEFAULT STREAMLIT
-======================================== */
-#MainMenu {
-
-    visibility: hidden;
-}
-
-header {
-
-    visibility: hidden;
-}
-
-footer {
-
-    visibility: hidden;
-}
-
-/* ========================================
-SCROLLBAR
-======================================== */
-::-webkit-scrollbar {
-
-    width: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-
-    background: #666;
-
-    border-radius: 10px;
 }
