@@ -17,7 +17,6 @@ from sklearn.metrics import (
     f1_score
 )
 
-
 def train_model(X, y):
 
     # =====================================
@@ -44,11 +43,11 @@ def train_model(X, y):
 
         n_estimators=300,
 
-        max_depth=15,
+        max_depth=20,
 
-        min_samples_split=5,
+        min_samples_split=2,
 
-        min_samples_leaf=2,
+        min_samples_leaf=1,
 
         class_weight='balanced',
 
@@ -103,18 +102,6 @@ def train_model(X, y):
         y_pred
     )
 
-    # =====================================
-    # FEATURE IMPORTANCE
-    # =====================================
-
-    feature_importance = {
-
-        "feature_names": X.columns.tolist(),
-
-        "importance_values": rf.feature_importances_
-
-    }
-
     return (
 
         rf,
@@ -125,7 +112,5 @@ def train_model(X, y):
         f1,
 
         report,
-        matrix,
-
-        feature_importance
+        matrix
     )
