@@ -35,7 +35,7 @@ SIDEBAR TITLE
 ======================================== */
 [data-testid="stSidebarNav"]::before {
 
-    content: "YAMAHA MENU";
+    content: "MENU";
 
     display: block;
 
