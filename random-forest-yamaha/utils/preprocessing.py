@@ -4,11 +4,13 @@
 
 import pandas as pd
 
+
 def preprocess_data(df):
 
     # =====================================
     # HAPUS DUPLIKAT
     # =====================================
+
     df = df.drop_duplicates()
 
     # =====================================
@@ -28,9 +30,11 @@ def preprocess_data(df):
 
         if col in df.columns:
 
-            df[col] = df[col].fillna(
-                "Unknown"
-            )
+            df[col] = df[col].fillna("Unknown")
+
+    # =====================================
+    # HANDLE NUMERIK
+    # =====================================
 
     numeric_cols = [
 
@@ -66,7 +70,9 @@ def preprocess_data(df):
     # TARGET
     # =====================================
 
-    y = df["Service"].map({
+    target = "Service"
+
+    y = df[target].map({
 
         "Ringan": 0,
         "Berat": 1
@@ -90,7 +96,7 @@ def preprocess_data(df):
         "Plate",
         "Technical Name",
 
-        # TIDAK PENTING
+        # KOLOM TIDAK PENTING
         "Dealer",
         "Point",
         "YSS",
@@ -109,6 +115,10 @@ def preprocess_data(df):
         "Tahun Motor"
     ]
 
+    # =====================================
+    # FITUR
+    # =====================================
+
     X = df.drop(
         columns=drop_columns,
         errors='ignore'
@@ -119,8 +129,11 @@ def preprocess_data(df):
     # =====================================
 
     X = pd.get_dummies(
+
         X,
+
         drop_first=True
+
     )
 
     return X, y
