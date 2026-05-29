@@ -46,8 +46,8 @@ SIDEBAR
 ========================================= */
 section[data-testid="stSidebar"] {
 
-    min-width: 250px !important;
-    max-width: 250px !important;
+    min-width: 220px !important;
+    max-width: 220px !important;
 
     background:
         linear-gradient(
@@ -66,8 +66,8 @@ SIDEBAR CONTENT
 [data-testid="stSidebarContent"] {
 
     padding-top: 18px;
-    padding-left: 14px;
-    padding-right: 14px;
+    padding-left: 12px;
+    padding-right: 12px;
     padding-bottom: 18px;
 }
 
@@ -82,15 +82,15 @@ MENU TITLE
 
     color: white;
 
-    font-size: 22px;
+    font-size: 18px;
 
     font-weight: 800;
 
+    margin-bottom: 14px;
+
+    padding-left: 4px;
+
     letter-spacing: 1px;
-
-    margin-bottom: 18px;
-
-    padding-left: 6px;
 }
 
 /* =========================================
@@ -101,7 +101,7 @@ MENU LIST
     display: flex;
     flex-direction: column;
 
-    gap: 10px;
+    gap: 7px;
 
     height: 100%;
 }
@@ -111,20 +111,18 @@ MENU ITEM
 ========================================= */
 [data-testid="stSidebarNav"] li {
 
-    list-style: none;
-
-    border-radius: 14px;
+    border-radius: 11px;
 
     overflow: hidden;
 
     background:
-        rgba(255,255,255,0.03);
+        rgba(255,255,255,0.025);
 
     border:
-        1px solid rgba(255,255,255,0.05);
+        1px solid rgba(255,255,255,0.04);
 
     transition:
-        all 0.2s ease;
+        all 0.18s ease;
 }
 
 /* =========================================
@@ -132,13 +130,13 @@ MENU HOVER
 ========================================= */
 [data-testid="stSidebarNav"] li:hover {
 
-    transform: translateX(4px);
+    transform: translateX(3px);
 
     background:
-        rgba(255,255,255,0.06);
+        rgba(255,255,255,0.05);
 
     border:
-        1px solid rgba(239,68,68,0.25);
+        1px solid rgba(239,68,68,0.18);
 }
 
 /* =========================================
@@ -153,11 +151,8 @@ ACTIVE MENU
             #dc2626
         );
 
-    border:
-        1px solid rgba(255,255,255,0.08);
-
     box-shadow:
-        0 0 16px rgba(239,68,68,0.18);
+        0 0 12px rgba(239,68,68,0.15);
 }
 
 /* =========================================
@@ -167,11 +162,11 @@ MENU LINK
 
     color: white !important;
 
-    font-size: 14px !important;
+    font-size: 12.5px !important;
 
     font-weight: 700 !important;
 
-    padding: 14px 16px;
+    padding: 11px 14px;
 
     text-decoration: none;
 }
@@ -186,7 +181,7 @@ ABOUT MENU BOTTOM
     border-top:
         1px solid rgba(255,255,255,0.08);
 
-    padding-top: 8px;
+    padding-top: 6px;
 
     border-radius: 0;
 }
@@ -246,11 +241,11 @@ DESCRIPTION
 
     margin-top: 0px;
 
-    margin-bottom: 40px;
+    margin-bottom: 38px;
 }
 
 /* =========================================
-CARD
+METRIC CARD
 ========================================= */
 .metric-card{
 
@@ -261,18 +256,18 @@ CARD
             #1e293b
         );
 
-    padding: 24px 18px;
+    padding: 20px 16px;
 
-    border-radius: 22px;
+    border-radius: 18px;
 
     border:
         1px solid #334155;
 
     text-align: center;
 
-    transition: 0.3s ease;
+    transition: 0.25s ease;
 
-    min-height: 145px;
+    min-height: 125px;
 
     display:flex;
     flex-direction:column;
@@ -290,7 +285,7 @@ CARD HOVER
         1px solid #ef4444;
 
     box-shadow:
-        0 0 20px rgba(239,68,68,0.15);
+        0 0 18px rgba(239,68,68,0.15);
 }
 
 /* =========================================
@@ -300,9 +295,9 @@ CARD TITLE
 
     color: #94a3b8;
 
-    font-size: 14px;
+    font-size: 13px;
 
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 
     font-weight: 600;
 }
@@ -314,7 +309,7 @@ CARD VALUE
 
     color: white;
 
-    font-size: 24px;
+    font-size: 23px;
 
     font-weight: 800;
 }
@@ -324,7 +319,7 @@ SUCCESS BOX
 ========================================= */
 .stAlert{
 
-    border-radius: 16px;
+    border-radius: 14px;
 
     background:
         rgba(15,23,42,0.75);
@@ -339,7 +334,7 @@ RESPONSIVE
 @media (max-width: 1200px){
 
     .main-title{
-        font-size: 42px !important;
+        font-size: 40px !important;
     }
 
     .desc{
@@ -354,17 +349,17 @@ RESPONSIVE
 @media (max-width: 900px){
 
     .main-title{
-        font-size: 34px !important;
+        font-size: 32px !important;
     }
 
     .desc{
-        font-size: 15px !important;
+        font-size: 14px !important;
     }
 
     section[data-testid="stSidebar"] {
 
-        min-width: 220px !important;
-        max-width: 220px !important;
+        min-width: 200px !important;
+        max-width: 200px !important;
     }
 }
 
@@ -423,7 +418,7 @@ with col2:
 
     st.image(
         str(logo_path),
-        width=150
+        width=145
     )
 
     st.markdown(
@@ -459,7 +454,7 @@ st.markdown(
 # METRIC CARDS
 # =========================================
 space1, col1, col2, col3, space2 = st.columns(
-    [0.5,1,1,1,0.5]
+    [0.7,1,1,1,0.7]
 )
 
 # =========================================
@@ -467,7 +462,7 @@ space1, col1, col2, col3, space2 = st.columns(
 # =========================================
 with col1:
 
-    st.markdown(f"""
+    st.markdown("""
     <div class="metric-card">
 
         <div class="metric-title">
@@ -486,7 +481,7 @@ with col1:
 # =========================================
 with col2:
 
-    st.markdown(f"""
+    st.markdown("""
     <div class="metric-card">
 
         <div class="metric-title">
@@ -512,7 +507,7 @@ with col3:
             Tanggal & Jam WIB
         </div>
 
-        <div class="metric-value" style="font-size:20px;">
+        <div class="metric-value" style="font-size:18px;">
             {tanggal_jam}
         </div>
 
