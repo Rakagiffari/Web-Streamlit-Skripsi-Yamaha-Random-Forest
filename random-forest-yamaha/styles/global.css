@@ -1,10 +1,10 @@
 /* ========================================
 SIDEBAR FIXED SIZE
 ======================================== */
-[data-testid="stSidebar"] {
+section[data-testid="stSidebar"] {
 
-    min-width: 290px;
-    max-width: 290px;
+    min-width: 300px !important;
+    max-width: 300px !important;
 
     background: linear-gradient(
         180deg,
@@ -41,13 +41,23 @@ SIDEBAR TITLE
 
     color: white;
 
-    font-size: 25px;
+    font-size: 24px;
 
     font-weight: 800;
 
-    margin-bottom: 30px;
+    letter-spacing: 1px;
+
+    margin-bottom: 28px;
 
     padding-left: 10px;
+}
+
+/* ========================================
+NAVIGATION CONTAINER
+======================================== */
+[data-testid="stSidebarNav"] {
+
+    flex-grow: 1;
 }
 
 /* ========================================
@@ -73,11 +83,11 @@ MENU CARD
 
     border: 1px solid rgba(255,255,255,0.08);
 
-    border-radius: 16px;
+    border-radius: 18px;
 
     overflow: hidden;
 
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
 }
 
 /* ========================================
@@ -88,6 +98,8 @@ MENU HOVER
     background: rgba(255,255,255,0.10);
 
     transform: translateX(4px);
+
+    border: 1px solid rgba(255,255,255,0.15);
 }
 
 /* ========================================
@@ -100,6 +112,8 @@ ACTIVE PAGE
         #ff0000 0%,
         #b30000 100%
     );
+
+    border: none;
 
     box-shadow: 0 0 18px rgba(255,0,0,0.35);
 }
@@ -115,33 +129,56 @@ MENU TEXT
 
     font-weight: 700 !important;
 
-    padding: 14px 18px;
+    padding: 15px 18px;
+
+    border-radius: 16px;
 
     text-decoration: none;
 }
 
 /* ========================================
-ABOUT MENU BOTTOM
+ABOUT MENU -> BOTTOM
 ======================================== */
 [data-testid="stSidebarNav"] li:last-child {
 
     margin-top: auto;
 
     margin-bottom: 20px;
+
+    background: rgba(255,255,255,0.04);
+
+    border: 1px solid rgba(255,255,255,0.06);
 }
 
 /* ========================================
-MAIN PAGE
+REMOVE DEFAULT STREAMLIT
 ======================================== */
-.main {
+#MainMenu {
 
-    background-color: #f5f7fb;
+    visibility: hidden;
 }
 
-/* ========================================
-REMOVE HEADER
-======================================== */
 header {
 
     visibility: hidden;
+}
+
+footer {
+
+    visibility: hidden;
+}
+
+/* ========================================
+SCROLLBAR
+======================================== */
+::-webkit-scrollbar {
+
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+
+    background: #666;
+
+    border-radius: 10px;
 }
