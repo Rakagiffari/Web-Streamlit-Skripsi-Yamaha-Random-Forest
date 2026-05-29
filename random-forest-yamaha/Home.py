@@ -13,7 +13,7 @@ logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
 logo = Image.open(logo_path)
 
 st.set_page_config(
-    page_title="Yamaha Random Forest",
+    page_title="Home",
     page_icon=logo,
     layout="wide",
     initial_sidebar_state="expanded"
@@ -40,20 +40,20 @@ wib_now = utc_now + timedelta(hours=7)
 tanggal_jam = wib_now.strftime("%d-%m-%Y | %H:%M")
 
 # =========================================
-# CUSTOM CSS MAIN PAGE
+# MAIN PAGE CSS
 # =========================================
 st.markdown("""
 <style>
 
 /* =========================
-   BACKGROUND
+BACKGROUND
 ========================= */
 .stApp{
     background-color: #020617;
 }
 
 /* =========================
-   MAIN CONTAINER
+MAIN CONTAINER
 ========================= */
 .block-container{
     padding-top: 1rem;
@@ -61,85 +61,129 @@ st.markdown("""
 }
 
 /* =========================
-   MAIN TITLE
+MAIN TITLE
 ========================= */
 .main-title{
+
     text-align: center;
-    font-size: 58px;
+
+    font-size: 46px;
+
     font-weight: 900;
+
     color: white;
-    line-height: 1.1;
+
+    line-height: 1.2;
+
     margin-top: 5px;
-    margin-bottom: 10px;
+
+    margin-bottom: 12px;
+
     letter-spacing: 1px;
+
+    max-width: 1000px;
+
+    margin-left: auto;
+
+    margin-right: auto;
 }
 
 /* =========================
-   DESCRIPTION
+DESCRIPTION
 ========================= */
 .desc{
+
     text-align: center;
+
     color: #cbd5e1;
+
     font-size: 20px;
+
     margin-top: 0px;
-    margin-bottom: 45px;
+
+    margin-bottom: 42px;
 }
 
 /* =========================
-   METRIC CARD
+METRIC CARD
 ========================= */
 .metric-card{
-    background: linear-gradient(145deg, #111827, #1e293b);
+
+    background: linear-gradient(
+        145deg,
+        #111827,
+        #1e293b
+    );
+
     padding: 28px 20px;
+
     border-radius: 22px;
+
     border: 1px solid #334155;
+
     text-align: center;
+
     transition: 0.3s ease;
+
     box-shadow: 0 0 15px rgba(0,0,0,0.25);
+
     min-height: 150px;
 
     display:flex;
+
     flex-direction:column;
+
     justify-content:center;
 }
 
 /* =========================
-   HOVER EFFECT
+CARD HOVER
 ========================= */
 .metric-card:hover{
+
     transform: translateY(-6px);
+
     border: 1px solid #ef4444;
+
     box-shadow: 0 0 20px rgba(239,68,68,0.25);
 }
 
 /* =========================
-   METRIC TITLE
+METRIC TITLE
 ========================= */
 .metric-title{
+
     color: #94a3b8;
+
     font-size: 15px;
+
     margin-bottom: 12px;
+
     font-weight: 600;
 }
 
 /* =========================
-   METRIC VALUE
+METRIC VALUE
 ========================= */
 .metric-value{
+
     color: white;
-    font-size: 30px;
+
+    font-size: 28px;
+
     font-weight: 800;
 }
 
 /* =========================
-   SUCCESS BOX
+SUCCESS BOX
 ========================= */
 .stAlert{
+
     border-radius: 15px;
 }
 
 /* =========================
-   HIDE STREAMLIT MENU
+HIDE STREAMLIT
 ========================= */
 #MainMenu{
     visibility: hidden;
@@ -157,9 +201,12 @@ header{
 """, unsafe_allow_html=True)
 
 # =========================================
-# SPACE TOP
+# TOP SPACE
 # =========================================
-st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
+st.markdown(
+    "<div style='margin-top:10px;'></div>",
+    unsafe_allow_html=True
+)
 
 # =========================================
 # CENTER LOGO
@@ -167,9 +214,10 @@ st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
 col1, col2, col3 = st.columns([2,1,2])
 
 with col2:
+
     st.image(
         str(logo_path),
-        width=220
+        width=180
     )
 
 # =========================================
@@ -197,11 +245,14 @@ st.markdown(
 )
 
 # =========================================
-# 3 CENTER CARDS
+# METRIC CARDS
 # =========================================
-space1, col1, col2, col3, space2 = st.columns([0.7,1,1,1,0.7])
+space1, col1, col2, col3, space2 = st.columns(
+    [0.5,1,1,1,0.5]
+)
 
 with col1:
+
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-title">
@@ -214,6 +265,7 @@ with col1:
     """, unsafe_allow_html=True)
 
 with col2:
+
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-title">
@@ -226,12 +278,13 @@ with col2:
     """, unsafe_allow_html=True)
 
 with col3:
+
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-title">
             Tanggal & Jam WIB
         </div>
-        <div class="metric-value" style="font-size:20px;">
+        <div class="metric-value" style="font-size:18px;">
             {tanggal_jam}
         </div>
     </div>
