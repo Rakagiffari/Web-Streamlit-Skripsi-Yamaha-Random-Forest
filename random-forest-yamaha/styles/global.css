@@ -29,7 +29,7 @@ SIDEBAR CONTENT
 }
 
 /* ========================================
-TITLE
+SIDEBAR TITLE
 ======================================== */
 [data-testid="stSidebarNav"]::before{
 
@@ -65,7 +65,7 @@ REMOVE DEFAULT PADDING
 }
 
 /* ========================================
-ALL MENU ITEMS
+MENU ITEM
 ======================================== */
 [data-testid="stSidebarNav"] li{
 
@@ -86,7 +86,8 @@ ALL MENU ITEMS
 
     border: 1px solid rgba(255,255,255,0.05);
 
-    transition: all 0.25s ease;
+    transition:
+        all 0.25s ease;
 }
 
 /* ========================================
@@ -112,7 +113,7 @@ MENU LINK
 }
 
 /* ========================================
-HOVER
+HOVER EFFECT
 ======================================== */
 [data-testid="stSidebarNav"] li:hover{
 
@@ -132,7 +133,15 @@ HOVER
 }
 
 /* ========================================
-ACTIVE PAGE
+HOVER TEXT
+======================================== */
+[data-testid="stSidebarNav"] li:hover a{
+
+    color: white !important;
+}
+
+/* ========================================
+ACTIVE MENU
 ======================================== */
 [data-testid="stSidebarNav"] li:has(a[aria-current="page"]){
 
@@ -161,11 +170,11 @@ ACTIVE TEXT
 }
 
 /* ========================================
-ABOUT RESEARCH SPECIAL
+ABOUT RESEARCH SPACING
 ======================================== */
 [data-testid="stSidebarNav"] li:nth-child(2){
 
-    margin-bottom: 28px !important;
+    margin-bottom: 35px !important;
 
     background:
         linear-gradient(
@@ -173,6 +182,8 @@ ABOUT RESEARCH SPECIAL
             rgba(239,68,68,0.08),
             rgba(127,29,29,0.08)
         );
+
+    border: 1px solid rgba(239,68,68,0.10);
 }
 
 /* ========================================
