@@ -20,157 +20,280 @@ st.set_page_config(
 )
 
 # =========================================
-# DATE & TIME WIB
-# =========================================
-utc_now = datetime.utcnow()
-
-wib_now = utc_now + timedelta(hours=7)
-
-tanggal_jam = wib_now.strftime("%d-%m-%Y | %H:%M")
-
-# =========================================
-# CUSTOM CSS
+# PROFESSIONAL SIDEBAR STYLE
 # =========================================
 st.markdown("""
 <style>
 
-/* =========================
-   BACKGROUND
-========================= */
-.stApp{
-    background-color: #020617;
+/* ========================================
+SIDEBAR FIXED SIZE
+======================================== */
+[data-testid="stSidebar"] {
+
+    min-width: 290px;
+    max-width: 290px;
+
+    background: linear-gradient(
+        180deg,
+        #081225 0%,
+        #0d1b3d 100%
+    );
+
+    border-right: 1px solid rgba(255,255,255,0.08);
 }
 
-/* =========================
-   SIDEBAR
-========================= */
-section[data-testid="stSidebar"]{
-    background-color: #0f172a;
-    border-right: 1px solid #1e293b;
+/* ========================================
+SIDEBAR CONTENT
+======================================== */
+[data-testid="stSidebarContent"] {
+
+    display: flex;
+    flex-direction: column;
+
+    height: 100vh;
+
+    padding-top: 20px;
+    padding-left: 16px;
+    padding-right: 16px;
 }
 
-/* =========================
-   MAIN CONTAINER
-========================= */
-.block-container{
-    padding-top: 1rem;
-    padding-bottom: 2rem;
-}
+/* ========================================
+SIDEBAR TITLE
+======================================== */
+[data-testid="stSidebarNav"]::before {
 
-/* =========================
-   MAIN TITLE
-========================= */
-.main-title{
-    text-align: center;
-    font-size: 58px;
-    font-weight: 900;
+    content: "YAMAHA MENU";
+
+    display: block;
+
     color: white;
-    line-height: 1.1;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
-}
 
-/* =========================
-   DESCRIPTION
-========================= */
-.desc{
-    text-align: center;
-    color: #cbd5e1;
-    font-size: 20px;
-    margin-top: 0px;
-    margin-bottom: 45px;
-}
+    font-size: 25px;
 
-/* =========================
-   METRIC CARD
-========================= */
-.metric-card{
-    background: linear-gradient(145deg, #111827, #1e293b);
-    padding: 28px 20px;
-    border-radius: 22px;
-    border: 1px solid #334155;
-    text-align: center;
-    transition: 0.3s ease;
-    box-shadow: 0 0 15px rgba(0,0,0,0.25);
-    min-height: 150px;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-}
-
-/* =========================
-   HOVER EFFECT
-========================= */
-.metric-card:hover{
-    transform: translateY(-6px);
-    border: 1px solid #ef4444;
-    box-shadow: 0 0 20px rgba(239,68,68,0.25);
-}
-
-/* =========================
-   METRIC TITLE
-========================= */
-.metric-title{
-    color: #94a3b8;
-    font-size: 15px;
-    margin-bottom: 12px;
-    font-weight: 600;
-}
-
-/* =========================
-   METRIC VALUE
-========================= */
-.metric-value{
-    color: white;
-    font-size: 30px;
     font-weight: 800;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 30px;
+
+    padding-left: 10px;
 }
 
-/* =========================
-   SUCCESS BOX
-========================= */
-.stAlert{
-    border-radius: 15px;
+/* ========================================
+NAVIGATION CONTAINER
+======================================== */
+[data-testid="stSidebarNav"] {
+
+    flex-grow: 1;
 }
 
-/* =========================
-   HIDE STREAMLIT MENU
-========================= */
-#MainMenu{
+/* ========================================
+MENU LIST
+======================================== */
+[data-testid="stSidebarNav"] ul {
+
+    display: flex;
+
+    flex-direction: column;
+
+    height: 100%;
+
+    gap: 14px;
+}
+
+/* ========================================
+MENU CARD
+======================================== */
+[data-testid="stSidebarNav"] li {
+
+    background: rgba(255,255,255,0.05);
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    transition: all 0.3s ease;
+}
+
+/* ========================================
+HOVER EFFECT
+======================================== */
+[data-testid="stSidebarNav"] li:hover {
+
+    background: rgba(255,255,255,0.10);
+
+    transform: translateX(4px);
+
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* ========================================
+ACTIVE PAGE
+======================================== */
+[data-testid="stSidebarNav"] li:has([aria-current="page"]) {
+
+    background: linear-gradient(
+        90deg,
+        #ff0000 0%,
+        #b30000 100%
+    );
+
+    border: none;
+
+    box-shadow: 0 0 18px rgba(255,0,0,0.35);
+}
+
+/* ========================================
+MENU TEXT
+======================================== */
+[data-testid="stSidebarNav"] a {
+
+    color: white !important;
+
+    font-size: 17px !important;
+
+    font-weight: 700 !important;
+
+    padding: 14px 18px;
+
+    border-radius: 14px;
+
+    text-decoration: none;
+}
+
+/* ========================================
+ABOUT MENU AT BOTTOM
+======================================== */
+[data-testid="stSidebarNav"] li:last-child {
+
+    margin-top: auto;
+
+    margin-bottom: 25px;
+
+    background: rgba(255,255,255,0.04);
+
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ========================================
+REMOVE STREAMLIT DEFAULT
+======================================== */
+[data-testid="collapsedControl"] {
+
+    color: white;
+}
+
+/* ========================================
+SCROLLBAR
+======================================== */
+::-webkit-scrollbar {
+
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+
+    background: #777;
+
+    border-radius: 10px;
+}
+
+/* ========================================
+MAIN PAGE
+======================================== */
+.main {
+
+    background-color: #f5f7fb;
+}
+
+/* ========================================
+REMOVE DEFAULT STREAMLIT HEADER
+======================================== */
+header {
+
     visibility: hidden;
 }
 
-footer{
-    visibility: hidden;
+/* ========================================
+TOP SPACING
+======================================== */
+.block-container {
+
+    padding-top: 2rem;
 }
 
-header{
-    visibility: hidden;
+/* ========================================
+IMAGE CENTER
+======================================== */
+.center-logo {
+
+    display: flex;
+    justify-content: center;
+}
+
+/* ========================================
+TITLE
+======================================== */
+.main-title {
+
+    text-align: center;
+
+    font-size: 42px;
+
+    font-weight: 800;
+
+    color: #0d1b3d;
+
+    margin-top: 10px;
+
+    margin-bottom: 5px;
+}
+
+/* ========================================
+SUBTITLE
+======================================== */
+.sub-title {
+
+    text-align: center;
+
+    font-size: 18px;
+
+    font-weight: 600;
+
+    color: #c00000;
+
+    margin-bottom: 40px;
 }
 
 </style>
 """, unsafe_allow_html=True)
 
 # =========================================
-# SPACE TOP
+# WIB TIME
 # =========================================
-st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
+utc_now = datetime.utcnow()
+
+wib_now = utc_now + timedelta(hours=7)
+
+tanggal = wib_now.strftime("%d %B %Y")
+jam = wib_now.strftime("%H:%M:%S WIB")
 
 # =========================================
-# CENTER LOGO
+# LOGO
 # =========================================
-col1, col2, col3 = st.columns([2,1,2])
+st.markdown('<div class="center-logo">', unsafe_allow_html=True)
 
-with col2:
-    st.image(
-        str(logo_path),
-        width=220
-    )
+st.image(
+    logo,
+    width=220
+)
+
+st.markdown('</div>', unsafe_allow_html=True)
 
 # =========================================
-# MAIN TITLE
+# TITLE
 # =========================================
 st.markdown(
     """
@@ -182,66 +305,37 @@ st.markdown(
 )
 
 # =========================================
-# DESCRIPTION
+# SUBTITLE
 # =========================================
 st.markdown(
     """
-    <div class="desc">
-        Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yamaha.
+    <div class="sub-title">
+        Penerapan Algoritma Random Forest untuk Klasifikasi Layanan Servis Kendaraan Yamaha
     </div>
     """,
     unsafe_allow_html=True
 )
 
 # =========================================
-# 3 CENTER CARDS
+# INFO BOX
 # =========================================
-space1, col1, col2, col3, space2 = st.columns([0.7,1,1,1,0.7])
+col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown(f"""
-    <div class="metric-card">
-        <div class="metric-title">
-            Algoritma
-        </div>
-        <div class="metric-value">
-            Random Forest
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.success(f"📅 Tanggal : {tanggal}")
 
 with col2:
-    st.markdown(f"""
-    <div class="metric-card">
-        <div class="metric-title">
-            Dataset
-        </div>
-        <div class="metric-value">
-            CSV File
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.success(f"🕒 Jam WIB : {jam}")
 
-with col3:
-    st.markdown(f"""
-    <div class="metric-card">
-        <div class="metric-title">
-            Tanggal & Jam WIB
-        </div>
-        <div class="metric-value" style="font-size:20px;">
-            {tanggal_jam}
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+st.divider()
 
 # =========================================
-# SPACE
+# MAIN CONTENT
 # =========================================
-st.markdown("<br><br>", unsafe_allow_html=True)
+st.markdown("""
+### 👋 Selamat Datang
 
-# =========================================
-# SUCCESS MESSAGE
-# =========================================
-st.success(
-    "ⓘ Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
-)
+Aplikasi ini digunakan untuk melakukan klasifikasi layanan servis kendaraan Yamaha menggunakan algoritma Random Forest.
+
+Gunakan menu sidebar untuk navigasi fitur aplikasi.
+""")
