@@ -38,15 +38,21 @@ st.markdown("""
    BACKGROUND
 ========================= */
 .stApp{
-    background-color: #020617;
+    background-color: #f4f7fb;
 }
 
 /* =========================
    SIDEBAR
 ========================= */
 section[data-testid="stSidebar"]{
-    background-color: #0f172a;
-    border-right: 1px solid #1e293b;
+
+    background: linear-gradient(
+        180deg,
+        #dbeafe,
+        #eff6ff
+    );
+
+    border-right: 1px solid #cbd5e1;
 }
 
 /* =========================
@@ -61,13 +67,21 @@ section[data-testid="stSidebar"]{
    MAIN TITLE
 ========================= */
 .main-title{
+
     text-align: center;
+
     font-size: 58px;
+
     font-weight: 900;
-    color: white;
+
+    color: #1e3a5f;
+
     line-height: 1.1;
+
     margin-top: 5px;
+
     margin-bottom: 10px;
+
     letter-spacing: 1px;
 }
 
@@ -75,10 +89,15 @@ section[data-testid="stSidebar"]{
    DESCRIPTION
 ========================= */
 .desc{
+
     text-align: center;
-    color: #cbd5e1;
+
+    color: #64748b;
+
     font-size: 20px;
+
     margin-top: 0px;
+
     margin-bottom: 45px;
 }
 
@@ -86,17 +105,32 @@ section[data-testid="stSidebar"]{
    METRIC CARD
 ========================= */
 .metric-card{
-    background: linear-gradient(145deg, #111827, #1e293b);
+
+    background: linear-gradient(
+        145deg,
+        #ffffff,
+        #eaf3ff
+    );
+
     padding: 28px 20px;
+
     border-radius: 22px;
-    border: 1px solid #334155;
+
+    border: 1px solid #dbeafe;
+
     text-align: center;
+
     transition: 0.3s ease;
-    box-shadow: 0 0 15px rgba(0,0,0,0.25);
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.06);
+
     min-height: 150px;
 
     display:flex;
+
     flex-direction:column;
+
     justify-content:center;
 }
 
@@ -104,18 +138,26 @@ section[data-testid="stSidebar"]{
    HOVER EFFECT
 ========================= */
 .metric-card:hover{
+
     transform: translateY(-6px);
-    border: 1px solid #ef4444;
-    box-shadow: 0 0 20px rgba(239,68,68,0.25);
+
+    border: 1px solid #93c5fd;
+
+    box-shadow:
+        0 10px 20px rgba(147,197,253,0.25);
 }
 
 /* =========================
    METRIC TITLE
 ========================= */
 .metric-title{
-    color: #94a3b8;
+
+    color: #64748b;
+
     font-size: 15px;
+
     margin-bottom: 12px;
+
     font-weight: 600;
 }
 
@@ -123,8 +165,11 @@ section[data-testid="stSidebar"]{
    METRIC VALUE
 ========================= */
 .metric-value{
-    color: white;
+
+    color: #1e3a5f;
+
     font-size: 30px;
+
     font-weight: 800;
 }
 
@@ -132,7 +177,14 @@ section[data-testid="stSidebar"]{
    SUCCESS BOX
 ========================= */
 .stAlert{
+
     border-radius: 15px;
+
+    background-color: #dbeafe;
+
+    color: #1e3a5f;
+
+    border: 1px solid #bfdbfe;
 }
 
 /* =========================
@@ -156,7 +208,10 @@ header{
 # =========================================
 # SPACE TOP
 # =========================================
-st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
+st.markdown(
+    "<div style='margin-top:10px;'></div>",
+    unsafe_allow_html=True
+)
 
 # =========================================
 # CENTER LOGO
@@ -164,9 +219,10 @@ st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
 col1, col2, col3 = st.columns([2,1,2])
 
 with col2:
+
     st.image(
         str(logo_path),
-        width=220
+        width=210
     )
 
 # =========================================
@@ -194,50 +250,76 @@ st.markdown(
 )
 
 # =========================================
-# 3 CENTER CARDS
+# METRIC CARDS
 # =========================================
-space1, col1, col2, col3, space2 = st.columns([0.7,1,1,1,0.7])
+space1, col1, col2, col3, space2 = st.columns(
+    [0.7,1,1,1,0.7]
+)
 
+# =========================================
+# CARD 1
+# =========================================
 with col1:
+
     st.markdown(f"""
     <div class="metric-card">
+
         <div class="metric-title">
             Algoritma
         </div>
+
         <div class="metric-value">
             Random Forest
         </div>
+
     </div>
     """, unsafe_allow_html=True)
 
+# =========================================
+# CARD 2
+# =========================================
 with col2:
+
     st.markdown(f"""
     <div class="metric-card">
+
         <div class="metric-title">
             Dataset
         </div>
+
         <div class="metric-value">
             CSV File
         </div>
+
     </div>
     """, unsafe_allow_html=True)
 
+# =========================================
+# CARD 3
+# =========================================
 with col3:
+
     st.markdown(f"""
     <div class="metric-card">
+
         <div class="metric-title">
             Tanggal & Jam WIB
         </div>
+
         <div class="metric-value" style="font-size:20px;">
             {tanggal_jam}
         </div>
+
     </div>
     """, unsafe_allow_html=True)
 
 # =========================================
 # SPACE
 # =========================================
-st.markdown("<br><br>", unsafe_allow_html=True)
+st.markdown(
+    "<br><br>",
+    unsafe_allow_html=True
+)
 
 # =========================================
 # SUCCESS MESSAGE
