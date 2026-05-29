@@ -1,10 +1,9 @@
 /* ========================================
-SIDEBAR FIXED SIZE
+SIDEBAR STYLE
 ======================================== */
 section[data-testid="stSidebar"] {
 
-    min-width: 300px !important;
-    max-width: 300px !important;
+    width: 300px !important;
 
     background: linear-gradient(
         180deg,
@@ -13,6 +12,8 @@ section[data-testid="stSidebar"] {
     );
 
     border-right: 1px solid rgba(255,255,255,0.08);
+
+    transition: all 0.3s ease;
 }
 
 /* ========================================
@@ -20,13 +21,10 @@ SIDEBAR CONTENT
 ======================================== */
 [data-testid="stSidebarContent"] {
 
-    display: flex;
-    flex-direction: column;
-
-    height: 100vh;
-
     padding-top: 20px;
+
     padding-left: 16px;
+
     padding-right: 16px;
 }
 
@@ -60,8 +58,6 @@ MENU LIST
     display: flex;
 
     flex-direction: column;
-
-    height: 100%;
 
     gap: 14px;
 }
@@ -140,4 +136,19 @@ ABOUT MENU -> BOTTOM
     background: rgba(255,255,255,0.04);
 
     border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ========================================
+SCROLLBAR
+======================================== */
+::-webkit-scrollbar {
+
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+
+    background: #666;
+
+    border-radius: 10px;
 }
