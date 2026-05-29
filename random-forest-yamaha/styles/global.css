@@ -193,7 +193,7 @@ ABOUT MENU POSITION
 ======================================== */
 [data-testid="stSidebarNav"] li:last-child{
 
-    margin-top: auto;
+    margin-top: 30px;
 
     margin-bottom: 10px;
 }
