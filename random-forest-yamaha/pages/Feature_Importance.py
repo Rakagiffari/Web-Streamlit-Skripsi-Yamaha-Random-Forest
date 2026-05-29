@@ -1,60 +1,56 @@
+```python
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 import joblib
 
 from pathlib import Path
+from utils.preprocessing import preprocess_data
 
-st.set_page_config(
-
-    page_title="Feature Importance",
-
-    layout="wide"
-)
-
+# =========================================
+# TITLE
+# =========================================
 st.title("📈 Feature Importance")
 
+# =========================================
+# UPLOAD DATASET
+# =========================================
 uploaded_file = st.file_uploader(
-
     "📂 Upload Dataset",
-
     type=['csv']
 )
 
+# =========================================
+# PROCESS
+# =========================================
 if uploaded_file:
 
     # =========================
-    # BASE DIRECTORY
+    # LOAD DATASET
     # =========================
+    df = pd.read_csv(uploaded_file)
 
+    # =========================
+    # PREPROCESSING
+    # =========================
+    X, y = preprocess_data(df)
+
+    # =========================
+    # LOAD MODEL
+    # =========================
     BASE_DIR = Path(__file__).parent.parent
-
-    # =========================
-    # MODEL PATH
-    # =========================
 
     model_path = (
         BASE_DIR / "model" / "random_forest_model.pkl"
     )
 
-    feature_path = (
-        BASE_DIR / "model" / "feature_names.pkl"
-    )
-
     # =========================
-    # CEK FILE
+    # CHECK MODEL
     # =========================
-
     if not model_path.exists():
 
         st.warning(
-            "Silakan training model terlebih dahulu."
-        )
-
-    elif not feature_path.exists():
-
-        st.warning(
-            "Feature names belum tersedia."
+            "⚠️ Silakan training model terlebih dahulu."
         )
 
     else:
@@ -62,172 +58,135 @@ if uploaded_file:
         # =========================
         # LOAD MODEL
         # =========================
-
         model = joblib.load(model_path)
 
-        feature_names = joblib.load(feature_path)
-
         # =========================
-        # VALIDASI
+        # VALIDASI FITUR
         # =========================
-
-        if len(feature_names) != len(model.feature_importances_):
+        if len(X.columns) != len(model.feature_importances_):
 
             st.error(
-                "Jumlah feature tidak sesuai dengan model."
+                "❌ Jumlah fitur tidak sesuai dengan model training."
             )
 
-            st.stop()
-
-        # =========================
-        # FEATURE IMPORTANCE
-        # =========================
-
-        importance = pd.DataFrame({
-
-            'Fitur': feature_names,
-
-            'Importance':
-            model.feature_importances_
-
-        })
-
-        # =========================
-        # GROUP FEATURE
-        # =========================
-
-        grouped_importance = {
-
-            'Last Kilometer': 0,
-            'Usia Motor': 0,
-            'Model Name': 0,
-            'Category': 0,
-            'Brand': 0,
-            'Status': 0
-
-        }
-
-        for index, row in importance.iterrows():
-
-            fitur = row['Fitur']
-
-            nilai = row['Importance']
+        else:
 
             # =========================
-            # MODEL NAME
+            # FEATURE IMPORTANCE
             # =========================
-
-            if fitur.startswith('Model Name_'):
-
-                grouped_importance[
-                    'Model Name'
-                ] += nilai
+            importance = pd.DataFrame({
+                'Fitur': X.columns,
+                'Importance': model.feature_importances_
+            })
 
             # =========================
-            # CATEGORY
+            # GABUNGKAN FEATURE
             # =========================
+            grouped_importance = {
+                'Last Kilometer': 0,
+                'Usia Motor': 0,
+                'Model Name': 0,
+                'Category': 0,
+                'Brand': 0,
+                'Status': 0
+            }
 
-            elif fitur.startswith('Category_'):
+            for index, row in importance.iterrows():
 
-                grouped_importance[
-                    'Category'
-                ] += nilai
+                fitur = str(row['Fitur'])
+                nilai = row['Importance']
+
+                # =========================
+                # MODEL NAME
+                # =========================
+                if fitur.startswith('Model Name_'):
+
+                    grouped_importance['Model Name'] += nilai
+
+                # =========================
+                # CATEGORY
+                # =========================
+                elif fitur.startswith('Category_'):
+
+                    grouped_importance['Category'] += nilai
+
+                # =========================
+                # BRAND
+                # =========================
+                elif fitur.startswith('Brand_'):
+
+                    grouped_importance['Brand'] += nilai
+
+                # =========================
+                # STATUS
+                # =========================
+                elif fitur.startswith('Status_'):
+
+                    grouped_importance['Status'] += nilai
+
+                # =========================
+                # LAST KILOMETER
+                # =========================
+                elif fitur == 'Last Kilometer':
+
+                    grouped_importance['Last Kilometer'] += nilai
+
+                # =========================
+                # USIA MOTOR
+                # =========================
+                elif fitur == 'Usia Motor':
+
+                    grouped_importance['Usia Motor'] += nilai
 
             # =========================
-            # BRAND
+            # DATAFRAME
             # =========================
-
-            elif fitur.startswith('Brand_'):
-
-                grouped_importance[
-                    'Brand'
-                ] += nilai
+            importance_grouped = pd.DataFrame({
+                'Fitur': grouped_importance.keys(),
+                'Importance': grouped_importance.values()
+            })
 
             # =========================
-            # STATUS
+            # SORTING
             # =========================
-
-            elif fitur.startswith('Status_'):
-
-                grouped_importance[
-                    'Status'
-                ] += nilai
-
-            # =========================
-            # LAST KILOMETER
-            # =========================
-
-            elif fitur == 'Last Kilometer':
-
-                grouped_importance[
-                    'Last Kilometer'
-                ] += nilai
-
-            # =========================
-            # USIA MOTOR
-            # =========================
-
-            elif fitur == 'Usia Motor':
-
-                grouped_importance[
-                    'Usia Motor'
-                ] += nilai
-
-        # =========================
-        # DATAFRAME
-        # =========================
-
-        importance_grouped = pd.DataFrame({
-
-            'Fitur':
-            grouped_importance.keys(),
-
-            'Importance':
-            grouped_importance.values()
-
-        })
-
-        importance_grouped = (
-            importance_grouped.sort_values(
-
-                by='Importance',
-
-                ascending=False
+            importance_grouped = (
+                importance_grouped
+                .sort_values(
+                    by='Importance',
+                    ascending=False
+                )
             )
-        )
 
-        # =========================
-        # VISUALISASI
-        # =========================
+            # =========================
+            # VISUALISASI
+            # =========================
+            fig = px.bar(
+                importance_grouped,
+                x='Importance',
+                y='Fitur',
+                orientation='h',
+                title='Feature Importance',
+                text_auto='.3f'
+            )
 
-        fig = px.bar(
+            # =========================
+            # STYLE CHART
+            # =========================
+            fig.update_layout(
+                title_x=0.5,
+                height=500
+            )
 
-            importance_grouped,
+            st.plotly_chart(
+                fig,
+                use_container_width=True
+            )
 
-            x='Importance',
-            y='Fitur',
-
-            orientation='h',
-
-            title='Feature Importance',
-
-            text_auto='.3f'
-        )
-
-        st.plotly_chart(
-
-            fig,
-
-            use_container_width=True
-        )
-
-        # =========================
-        # TABLE
-        # =========================
-
-        st.dataframe(
-
-            importance_grouped,
-
-            use_container_width=True
-        )
+            # =========================
+            # TABEL
+            # =========================
+            st.dataframe(
+                importance_grouped,
+                use_container_width=True
+            )
+```
