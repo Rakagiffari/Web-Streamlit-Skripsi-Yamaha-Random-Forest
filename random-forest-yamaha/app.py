@@ -460,5 +460,5 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 # SUCCESS MESSAGE
 # =========================================
 st.success(
-    "ⓘ Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
+    "ⓘ    Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
 )
