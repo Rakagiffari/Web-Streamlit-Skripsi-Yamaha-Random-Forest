@@ -1,3 +1,4 @@
+```python id="fullapp"
 import streamlit as st
 from pathlib import Path
 from PIL import Image
@@ -38,7 +39,7 @@ st.markdown("""
    BACKGROUND
 ========================= */
 .stApp{
-    background-color: #f4f7fb;
+    background-color: #f6f7f2;
 }
 
 /* =========================
@@ -48,18 +49,20 @@ section[data-testid="stSidebar"]{
 
     background: linear-gradient(
         180deg,
-        #dbeafe,
-        #eff6ff
+        #BAC095,
+        #D4DE95
     );
 
-    border-right: 1px solid #cbd5e1;
+    border-right: 1px solid #a3aa7b;
 }
 
 /* =========================
    MAIN CONTAINER
 ========================= */
 .block-container{
+
     padding-top: 1rem;
+
     padding-bottom: 2rem;
 }
 
@@ -74,7 +77,7 @@ section[data-testid="stSidebar"]{
 
     font-weight: 900;
 
-    color: #1e3a5f;
+    color: #3D4127;
 
     line-height: 1.1;
 
@@ -92,7 +95,7 @@ section[data-testid="stSidebar"]{
 
     text-align: center;
 
-    color: #64748b;
+    color: #636B2F;
 
     font-size: 20px;
 
@@ -109,21 +112,21 @@ section[data-testid="stSidebar"]{
     background: linear-gradient(
         145deg,
         #ffffff,
-        #eaf3ff
+        #eef2dc
     );
 
     padding: 28px 20px;
 
     border-radius: 22px;
 
-    border: 1px solid #dbeafe;
+    border: 1px solid #d7ddb6;
 
     text-align: center;
 
     transition: 0.3s ease;
 
     box-shadow:
-        0 4px 12px rgba(0,0,0,0.06);
+        0 5px 15px rgba(61,65,39,0.08);
 
     min-height: 150px;
 
@@ -141,10 +144,10 @@ section[data-testid="stSidebar"]{
 
     transform: translateY(-6px);
 
-    border: 1px solid #93c5fd;
+    border: 1px solid #636B2F;
 
     box-shadow:
-        0 10px 20px rgba(147,197,253,0.25);
+        0 10px 20px rgba(99,107,47,0.20);
 }
 
 /* =========================
@@ -152,7 +155,7 @@ section[data-testid="stSidebar"]{
 ========================= */
 .metric-title{
 
-    color: #64748b;
+    color: #636B2F;
 
     font-size: 15px;
 
@@ -166,7 +169,7 @@ section[data-testid="stSidebar"]{
 ========================= */
 .metric-value{
 
-    color: #1e3a5f;
+    color: #3D4127;
 
     font-size: 30px;
 
@@ -180,11 +183,34 @@ section[data-testid="stSidebar"]{
 
     border-radius: 15px;
 
-    background-color: #dbeafe;
+    background-color: #D4DE95;
 
-    color: #1e3a5f;
+    color: #3D4127;
 
-    border: 1px solid #bfdbfe;
+    border: 1px solid #BAC095;
+}
+
+/* =========================
+   BUTTON
+========================= */
+.stButton>button{
+
+    background-color: #636B2F;
+
+    color: white;
+
+    border-radius: 10px;
+
+    border: none;
+
+    transition: 0.3s;
+}
+
+.stButton>button:hover{
+
+    background-color: #3D4127;
+
+    color: white;
 }
 
 /* =========================
@@ -327,3 +353,4 @@ st.markdown(
 st.success(
     "ⓘ Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
 )
+```
