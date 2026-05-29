@@ -3,21 +3,18 @@ SIDEBAR
 ========================================= */
 section[data-testid="stSidebar"] {
 
-    min-width: 290px !important;
-    max-width: 290px !important;
+    min-width: 250px !important;
+    max-width: 250px !important;
 
     background:
         linear-gradient(
             180deg,
             #020617 0%,
-            #081225 50%,
-            #0f172a 100%
+            #081225 100%
         );
 
-    border-right: 1px solid rgba(255,255,255,0.05);
-
-    box-shadow:
-        4px 0 25px rgba(0,0,0,0.35);
+    border-right:
+        1px solid rgba(255,255,255,0.05);
 }
 
 /* =========================================
@@ -25,49 +22,32 @@ SIDEBAR CONTENT
 ========================================= */
 [data-testid="stSidebarContent"] {
 
-    padding-top: 22px;
+    padding-top: 18px;
     padding-left: 14px;
     padding-right: 14px;
-    padding-bottom: 20px;
+    padding-bottom: 18px;
 }
 
 /* =========================================
-TITLE
+MENU TITLE
 ========================================= */
 [data-testid="stSidebarNav"]::before {
 
-    content: "YAMAHA AI SYSTEM";
+    content: "MENU";
 
     display: block;
 
-    text-align: center;
-
     color: white;
 
-    font-size: 24px;
+    font-size: 22px;
 
-    font-weight: 900;
+    font-weight: 800;
 
     letter-spacing: 1px;
 
-    margin-bottom: 30px;
+    margin-bottom: 18px;
 
-    padding: 18px;
-
-    border-radius: 22px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(239,68,68,0.18),
-            rgba(239,68,68,0.04)
-        );
-
-    border:
-        1px solid rgba(239,68,68,0.20);
-
-    box-shadow:
-        0 0 25px rgba(239,68,68,0.12);
+    padding-left: 6px;
 }
 
 /* =========================================
@@ -78,52 +58,44 @@ MENU LIST
     display: flex;
     flex-direction: column;
 
-    gap: 16px;
+    gap: 10px;
+
+    height: 100%;
 }
 
 /* =========================================
-BUBBLE MENU
+MENU ITEM
 ========================================= */
 [data-testid="stSidebarNav"] li {
 
     list-style: none;
 
-    border-radius: 999px;
+    border-radius: 14px;
 
     overflow: hidden;
 
     background:
-        rgba(255,255,255,0.04);
+        rgba(255,255,255,0.03);
 
     border:
-        1px solid rgba(255,255,255,0.06);
-
-    backdrop-filter: blur(10px);
+        1px solid rgba(255,255,255,0.05);
 
     transition:
-        all 0.25s ease;
-
-    box-shadow:
-        0 4px 14px rgba(0,0,0,0.22);
+        all 0.2s ease;
 }
 
 /* =========================================
-HOVER EFFECT
+MENU HOVER
 ========================================= */
 [data-testid="stSidebarNav"] li:hover {
 
-    transform:
-        translateX(6px)
-        scale(1.02);
+    transform: translateX(4px);
 
     background:
-        rgba(255,255,255,0.08);
+        rgba(255,255,255,0.06);
 
     border:
-        1px solid rgba(239,68,68,0.30);
-
-    box-shadow:
-        0 0 18px rgba(239,68,68,0.16);
+        1px solid rgba(239,68,68,0.25);
 }
 
 /* =========================================
@@ -135,14 +107,14 @@ ACTIVE MENU
         linear-gradient(
             90deg,
             #ef4444,
-            #b91c1c
+            #dc2626
         );
 
     border:
         1px solid rgba(255,255,255,0.08);
 
     box-shadow:
-        0 0 24px rgba(239,68,68,0.30);
+        0 0 16px rgba(239,68,68,0.18);
 }
 
 /* =========================================
@@ -152,46 +124,63 @@ MENU LINK
 
     color: white !important;
 
-    font-size: 15px !important;
+    font-size: 14px !important;
 
     font-weight: 700 !important;
 
-    padding:
-        15px 22px;
-
-    border-radius: 999px;
+    padding: 14px 16px;
 
     text-decoration: none;
-
-    transition: all 0.2s ease;
 }
 
 /* =========================================
-ACTIVE TEXT
+ABOUT MENU (BOTTOM)
 ========================================= */
-[data-testid="stSidebarNav"] li:has([aria-current="page"]) a {
-
-    color: white !important;
-}
-
-/* =========================================
-BOTTOM ITEM
-========================================= */
-[data-testid="stSidebarNav"] {
-
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-[data-testid="stSidebarNav"] ul {
-
-    height: 100%;
-}
-
 [data-testid="stSidebarNav"] li:last-child {
 
     margin-top: auto;
+
+    border-top:
+        1px solid rgba(255,255,255,0.08);
+
+    padding-top: 8px;
+
+    border-radius: 0;
+}
+
+/* =========================================
+RESPONSIVE
+========================================= */
+@media (max-width: 1200px){
+
+    .main-title{
+        font-size: 46px !important;
+    }
+
+    .desc{
+        font-size: 18px !important;
+    }
+
+    .metric-value{
+        font-size: 24px !important;
+    }
+}
+
+@media (max-width: 900px){
+
+    .main-title{
+        font-size: 36px !important;
+    }
+
+    .desc{
+        font-size: 16px !important;
+    }
+
+    section[data-testid="stSidebar"] {
+
+        min-width: 220px !important;
+        max-width: 220px !important;
+    }
 }
 
 /* =========================================
