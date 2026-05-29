@@ -63,7 +63,6 @@ SIDEBAR NAV
 
     display: flex;
     flex-direction: column;
-    height: 100%;
 }
 
 /* ========================================
@@ -75,8 +74,6 @@ MENU LIST
     flex-direction: column;
 
     gap: 14px;
-
-    height: 100%;
 
     padding-top: 5px;
 }
@@ -193,7 +190,7 @@ ABOUT MENU POSITION
 ======================================== */
 [data-testid="stSidebarNav"] li:last-child{
 
-    margin-top: 15px;
+    margin-top: 30px;
 
     margin-bottom: 10px;
 }
