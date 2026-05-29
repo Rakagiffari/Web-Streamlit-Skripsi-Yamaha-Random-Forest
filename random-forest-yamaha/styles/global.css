@@ -1,4 +1,11 @@
 /* =========================================
+BACKGROUND
+========================================= */
+.stApp{
+    background-color: #020617;
+}
+
+/* =========================================
 SIDEBAR
 ========================================= */
 section[data-testid="stSidebar"] {
@@ -15,6 +22,17 @@ section[data-testid="stSidebar"] {
 
     border-right:
         1px solid rgba(255,255,255,0.05);
+}
+
+/* =========================================
+SIDEBAR CONTENT
+========================================= */
+[data-testid="stSidebarContent"] {
+
+    padding-top: 18px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 18px;
 }
 
 /* =========================================
@@ -130,4 +148,236 @@ ABOUT MENU BOTTOM
     padding-top: 6px;
 
     border-radius: 0;
+}
+
+/* =========================================
+MAIN CONTAINER
+========================================= */
+.block-container{
+
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+}
+
+/* =========================================
+LOGO
+========================================= */
+.logo-wrapper{
+
+    text-align: center;
+
+    margin-top: 5px;
+    margin-bottom: 8px;
+}
+
+/* =========================================
+MAIN TITLE
+========================================= */
+.main-title{
+
+    text-align: center;
+
+    font-size: 56px;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    color: white;
+
+    line-height: 1.08;
+
+    margin-top: 5px;
+
+    margin-bottom: 8px;
+
+    letter-spacing: 1px;
+}
+
+/* =========================================
+DESCRIPTION
+========================================= */
+.desc{
+
+    text-align: center;
+
+    color: #cbd5e1;
+
+    font-size: 16px;
+
+    margin-top: 0px;
+
+    margin-bottom: 40px;
+
+    font-weight: 500;
+}
+
+/* =========================================
+METRIC CARD
+========================================= */
+.metric-card{
+
+    background:
+        linear-gradient(
+            145deg,
+            #111827,
+            #1e293b
+        );
+
+    padding: 26px 20px;
+
+    border-radius: 22px;
+
+    border:
+        1px solid #334155;
+
+    text-align: center;
+
+    transition: 0.3s ease;
+
+    box-shadow:
+        0 0 15px rgba(0,0,0,0.25);
+
+    min-height: 145px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+}
+
+/* =========================================
+CARD HOVER
+========================================= */
+.metric-card:hover{
+
+    transform: translateY(-6px);
+
+    border:
+        1px solid #ef4444;
+
+    box-shadow:
+        0 0 20px rgba(239,68,68,0.18);
+}
+
+/* =========================================
+CARD TITLE
+========================================= */
+.metric-title{
+
+    color: #94a3b8;
+
+    font-size: 14px;
+
+    margin-bottom: 12px;
+
+    font-weight: 600;
+}
+
+/* =========================================
+CARD VALUE
+========================================= */
+.metric-value{
+
+    color: white;
+
+    font-size: 28px;
+
+    font-weight: 800;
+
+    margin: 0;
+}
+
+/* =========================================
+TIME VALUE
+========================================= */
+.time-value{
+
+    font-size: 20px;
+}
+
+/* =========================================
+SUCCESS BOX
+========================================= */
+.stAlert{
+
+    border-radius: 14px;
+
+    background:
+        rgba(15,23,42,0.75);
+
+    border:
+        1px solid rgba(239,68,68,0.10);
+
+    padding-top: 10px !important;
+
+    padding-bottom: 10px !important;
+
+    font-size: 13px !important;
+}
+
+/* =========================================
+RESPONSIVE
+========================================= */
+@media (max-width: 1200px){
+
+    .main-title{
+        font-size: 46px !important;
+    }
+
+    .desc{
+        font-size: 14px !important;
+    }
+
+    .metric-value{
+        font-size: 24px !important;
+    }
+}
+
+@media (max-width: 900px){
+
+    .main-title{
+        font-size: 34px !important;
+    }
+
+    .desc{
+        font-size: 13px !important;
+    }
+
+    section[data-testid="stSidebar"] {
+
+        min-width: 200px !important;
+        max-width: 200px !important;
+    }
+}
+
+/* =========================================
+SCROLLBAR
+========================================= */
+::-webkit-scrollbar {
+
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+
+    background: #334155;
+
+    border-radius: 20px;
+}
+
+/* =========================================
+HIDE STREAMLIT
+========================================= */
+#MainMenu{
+    visibility: hidden;
+}
+
+footer{
+    visibility: hidden;
+}
+
+header{
+    visibility: hidden;
 }
