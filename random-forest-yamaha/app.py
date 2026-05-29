@@ -7,9 +7,7 @@ from datetime import datetime, timedelta
 # PAGE CONFIG
 # =========================================
 BASE_DIR = Path(__file__).parent
-
 logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
-
 logo = Image.open(logo_path)
 
 st.set_page_config(
@@ -22,45 +20,48 @@ st.set_page_config(
 # =========================================
 # DATE & TIME WIB
 # =========================================
+# Menggunakan datetime.now() alternatif untuk internal UTC jika diperlukan
 utc_now = datetime.utcnow()
-
 wib_now = utc_now + timedelta(hours=7)
-
 tanggal_jam = wib_now.strftime("%d-%m-%Y | %H:%M")
+
+# =========================================
+# LOAD GLOBAL.CSS
+# =========================================
+css_path = BASE_DIR / "global.css"
+if css_path.exists():
+    with open(css_path, "r") as f:
+        global_css = f.read()
+else:
+    global_css = ""
 
 # =========================================
 # CUSTOM CSS
 # =========================================
-st.markdown("""
+st.markdown(f"""
 <style>
+/* Inject file global.css */
+{global_css}
 
 /* =========================
    BACKGROUND
 ========================= */
-.stApp{
+.stApp{{
     background-color: #020617;
-}
-
-/* =========================
-   SIDEBAR
-========================= */
-section[data-testid="stSidebar"]{
-    background-color: #0f172a;
-    border-right: 1px solid #1e293b;
-}
+}}
 
 /* =========================
    MAIN CONTAINER
 ========================= */
-.block-container{
+.block-container{{
     padding-top: 1rem;
     padding-bottom: 2rem;
-}
+}}
 
 /* =========================
    MAIN TITLE
 ========================= */
-.main-title{
+.main-title{{
     text-align: center;
     font-size: 58px;
     font-weight: 900;
@@ -69,23 +70,23 @@ section[data-testid="stSidebar"]{
     margin-top: 5px;
     margin-bottom: 10px;
     letter-spacing: 1px;
-}
+}}
 
 /* =========================
    DESCRIPTION
 ========================= */
-.desc{
+.desc{{
     text-align: center;
     color: #cbd5e1;
     font-size: 20px;
     margin-top: 0px;
     margin-bottom: 45px;
-}
+}}
 
 /* =========================
    METRIC CARD
 ========================= */
-.metric-card{
+.metric-card{{
     background: linear-gradient(145deg, #111827, #1e293b);
     padding: 28px 20px;
     border-radius: 22px;
@@ -98,57 +99,57 @@ section[data-testid="stSidebar"]{
     display:flex;
     flex-direction:column;
     justify-content:center;
-}
+}}
 
 /* =========================
    HOVER EFFECT
 ========================= */
-.metric-card:hover{
+.metric-card:hover{{
     transform: translateY(-6px);
     border: 1px solid #ef4444;
     box-shadow: 0 0 20px rgba(239,68,68,0.25);
-}
+}}
 
 /* =========================
    METRIC TITLE
 ========================= */
-.metric-title{
+.metric-title{{
     color: #94a3b8;
     font-size: 15px;
     margin-bottom: 12px;
     font-weight: 600;
-}
+}}
 
 /* =========================
    METRIC VALUE
 ========================= */
-.metric-value{
+.metric-value{{
     color: white;
     font-size: 30px;
     font-weight: 800;
-}
+}}
 
 /* =========================
    SUCCESS BOX
 ========================= */
-.stAlert{
+.stAlert{{
     border-radius: 15px;
-}
+}}
 
 /* =========================
    HIDE STREAMLIT MENU
 ========================= */
-#MainMenu{
+#MainMenu{{
     visibility: hidden;
-}
+}}
 
-footer{
+footer{{
     visibility: hidden;
-}
+}}
 
-header{
+header{{
     visibility: hidden;
-}
+}}
 
 </style>
 """, unsafe_allow_html=True)
@@ -164,10 +165,10 @@ st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
 col1, col2, col3 = st.columns([2,1,2])
 
 with col2:
-    st.image(
-        str(logo_path),
-        width=220
-    )
+    if logo_path.exists():
+        st.image(str(logo_path), width=220)
+    else:
+        st.warning("Logo tidak ditemukan di folder assets/")
 
 # =========================================
 # MAIN TITLE
