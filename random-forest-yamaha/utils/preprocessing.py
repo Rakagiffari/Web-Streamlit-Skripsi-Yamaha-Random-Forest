@@ -33,7 +33,7 @@ def preprocess_data(df):
             df[col] = df[col].fillna("Unknown")
 
     # =====================================
-    # HANDLE NUMERIK
+    # HANDLE NUMERIC
     # =====================================
 
     numeric_cols = [
@@ -70,9 +70,7 @@ def preprocess_data(df):
     # TARGET
     # =====================================
 
-    target = "Service"
-
-    y = df[target].map({
+    y = df["Service"].map({
 
         "Ringan": 0,
         "Berat": 1
@@ -96,7 +94,7 @@ def preprocess_data(df):
         "Plate",
         "Technical Name",
 
-        # KOLOM TIDAK PENTING
+        # TIDAK PENTING
         "Dealer",
         "Point",
         "YSS",
@@ -116,7 +114,7 @@ def preprocess_data(df):
     ]
 
     # =====================================
-    # FITUR
+    # FEATURES
     # =====================================
 
     X = df.drop(
