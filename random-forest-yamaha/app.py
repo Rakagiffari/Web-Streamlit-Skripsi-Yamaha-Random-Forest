@@ -38,7 +38,7 @@ st.markdown("""
    BACKGROUND
 ========================= */
 .stApp{
-    background-color: #FFFFFF;
+    background-color: #020617;
 }
 
 /* =========================
@@ -64,7 +64,7 @@ section[data-testid="stSidebar"]{
     text-align: center;
     font-size: 58px;
     font-weight: 900;
-    color: black;
+    color: white;
     line-height: 1.1;
     margin-top: 5px;
     margin-bottom: 10px;
@@ -76,7 +76,7 @@ section[data-testid="stSidebar"]{
 ========================= */
 .desc{
     text-align: center;
-    color: black;
+    color: #cbd5e1;
     font-size: 20px;
     margin-top: 0px;
     margin-bottom: 45px;
@@ -132,23 +132,7 @@ section[data-testid="stSidebar"]{
    SUCCESS BOX
 ========================= */
 .stAlert{
-    background-color: #15803d !important;
-    color: white !important;
     border-radius: 15px;
-    border: none;
-    padding: 14px;
-    font-weight: 600;
-}
-
-/* SUCCESS TEXT */
-.stAlert p{
-    color: white !important;
-    font-size: 15px;
-}
-
-/* SUCCESS ICON */
-.stAlert svg{
-    fill: white !important;
 }
 
 /* =========================
