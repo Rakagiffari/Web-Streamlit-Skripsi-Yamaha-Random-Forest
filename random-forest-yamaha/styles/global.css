@@ -29,7 +29,7 @@ SIDEBAR CONTENT
 }
 
 /* ========================================
-SIDEBAR TITLE
+TITLE
 ======================================== */
 [data-testid="stSidebarNav"]::before{
 
@@ -41,7 +41,7 @@ SIDEBAR TITLE
 
     color: white;
 
-    font-size: 15px;
+    font-size: 14px;
 
     font-weight: 900;
 
@@ -52,40 +52,26 @@ SIDEBAR TITLE
     padding-bottom: 14px;
 
     border-bottom: 1px solid rgba(255,255,255,0.08);
-
-    opacity: 0.95;
 }
 
 /* ========================================
-SIDEBAR NAV
-======================================== */
-[data-testid="stSidebarNav"]{
-
-    display: flex;
-    flex-direction: column;
-}
-
-/* ========================================
-MENU LIST
+REMOVE DEFAULT PADDING
 ======================================== */
 [data-testid="stSidebarNav"] ul{
 
-    display: flex;
-    flex-direction: column;
+    padding: 0 !important;
 
-    gap: 14px;
-
-    padding-top: 5px;
-
-    margin: 0;
+    margin: 0 !important;
 }
 
 /* ========================================
-MENU ITEM
+ALL MENU ITEMS
 ======================================== */
 [data-testid="stSidebarNav"] li{
 
     list-style: none;
+
+    margin-bottom: 14px !important;
 
     border-radius: 16px;
 
@@ -100,11 +86,7 @@ MENU ITEM
 
     border: 1px solid rgba(255,255,255,0.05);
 
-    transition:
-        transform 0.25s ease,
-        background 0.25s ease,
-        border 0.25s ease,
-        box-shadow 0.25s ease;
+    transition: all 0.25s ease;
 }
 
 /* ========================================
@@ -120,10 +102,9 @@ MENU LINK
 
     text-decoration: none !important;
 
-    padding: 14px 18px;
+    padding: 14px 18px !important;
 
-    display: flex;
-    align-items: center;
+    display: block;
 
     border-radius: 16px;
 
@@ -131,11 +112,11 @@ MENU LINK
 }
 
 /* ========================================
-HOVER EFFECT
+HOVER
 ======================================== */
 [data-testid="stSidebarNav"] li:hover{
 
-    transform: translateX(5px);
+    transform: translateX(4px);
 
     background:
         linear-gradient(
@@ -151,17 +132,9 @@ HOVER EFFECT
 }
 
 /* ========================================
-HOVER TEXT
+ACTIVE PAGE
 ======================================== */
-[data-testid="stSidebarNav"] li:hover a{
-
-    color: white !important;
-}
-
-/* ========================================
-ACTIVE MENU
-======================================== */
-[data-testid="stSidebarNav"] li:has([aria-current="page"]){
+[data-testid="stSidebarNav"] li:has(a[aria-current="page"]){
 
     background:
         linear-gradient(
@@ -180,7 +153,7 @@ ACTIVE MENU
 /* ========================================
 ACTIVE TEXT
 ======================================== */
-[data-testid="stSidebarNav"] li:has([aria-current="page"]) a{
+[data-testid="stSidebarNav"] li:has(a[aria-current="page"]) a{
 
     color: white !important;
 
@@ -188,11 +161,11 @@ ACTIVE TEXT
 }
 
 /* ========================================
-ABOUT RESEARCH STYLE
+ABOUT RESEARCH SPECIAL
 ======================================== */
-[data-testid="stSidebarNav"] li:nth-last-child(4){
+[data-testid="stSidebarNav"] li:nth-child(2){
 
-    margin-bottom: 20px;
+    margin-bottom: 28px !important;
 
     background:
         linear-gradient(
@@ -200,8 +173,6 @@ ABOUT RESEARCH STYLE
             rgba(239,68,68,0.08),
             rgba(127,29,29,0.08)
         );
-
-    border: 1px solid rgba(239,68,68,0.10);
 }
 
 /* ========================================
