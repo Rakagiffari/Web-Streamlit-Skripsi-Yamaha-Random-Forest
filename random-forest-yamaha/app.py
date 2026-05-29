@@ -1,3 +1,4 @@
+```python id="betterpalette"
 import streamlit as st
 from pathlib import Path
 from PIL import Image
@@ -38,7 +39,13 @@ st.markdown("""
    BACKGROUND
 ========================= */
 .stApp{
-    background-color: #f6f7f2;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f6f7f2 0%,
+            #eef2dc 100%
+        );
 }
 
 /* =========================
@@ -46,13 +53,15 @@ st.markdown("""
 ========================= */
 section[data-testid="stSidebar"]{
 
-    background: linear-gradient(
-        180deg,
-        #BAC095,
-        #D4DE95
-    );
+    background:
+        linear-gradient(
+            180deg,
+            #3D4127 0%,
+            #636B2F 100%
+        );
 
-    border-right: 1px solid #a3aa7b;
+    border-right:
+        1px solid #BAC095;
 }
 
 /* =========================
@@ -85,6 +94,9 @@ section[data-testid="stSidebar"]{
     margin-bottom: 10px;
 
     letter-spacing: 1px;
+
+    text-shadow:
+        0 2px 8px rgba(61,65,39,0.08);
 }
 
 /* =========================
@@ -108,32 +120,36 @@ section[data-testid="stSidebar"]{
 ========================= */
 .metric-card{
 
-    background: linear-gradient(
-        145deg,
-        #ffffff,
-        #eef2dc
-    );
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #BAC095
+        );
 
     padding: 28px 20px;
 
-    border-radius: 22px;
+    border-radius: 24px;
 
-    border: 1px solid #d7ddb6;
+    border:
+        1px solid rgba(99,107,47,0.15);
 
     text-align: center;
 
-    transition: 0.3s ease;
+    transition: 0.35s ease;
 
     box-shadow:
-        0 5px 15px rgba(61,65,39,0.08);
+        0 8px 25px rgba(61,65,39,0.10);
 
-    min-height: 150px;
+    min-height: 160px;
 
     display:flex;
 
     flex-direction:column;
 
     justify-content:center;
+
+    backdrop-filter: blur(6px);
 }
 
 /* =========================
@@ -141,12 +157,14 @@ section[data-testid="stSidebar"]{
 ========================= */
 .metric-card:hover{
 
-    transform: translateY(-6px);
+    transform:
+        translateY(-8px);
 
-    border: 1px solid #636B2F;
+    border:
+        1px solid #636B2F;
 
     box-shadow:
-        0 10px 20px rgba(99,107,47,0.20);
+        0 15px 30px rgba(61,65,39,0.20);
 }
 
 /* =========================
@@ -154,13 +172,15 @@ section[data-testid="stSidebar"]{
 ========================= */
 .metric-title{
 
-    color: #636B2F;
+    color: #3D4127;
 
     font-size: 15px;
 
     margin-bottom: 12px;
 
-    font-weight: 600;
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
 }
 
 /* =========================
@@ -168,11 +188,11 @@ section[data-testid="stSidebar"]{
 ========================= */
 .metric-value{
 
-    color: #3D4127;
+    color: #1f2412;
 
     font-size: 30px;
 
-    font-weight: 800;
+    font-weight: 900;
 }
 
 /* =========================
@@ -180,13 +200,22 @@ section[data-testid="stSidebar"]{
 ========================= */
 .stAlert{
 
-    border-radius: 15px;
+    border-radius: 16px;
 
-    background-color: #D4DE95;
+    background:
+        linear-gradient(
+            90deg,
+            #636B2F,
+            #3D4127
+        );
 
-    color: #3D4127;
+    color: white;
 
-    border: 1px solid #BAC095;
+    border:
+        1px solid #BAC095;
+
+    box-shadow:
+        0 4px 15px rgba(61,65,39,0.20);
 }
 
 /* =========================
@@ -194,20 +223,41 @@ section[data-testid="stSidebar"]{
 ========================= */
 .stButton>button{
 
-    background-color: #636B2F;
+    background:
+        linear-gradient(
+            90deg,
+            #636B2F,
+            #3D4127
+        );
 
     color: white;
 
-    border-radius: 10px;
+    border-radius: 12px;
 
     border: none;
 
-    transition: 0.3s;
+    padding:
+        0.6rem 1.3rem;
+
+    font-weight: 700;
+
+    transition: 0.3s ease;
+
+    box-shadow:
+        0 5px 15px rgba(61,65,39,0.15);
 }
 
 .stButton>button:hover{
 
-    background-color: #3D4127;
+    transform:
+        translateY(-2px);
+
+    background:
+        linear-gradient(
+            90deg,
+            #3D4127,
+            #636B2F
+        );
 
     color: white;
 }
@@ -286,7 +336,7 @@ space1, col1, col2, col3, space2 = st.columns(
 # =========================================
 with col1:
 
-    st.markdown(f"""
+    st.markdown("""
     <div class="metric-card">
 
         <div class="metric-title">
@@ -305,7 +355,7 @@ with col1:
 # =========================================
 with col2:
 
-    st.markdown(f"""
+    st.markdown("""
     <div class="metric-card">
 
         <div class="metric-title">
@@ -352,3 +402,4 @@ st.markdown(
 st.success(
     "ⓘ Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
 )
+```
