@@ -3,8 +3,6 @@ SIDEBAR STYLE
 ======================================== */
 section[data-testid="stSidebar"] {
 
-    width: 300px !important;
-
     background: linear-gradient(
         180deg,
         #081225 0%,
@@ -12,8 +10,6 @@ section[data-testid="stSidebar"] {
     );
 
     border-right: 1px solid rgba(255,255,255,0.08);
-
-    transition: all 0.3s ease;
 }
 
 /* ========================================
@@ -23,9 +19,9 @@ SIDEBAR CONTENT
 
     padding-top: 20px;
 
-    padding-left: 16px;
+    padding-left: 14px;
 
-    padding-right: 16px;
+    padding-right: 14px;
 }
 
 /* ========================================
@@ -55,11 +51,7 @@ MENU LIST
 ======================================== */
 [data-testid="stSidebarNav"] ul {
 
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 14px;
+    gap: 12px;
 }
 
 /* ========================================
@@ -71,11 +63,11 @@ MENU CARD
 
     border: 1px solid rgba(255,255,255,0.08);
 
-    border-radius: 18px;
+    border-radius: 16px;
 
     overflow: hidden;
 
-    transition: all 0.25s ease;
+    transition: 0.25s ease;
 }
 
 /* ========================================
@@ -85,9 +77,9 @@ MENU HOVER
 
     background: rgba(255,255,255,0.10);
 
-    transform: translateX(4px);
-
     border: 1px solid rgba(255,255,255,0.15);
+
+    transform: translateX(3px);
 }
 
 /* ========================================
@@ -113,29 +105,13 @@ MENU TEXT
 
     color: white !important;
 
-    font-size: 17px !important;
+    font-size: 16px !important;
 
     font-weight: 700 !important;
 
-    padding: 15px 18px;
-
-    border-radius: 16px;
+    padding: 14px 18px;
 
     text-decoration: none;
-}
-
-/* ========================================
-ABOUT MENU -> BOTTOM
-======================================== */
-[data-testid="stSidebarNav"] li:last-child {
-
-    margin-top: auto;
-
-    margin-bottom: 20px;
-
-    background: rgba(255,255,255,0.04);
-
-    border: 1px solid rgba(255,255,255,0.06);
 }
 
 /* ========================================
