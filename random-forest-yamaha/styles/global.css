@@ -1,10 +1,7 @@
 /* ========================================
-SIDEBAR FIXED SIZE
+SIDEBAR STYLE
 ======================================== */
 section[data-testid="stSidebar"] {
-
-    min-width: 300px !important;
-    max-width: 300px !important;
 
     background: linear-gradient(
         180deg,
@@ -20,14 +17,11 @@ SIDEBAR CONTENT
 ======================================== */
 [data-testid="stSidebarContent"] {
 
-    display: flex;
-    flex-direction: column;
-
-    height: 100vh;
-
     padding-top: 20px;
-    padding-left: 16px;
-    padding-right: 16px;
+
+    padding-left: 14px;
+
+    padding-right: 14px;
 }
 
 /* ========================================
@@ -39,29 +33,27 @@ SIDEBAR TITLE
 
     display: block;
 
-    color: white;
+    color: rgba(255,255,255,0.90);
 
-    font-size: 24px;
+    font-size: 18px;
 
     font-weight: 800;
 
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 
-    margin-bottom: 28px;
+    text-align: left;
 
     padding-left: 10px;
+
+    margin-top: 8px;
+
+    margin-bottom: 36px;
 }
 
 /* ========================================
 MENU LIST
 ======================================== */
 [data-testid="stSidebarNav"] ul {
-
-    display: flex;
-
-    flex-direction: column;
-
-    height: 100%;
 
     gap: 14px;
 }
@@ -79,7 +71,7 @@ MENU CARD
 
     overflow: hidden;
 
-    transition: all 0.25s ease;
+    transition: 0.25s ease;
 }
 
 /* ========================================
@@ -89,9 +81,9 @@ MENU HOVER
 
     background: rgba(255,255,255,0.10);
 
-    transform: translateX(4px);
-
     border: 1px solid rgba(255,255,255,0.15);
+
+    transform: translateX(3px);
 }
 
 /* ========================================
@@ -101,13 +93,13 @@ ACTIVE PAGE
 
     background: linear-gradient(
         90deg,
-        #ff0000 0%,
-        #b30000 100%
+        #ff1f1f 0%,
+        #c00000 100%
     );
 
     border: none;
 
-    box-shadow: 0 0 18px rgba(255,0,0,0.35);
+    box-shadow: 0 0 18px rgba(255,0,0,0.30);
 }
 
 /* ========================================
@@ -117,27 +109,26 @@ MENU TEXT
 
     color: white !important;
 
-    font-size: 17px !important;
+    font-size: 16px !important;
 
     font-weight: 700 !important;
 
     padding: 15px 18px;
 
-    border-radius: 16px;
-
     text-decoration: none;
 }
 
 /* ========================================
-ABOUT MENU -> BOTTOM
+SCROLLBAR
 ======================================== */
-[data-testid="stSidebarNav"] li:last-child {
+::-webkit-scrollbar {
 
-    margin-top: auto;
+    width: 8px;
+}
 
-    margin-bottom: 20px;
+::-webkit-scrollbar-thumb {
 
-    background: rgba(255,255,255,0.04);
+    background: #666;
 
-    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
 }
