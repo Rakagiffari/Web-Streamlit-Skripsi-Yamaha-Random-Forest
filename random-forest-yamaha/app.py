@@ -26,7 +26,21 @@ utc_now = datetime.utcnow()
 
 wib_now = utc_now + timedelta(hours=7)
 
-tanggal_jam = wib_now.strftime("%d-%m-%Y | %H:%M")
+hari_indonesia = {
+    "Monday": "Senin",
+    "Tuesday": "Selasa",
+    "Wednesday": "Rabu",
+    "Thursday": "Kamis",
+    "Friday": "Jumat",
+    "Saturday": "Sabtu",
+    "Sunday": "Minggu"
+}
+
+hari = hari_indonesia[wib_now.strftime("%A")]
+
+tanggal = wib_now.strftime("%d-%m-%Y")
+
+jam = wib_now.strftime("%H:%M")
 
 # =========================================
 # CUSTOM CSS
@@ -34,54 +48,140 @@ tanggal_jam = wib_now.strftime("%d-%m-%Y | %H:%M")
 st.markdown("""
 <style>
 
+/* =========================
+   BACKGROUND
+========================= */
+.stApp{
+    background-color: #020617;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+section[data-testid="stSidebar"]{
+    background-color: #0f172a;
+    border-right: 1px solid #1e293b;
+}
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+.block-container{
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+}
+
+/* =========================
+   MAIN TITLE
+========================= */
 .main-title{
     text-align: center;
-    font-size: 42px;
-    font-weight: 800;
-    color: #111111;
-    margin-top: 10px;
+    font-size: 58px;
+    font-weight: 900;
+    color: white;
+    line-height: 1.1;
+    margin-top: 5px;
     margin-bottom: 10px;
     letter-spacing: 1px;
 }
 
-.sub-title{
+/* =========================
+   DESCRIPTION
+========================= */
+.desc{
     text-align: center;
-    font-size: 18px;
-    color: #c00000;
-    margin-bottom: 35px;
-    font-weight: 600;
+    color: #cbd5e1;
+    font-size: 20px;
+    margin-top: 0px;
+    margin-bottom: 45px;
 }
 
-.info-card{
-    background-color: #ffffff;
-    padding: 22px;
-    border-radius: 16px;
+/* =========================
+   METRIC CARD
+========================= */
+.metric-card{
+    background: linear-gradient(145deg, #111827, #1e293b);
+    padding: 28px 20px;
+    border-radius: 22px;
+    border: 1px solid #334155;
     text-align: center;
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
-    border: 1px solid #eeeeee;
+    transition: 0.3s ease;
+    box-shadow: 0 0 15px rgba(0,0,0,0.25);
+    min-height: 170px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.card-title{
+/* =========================
+   HOVER EFFECT
+========================= */
+.metric-card:hover{
+    transform: translateY(-6px);
+    border: 1px solid #ef4444;
+    box-shadow: 0 0 20px rgba(239,68,68,0.25);
+}
+
+/* =========================
+   METRIC TITLE
+========================= */
+.metric-title{
+    color: #94a3b8;
     font-size: 15px;
-    color: #666666;
-    margin-bottom: 8px;
+    margin-bottom: 14px;
     font-weight: 600;
 }
 
-.card-value{
-    font-size: 22px;
-    font-weight: bold;
-    color: #111111;
-}
-
-div[data-testid="stAlert"]{
-    background-color: rgba(0, 128, 0, 0.75);
+/* =========================
+   METRIC VALUE
+========================= */
+.metric-value{
     color: white;
-    border-radius: 14px;
-    border: none;
-    padding: 18px;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+/* =========================
+   DATE TEXT
+========================= */
+.date-text{
+    color: #cbd5e1;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+/* =========================
+   TIME TEXT
+========================= */
+.time-text{
+    color: #ef4444;
+    font-size: 38px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+/* =========================
+   SUCCESS BOX
+========================= */
+.stAlert{
+    border-radius: 15px;
+}
+
+/* =========================
+   HIDE STREAMLIT MENU
+========================= */
+#MainMenu{
+    visibility: hidden;
+}
+
+footer{
+    visibility: hidden;
+}
+
+header{
+    visibility: hidden;
 }
 
 </style>
@@ -90,7 +190,7 @@ div[data-testid="stAlert"]{
 # =========================================
 # SPACE TOP
 # =========================================
-st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
 
 # =========================================
 # CENTER LOGO
@@ -98,63 +198,120 @@ st.markdown("<br>", unsafe_allow_html=True)
 col1, col2, col3 = st.columns([2,1,2])
 
 with col2:
-    st.image(str(logo_path), width=220)
+    st.image(
+        str(logo_path),
+        width=240
+    )
 
 # =========================================
 # MAIN TITLE
 # =========================================
-st.markdown("""
-<div class="main-title">
-KLASIFIKASI LAYANAN SERVIS YAMAHA
-</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    """
+    <div class="main-title">
+        KLASIFIKASI LAYANAN SERVIS YAMAHA
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # =========================================
 # DESCRIPTION
 # =========================================
-st.markdown("""
-<div class="sub-title">
-Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yamaha.
-</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    """
+    <div class="desc">
+        Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yamaha.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # =========================================
-# 3 CENTER CARDS
+# METRIC CARDS
 # =========================================
-space1, col1, col2, col3, space2 = st.columns([0.7,1,1,1,0.7])
+col1, col2, col3, col4 = st.columns(4)
 
+# =========================================
+# CARD 1
+# =========================================
 with col1:
     st.markdown(f"""
-    <div class="info-card">
-        <div class="card-title">Algoritma</div>
-        <div class="card-value">Random Forest</div>
+    <div class="metric-card">
+        <div class="metric-title">
+            Algoritma
+        </div>
+
+        <div class="metric-value">
+            Random Forest
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
+# =========================================
+# CARD 2
+# =========================================
 with col2:
     st.markdown(f"""
-    <div class="info-card">
-        <div class="card-title">Dataset</div>
-        <div class="card-value">CSV File</div>
+    <div class="metric-card">
+        <div class="metric-title">
+            Dataset
+        </div>
+
+        <div class="metric-value">
+            CSV File
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
+# =========================================
+# CARD 3
+# =========================================
 with col3:
     st.markdown(f"""
-    <div class="info-card">
-        <div class="card-title">Tanggal & Jam WIB</div>
-        <div class="card-value">{tanggal_jam}</div>
+    <div class="metric-card">
+
+        <div class="metric-title">
+            Tanggal & Jam WIB
+        </div>
+
+        <div class="date-text">
+            {tanggal}
+        </div>
+
+        <div class="time-text">
+            {jam}
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+# =========================================
+# CARD 4
+# =========================================
+with col4:
+    st.markdown(f"""
+    <div class="metric-card">
+
+        <div class="metric-title">
+            Hari
+        </div>
+
+        <div class="metric-value">
+            {hari}
+        </div>
+
     </div>
     """, unsafe_allow_html=True)
 
 # =========================================
 # SPACE
 # =========================================
-st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("<br><br>", unsafe_allow_html=True)
 
 # =========================================
 # SUCCESS MESSAGE
 # =========================================
 st.success(
-    "ⓘ Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
+    "Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
 )
