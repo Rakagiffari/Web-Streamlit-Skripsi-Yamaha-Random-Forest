@@ -1,303 +1,113 @@
-import streamlit as st
-from pathlib import Path
-from PIL import Image
-from datetime import datetime, timedelta
-
-# =========================================
-# PAGE CONFIG
-# =========================================
-BASE_DIR = Path(__file__).parent
-
-logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
-
-logo = Image.open(logo_path)
-
-st.set_page_config(
-    page_title="Home",
-    page_icon=logo,
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-
-# =========================================
-# LOAD GLOBAL CSS
-# =========================================
-css_path = BASE_DIR / "styles" / "global.css"
-
-with open(css_path) as f:
-    st.markdown(
-        f"<style>{f.read()}</style>",
-        unsafe_allow_html=True
-    )
-
-# =========================================
-# DATE & TIME WIB
-# =========================================
-utc_now = datetime.utcnow()
-
-wib_now = utc_now + timedelta(hours=7)
-
-tanggal_jam = wib_now.strftime("%d-%m-%Y | %H:%M")
-
-# =========================================
-# MAIN PAGE CSS
-# =========================================
-st.markdown("""
-<style>
-
-/* =========================
-BACKGROUND
-========================= */
-.stApp{
-    background-color: #020617;
-}
-
-/* =========================
-MAIN CONTAINER
-========================= */
-.block-container{
-    padding-top: 1rem;
-    padding-bottom: 2rem;
-}
-
-/* =========================
-MAIN TITLE
-========================= */
-.main-title{
-
-    text-align: center;
-
-    font-size: 46px;
-
-    font-weight: 900;
-
-    color: white;
-
-    line-height: 1.2;
-
-    margin-top: 5px;
-
-    margin-bottom: 12px;
-
-    letter-spacing: 1px;
-
-    max-width: 1000px;
-
-    margin-left: auto;
-
-    margin-right: auto;
-}
-
-/* =========================
-DESCRIPTION
-========================= */
-.desc{
-
-    text-align: center;
-
-    color: #cbd5e1;
-
-    font-size: 20px;
-
-    margin-top: 0px;
-
-    margin-bottom: 42px;
-}
-
-/* =========================
-METRIC CARD
-========================= */
-.metric-card{
+/* ========================================
+SIDEBAR BACKGROUND
+======================================== */
+section[data-testid="stSidebar"] {
 
     background: linear-gradient(
-        145deg,
-        #111827,
-        #1e293b
+        180deg,
+        #081225 0%,
+        #0d1b3d 100%
     );
 
-    padding: 28px 20px;
-
-    border-radius: 22px;
-
-    border: 1px solid #334155;
-
-    text-align: center;
-
-    transition: 0.3s ease;
-
-    box-shadow: 0 0 15px rgba(0,0,0,0.25);
-
-    min-height: 150px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
+    border-right: 1px solid rgba(255,255,255,0.08);
 }
 
-/* =========================
-CARD HOVER
-========================= */
-.metric-card:hover{
+/* ========================================
+SIDEBAR CONTENT
+======================================== */
+[data-testid="stSidebarContent"] {
 
-    transform: translateY(-6px);
+    padding-top: 20px;
 
-    border: 1px solid #ef4444;
+    padding-left: 14px;
 
-    box-shadow: 0 0 20px rgba(239,68,68,0.25);
+    padding-right: 14px;
 }
 
-/* =========================
-METRIC TITLE
-========================= */
-.metric-title{
+/* ========================================
+MENU TITLE
+======================================== */
+[data-testid="stSidebarNav"]::before {
 
-    color: #94a3b8;
+    content: "MENU";
 
-    font-size: 15px;
-
-    margin-bottom: 12px;
-
-    font-weight: 600;
-}
-
-/* =========================
-METRIC VALUE
-========================= */
-.metric-value{
+    display: block;
 
     color: white;
 
-    font-size: 28px;
+    font-size: 18px;
 
     font-weight: 800;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 30px;
+
+    padding-left: 10px;
 }
 
-/* =========================
-SUCCESS BOX
-========================= */
-.stAlert{
+/* ========================================
+MENU LIST
+======================================== */
+[data-testid="stSidebarNav"] ul {
 
-    border-radius: 15px;
+    gap: 14px;
 }
 
-/* =========================
-HIDE STREAMLIT
-========================= */
-#MainMenu{
-    visibility: hidden;
+/* ========================================
+MENU CARD
+======================================== */
+[data-testid="stSidebarNav"] li {
+
+    background: rgba(255,255,255,0.05);
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    transition: 0.25s ease;
 }
 
-footer{
-    visibility: hidden;
+/* ========================================
+MENU HOVER
+======================================== */
+[data-testid="stSidebarNav"] li:hover {
+
+    background: rgba(255,255,255,0.10);
+
+    border: 1px solid rgba(255,255,255,0.15);
 }
 
-header{
-    visibility: hidden;
+/* ========================================
+ACTIVE PAGE
+======================================== */
+[data-testid="stSidebarNav"] li:has([aria-current="page"]) {
+
+    background: linear-gradient(
+        90deg,
+        #ff1f1f 0%,
+        #c00000 100%
+    );
+
+    border: none;
+
+    box-shadow: 0 0 18px rgba(255,0,0,0.25);
 }
 
-</style>
-""", unsafe_allow_html=True)
+/* ========================================
+MENU TEXT
+======================================== */
+[data-testid="stSidebarNav"] a {
 
-# =========================================
-# TOP SPACE
-# =========================================
-st.markdown(
-    "<div style='margin-top:10px;'></div>",
-    unsafe_allow_html=True
-)
+    color: white !important;
 
-# =========================================
-# CENTER LOGO
-# =========================================
-col1, col2, col3 = st.columns([2,1,2])
+    font-size: 16px !important;
 
-with col2:
+    font-weight: 700 !important;
 
-    st.image(
-        str(logo_path),
-        width=180
-    )
+    padding: 14px 16px;
 
-# =========================================
-# MAIN TITLE
-# =========================================
-st.markdown(
-    """
-    <div class="main-title">
-        KLASIFIKASI LAYANAN SERVIS YAMAHA
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-# =========================================
-# DESCRIPTION
-# =========================================
-st.markdown(
-    """
-    <div class="desc">
-        Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yamaha.
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-# =========================================
-# METRIC CARDS
-# =========================================
-space1, col1, col2, col3, space2 = st.columns(
-    [0.5,1,1,1,0.5]
-)
-
-with col1:
-
-    st.markdown(f"""
-    <div class="metric-card">
-        <div class="metric-title">
-            Algoritma
-        </div>
-        <div class="metric-value">
-            Random Forest
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col2:
-
-    st.markdown(f"""
-    <div class="metric-card">
-        <div class="metric-title">
-            Dataset
-        </div>
-        <div class="metric-value">
-            CSV File
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col3:
-
-    st.markdown(f"""
-    <div class="metric-card">
-        <div class="metric-title">
-            Tanggal & Jam WIB
-        </div>
-        <div class="metric-value" style="font-size:18px;">
-            {tanggal_jam}
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-# =========================================
-# SPACE
-# =========================================
-st.markdown("<br><br>", unsafe_allow_html=True)
-
-# =========================================
-# SUCCESS MESSAGE
-# =========================================
-st.success(
-    "ⓘ Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
-)
+    text-decoration: none;
+}
