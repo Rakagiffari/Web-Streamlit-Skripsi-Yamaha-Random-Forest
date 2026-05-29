@@ -46,21 +46,18 @@ SIDEBAR
 ========================================= */
 section[data-testid="stSidebar"] {
 
-    min-width: 290px !important;
-    max-width: 290px !important;
+    min-width: 250px !important;
+    max-width: 250px !important;
 
     background:
         linear-gradient(
             180deg,
             #020617 0%,
-            #081225 50%,
-            #0f172a 100%
+            #081225 100%
         );
 
-    border-right: 1px solid rgba(255,255,255,0.05);
-
-    box-shadow:
-        4px 0 25px rgba(0,0,0,0.35);
+    border-right:
+        1px solid rgba(255,255,255,0.05);
 }
 
 /* =========================================
@@ -68,49 +65,32 @@ SIDEBAR CONTENT
 ========================================= */
 [data-testid="stSidebarContent"] {
 
-    padding-top: 22px;
+    padding-top: 18px;
     padding-left: 14px;
     padding-right: 14px;
-    padding-bottom: 20px;
+    padding-bottom: 18px;
 }
 
 /* =========================================
-SIDEBAR TITLE
+MENU TITLE
 ========================================= */
 [data-testid="stSidebarNav"]::before {
 
-    content: "YAMAHA AI SYSTEM";
+    content: "MENU";
 
     display: block;
 
-    text-align: center;
-
     color: white;
 
-    font-size: 24px;
+    font-size: 22px;
 
-    font-weight: 900;
+    font-weight: 800;
 
     letter-spacing: 1px;
 
-    margin-bottom: 28px;
+    margin-bottom: 18px;
 
-    padding: 18px;
-
-    border-radius: 22px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(239,68,68,0.18),
-            rgba(239,68,68,0.04)
-        );
-
-    border:
-        1px solid rgba(239,68,68,0.20);
-
-    box-shadow:
-        0 0 25px rgba(239,68,68,0.12);
+    padding-left: 6px;
 }
 
 /* =========================================
@@ -121,33 +101,30 @@ MENU LIST
     display: flex;
     flex-direction: column;
 
-    gap: 16px;
+    gap: 10px;
+
+    height: 100%;
 }
 
 /* =========================================
-BUBBLE MENU
+MENU ITEM
 ========================================= */
 [data-testid="stSidebarNav"] li {
 
     list-style: none;
 
-    border-radius: 999px;
+    border-radius: 14px;
 
     overflow: hidden;
 
     background:
-        rgba(255,255,255,0.04);
+        rgba(255,255,255,0.03);
 
     border:
-        1px solid rgba(255,255,255,0.06);
-
-    backdrop-filter: blur(10px);
+        1px solid rgba(255,255,255,0.05);
 
     transition:
-        all 0.25s ease;
-
-    box-shadow:
-        0 4px 14px rgba(0,0,0,0.22);
+        all 0.2s ease;
 }
 
 /* =========================================
@@ -155,18 +132,13 @@ MENU HOVER
 ========================================= */
 [data-testid="stSidebarNav"] li:hover {
 
-    transform:
-        translateX(6px)
-        scale(1.02);
+    transform: translateX(4px);
 
     background:
-        rgba(255,255,255,0.08);
+        rgba(255,255,255,0.06);
 
     border:
-        1px solid rgba(239,68,68,0.30);
-
-    box-shadow:
-        0 0 18px rgba(239,68,68,0.16);
+        1px solid rgba(239,68,68,0.25);
 }
 
 /* =========================================
@@ -178,14 +150,14 @@ ACTIVE MENU
         linear-gradient(
             90deg,
             #ef4444,
-            #b91c1c
+            #dc2626
         );
 
     border:
         1px solid rgba(255,255,255,0.08);
 
     box-shadow:
-        0 0 24px rgba(239,68,68,0.30);
+        0 0 16px rgba(239,68,68,0.18);
 }
 
 /* =========================================
@@ -195,39 +167,69 @@ MENU LINK
 
     color: white !important;
 
-    font-size: 15px !important;
+    font-size: 14px !important;
 
     font-weight: 700 !important;
 
-    padding:
-        15px 22px;
-
-    border-radius: 999px;
+    padding: 14px 16px;
 
     text-decoration: none;
+}
 
-    transition: all 0.2s ease;
+/* =========================================
+ABOUT MENU BOTTOM
+========================================= */
+[data-testid="stSidebarNav"] li:last-child {
+
+    margin-top: auto;
+
+    border-top:
+        1px solid rgba(255,255,255,0.08);
+
+    padding-top: 8px;
+
+    border-radius: 0;
 }
 
 /* =========================================
 MAIN CONTAINER
 ========================================= */
 .block-container{
+
     padding-top: 1rem;
     padding-bottom: 2rem;
+}
+
+/* =========================================
+LOGO
+========================================= */
+.logo-wrapper{
+
+    text-align: center;
+
+    margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 /* =========================================
 MAIN TITLE
 ========================================= */
 .main-title{
+
     text-align: center;
-    font-size: 58px;
+
+    font-size: 48px;
+
     font-weight: 900;
+
     color: white;
+
     line-height: 1.1;
-    margin-top: 5px;
+
+    margin-top: 0px;
+
     margin-bottom: 10px;
+
     letter-spacing: 1px;
 }
 
@@ -235,15 +237,20 @@ MAIN TITLE
 DESCRIPTION
 ========================================= */
 .desc{
+
     text-align: center;
+
     color: #cbd5e1;
-    font-size: 20px;
+
+    font-size: 18px;
+
     margin-top: 0px;
-    margin-bottom: 45px;
+
+    margin-bottom: 40px;
 }
 
 /* =========================================
-METRIC CARD
+CARD
 ========================================= */
 .metric-card{
 
@@ -254,9 +261,9 @@ METRIC CARD
             #1e293b
         );
 
-    padding: 28px 20px;
+    padding: 24px 18px;
 
-    border-radius: 24px;
+    border-radius: 22px;
 
     border:
         1px solid #334155;
@@ -265,10 +272,7 @@ METRIC CARD
 
     transition: 0.3s ease;
 
-    box-shadow:
-        0 0 18px rgba(0,0,0,0.30);
-
-    min-height: 160px;
+    min-height: 145px;
 
     display:flex;
     flex-direction:column;
@@ -276,27 +280,27 @@ METRIC CARD
 }
 
 /* =========================================
-HOVER EFFECT
+CARD HOVER
 ========================================= */
 .metric-card:hover{
 
-    transform: translateY(-8px);
+    transform: translateY(-5px);
 
     border:
         1px solid #ef4444;
 
     box-shadow:
-        0 0 22px rgba(239,68,68,0.20);
+        0 0 20px rgba(239,68,68,0.15);
 }
 
 /* =========================================
-METRIC TITLE
+CARD TITLE
 ========================================= */
 .metric-title{
 
     color: #94a3b8;
 
-    font-size: 15px;
+    font-size: 14px;
 
     margin-bottom: 12px;
 
@@ -304,13 +308,13 @@ METRIC TITLE
 }
 
 /* =========================================
-METRIC VALUE
+CARD VALUE
 ========================================= */
 .metric-value{
 
     color: white;
 
-    font-size: 30px;
+    font-size: 24px;
 
     font-weight: 800;
 }
@@ -320,13 +324,63 @@ SUCCESS BOX
 ========================================= */
 .stAlert{
 
-    border-radius: 18px;
+    border-radius: 16px;
 
     background:
         rgba(15,23,42,0.75);
 
     border:
-        1px solid rgba(239,68,68,0.18);
+        1px solid rgba(239,68,68,0.15);
+}
+
+/* =========================================
+RESPONSIVE
+========================================= */
+@media (max-width: 1200px){
+
+    .main-title{
+        font-size: 42px !important;
+    }
+
+    .desc{
+        font-size: 16px !important;
+    }
+
+    .metric-value{
+        font-size: 20px !important;
+    }
+}
+
+@media (max-width: 900px){
+
+    .main-title{
+        font-size: 34px !important;
+    }
+
+    .desc{
+        font-size: 15px !important;
+    }
+
+    section[data-testid="stSidebar"] {
+
+        min-width: 220px !important;
+        max-width: 220px !important;
+    }
+}
+
+/* =========================================
+SCROLLBAR
+========================================= */
+::-webkit-scrollbar {
+
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+
+    background: #334155;
+
+    border-radius: 20px;
 }
 
 /* =========================================
@@ -348,42 +402,12 @@ header{
 """, unsafe_allow_html=True)
 
 # =========================================
-# SIDEBAR EXTRA
-# =========================================
-with st.sidebar:
-
-    st.markdown("""
-    <div style="
-        margin-top:-10px;
-        margin-bottom:25px;
-        padding:18px;
-        border-radius:22px;
-        background:rgba(255,255,255,0.04);
-        border:1px solid rgba(255,255,255,0.06);
-        text-align:center;
-    ">
-        <div style="
-            color:white;
-            font-size:17px;
-            font-weight:800;
-            margin-bottom:6px;
-        ">
-            RANDOM FOREST
-        </div>
-
-        <div style="
-            color:#94a3b8;
-            font-size:13px;
-        ">
-            Machine Learning Dashboard
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-# =========================================
 # SPACE TOP
 # =========================================
-st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
+st.markdown(
+    "<div style='margin-top:5px;'></div>",
+    unsafe_allow_html=True
+)
 
 # =========================================
 # CENTER LOGO
@@ -391,9 +415,20 @@ st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
 col1, col2, col3 = st.columns([2,1,2])
 
 with col2:
+
+    st.markdown(
+        '<div class="logo-wrapper">',
+        unsafe_allow_html=True
+    )
+
     st.image(
         str(logo_path),
-        width=210
+        width=150
+    )
+
+    st.markdown(
+        '</div>',
+        unsafe_allow_html=True
     )
 
 # =========================================
@@ -423,11 +458,18 @@ st.markdown(
 # =========================================
 # METRIC CARDS
 # =========================================
-space1, col1, col2, col3, space2 = st.columns([0.7,1,1,1,0.7])
+space1, col1, col2, col3, space2 = st.columns(
+    [0.5,1,1,1,0.5]
+)
 
+# =========================================
+# CARD 1
+# =========================================
 with col1:
+
     st.markdown(f"""
     <div class="metric-card">
+
         <div class="metric-title">
             Algoritma
         </div>
@@ -435,12 +477,18 @@ with col1:
         <div class="metric-value">
             Random Forest
         </div>
+
     </div>
     """, unsafe_allow_html=True)
 
+# =========================================
+# CARD 2
+# =========================================
 with col2:
+
     st.markdown(f"""
     <div class="metric-card">
+
         <div class="metric-title">
             Dataset
         </div>
@@ -448,12 +496,18 @@ with col2:
         <div class="metric-value">
             CSV File
         </div>
+
     </div>
     """, unsafe_allow_html=True)
 
+# =========================================
+# CARD 3
+# =========================================
 with col3:
+
     st.markdown(f"""
     <div class="metric-card">
+
         <div class="metric-title">
             Tanggal & Jam WIB
         </div>
@@ -461,13 +515,14 @@ with col3:
         <div class="metric-value" style="font-size:20px;">
             {tanggal_jam}
         </div>
+
     </div>
     """, unsafe_allow_html=True)
 
 # =========================================
 # SPACE
 # =========================================
-st.markdown("<br><br>", unsafe_allow_html=True)
+st.markdown("<br>", unsafe_allow_html=True)
 
 # =========================================
 # SUCCESS MESSAGE
