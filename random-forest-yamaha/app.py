@@ -1,403 +1,190 @@
 import streamlit as st
+import pandas as pd
+import plotly.express as px
+import joblib
+
 from pathlib import Path
-from PIL import Image
-from datetime import datetime, timedelta
+from utils.preprocessing import preprocess_data
 
 # =========================================
-# PAGE CONFIG
+# TITLE
 # =========================================
-BASE_DIR = Path(__file__).parent
+st.title("📈 Feature Importance")
 
-logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
-
-logo = Image.open(logo_path)
-
-st.set_page_config(
-    page_title="Yamaha Random Forest",
-    page_icon=logo,
-    layout="wide",
-    initial_sidebar_state="expanded"
+# =========================================
+# UPLOAD DATASET
+# =========================================
+uploaded_file = st.file_uploader(
+    "📂 Upload Dataset",
+    type=['csv']
 )
 
 # =========================================
-# DATE & TIME WIB
+# PROCESS
 # =========================================
-utc_now = datetime.utcnow()
-
-wib_now = utc_now + timedelta(hours=7)
-
-tanggal_jam = wib_now.strftime("%d-%m-%Y | %H:%M")
-
-# =========================================
-# CUSTOM CSS
-# =========================================
-st.markdown("""
-<style>
-
-/* =========================
-   BACKGROUND
-========================= */
-.stApp{
-
-    background:
-        linear-gradient(
-            135deg,
-            #f6f7f2 0%,
-            #eef2dc 100%
-        );
-}
-
-/* =========================
-   SIDEBAR
-========================= */
-section[data-testid="stSidebar"]{
-
-    background:
-        linear-gradient(
-            180deg,
-            #3D4127 0%,
-            #636B2F 100%
-        );
-
-    border-right:
-        1px solid #BAC095;
-}
-
-/* =========================
-   MAIN CONTAINER
-========================= */
-.block-container{
-
-    padding-top: 1rem;
-
-    padding-bottom: 2rem;
-}
-
-/* =========================
-   MAIN TITLE
-========================= */
-.main-title{
-
-    text-align: center;
-
-    font-size: 58px;
-
-    font-weight: 900;
-
-    color: #3D4127;
-
-    line-height: 1.1;
-
-    margin-top: 5px;
-
-    margin-bottom: 10px;
-
-    letter-spacing: 1px;
-
-    text-shadow:
-        0 2px 8px rgba(61,65,39,0.08);
-}
-
-/* =========================
-   DESCRIPTION
-========================= */
-.desc{
-
-    text-align: center;
-
-    color: #636B2F;
-
-    font-size: 20px;
-
-    margin-top: 0px;
-
-    margin-bottom: 45px;
-}
-
-/* =========================
-   METRIC CARD
-========================= */
-.metric-card{
-
-    background:
-        linear-gradient(
-            145deg,
-            #ffffff,
-            #BAC095
-        );
-
-    padding: 28px 20px;
-
-    border-radius: 24px;
-
-    border:
-        1px solid rgba(99,107,47,0.15);
-
-    text-align: center;
-
-    transition: 0.35s ease;
-
-    box-shadow:
-        0 8px 25px rgba(61,65,39,0.10);
-
-    min-height: 160px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    backdrop-filter: blur(6px);
-}
-
-/* =========================
-   HOVER EFFECT
-========================= */
-.metric-card:hover{
-
-    transform:
-        translateY(-8px);
-
-    border:
-        1px solid #636B2F;
-
-    box-shadow:
-        0 15px 30px rgba(61,65,39,0.20);
-}
-
-/* =========================
-   METRIC TITLE
-========================= */
-.metric-title{
-
-    color: #3D4127;
-
-    font-size: 15px;
-
-    margin-bottom: 12px;
-
-    font-weight: 700;
-
-    letter-spacing: 0.5px;
-}
-
-/* =========================
-   METRIC VALUE
-========================= */
-.metric-value{
-
-    color: #1f2412;
-
-    font-size: 30px;
-
-    font-weight: 900;
-}
-
-/* =========================
-   SUCCESS BOX
-========================= */
-.stAlert{
-
-    border-radius: 16px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #636B2F,
-            #3D4127
-        );
-
-    color: white;
-
-    border:
-        1px solid #BAC095;
-
-    box-shadow:
-        0 4px 15px rgba(61,65,39,0.20);
-}
-
-/* =========================
-   BUTTON
-========================= */
-.stButton>button{
-
-    background:
-        linear-gradient(
-            90deg,
-            #636B2F,
-            #3D4127
-        );
-
-    color: white;
-
-    border-radius: 12px;
-
-    border: none;
-
-    padding:
-        0.6rem 1.3rem;
-
-    font-weight: 700;
-
-    transition: 0.3s ease;
-
-    box-shadow:
-        0 5px 15px rgba(61,65,39,0.15);
-}
-
-.stButton>button:hover{
-
-    transform:
-        translateY(-2px);
-
-    background:
-        linear-gradient(
-            90deg,
-            #3D4127,
-            #636B2F
-        );
-
-    color: white;
-}
-
-/* =========================
-   HIDE STREAMLIT MENU
-========================= */
-#MainMenu{
-    visibility: hidden;
-}
-
-footer{
-    visibility: hidden;
-}
-
-header{
-    visibility: hidden;
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-# =========================================
-# SPACE TOP
-# =========================================
-st.markdown(
-    "<div style='margin-top:10px;'></div>",
-    unsafe_allow_html=True
-)
-
-# =========================================
-# CENTER LOGO
-# =========================================
-col1, col2, col3 = st.columns([2,1,2])
-
-with col2:
-
-    st.image(
-        str(logo_path),
-        width=210
+if uploaded_file:
+
+    # =========================
+    # LOAD DATASET
+    # =========================
+    df = pd.read_csv(uploaded_file)
+
+    # =========================
+    # PREPROCESSING
+    # =========================
+    X, y = preprocess_data(df)
+
+    # =========================
+    # LOAD MODEL
+    # =========================
+    BASE_DIR = Path(__file__).parent.parent
+
+    model_path = (
+        BASE_DIR / "model" / "random_forest_model.pkl"
     )
 
-# =========================================
-# MAIN TITLE
-# =========================================
-st.markdown(
-    """
-    <div class="main-title">
-        KLASIFIKASI LAYANAN SERVIS YAMAHA
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+    # =========================
+    # CHECK MODEL
+    # =========================
+    if not model_path.exists():
 
-# =========================================
-# DESCRIPTION
-# =========================================
-st.markdown(
-    """
-    <div class="desc">
-        Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yamaha.
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+        st.warning(
+            "⚠️ Silakan training model terlebih dahulu."
+        )
 
-# =========================================
-# METRIC CARDS
-# =========================================
-space1, col1, col2, col3, space2 = st.columns(
-    [0.7,1,1,1,0.7]
-)
+    else:
 
-# =========================================
-# CARD 1
-# =========================================
-with col1:
+        # =========================
+        # LOAD MODEL
+        # =========================
+        model = joblib.load(model_path)
 
-    st.markdown("""
-    <div class="metric-card">
+        # =========================
+        # VALIDASI FITUR
+        # =========================
+        if len(X.columns) != len(model.feature_importances_):
 
-        <div class="metric-title">
-            Algoritma
-        </div>
+            st.error(
+                "❌ Jumlah fitur tidak sesuai dengan model training."
+            )
 
-        <div class="metric-value">
-            Random Forest
-        </div>
+        else:
 
-    </div>
-    """, unsafe_allow_html=True)
+            # =========================
+            # FEATURE IMPORTANCE
+            # =========================
+            importance = pd.DataFrame({
+                'Fitur': X.columns,
+                'Importance': model.feature_importances_
+            })
 
-# =========================================
-# CARD 2
-# =========================================
-with col2:
+            # =========================
+            # GABUNGKAN FEATURE
+            # =========================
+            grouped_importance = {
+                'Last Kilometer': 0,
+                'Usia Motor': 0,
+                'Model Name': 0,
+                'Category': 0,
+                'Brand': 0,
+                'Status': 0
+            }
 
-    st.markdown("""
-    <div class="metric-card">
+            for index, row in importance.iterrows():
 
-        <div class="metric-title">
-            Dataset
-        </div>
+                fitur = str(row['Fitur'])
+                nilai = row['Importance']
 
-        <div class="metric-value">
-            CSV File
-        </div>
+                # =========================
+                # MODEL NAME
+                # =========================
+                if fitur.startswith('Model Name_'):
 
-    </div>
-    """, unsafe_allow_html=True)
+                    grouped_importance['Model Name'] += nilai
 
-# =========================================
-# CARD 3
-# =========================================
-with col3:
+                # =========================
+                # CATEGORY
+                # =========================
+                elif fitur.startswith('Category_'):
 
-    st.markdown(f"""
-    <div class="metric-card">
+                    grouped_importance['Category'] += nilai
 
-        <div class="metric-title">
-            Tanggal & Jam WIB
-        </div>
+                # =========================
+                # BRAND
+                # =========================
+                elif fitur.startswith('Brand_'):
 
-        <div class="metric-value" style="font-size:20px;">
-            {tanggal_jam}
-        </div>
+                    grouped_importance['Brand'] += nilai
 
-    </div>
-    """, unsafe_allow_html=True)
+                # =========================
+                # STATUS
+                # =========================
+                elif fitur.startswith('Status_'):
 
-# =========================================
-# SPACE
-# =========================================
-st.markdown(
-    "<br><br>",
-    unsafe_allow_html=True
-)
+                    grouped_importance['Status'] += nilai
 
-# =========================================
-# SUCCESS MESSAGE
-# =========================================
-st.success(
-    "ⓘ Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
-)
+                # =========================
+                # LAST KILOMETER
+                # =========================
+                elif fitur == 'Last Kilometer':
+
+                    grouped_importance['Last Kilometer'] += nilai
+
+                # =========================
+                # USIA MOTOR
+                # =========================
+                elif fitur == 'Usia Motor':
+
+                    grouped_importance['Usia Motor'] += nilai
+
+            # =========================
+            # DATAFRAME
+            # =========================
+            importance_grouped = pd.DataFrame({
+                'Fitur': grouped_importance.keys(),
+                'Importance': grouped_importance.values()
+            })
+
+            # =========================
+            # SORTING
+            # =========================
+            importance_grouped = (
+                importance_grouped
+                .sort_values(
+                    by='Importance',
+                    ascending=False
+                )
+            )
+
+            # =========================
+            # VISUALISASI
+            # =========================
+            fig = px.bar(
+                importance_grouped,
+                x='Importance',
+                y='Fitur',
+                orientation='h',
+                title='Feature Importance',
+                text_auto='.3f'
+            )
+
+            # =========================
+            # STYLE CHART
+            # =========================
+            fig.update_layout(
+                title_x=0.5,
+                height=500
+            )
+
+            st.plotly_chart(
+                fig,
+                use_container_width=True
+            )
+
+            # =========================
+            # TABEL
+            # =========================
+            st.dataframe(
+                importance_grouped,
+                use_container_width=True
+            )
