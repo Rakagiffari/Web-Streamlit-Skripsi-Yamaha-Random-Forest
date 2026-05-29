@@ -1,4 +1,3 @@
-```python id="fullapp"
 import streamlit as st
 from pathlib import Path
 from PIL import Image
@@ -353,4 +352,3 @@ st.markdown(
 st.success(
     "ⓘ Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
 )
-```
