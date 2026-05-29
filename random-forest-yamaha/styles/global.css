@@ -20,10 +20,13 @@ SIDEBAR CONTENT
 ======================================== */
 [data-testid="stSidebarContent"] {
 
+    display: flex;
+    flex-direction: column;
+
+    height: 100vh;
+
     padding-top: 20px;
-
     padding-left: 16px;
-
     padding-right: 16px;
 }
 
@@ -32,31 +35,33 @@ SIDEBAR TITLE
 ======================================== */
 [data-testid="stSidebarNav"]::before {
 
-    content: "MENU";
+    content: "YAMAHA MENU";
 
     display: block;
 
-    color: rgba(255,255,255,0.85);
+    color: white;
 
-    font-size: 18px;
+    font-size: 24px;
 
-    font-weight: 700;
+    font-weight: 800;
 
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 
-    text-align: left;
+    margin-bottom: 28px;
 
-    padding-left: 8px;
-
-    margin-top: 8px;
-
-    margin-bottom: 38px;
+    padding-left: 10px;
 }
 
 /* ========================================
 MENU LIST
 ======================================== */
 [data-testid="stSidebarNav"] ul {
+
+    display: flex;
+
+    flex-direction: column;
+
+    height: 100%;
 
     gap: 14px;
 }
@@ -135,19 +140,4 @@ ABOUT MENU -> BOTTOM
     background: rgba(255,255,255,0.04);
 
     border: 1px solid rgba(255,255,255,0.06);
-}
-
-/* ========================================
-SCROLLBAR
-======================================== */
-::-webkit-scrollbar {
-
-    width: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-
-    background: #666;
-
-    border-radius: 10px;
 }
