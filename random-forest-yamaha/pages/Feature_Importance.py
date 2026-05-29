@@ -5,32 +5,45 @@ import joblib
 
 from pathlib import Path
 
-from utils.preprocessing import preprocess_data
+st.set_page_config(
+
+    page_title="Feature Importance",
+
+    layout="wide"
+)
 
 st.title("📈 Feature Importance")
 
 uploaded_file = st.file_uploader(
+
     "📂 Upload Dataset",
+
     type=['csv']
 )
 
 if uploaded_file:
 
     # =========================
-    # LOAD DATASET
+    # BASE DIRECTORY
     # =========================
-    df = pd.read_csv(uploaded_file)
 
-    X, y = preprocess_data(df)
-
-    # =========================
-    # LOAD MODEL
-    # =========================
     BASE_DIR = Path(__file__).parent.parent
+
+    # =========================
+    # MODEL PATH
+    # =========================
 
     model_path = (
         BASE_DIR / "model" / "random_forest_model.pkl"
     )
+
+    feature_path = (
+        BASE_DIR / "model" / "feature_names.pkl"
+    )
+
+    # =========================
+    # CEK FILE
+    # =========================
 
     if not model_path.exists():
 
@@ -38,16 +51,41 @@ if uploaded_file:
             "Silakan training model terlebih dahulu."
         )
 
+    elif not feature_path.exists():
+
+        st.warning(
+            "Feature names belum tersedia."
+        )
+
     else:
 
+        # =========================
+        # LOAD MODEL
+        # =========================
+
         model = joblib.load(model_path)
+
+        feature_names = joblib.load(feature_path)
+
+        # =========================
+        # VALIDASI
+        # =========================
+
+        if len(feature_names) != len(model.feature_importances_):
+
+            st.error(
+                "Jumlah feature tidak sesuai dengan model."
+            )
+
+            st.stop()
 
         # =========================
         # FEATURE IMPORTANCE
         # =========================
+
         importance = pd.DataFrame({
 
-            'Fitur': X.columns,
+            'Fitur': feature_names,
 
             'Importance':
             model.feature_importances_
@@ -55,8 +93,9 @@ if uploaded_file:
         })
 
         # =========================
-        # GABUNGKAN FEATURE
+        # GROUP FEATURE
         # =========================
+
         grouped_importance = {
 
             'Last Kilometer': 0,
@@ -77,6 +116,7 @@ if uploaded_file:
             # =========================
             # MODEL NAME
             # =========================
+
             if fitur.startswith('Model Name_'):
 
                 grouped_importance[
@@ -86,6 +126,7 @@ if uploaded_file:
             # =========================
             # CATEGORY
             # =========================
+
             elif fitur.startswith('Category_'):
 
                 grouped_importance[
@@ -95,6 +136,7 @@ if uploaded_file:
             # =========================
             # BRAND
             # =========================
+
             elif fitur.startswith('Brand_'):
 
                 grouped_importance[
@@ -104,6 +146,7 @@ if uploaded_file:
             # =========================
             # STATUS
             # =========================
+
             elif fitur.startswith('Status_'):
 
                 grouped_importance[
@@ -113,6 +156,7 @@ if uploaded_file:
             # =========================
             # LAST KILOMETER
             # =========================
+
             elif fitur == 'Last Kilometer':
 
                 grouped_importance[
@@ -122,6 +166,7 @@ if uploaded_file:
             # =========================
             # USIA MOTOR
             # =========================
+
             elif fitur == 'Usia Motor':
 
                 grouped_importance[
@@ -131,6 +176,7 @@ if uploaded_file:
         # =========================
         # DATAFRAME
         # =========================
+
         importance_grouped = pd.DataFrame({
 
             'Fitur':
@@ -153,6 +199,7 @@ if uploaded_file:
         # =========================
         # VISUALISASI
         # =========================
+
         fig = px.bar(
 
             importance_grouped,
@@ -168,6 +215,19 @@ if uploaded_file:
         )
 
         st.plotly_chart(
+
             fig,
+
+            use_container_width=True
+        )
+
+        # =========================
+        # TABLE
+        # =========================
+
+        st.dataframe(
+
+            importance_grouped,
+
             use_container_width=True
         )
