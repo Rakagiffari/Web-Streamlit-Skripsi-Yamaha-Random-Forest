@@ -1,123 +1,182 @@
-/* ========================================
-SIDEBAR WIDTH
-======================================== */
+/* =========================================
+SIDEBAR
+========================================= */
 section[data-testid="stSidebar"] {
 
-    min-width: 250px !important;
-    max-width: 250px !important;
+    min-width: 290px !important;
+    max-width: 290px !important;
 
-    background: linear-gradient(
-        180deg,
-        #081225 0%,
-        #0d1b3d 100%
-    );
+    background:
+        linear-gradient(
+            180deg,
+            #020617 0%,
+            #081225 50%,
+            #0f172a 100%
+        );
 
-    border-right: 1px solid rgba(255,255,255,0.08);
+    border-right: 1px solid rgba(255,255,255,0.05);
+
+    box-shadow:
+        4px 0 25px rgba(0,0,0,0.35);
 }
 
-/* ========================================
+/* =========================================
 SIDEBAR CONTENT
-======================================== */
+========================================= */
 [data-testid="stSidebarContent"] {
 
-    padding-top: 15px;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-top: 22px;
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-bottom: 20px;
 }
 
-/* ========================================
-SIDEBAR TITLE
-======================================== */
+/* =========================================
+TITLE
+========================================= */
 [data-testid="stSidebarNav"]::before {
 
-    content: "YAMAHA MENU";
+    content: "YAMAHA AI SYSTEM";
 
     display: block;
 
+    text-align: center;
+
     color: white;
 
-    font-size: 20px;
+    font-size: 24px;
 
-    font-weight: 800;
-
-    margin-bottom: 20px;
-
-    padding-left: 10px;
+    font-weight: 900;
 
     letter-spacing: 1px;
+
+    margin-bottom: 30px;
+
+    padding: 18px;
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(239,68,68,0.18),
+            rgba(239,68,68,0.04)
+        );
+
+    border:
+        1px solid rgba(239,68,68,0.20);
+
+    box-shadow:
+        0 0 25px rgba(239,68,68,0.12);
 }
 
-/* ========================================
+/* =========================================
 MENU LIST
-======================================== */
+========================================= */
 [data-testid="stSidebarNav"] ul {
 
     display: flex;
     flex-direction: column;
-    gap: 10px;
+
+    gap: 16px;
 }
 
-/* ========================================
-MENU CARD
-======================================== */
+/* =========================================
+BUBBLE MENU
+========================================= */
 [data-testid="stSidebarNav"] li {
 
-    background: rgba(255,255,255,0.04);
+    list-style: none;
 
-    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 999px;
 
-    border-radius: 12px;
+    overflow: hidden;
 
-    transition: all 0.25s ease;
+    background:
+        rgba(255,255,255,0.04);
+
+    border:
+        1px solid rgba(255,255,255,0.06);
+
+    backdrop-filter: blur(10px);
+
+    transition:
+        all 0.25s ease;
+
+    box-shadow:
+        0 4px 14px rgba(0,0,0,0.22);
 }
 
-/* ========================================
-MENU HOVER
-======================================== */
+/* =========================================
+HOVER EFFECT
+========================================= */
 [data-testid="stSidebarNav"] li:hover {
 
-    background: rgba(255,255,255,0.10);
+    transform:
+        translateX(6px)
+        scale(1.02);
 
-    border: 1px solid rgba(255,255,255,0.15);
+    background:
+        rgba(255,255,255,0.08);
 
-    transform: translateX(3px);
+    border:
+        1px solid rgba(239,68,68,0.30);
+
+    box-shadow:
+        0 0 18px rgba(239,68,68,0.16);
 }
 
-/* ========================================
-ACTIVE PAGE
-======================================== */
+/* =========================================
+ACTIVE MENU
+========================================= */
 [data-testid="stSidebarNav"] li:has([aria-current="page"]) {
 
-    background: linear-gradient(
-        90deg,
-        #ef4444,
-        #b91c1c
-    );
+    background:
+        linear-gradient(
+            90deg,
+            #ef4444,
+            #b91c1c
+        );
 
-    border: none;
+    border:
+        1px solid rgba(255,255,255,0.08);
 
-    box-shadow: 0 0 15px rgba(239,68,68,0.30);
+    box-shadow:
+        0 0 24px rgba(239,68,68,0.30);
 }
 
-/* ========================================
-MENU TEXT
-======================================== */
+/* =========================================
+MENU LINK
+========================================= */
 [data-testid="stSidebarNav"] a {
 
     color: white !important;
 
     font-size: 15px !important;
 
-    font-weight: 600 !important;
+    font-weight: 700 !important;
 
-    padding: 12px 16px;
+    padding:
+        15px 22px;
+
+    border-radius: 999px;
 
     text-decoration: none;
+
+    transition: all 0.2s ease;
 }
 
-/* ========================================
-ABOUT MENU BOTTOM
-======================================== */
+/* =========================================
+ACTIVE TEXT
+========================================= */
+[data-testid="stSidebarNav"] li:has([aria-current="page"]) a {
+
+    color: white !important;
+}
+
+/* =========================================
+BOTTOM ITEM
+========================================= */
 [data-testid="stSidebarNav"] {
 
     display: flex;
@@ -135,17 +194,17 @@ ABOUT MENU BOTTOM
     margin-top: auto;
 }
 
-/* ========================================
+/* =========================================
 SCROLLBAR
-======================================== */
+========================================= */
 ::-webkit-scrollbar {
 
-    width: 6px;
+    width: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
 
-    background: #475569;
+    background: #334155;
 
-    border-radius: 10px;
+    border-radius: 20px;
 }
