@@ -203,7 +203,7 @@ LOGO
     text-align: center;
 
     margin-top: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 /* =========================================
@@ -213,19 +213,21 @@ MAIN TITLE
 
     text-align: center;
 
-    font-size: 48px;
+    font-size: 50px;
 
     font-weight: 900;
 
+    text-transform: uppercase;
+
     color: white;
 
-    line-height: 1.1;
+    line-height: 1.05;
 
     margin-top: 0px;
 
-    margin-bottom: 10px;
+    margin-bottom: 6px;
 
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
 }
 
 /* =========================================
@@ -235,17 +237,21 @@ DESCRIPTION
 
     text-align: center;
 
-    color: #cbd5e1;
+    color: #94a3b8;
 
-    font-size: 18px;
+    font-size: 14px;
+
+    font-weight: 500;
 
     margin-top: 0px;
 
-    margin-bottom: 38px;
+    margin-bottom: 28px;
+
+    letter-spacing: 0.2px;
 }
 
 /* =========================================
-METRIC CARD
+METRIC CARDS
 ========================================= */
 .metric-card{
 
@@ -313,7 +319,7 @@ CARD VALUE
 
     color: white;
 
-    font-size: 19px;
+    font-size: 17px;
 
     font-weight: 800;
 
@@ -335,13 +341,19 @@ SUCCESS BOX
 ========================================= */
 .stAlert{
 
-    border-radius: 14px;
+    border-radius: 12px;
 
     background:
-        rgba(15,23,42,0.75);
+        rgba(15,23,42,0.65);
 
     border:
-        1px solid rgba(239,68,68,0.15);
+        1px solid rgba(239,68,68,0.10);
+
+    padding-top: 8px !important;
+
+    padding-bottom: 8px !important;
+
+    font-size: 13px !important;
 }
 
 /* =========================================
@@ -350,15 +362,15 @@ RESPONSIVE
 @media (max-width: 1200px){
 
     .main-title{
-        font-size: 40px !important;
+        font-size: 42px !important;
     }
 
     .desc{
-        font-size: 16px !important;
+        font-size: 13px !important;
     }
 
     .metric-value{
-        font-size: 18px !important;
+        font-size: 16px !important;
     }
 }
 
@@ -369,7 +381,7 @@ RESPONSIVE
     }
 
     .desc{
-        font-size: 14px !important;
+        font-size: 12px !important;
     }
 
     section[data-testid="stSidebar"] {
@@ -434,7 +446,7 @@ with col2:
 
     st.image(
         str(logo_path),
-        width=145
+        width=130
     )
 
     st.markdown(
