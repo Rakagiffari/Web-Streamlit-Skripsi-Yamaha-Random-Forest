@@ -76,8 +76,9 @@ section[data-testid="stSidebar"]{
 ========================= */
 .desc{
     text-align: center;
-    color: black;
+    color: #dc2626;
     font-size: 20px;
+    font-weight: 600;
     margin-top: 0px;
     margin-bottom: 45px;
 }
@@ -132,23 +133,19 @@ section[data-testid="stSidebar"]{
    SUCCESS BOX
 ========================= */
 .stAlert{
-    background-color: #15803d !important;
-    color: white !important;
-    border-radius: 15px;
-    border: none;
-    padding: 14px;
-    font-weight: 600;
+    background-color: rgba(34, 197, 94, 0.28) !important;
+    border: 1px solid rgba(34, 197, 94, 0.55) !important;
+    border-radius: 15px !important;
+    padding: 16px !important;
 }
 
-/* SUCCESS TEXT */
+/* =========================
+   SUCCESS TEXT
+========================= */
 .stAlert p{
-    color: white !important;
-    font-size: 15px;
-}
-
-/* SUCCESS ICON */
-.stAlert svg{
-    fill: white !important;
+    color: #166534 !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
 }
 
 /* =========================
