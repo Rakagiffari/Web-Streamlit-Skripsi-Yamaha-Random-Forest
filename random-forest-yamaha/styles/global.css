@@ -2,16 +2,13 @@
 SIDEBAR WIDTH
 ======================================== */
 section[data-testid="stSidebar"] {
-
     min-width: 250px !important;
     max-width: 250px !important;
-
     background: linear-gradient(
         180deg,
         #081225 0%,
         #0d1b3d 100%
-    );
-
+    ) !important; /* Ditambahkan !important agar tidak tertimpa bawaan streamlit */
     border-right: 1px solid rgba(255,255,255,0.08);
 }
 
@@ -19,7 +16,6 @@ section[data-testid="stSidebar"] {
 SIDEBAR CONTENT
 ======================================== */
 [data-testid="stSidebarContent"] {
-
     padding-top: 15px;
     padding-left: 12px;
     padding-right: 12px;
@@ -29,21 +25,13 @@ SIDEBAR CONTENT
 SIDEBAR TITLE
 ======================================== */
 [data-testid="stSidebarNav"]::before {
-
     content: "YAMAHA MENU";
-
     display: block;
-
     color: white;
-
     font-size: 20px;
-
     font-weight: 800;
-
     margin-bottom: 20px;
-
     padding-left: 10px;
-
     letter-spacing: 1px;
 }
 
@@ -51,7 +39,6 @@ SIDEBAR TITLE
 MENU LIST
 ======================================== */
 [data-testid="stSidebarNav"] ul {
-
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -61,13 +48,9 @@ MENU LIST
 MENU CARD
 ======================================== */
 [data-testid="stSidebarNav"] li {
-
     background: rgba(255,255,255,0.04);
-
     border: 1px solid rgba(255,255,255,0.06);
-
     border-radius: 12px;
-
     transition: all 0.25s ease;
 }
 
@@ -75,11 +58,8 @@ MENU CARD
 MENU HOVER
 ======================================== */
 [data-testid="stSidebarNav"] li:hover {
-
     background: rgba(255,255,255,0.10);
-
     border: 1px solid rgba(255,255,255,0.15);
-
     transform: translateX(3px);
 }
 
@@ -87,15 +67,12 @@ MENU HOVER
 ACTIVE PAGE
 ======================================== */
 [data-testid="stSidebarNav"] li:has([aria-current="page"]) {
-
     background: linear-gradient(
         90deg,
         #ef4444,
         #b91c1c
     );
-
     border: none;
-
     box-shadow: 0 0 15px rgba(239,68,68,0.30);
 }
 
@@ -103,15 +80,10 @@ ACTIVE PAGE
 MENU TEXT
 ======================================== */
 [data-testid="stSidebarNav"] a {
-
     color: white !important;
-
     font-size: 15px !important;
-
     font-weight: 600 !important;
-
     padding: 12px 16px;
-
     text-decoration: none;
 }
 
@@ -119,19 +91,16 @@ MENU TEXT
 ABOUT MENU BOTTOM
 ======================================== */
 [data-testid="stSidebarNav"] {
-
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
 [data-testid="stSidebarNav"] ul {
-
     height: 100%;
 }
 
 [data-testid="stSidebarNav"] li:last-child {
-
     margin-top: auto;
 }
 
@@ -139,13 +108,11 @@ ABOUT MENU BOTTOM
 SCROLLBAR
 ======================================== */
 ::-webkit-scrollbar {
-
     width: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
-
     background: #475569;
-
     border-radius: 10px;
 }
+/* Kurung kurawal penutup ekstra di sini sudah DIHAPUS */
