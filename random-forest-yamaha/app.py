@@ -1,155 +1,101 @@
-import streamlit as st
-import pandas as pd
-import plotly.express as px
-import joblib
+import streamlit as stfrom pathlib import Pathfrom PIL import Imagefrom datetime import datetime, timedelta
 
-from pathlib import Path
-from utils.preprocessing import preprocess_data
+=========================================
 
-st.title("📈 Feature Importance")
+PAGE CONFIG
 
-uploaded_file = st.file_uploader(
-"📂 Upload Dataset",
-type=['csv']
-)
+=========================================
 
-if uploaded_file:
+BASE_DIR = Path(file).parent
 
-```
-# =========================
-# LOAD DATASET
-# =========================
-df = pd.read_csv(uploaded_file)
+logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
 
-X, y = preprocess_data(df)
+logo = Image.open(logo_path)
 
-# =========================
-# LOAD MODEL
-# =========================
-BASE_DIR = Path(__file__).parent.parent
+st.set_page_config(page_title="Yamaha Random Forest",page_icon=logo,layout="wide",initial_sidebar_state="expanded")
 
-model_path = (
-    BASE_DIR / "model" / "random_forest_model.pkl"
-)
+=========================================
 
-if not model_path.exists():
+DATE & TIME WIB
 
-    st.warning(
-        "Silakan training model terlebih dahulu."
-    )
+=========================================
 
-else:
+utc_now = datetime.utcnow()
 
-    model = joblib.load(model_path)
+wib_now = utc_now + timedelta(hours=7)
 
-    # =========================
-    # FEATURE IMPORTANCE
-    # =========================
-    importance = pd.DataFrame({
-        'Fitur': X.columns,
-        'Importance': model.feature_importances_
-    })
+tanggal_jam = wib_now.strftime("%d-%m-%Y | %H:%M")
 
-    # =========================
-    # GABUNGKAN FEATURE
-    # =========================
-    grouped_importance = {
-        'Last Kilometer': 0,
-        'Usia Motor': 0,
-        'Model Name': 0,
-        'Category': 0,
-        'Brand': 0,
-        'Status': 0
-    }
+=========================================
 
-    for index, row in importance.iterrows():
+CUSTOM CSS
 
-        fitur = row['Fitur']
-        nilai = row['Importance']
+=========================================
 
-        # =========================
-        # MODEL NAME
-        # =========================
-        if fitur.startswith('Model Name_'):
+st.markdown("""
 
-            grouped_importance[
-                'Model Name'
-            ] += nilai
+""", unsafe_allow_html=True)
 
-        # =========================
-        # CATEGORY
-        # =========================
-        elif fitur.startswith('Category_'):
+=========================================
 
-            grouped_importance[
-                'Category'
-            ] += nilai
+SPACE TOP
 
-        # =========================
-        # BRAND
-        # =========================
-        elif fitur.startswith('Brand_'):
+=========================================
 
-            grouped_importance[
-                'Brand'
-            ] += nilai
+st.markdown("", unsafe_allow_html=True)
 
-        # =========================
-        # STATUS
-        # =========================
-        elif fitur.startswith('Status_'):
+=========================================
 
-            grouped_importance[
-                'Status'
-            ] += nilai
+CENTER LOGO
 
-        # =========================
-        # LAST KILOMETER
-        # =========================
-        elif fitur == 'Last Kilometer':
+=========================================
 
-            grouped_importance[
-                'Last Kilometer'
-            ] += nilai
+col1, col2, col3 = st.columns([2,1,2])
 
-        # =========================
-        # USIA MOTOR
-        # =========================
-        elif fitur == 'Usia Motor':
+with col2:st.image(str(logo_path),width=220)
 
-            grouped_importance[
-                'Usia Motor'
-            ] += nilai
+=========================================
 
-    # =========================
-    # DATAFRAME
-    # =========================
-    importance_grouped = pd.DataFrame({
-        'Fitur': grouped_importance.keys(),
-        'Importance': grouped_importance.values()
-    })
+MAIN TITLE
 
-    importance_grouped = (
-        importance_grouped.sort_values(
-            by='Importance',
-            ascending=False
-        )
-    )
+=========================================
 
-    # =========================
-    # VISUALISASI
-    # =========================
-    fig = px.bar(
-        importance_grouped,
-        x='Importance',
-        y='Fitur',
-        orientation='h',
-        title='Feature Importance',
-        text_auto='.3f'
-    )
+st.markdown("""KLASIFIKASI LAYANAN SERVIS YAMAHA""",unsafe_allow_html=True)
 
-    st.plotly_chart(
-        fig,
-        use_container_width=True
-    )
-```
+=========================================
+
+DESCRIPTION
+
+=========================================
+
+st.markdown("""Penerapan Algoritma Random Forest untuk klasifikasi layanan servis kendaraan Yamaha.""",unsafe_allow_html=True)
+
+=========================================
+
+3 CENTER CARDS
+
+=========================================
+
+space1, col1, col2, col3, space2 = st.columns([0.7,1,1,1,0.7])
+
+with col1:st.markdown(f"""AlgoritmaRandom Forest""", unsafe_allow_html=True)
+
+with col2:st.markdown(f"""DatasetCSV File""", unsafe_allow_html=True)
+
+with col3:st.markdown(f"""Tanggal & Jam WIB{tanggal_jam}""", unsafe_allow_html=True)
+
+=========================================
+
+SPACE
+
+=========================================
+
+st.markdown("", unsafe_allow_html=True)
+
+=========================================
+
+SUCCESS MESSAGE
+
+=========================================
+
+st.success("ⓘ Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha.")
