@@ -110,7 +110,9 @@ def train_model(X, y):
     feature_importance = {
 
         "feature_names": X.columns.tolist(),
+
         "importance_values": rf.feature_importances_
+
     }
 
     return (
