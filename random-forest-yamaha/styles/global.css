@@ -14,8 +14,7 @@ section[data-testid="stSidebar"]{
             #0f172a 100%
         );
 
-    border-right:
-        1px solid rgba(255,255,255,0.06);
+    border-right: 1px solid rgba(255,255,255,0.06);
 }
 
 /* ========================================
@@ -42,7 +41,7 @@ SIDEBAR TITLE
 
     color: white;
 
-    font-size: 15px;
+    font-size: 14px;
 
     font-weight: 900;
 
@@ -52,10 +51,17 @@ SIDEBAR TITLE
 
     padding-bottom: 14px;
 
-    border-bottom:
-        1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
 
-    opacity: 0.95;
+/* ========================================
+REMOVE DEFAULT STYLE
+======================================== */
+[data-testid="stSidebarNav"] ul{
+
+    padding: 0 !important;
+
+    margin: 0 !important;
 }
 
 /* ========================================
@@ -64,6 +70,8 @@ MENU ITEM
 [data-testid="stSidebarNav"] li{
 
     list-style: none;
+
+    margin-bottom: 14px !important;
 
     border-radius: 16px;
 
@@ -76,8 +84,7 @@ MENU ITEM
             rgba(255,255,255,0.01)
         );
 
-    border:
-        1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.05);
 
     transition:
         all 0.25s ease;
@@ -96,11 +103,9 @@ MENU LINK
 
     text-decoration: none !important;
 
-    padding: 14px 18px;
+    padding: 14px 18px !important;
 
-    display: flex;
-
-    align-items: center;
+    display: block;
 
     border-radius: 16px;
 
@@ -112,7 +117,7 @@ HOVER EFFECT
 ======================================== */
 [data-testid="stSidebarNav"] li:hover{
 
-    transform: translateX(5px);
+    transform: translateX(4px);
 
     background:
         linear-gradient(
@@ -121,17 +126,24 @@ HOVER EFFECT
             rgba(127,29,29,0.15)
         );
 
-    border:
-        1px solid rgba(239,68,68,0.45);
+    border: 1px solid rgba(239,68,68,0.45);
 
     box-shadow:
         0 0 15px rgba(239,68,68,0.18);
 }
 
 /* ========================================
+HOVER TEXT
+======================================== */
+[data-testid="stSidebarNav"] li:hover a{
+
+    color: white !important;
+}
+
+/* ========================================
 ACTIVE MENU
 ======================================== */
-[data-testid="stSidebarNav"] a[aria-current="page"]{
+[data-testid="stSidebarNav"] li:has(a[aria-current="page"]){
 
     background:
         linear-gradient(
@@ -141,11 +153,20 @@ ACTIVE MENU
             #991b1b 100%
         );
 
+    border: 1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 0 18px rgba(239,68,68,0.35);
+}
+
+/* ========================================
+ACTIVE TEXT
+======================================== */
+[data-testid="stSidebarNav"] li:has(a[aria-current="page"]) a{
+
     color: white !important;
 
     font-weight: 800 !important;
-
-    border-radius: 16px;
 }
 
 /* ========================================
