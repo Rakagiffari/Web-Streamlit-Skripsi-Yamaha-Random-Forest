@@ -1,4 +1,3 @@
-```python
 import streamlit as st
 import pandas as pd
 import seaborn as sns
@@ -253,4 +252,3 @@ if uploaded_file is not None:
         st.error(
             f"Terjadi error: {e}"
         )
-```
