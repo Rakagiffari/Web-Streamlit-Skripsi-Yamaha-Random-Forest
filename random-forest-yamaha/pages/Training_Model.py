@@ -332,29 +332,21 @@ if uploaded_file is not None:
             # =========================================
             # FEATURE IMPORTANCE
             # =========================================
-            st.markdown("## ⭐ Feature Importance")
+            st.subheader("⭐ Feature Importance")
 
-            st.dataframe(
-                importance_df,
-                use_container_width=True
-            )
-
-            fig3, ax3 = plt.subplots(
-                figsize=(8,5)
-            )
+            fig, ax = plt.subplots(figsize=(7, 3))
 
             sns.barplot(
-                data=importance_df,
-                y="Fitur",
-                x="Importance",
-                palette="Reds",
-                ax=ax3
+                data=importance_grouped,
+                x='Importance',
+                y='Fitur',
+                palette='Reds',
+                ax=ax
             )
 
-            ax3.set_xlabel("Importance")
-            ax3.set_ylabel("Fitur")
+            plt.title("Feature Importance")
 
-            st.pyplot(fig3)
+            st.pyplot(fig)
 
     except Exception as e:
 
