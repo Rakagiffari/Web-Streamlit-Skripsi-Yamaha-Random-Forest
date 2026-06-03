@@ -1,10 +1,16 @@
 import streamlit as st
 import pandas as pd
 
+from pathlib import Path
+
 # =========================================
 # LOAD CSS
 # =========================================
-with open("global.css") as f:
+BASE_DIR = Path(__file__).parent.parent
+
+css_path = BASE_DIR / "global.css"
+
+with open(css_path) as f:
 
     st.markdown(
 
