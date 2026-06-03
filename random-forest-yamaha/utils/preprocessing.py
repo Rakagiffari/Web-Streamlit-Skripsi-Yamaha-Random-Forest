@@ -7,8 +7,15 @@ import pandas as pd
 def preprocess_data(df):
 
     # =====================================
+    # COPY DATA
+    # =====================================
+
+    df = df.copy()
+
+    # =====================================
     # HAPUS DUPLIKAT
     # =====================================
+
     df = df.drop_duplicates()
 
     # =====================================
@@ -28,9 +35,11 @@ def preprocess_data(df):
 
         if col in df.columns:
 
-            df[col] = df[col].fillna(
-                "Unknown"
-            )
+            df[col] = df[col].fillna("Unknown")
+
+    # =====================================
+    # HANDLE NUMERIC
+    # =====================================
 
     numeric_cols = [
 
@@ -56,7 +65,7 @@ def preprocess_data(df):
     # FEATURE ENGINEERING
     # =====================================
 
-    tahun_sekarang = 2026
+    tahun_sekarang = 2025
 
     df["Usia Motor"] = (
         tahun_sekarang - df["Tahun Motor"]
@@ -66,7 +75,9 @@ def preprocess_data(df):
     # TARGET
     # =====================================
 
-    y = df["Service"].map({
+    target = "Service"
+
+    y = df[target].map({
 
         "Ringan": 0,
         "Berat": 1
@@ -74,7 +85,7 @@ def preprocess_data(df):
     })
 
     # =====================================
-    # DROP COLUMN
+    # DROP COLUMNS
     # =====================================
 
     drop_columns = [
@@ -90,7 +101,7 @@ def preprocess_data(df):
         "Plate",
         "Technical Name",
 
-        # TIDAK PENTING
+        # KOLOM TIDAK PENTING
         "Dealer",
         "Point",
         "YSS",
@@ -100,9 +111,8 @@ def preprocess_data(df):
         # TANGGAL
         "Reg Date",
 
-        # DATA LEAKAGE
+        # LEAKAGE
         "Parts Name",
-        "Parts Qty",
         "Total Payment",
 
         # SUDAH DIGANTI
@@ -110,8 +120,10 @@ def preprocess_data(df):
     ]
 
     X = df.drop(
+
         columns=drop_columns,
         errors='ignore'
+
     )
 
     # =====================================
@@ -119,8 +131,20 @@ def preprocess_data(df):
     # =====================================
 
     X = pd.get_dummies(
+
         X,
         drop_first=True
+
     )
+
+    # =====================================
+    # PASTIKAN BOOLEAN JADI INTEGER
+    # =====================================
+
+    bool_cols = X.select_dtypes(include=['bool']).columns
+
+    for col in bool_cols:
+
+        X[col] = X[col].astype(int)
 
     return X, y
