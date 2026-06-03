@@ -2,6 +2,8 @@
 # utils/training.py
 # =========================================
 
+import pandas as pd
+
 from sklearn.model_selection import train_test_split
 
 from sklearn.ensemble import RandomForestClassifier
@@ -16,8 +18,6 @@ from sklearn.metrics import (
     recall_score,
     f1_score
 )
-
-import pandas as pd
 
 def train_model(X, y):
 
@@ -168,10 +168,6 @@ def train_model(X, y):
         ascending=False
 
     )
-
-    # =====================================
-    # RETURN
-    # =====================================
 
     return (
 
