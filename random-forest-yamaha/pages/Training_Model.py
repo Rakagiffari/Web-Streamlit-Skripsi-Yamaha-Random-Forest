@@ -387,10 +387,10 @@ if uploaded_file is not None:
 
             st.markdown("---")
 
-            # =========================================
+                       # =========================================
             # FEATURE IMPORTANCE
             # =========================================
-             st.markdown(
+            st.markdown(
                 "## ⭐ Feature Importance"
             )
 
@@ -422,7 +422,6 @@ if uploaded_file is not None:
                     fig3,
                     use_container_width=False
                 )
-
 
     except Exception as e:
 
