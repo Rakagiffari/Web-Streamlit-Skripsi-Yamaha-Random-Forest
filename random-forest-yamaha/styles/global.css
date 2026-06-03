@@ -206,18 +206,3 @@ SCROLLBAR
 
     border-radius: 10px;
 }
-
-/* ========================================
-HIDE STREAMLIT MENU
-======================================== */
-#MainMenu{
-    visibility: hidden;
-}
-
-footer{
-    visibility: hidden;
-}
-
-header{
-    visibility: hidden;
-}
