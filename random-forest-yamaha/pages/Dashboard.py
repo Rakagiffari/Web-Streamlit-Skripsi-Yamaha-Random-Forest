@@ -1,14 +1,20 @@
 import streamlit as st
 import pandas as pd
-
-from pathlib import Path
+import os
 
 # =========================================
 # LOAD CSS
 # =========================================
-BASE_DIR = Path(__file__).parent.parent
+css_path = os.path.join(
 
-css_path = BASE_DIR / "global.css"
+    os.path.dirname(__file__),
+
+    "..",
+
+    "styles",
+
+    "global.css"
+)
 
 with open(css_path) as f:
 
