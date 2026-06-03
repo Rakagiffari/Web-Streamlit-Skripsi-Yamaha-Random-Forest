@@ -1,254 +1,116 @@
-import streamlit as st
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import joblib
+# =========================================
+# utils/training.py
+# =========================================
 
-from pathlib import Path
+from sklearn.model_selection import train_test_split
 
-from utils.preprocessing import preprocess_data
-from utils.training import train_model
+from sklearn.ensemble import RandomForestClassifier
 
+from sklearn.metrics import (
 
-# ========================================
-# TITLE
-# ========================================
-st.title("⚙️ Training Random Forest")
+    accuracy_score,
+    classification_report,
+    confusion_matrix,
 
-
-# ========================================
-# FILE UPLOAD
-# ========================================
-uploaded_file = st.file_uploader(
-    "📂 Upload Dataset",
-    type=["csv"]
+    precision_score,
+    recall_score,
+    f1_score
 )
 
+def train_model(X, y):
 
-# ========================================
-# MAIN
-# ========================================
-if uploaded_file is not None:
+    # =====================================
+    # SPLIT DATA
+    # =====================================
 
-    try:
+    X_train, X_test, y_train, y_test = train_test_split(
 
-        # ========================================
-        # READ DATASET
-        # ========================================
-        df = pd.read_csv(
-            uploaded_file
-        )
+        X,
+        y,
 
-        st.success(
-            "Dataset berhasil diupload"
-        )
+        test_size=0.2,
 
-        # ========================================
-        # PREVIEW
-        # ========================================
-        st.subheader(
-            "📄 Preview Dataset"
-        )
+        random_state=42,
 
-        st.dataframe(
-            df.head()
-        )
+        stratify=y
+    )
 
-        # ========================================
-        # VALIDASI TARGET
-        # ========================================
-        if "Service" not in df.columns:
+    # =====================================
+    # RANDOM FOREST
+    # =====================================
 
-            st.error(
-                "Kolom 'Service' tidak ditemukan"
-            )
+    rf = RandomForestClassifier(
 
-            st.stop()
+        n_estimators=300,
 
-        # ========================================
-        # PREPROCESSING
-        # ========================================
-        X, y = preprocess_data(df)
+        max_depth=20,
 
-        st.success(
-            "Preprocessing berhasil"
-        )
+        min_samples_split=2,
 
-        # ========================================
-        # INFO DATA
-        # ========================================
-        st.subheader(
-            "📊 Informasi Dataset"
-        )
+        min_samples_leaf=1,
 
-        col1, col2 = st.columns(2)
+        class_weight='balanced',
 
-        with col1:
+        random_state=42,
 
-            st.write(
-                f"Jumlah Data: {len(df)}"
-            )
+        n_jobs=-1
+    )
 
-        with col2:
+    # =====================================
+    # TRAINING
+    # =====================================
 
-            st.write(
-                f"Jumlah Fitur: {X.shape[1]}"
-            )
+    rf.fit(X_train, y_train)
 
-        # ========================================
-        # DISTRIBUSI TARGET
-        # ========================================
-        st.subheader(
-            "📌 Distribusi Target"
-        )
+    # =====================================
+    # PREDIKSI
+    # =====================================
 
-        st.write(
-            df["Service"].value_counts()
-        )
+    y_pred = rf.predict(X_test)
 
-        # ========================================
-        # VALIDASI JUMLAH KELAS
-        # ========================================
-        if len(y.unique()) < 2:
+    # =====================================
+    # EVALUASI
+    # =====================================
 
-            st.error(
-                "Target hanya memiliki 1 kelas"
-            )
+    accuracy = accuracy_score(
+        y_test,
+        y_pred
+    )
 
-            st.stop()
+    precision = precision_score(
+        y_test,
+        y_pred
+    )
 
-        # ========================================
-        # BUTTON TRAINING
-        # ========================================
-        if st.button("🚀 Training Model"):
+    recall = recall_score(
+        y_test,
+        y_pred
+    )
 
-            with st.spinner(
-                "Sedang training model..."
-            ):
+    f1 = f1_score(
+        y_test,
+        y_pred
+    )
 
-                try:
+    report = classification_report(
+        y_test,
+        y_pred
+    )
 
-                    (
-                        model,
-                        accuracy,
-                        precision,
-                        recall,
-                        f1,
-                        report,
-                        matrix
-                    ) = train_model(X, y)
+    matrix = confusion_matrix(
+        y_test,
+        y_pred
+    )
 
-                except Exception as e:
+    return (
 
-                    st.error(
-                        f"Error training: {e}"
-                    )
+        rf,
 
-                    st.stop()
+        accuracy,
+        precision,
+        recall,
+        f1,
 
-            # ========================================
-            # SAVE MODEL
-            # ========================================
-            BASE_DIR = Path(__file__).parent.parent
-
-            model_dir = BASE_DIR / "model"
-
-            model_dir.mkdir(
-                parents=True,
-                exist_ok=True
-            )
-
-            model_path = (
-                model_dir /
-                "random_forest_model.pkl"
-            )
-
-            joblib.dump(
-                model,
-                model_path
-            )
-
-            st.success(
-                "Model berhasil disimpan"
-            )
-
-            # ========================================
-            # METRICS
-            # ========================================
-            st.subheader(
-                "📈 Hasil Evaluasi"
-            )
-
-            col1, col2, col3, col4 = st.columns(4)
-
-            with col1:
-
-                st.metric(
-                    "Accuracy",
-                    f"{accuracy:.2%}"
-                )
-
-            with col2:
-
-                st.metric(
-                    "Precision",
-                    f"{precision:.2%}"
-                )
-
-            with col3:
-
-                st.metric(
-                    "Recall",
-                    f"{recall:.2%}"
-                )
-
-            with col4:
-
-                st.metric(
-                    "F1 Score",
-                    f"{f1:.2%}"
-                )
-
-            # ========================================
-            # REPORT
-            # ========================================
-            st.subheader(
-                "📋 Classification Report"
-            )
-
-            st.text(report)
-
-            # ========================================
-            # CONFUSION MATRIX
-            # ========================================
-            st.subheader(
-                "📉 Confusion Matrix"
-            )
-
-            fig, ax = plt.subplots(
-                figsize=(5, 4)
-            )
-
-            sns.heatmap(
-                matrix,
-                annot=True,
-                fmt="d",
-                cmap="Reds",
-                ax=ax
-            )
-
-            ax.set_xlabel(
-                "Prediksi"
-            )
-
-            ax.set_ylabel(
-                "Aktual"
-            )
-
-            st.pyplot(fig)
-
-    except Exception as e:
-
-        st.error(
-            f"Terjadi error: {e}"
-        )
+        report,
+        matrix
+    )
