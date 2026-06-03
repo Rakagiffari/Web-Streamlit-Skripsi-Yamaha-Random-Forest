@@ -249,7 +249,7 @@ if uploaded_file is not None:
                     f1,
                     report,
                     matrix
-                ) = train_model(X, y)
+                )
 
                 progress.progress(80)
 
