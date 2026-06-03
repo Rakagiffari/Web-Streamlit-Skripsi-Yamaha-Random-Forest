@@ -1,4 +1,3 @@
-```python
 import pandas as pd
 
 from sklearn.preprocessing import (
@@ -110,4 +109,3 @@ def preprocess_data(df):
     y = df["Service"]
 
     return X, y
-```
