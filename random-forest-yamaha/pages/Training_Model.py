@@ -335,10 +335,12 @@ if uploaded_file is not None:
             # =========================================
             # CONFUSION MATRIX
             # =========================================
-            st.markdown("## 📉 Confusion Matrix")
+            st.markdown(
+                "## 📉 Confusion Matrix"
+            )
 
             fig2, ax2 = plt.subplots(
-                figsize=(6,5)
+                figsize=(4,3)
             )
 
             sns.heatmap(
@@ -352,10 +354,30 @@ if uploaded_file is not None:
                 ax=ax2
             )
 
-            ax2.set_xlabel("Prediksi")
-            ax2.set_ylabel("Aktual")
+            ax2.set_xlabel(
+                "Prediksi",
+                fontsize=9
+            )
 
-            st.pyplot(fig2)
+            ax2.set_ylabel(
+                "Aktual",
+                fontsize=9
+            )
+
+            ax2.tick_params(
+                labelsize=8
+            )
+
+            c1, c2, c3 = st.columns([1,2,1])
+
+            with c2:
+
+                st.pyplot(
+                    fig2,
+                    use_container_width=False
+                )
+
+            st.markdown("---")
 
             # =========================================
             # FEATURE IMPORTANCE
