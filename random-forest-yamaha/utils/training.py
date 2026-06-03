@@ -1,81 +1,61 @@
-# =========================================
-# utils/training.py
-# =========================================
-
-from sklearn.model_selection import train_test_split
-
-from sklearn.ensemble import RandomForestClassifier
-
-from sklearn.metrics import (
-
-    accuracy_score,
-    classification_report,
-    confusion_matrix,
-
-    precision_score,
-    recall_score,
-    f1_score
+```python
+from sklearn.model_selection import (
+    train_test_split
 )
 
-# =========================================
-# TRAIN MODEL
-# =========================================
+from sklearn.ensemble import (
+    RandomForestClassifier
+)
+
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    classification_report,
+    confusion_matrix
+)
+
 
 def train_model(X, y):
 
-    # =====================================
+    # ========================================
     # SPLIT DATA
-    # =====================================
-
+    # ========================================
     X_train, X_test, y_train, y_test = train_test_split(
-
         X,
         y,
-
         test_size=0.2,
-
         random_state=42,
-
         stratify=y
     )
 
-    # =====================================
-    # RANDOM FOREST
-    # =====================================
-
-    rf = RandomForestClassifier(
-
-        n_estimators=300,
-
-        max_depth=15,
-
-        min_samples_split=5,
-
-        min_samples_leaf=2,
-
-        class_weight='balanced',
-
-        random_state=42,
-
-        n_jobs=-1
+    # ========================================
+    # MODEL
+    # ========================================
+    model = RandomForestClassifier(
+        n_estimators=100,
+        random_state=42
     )
 
-    # =====================================
-    # TRAINING MODEL
-    # =====================================
+    # ========================================
+    # TRAINING
+    # ========================================
+    model.fit(
+        X_train,
+        y_train
+    )
 
-    rf.fit(X_train, y_train)
-
-    # =====================================
+    # ========================================
     # PREDIKSI
-    # =====================================
+    # ========================================
+    y_pred = model.predict(
+        X_test
+    )
 
-    y_pred = rf.predict(X_test)
-
-    # =====================================
-    # METRIK EVALUASI
-    # =====================================
-
+    # ========================================
+    # EVALUASI
+    # ========================================
     accuracy = accuracy_score(
         y_test,
         y_pred
@@ -83,52 +63,45 @@ def train_model(X, y):
 
     precision = precision_score(
         y_test,
-        y_pred
+        y_pred,
+        average="weighted",
+        zero_division=0
     )
 
     recall = recall_score(
         y_test,
-        y_pred
+        y_pred,
+        average="weighted",
+        zero_division=0
     )
 
     f1 = f1_score(
         y_test,
-        y_pred
+        y_pred,
+        average="weighted",
+        zero_division=0
     )
-
-    # =====================================
-    # CLASSIFICATION REPORT
-    # =====================================
 
     report = classification_report(
         y_test,
         y_pred
     )
 
-    # =====================================
-    # CONFUSION MATRIX
-    # =====================================
-
     matrix = confusion_matrix(
         y_test,
         y_pred
     )
 
-    # =====================================
+    # ========================================
     # RETURN
-    # =====================================
-
+    # ========================================
     return (
-
-        rf,
-
+        model,
         accuracy,
         precision,
         recall,
         f1,
-
         report,
-        matrix,
-
-        X.columns
+        matrix
     )
+```
