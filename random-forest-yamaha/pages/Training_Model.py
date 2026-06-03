@@ -175,11 +175,18 @@ if uploaded_file is not None:
         # =========================================
         # DISTRIBUSI TARGET
         # =========================================
-        st.markdown("## 📌 Distribusi Target")
+        st.markdown(
+            "## 📌 Distribusi Target"
+        )
 
-        service_count = df["Service"].value_counts()
+        service_count = (
+            df["Service"]
+            .value_counts()
+        )
 
-        fig, ax = plt.subplots(figsize=(6,4))
+        fig, ax = plt.subplots(
+            figsize=(4, 2.5)
+        )
 
         sns.barplot(
             x=service_count.index,
@@ -187,11 +194,28 @@ if uploaded_file is not None:
             ax=ax
         )
 
-        ax.set_xlabel("Kategori Service")
-        ax.set_ylabel("Jumlah")
+        ax.set_xlabel(
+            "Kategori Service",
+            fontsize=9
+        )
 
-        st.pyplot(fig, use_container_width=False)
+        ax.set_ylabel(
+            "Jumlah",
+            fontsize=9
+        )
 
+        ax.tick_params(
+            labelsize=8
+        )
+
+        c1, c2, c3 = st.columns([1,2,1])
+
+        with c2:
+
+            st.pyplot(
+                fig,
+                use_container_width=False
+            )
         # =========================================
         # VALIDASI KELAS
         # =========================================
