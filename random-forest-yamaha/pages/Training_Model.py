@@ -360,21 +360,53 @@ if uploaded_file is not None:
             # =========================================
             # FEATURE IMPORTANCE
             # =========================================
-            st.subheader("⭐ Feature Importance")
-
-            fig, ax = plt.subplots(figsize=(7, 3))
-
-            sns.barplot(
-                data=importance_grouped,
-                x='Importance',
-                y='Fitur',
-                palette='Reds',
-                ax=ax
+            st.markdown(
+                "## ⭐ Feature Importance"
             )
 
-            plt.title("Feature Importance")
+            importance_df = pd.DataFrame({
 
-            st.pyplot(fig)
+                "Feature":
+                X.columns,
+
+                "Importance":
+                model.feature_importances_
+
+            })
+
+            importance_df = (
+                importance_df
+                .sort_values(
+                    by="Importance",
+                    ascending=False
+                )
+                .head(10)
+            )
+
+            fig3, ax3 = plt.subplots(
+                figsize=(5,3)
+            )
+
+            sns.barplot(
+                data=importance_df,
+                y="Feature",
+                x="Importance",
+                ax=ax3
+            )
+
+            ax3.tick_params(
+                labelsize=8
+            )
+
+            c1, c2, c3 = st.columns([1,2,1])
+
+            with c2:
+
+                st.pyplot(
+                    fig3,
+                    use_container_width=False
+                )
+
 
     except Exception as e:
 
