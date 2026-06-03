@@ -21,25 +21,9 @@ from sklearn.metrics import (
 
 def train_model(X, y):
 
-    # =====================================
-    # VALIDASI DATA
-    # =====================================
-
-    if len(X) == 0:
-
-        raise ValueError(
-            "Dataset kosong"
-        )
-
-    if y.isnull().sum() > 0:
-
-        raise ValueError(
-            "Target masih memiliki nilai kosong"
-        )
-
-    # =====================================
-    # PASTIKAN SEMUA FITUR NUMERIK
-    # =====================================
+    # =====================================================
+    # PASTIKAN NUMERIK
+    # =====================================================
 
     X = X.apply(
         pd.to_numeric,
@@ -48,9 +32,9 @@ def train_model(X, y):
 
     X = X.fillna(0)
 
-    # =====================================
+    # =====================================================
     # SPLIT DATA
-    # =====================================
+    # =====================================================
 
     X_train, X_test, y_train, y_test = train_test_split(
 
@@ -64,9 +48,9 @@ def train_model(X, y):
         stratify=y
     )
 
-    # =====================================
+    # =====================================================
     # RANDOM FOREST
-    # =====================================
+    # =====================================================
 
     rf = RandomForestClassifier(
 
@@ -80,26 +64,24 @@ def train_model(X, y):
 
         class_weight='balanced',
 
-        random_state=42,
-
-        n_jobs=-1
+        random_state=42
     )
 
-    # =====================================
+    # =====================================================
     # TRAINING
-    # =====================================
+    # =====================================================
 
     rf.fit(X_train, y_train)
 
-    # =====================================
+    # =====================================================
     # PREDIKSI
-    # =====================================
+    # =====================================================
 
     y_pred = rf.predict(X_test)
 
-    # =====================================
+    # =====================================================
     # METRIK
-    # =====================================
+    # =====================================================
 
     accuracy = accuracy_score(
         y_test,
@@ -135,20 +117,67 @@ def train_model(X, y):
         y_pred
     )
 
-    # =====================================
+    # =====================================================
     # FEATURE IMPORTANCE
-    # =====================================
+    # =====================================================
 
-    importance_df = pd.DataFrame({
+    importance = pd.DataFrame({
 
-        "Fitur": X.columns,
-        "Importance": rf.feature_importances_
+        'Fitur': X.columns,
+        'Importance': rf.feature_importances_
 
     })
 
-    importance_df = importance_df.sort_values(
+    grouped_importance = {
 
-        by="Importance",
+        'Last Kilometer': 0,
+        'Usia Motor': 0,
+        'Model Name': 0,
+        'Category': 0,
+        'Brand': 0,
+        'Status': 0
+
+    }
+
+    for index, row in importance.iterrows():
+
+        fitur = row['Fitur']
+        nilai = row['Importance']
+
+        if fitur.startswith('Model Name_'):
+
+            grouped_importance['Model Name'] += nilai
+
+        elif fitur.startswith('Category_'):
+
+            grouped_importance['Category'] += nilai
+
+        elif fitur.startswith('Brand_'):
+
+            grouped_importance['Brand'] += nilai
+
+        elif fitur.startswith('Status_'):
+
+            grouped_importance['Status'] += nilai
+
+        elif fitur == 'Last Kilometer':
+
+            grouped_importance['Last Kilometer'] += nilai
+
+        elif fitur == 'Usia Motor':
+
+            grouped_importance['Usia Motor'] += nilai
+
+    importance_grouped = pd.DataFrame({
+
+        'Fitur': grouped_importance.keys(),
+        'Importance': grouped_importance.values()
+
+    })
+
+    importance_grouped = importance_grouped.sort_values(
+
+        by='Importance',
         ascending=False
     )
 
@@ -164,5 +193,5 @@ def train_model(X, y):
         report,
         matrix,
 
-        importance_df
+        importance_grouped
     )
