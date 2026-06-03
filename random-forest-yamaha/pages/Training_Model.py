@@ -190,7 +190,7 @@ if uploaded_file is not None:
         ax.set_xlabel("Kategori Service")
         ax.set_ylabel("Jumlah")
 
-        st.pyplot(fig)
+        st.pyplot(fig, use_container_width=False))
 
         # =========================================
         # VALIDASI KELAS
