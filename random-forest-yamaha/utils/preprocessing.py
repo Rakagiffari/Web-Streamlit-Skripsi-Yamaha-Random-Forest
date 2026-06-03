@@ -90,8 +90,8 @@ def preprocess_data(df):
 
         df["Model Name"] = df["Model Name"].apply(
 
-            lambda x: x
-            if x in top_model
+            lambda x:
+            x if x in top_model
             else "Lainnya"
 
         )
@@ -113,10 +113,8 @@ def preprocess_data(df):
 
     drop_columns = [
 
-        # TARGET
         "Service",
 
-        # IDENTITAS
         "Nama",
         "KTP",
         "Telepon",
@@ -124,21 +122,17 @@ def preprocess_data(df):
         "Plate",
         "Technical Name",
 
-        # KOLOM TIDAK PENTING
         "Dealer",
         "Point",
         "YSS",
         "Order",
         "No Work Order",
 
-        # TANGGAL
         "Reg Date",
 
-        # LEAKAGE
         "Parts Name",
         "Total Payment",
 
-        # SUDAH DIGANTI
         "Tahun Motor"
     ]
 
@@ -171,17 +165,5 @@ def preprocess_data(df):
     for col in bool_cols:
 
         X[col] = X[col].astype(int)
-
-    # =====================================
-    # INFO FITUR
-    # =====================================
-
-    print("Jumlah fitur :", X.shape[1])
-
-    print("\nDaftar fitur:")
-
-    for col in X.columns:
-
-        print(col)
 
     return X, y
