@@ -31,12 +31,14 @@ if uploaded_file:
             recall,
             f1,
             report,
-            matrix
+            matrix,
+            feature_names
         ) = train_model(X, y)
 
         # =========================
         # SAVE MODEL
         # =========================
+
         BASE_DIR = Path(__file__).parent.parent
 
         model_dir = BASE_DIR / "model"
@@ -50,15 +52,28 @@ if uploaded_file:
             model_dir / "random_forest_model.pkl"
         )
 
-        joblib.dump(model, model_path)
+        feature_path = (
+            model_dir / "feature_columns.pkl"
+        )
+
+        joblib.dump(
+            model,
+            model_path
+        )
+
+        joblib.dump(
+            list(feature_names),
+            feature_path
+        )
 
         st.success(
-            "Model berhasil disimpan"
+            "✅ Model berhasil disimpan"
         )
 
         # =========================
         # METRIK
         # =========================
+
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
@@ -88,6 +103,7 @@ if uploaded_file:
         # =========================
         # REPORT
         # =========================
+
         st.subheader(
             "📋 Classification Report"
         )
@@ -97,6 +113,7 @@ if uploaded_file:
         # =========================
         # CONFUSION MATRIX
         # =========================
+
         st.subheader(
             "📉 Confusion Matrix"
         )
@@ -112,3 +129,93 @@ if uploaded_file:
         )
 
         st.pyplot(fig)
+
+        # =========================
+        # FEATURE IMPORTANCE
+        # =========================
+
+        st.subheader(
+            "📊 Feature Importance"
+        )
+
+        importance = pd.DataFrame({
+
+            'Fitur': feature_names,
+            'Importance': model.feature_importances_
+
+        })
+
+        grouped_importance = {
+
+            'Last Kilometer': 0,
+            'Usia Motor': 0,
+            'Model Name': 0,
+            'Category': 0,
+            'Brand': 0,
+            'Status': 0
+
+        }
+
+        for index, row in importance.iterrows():
+
+            fitur = row['Fitur']
+            nilai = row['Importance']
+
+            if fitur.startswith('Model Name_'):
+
+                grouped_importance['Model Name'] += nilai
+
+            elif fitur.startswith('Category_'):
+
+                grouped_importance['Category'] += nilai
+
+            elif fitur.startswith('Brand_'):
+
+                grouped_importance['Brand'] += nilai
+
+            elif fitur.startswith('Status_'):
+
+                grouped_importance['Status'] += nilai
+
+            elif fitur == 'Last Kilometer':
+
+                grouped_importance['Last Kilometer'] += nilai
+
+            elif fitur == 'Usia Motor':
+
+                grouped_importance['Usia Motor'] += nilai
+
+        importance_grouped = pd.DataFrame({
+
+            'Fitur': grouped_importance.keys(),
+            'Importance': grouped_importance.values()
+
+        })
+
+        importance_grouped = importance_grouped.sort_values(
+
+            by='Importance',
+            ascending=False
+
+        )
+
+        fig2, ax2 = plt.subplots(figsize=(8,5))
+
+        sns.barplot(
+
+            data=importance_grouped,
+
+            x='Importance',
+            y='Fitur',
+
+            palette='Reds',
+            ax=ax2
+
+        )
+
+        st.pyplot(fig2)
+
+        st.dataframe(
+            importance_grouped,
+            use_container_width=True
+        )
