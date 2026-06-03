@@ -23,29 +23,23 @@ def preprocess_data(df):
     # =====================================
 
     categorical_cols = [
-
         "Category",
         "Brand",
         "Model Name",
         "Status"
-
     ]
 
     for col in categorical_cols:
 
         if col in df.columns:
 
-            df[col] = df[col].fillna("Unknown")
-
-    # =====================================
-    # HANDLE NUMERIK
-    # =====================================
+            df[col] = df[col].fillna(
+                "Unknown"
+            )
 
     numeric_cols = [
-
         "Tahun Motor",
         "Last Kilometer"
-
     ]
 
     for col in numeric_cols:
@@ -65,40 +59,23 @@ def preprocess_data(df):
     # FEATURE ENGINEERING
     # =====================================
 
-    tahun_sekarang = 2025
-
     if "Tahun Motor" in df.columns:
+
+        tahun_sekarang = 2026
 
         df["Usia Motor"] = (
             tahun_sekarang - df["Tahun Motor"]
         )
 
     # =====================================
-    # SEDERHANAKAN MODEL NAME
-    # =====================================
-
-    if "Model Name" in df.columns:
-
-        top_model = (
-
-            df["Model Name"]
-            .value_counts()
-            .nlargest(5)
-            .index
-
-        )
-
-        df["Model Name"] = df["Model Name"].apply(
-
-            lambda x:
-            x if x in top_model
-            else "Lainnya"
-
-        )
-
-    # =====================================
     # TARGET
     # =====================================
+
+    if "Service" not in df.columns:
+
+        raise ValueError(
+            "Kolom 'Service' tidak ditemukan"
+        )
 
     y = df["Service"].map({
 
@@ -108,13 +85,25 @@ def preprocess_data(df):
     })
 
     # =====================================
+    # HAPUS TARGET NULL
+    # =====================================
+
+    valid_index = y.notna()
+
+    df = df.loc[valid_index]
+
+    y = y.loc[valid_index]
+
+    # =====================================
     # DROP COLUMN
     # =====================================
 
     drop_columns = [
 
+        # TARGET
         "Service",
 
+        # IDENTITAS
         "Nama",
         "KTP",
         "Telepon",
@@ -122,48 +111,55 @@ def preprocess_data(df):
         "Plate",
         "Technical Name",
 
+        # KOLOM TIDAK PENTING
         "Dealer",
         "Point",
         "YSS",
         "Order",
         "No Work Order",
 
+        # TANGGAL
         "Reg Date",
 
+        # DATA LEAKAGE
         "Parts Name",
+        "Parts Qty",
         "Total Payment",
 
+        # SUDAH DIGANTI
         "Tahun Motor"
     ]
 
     X = df.drop(
-
         columns=drop_columns,
         errors='ignore'
-
     )
+
+    # =====================================
+    # KONVERSI OBJECT YANG TERSISA
+    # =====================================
+
+    object_cols = X.select_dtypes(
+        include=['object']
+    ).columns
+
+    for col in object_cols:
+
+        X[col] = X[col].astype(str)
 
     # =====================================
     # ONE HOT ENCODING
     # =====================================
 
     X = pd.get_dummies(
-
         X,
         drop_first=True
-
     )
 
     # =====================================
-    # BOOL -> INT
+    # PASTIKAN SEMUA NUMERIK
     # =====================================
 
-    bool_cols = X.select_dtypes(
-        include=['bool']
-    ).columns
-
-    for col in bool_cols:
-
-        X[col] = X[col].astype(int)
+    X = X.astype(float)
 
     return X, y
