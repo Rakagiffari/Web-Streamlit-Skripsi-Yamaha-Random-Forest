@@ -154,13 +154,25 @@ if uploaded_file is not None:
             </div>
             """, unsafe_allow_html=True)
 
-        with c2:
-            st.markdown(f"""
-            <div class="metric-card">
-                <div class="metric-label">Jumlah Fitur</div>
-                <div class="metric-value">{X.shape[1]}</div>
-            </div>
-            """, unsafe_allow_html=True)
+        fitur_asli = [
+
+    "Category",
+    "Brand",
+    "Model Name",
+    "Status",
+    "Last Kilometer",
+    "Usia Motor",
+    "Parts Qty"
+
+]
+
+with c2:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">Jumlah Fitur</div>
+        <div class="metric-value">{len(fitur_asli)}</div>
+    </div>
+    """, unsafe_allow_html=True)
 
         with c3:
             st.markdown(f"""
@@ -173,9 +185,6 @@ if uploaded_file is not None:
         st.markdown("<br>", unsafe_allow_html=True)
 
         # =========================================
-        # DISTRIBUSI TARGET
-        # =========================================
-          # =========================================
         # DISTRIBUSI TARGET
         # =========================================
         st.markdown(
