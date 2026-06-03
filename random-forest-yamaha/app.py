@@ -20,18 +20,6 @@ st.set_page_config(
 )
 
 # =========================================
-# LOAD SIDEBAR CSS
-# =========================================
-with open("styles/global.css") as f:
-
-    st.markdown(
-
-        f"<style>{f.read()}</style>",
-
-        unsafe_allow_html=True
-    )
-
-# =========================================
 # DATE & TIME WIB
 # =========================================
 utc_now = datetime.utcnow()
@@ -41,7 +29,7 @@ wib_now = utc_now + timedelta(hours=7)
 tanggal_jam = wib_now.strftime("%d-%m-%Y | %H:%M")
 
 # =========================================
-# HOME CSS ONLY
+# CUSTOM CSS
 # =========================================
 st.markdown("""
 <style>
@@ -51,6 +39,216 @@ st.markdown("""
 ========================= */
 .stApp{
     background-color: #020617;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+section[data-testid="stSidebar"]{
+
+    min-width: 270px !important;
+    max-width: 270px !important;
+
+    background:
+        linear-gradient(
+            180deg,
+            #050b18 0%,
+            #091428 45%,
+            #0f172a 100%
+        );
+
+    border-right: 1px solid rgba(255,255,255,0.06);
+}
+
+/* =========================
+   SIDEBAR CONTENT
+========================= */
+[data-testid="stSidebarContent"]{
+
+    padding-top: 20px;
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-bottom: 20px;
+}
+
+/* =========================
+   SIDEBAR TITLE
+========================= */
+[data-testid="stSidebarNav"]::before{
+
+    content: "MENU";
+
+    display: block;
+
+    text-align: center;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 900;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 28px;
+
+    padding-bottom: 14px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+
+    opacity: 0.95;
+}
+
+/* =========================
+   SIDEBAR NAV
+========================= */
+[data-testid="stSidebarNav"]{
+
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* =========================
+   MENU LIST
+========================= */
+[data-testid="stSidebarNav"] ul{
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+
+    height: 100%;
+
+    padding-top: 5px;
+}
+
+/* =========================
+   MENU ITEM
+========================= */
+[data-testid="stSidebarNav"] li{
+
+    list-style: none;
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.03),
+            rgba(255,255,255,0.01)
+        );
+
+    border: 1px solid rgba(255,255,255,0.05);
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        border 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+/* =========================
+   MENU LINK
+========================= */
+[data-testid="stSidebarNav"] li a{
+
+    color: #e2e8f0 !important;
+
+    font-size: 15px !important;
+
+    font-weight: 700 !important;
+
+    text-decoration: none !important;
+
+    padding: 14px 18px;
+
+    display: flex;
+    align-items: center;
+
+    border-radius: 16px;
+
+    transition: all 0.25s ease;
+}
+
+/* =========================
+   HOVER EFFECT
+========================= */
+[data-testid="stSidebarNav"] li:hover{
+
+    transform: translateX(5px);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(239,68,68,0.18),
+            rgba(127,29,29,0.15)
+        );
+
+    border: 1px solid rgba(239,68,68,0.45);
+
+    box-shadow:
+        0 0 15px rgba(239,68,68,0.18);
+}
+
+/* =========================
+   HOVER TEXT
+========================= */
+[data-testid="stSidebarNav"] li:hover a{
+
+    color: white !important;
+}
+
+/* =========================
+   ACTIVE MENU
+========================= */
+[data-testid="stSidebarNav"] li:has([aria-current="page"]){
+
+    background:
+        linear-gradient(
+            135deg,
+            #ef4444 0%,
+            #dc2626 50%,
+            #991b1b 100%
+        );
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 0 18px rgba(239,68,68,0.35);
+}
+
+/* =========================
+   ACTIVE TEXT
+========================= */
+[data-testid="stSidebarNav"] li:has([aria-current="page"]) a{
+
+    color: white !important;
+
+    font-weight: 800 !important;
+}
+
+/* =========================
+   ABOUT MENU POSITION
+========================= */
+[data-testid="stSidebarNav"] li:last-child{
+
+    margin-top: auto;
+
+    margin-bottom: 10px;
+}
+
+/* =========================
+   BOTTOM ABOUT STYLE
+========================= */
+[data-testid="stSidebarNav"] li:last-child{
+
+    opacity: 0.92;
+
+    border: 1px solid rgba(255,255,255,0.04);
 }
 
 /* =========================
@@ -132,6 +330,43 @@ st.markdown("""
     font-weight: 800;
 }
 
+/* =========================
+   SUCCESS BOX
+========================= */
+.stAlert{
+    border-radius: 15px;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+::-webkit-scrollbar{
+
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb{
+
+    background: #475569;
+
+    border-radius: 10px;
+}
+
+/* =========================
+   HIDE STREAMLIT MENU
+========================= */
+#MainMenu{
+    visibility: hidden;
+}
+
+footer{
+    visibility: hidden;
+}
+
+header{
+    visibility: hidden;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -176,7 +411,7 @@ st.markdown(
 )
 
 # =========================================
-# CENTER CARDS
+# 3 CENTER CARDS
 # =========================================
 space1, col1, col2, col3, space2 = st.columns([0.7,1,1,1,0.7])
 
@@ -225,5 +460,5 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 # SUCCESS MESSAGE
 # =========================================
 st.success(
-    "ⓘ Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
+    "ⓘ    Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
 )
