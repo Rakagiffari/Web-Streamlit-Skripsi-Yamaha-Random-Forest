@@ -17,6 +17,10 @@ from sklearn.metrics import (
     f1_score
 )
 
+# =========================================
+# TRAIN MODEL
+# =========================================
+
 def train_model(X, y):
 
     # =====================================
@@ -57,7 +61,7 @@ def train_model(X, y):
     )
 
     # =====================================
-    # TRAINING
+    # TRAINING MODEL
     # =====================================
 
     rf.fit(X_train, y_train)
@@ -69,7 +73,7 @@ def train_model(X, y):
     y_pred = rf.predict(X_test)
 
     # =====================================
-    # EVALUASI
+    # METRIK EVALUASI
     # =====================================
 
     accuracy = accuracy_score(
@@ -92,15 +96,27 @@ def train_model(X, y):
         y_pred
     )
 
+    # =====================================
+    # CLASSIFICATION REPORT
+    # =====================================
+
     report = classification_report(
         y_test,
         y_pred
     )
 
+    # =====================================
+    # CONFUSION MATRIX
+    # =====================================
+
     matrix = confusion_matrix(
         y_test,
         y_pred
     )
+
+    # =====================================
+    # RETURN
+    # =====================================
 
     return (
 
