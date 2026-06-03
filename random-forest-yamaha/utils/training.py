@@ -22,6 +22,33 @@ from sklearn.metrics import (
 def train_model(X, y):
 
     # =====================================
+    # VALIDASI DATA
+    # =====================================
+
+    if len(X) == 0:
+
+        raise ValueError(
+            "Dataset kosong"
+        )
+
+    if y.isnull().sum() > 0:
+
+        raise ValueError(
+            "Target masih memiliki nilai kosong"
+        )
+
+    # =====================================
+    # PASTIKAN SEMUA FITUR NUMERIK
+    # =====================================
+
+    X = X.apply(
+        pd.to_numeric,
+        errors='coerce'
+    )
+
+    X = X.fillna(0)
+
+    # =====================================
     # SPLIT DATA
     # =====================================
 
@@ -81,22 +108,26 @@ def train_model(X, y):
 
     precision = precision_score(
         y_test,
-        y_pred
+        y_pred,
+        zero_division=0
     )
 
     recall = recall_score(
         y_test,
-        y_pred
+        y_pred,
+        zero_division=0
     )
 
     f1 = f1_score(
         y_test,
-        y_pred
+        y_pred,
+        zero_division=0
     )
 
     report = classification_report(
         y_test,
-        y_pred
+        y_pred,
+        zero_division=0
     )
 
     matrix = confusion_matrix(
@@ -108,65 +139,17 @@ def train_model(X, y):
     # FEATURE IMPORTANCE
     # =====================================
 
-    importance = pd.DataFrame({
-
-        'Fitur': X.columns,
-        'Importance': rf.feature_importances_
-
-    })
-
-    grouped_importance = {
-
-        'Last Kilometer': 0,
-        'Usia Motor': 0,
-        'Model Name': 0,
-        'Category': 0,
-        'Brand': 0,
-        'Status': 0
-
-    }
-
-    for index, row in importance.iterrows():
-
-        fitur = row['Fitur']
-        nilai = row['Importance']
-
-        if fitur.startswith('Model Name_'):
-
-            grouped_importance['Model Name'] += nilai
-
-        elif fitur.startswith('Category_'):
-
-            grouped_importance['Category'] += nilai
-
-        elif fitur.startswith('Brand_'):
-
-            grouped_importance['Brand'] += nilai
-
-        elif fitur.startswith('Status_'):
-
-            grouped_importance['Status'] += nilai
-
-        elif fitur == 'Last Kilometer':
-
-            grouped_importance['Last Kilometer'] += nilai
-
-        elif fitur == 'Usia Motor':
-
-            grouped_importance['Usia Motor'] += nilai
-
     importance_df = pd.DataFrame({
 
-        'Fitur': grouped_importance.keys(),
-        'Importance': grouped_importance.values()
+        "Fitur": X.columns,
+        "Importance": rf.feature_importances_
 
     })
 
     importance_df = importance_df.sort_values(
 
-        by='Importance',
+        by="Importance",
         ascending=False
-
     )
 
     return (
@@ -180,6 +163,6 @@ def train_model(X, y):
 
         report,
         matrix,
-        importance_df
 
+        importance_df
     )
