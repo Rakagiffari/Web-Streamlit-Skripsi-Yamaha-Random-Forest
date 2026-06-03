@@ -378,22 +378,31 @@ if uploaded_file is not None:
             # =========================================
             # FEATURE IMPORTANCE
             # =========================================
-            st.markdown("## ⭐ Feature Importance")
+            st.markdown(
+                "## ⭐ Feature Importance"
+            )
 
             importance_df = pd.DataFrame({
 
-                "Feature": X.columns,
-                "Importance": model.feature_importances_
+                "Feature":
+                X.columns,
+
+                "Importance":
+                model.feature_importances_
 
             })
 
-            importance_df = importance_df.sort_values(
-                by="Importance",
-                ascending=False
-            ).head(10)
+            importance_df = (
+                importance_df
+                .sort_values(
+                    by="Importance",
+                    ascending=False
+                )
+                .head(10)
+            )
 
             fig3, ax3 = plt.subplots(
-                figsize=(8,5)
+                figsize=(5,3)
             )
 
             sns.barplot(
@@ -403,7 +412,18 @@ if uploaded_file is not None:
                 ax=ax3
             )
 
-            st.pyplot(fig, use_container_width=False)
+            ax3.tick_params(
+                labelsize=8
+            )
+
+            c1, c2, c3 = st.columns([1,2,1])
+
+            with c2:
+
+                st.pyplot(
+                    fig3,
+                    use_container_width=False
+                )
 
     except Exception as e:
 
