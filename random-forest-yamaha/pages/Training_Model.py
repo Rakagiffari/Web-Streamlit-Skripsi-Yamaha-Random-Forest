@@ -225,7 +225,7 @@ if uploaded_file is not None:
                     f1,
                     report,
                     matrix,
-                    importance_df
+                    importance_grouped
                 ) = train_model(X, y)
 
                 progress.progress(80)
