@@ -6,97 +6,84 @@ import pandas as pd
 
 def preprocess_data(df):
 
-    # =====================================
-    # COPY DATA
-    # =====================================
-
-    df = df.copy()
-
-    # =====================================
+    # =====================================================
     # HAPUS DUPLIKAT
-    # =====================================
+    # =====================================================
 
     df = df.drop_duplicates()
 
-    # =====================================
+    # =====================================================
     # HANDLE MISSING VALUE
-    # =====================================
+    # =====================================================
 
-    categorical_cols = [
-        "Category",
-        "Brand",
-        "Model Name",
-        "Status"
-    ]
+    # =========================
+    # KOLOM KATEGORIKAL
+    # =========================
 
-    for col in categorical_cols:
+    df["Category"] = df["Category"].fillna(
+        "Unknown"
+    )
 
-        if col in df.columns:
+    df["Brand"] = df["Brand"].fillna(
+        "Unknown"
+    )
 
-            df[col] = df[col].fillna(
-                "Unknown"
-            )
+    df["Model Name"] = df["Model Name"].fillna(
+        "Unknown"
+    )
 
-    numeric_cols = [
-        "Tahun Motor",
-        "Last Kilometer"
-    ]
+    df["Status"] = df["Status"].fillna(
+        "Unknown"
+    )
 
-    for col in numeric_cols:
+    # =========================
+    # KOLOM NUMERIK
+    # =========================
 
-        if col in df.columns:
+    df["Tahun Motor"] = pd.to_numeric(
+        df["Tahun Motor"],
+        errors='coerce'
+    )
 
-            df[col] = pd.to_numeric(
-                df[col],
-                errors='coerce'
-            )
+    df["Last Kilometer"] = pd.to_numeric(
+        df["Last Kilometer"],
+        errors='coerce'
+    )
 
-            df[col] = df[col].fillna(
-                df[col].median()
-            )
+    df["Tahun Motor"] = df["Tahun Motor"].fillna(
+        df["Tahun Motor"].median()
+    )
 
-    # =====================================
+    df["Last Kilometer"] = df["Last Kilometer"].fillna(
+        df["Last Kilometer"].median()
+    )
+
+    # =====================================================
     # FEATURE ENGINEERING
-    # =====================================
+    # =====================================================
 
-    if "Tahun Motor" in df.columns:
+    tahun_sekarang = 2025
 
-        tahun_sekarang = 2026
+    df["Usia Motor"] = (
+        tahun_sekarang - df["Tahun Motor"]
+    )
 
-        df["Usia Motor"] = (
-            tahun_sekarang - df["Tahun Motor"]
-        )
-
-    # =====================================
+    # =====================================================
     # TARGET
-    # =====================================
+    # =====================================================
 
-    if "Service" not in df.columns:
+    target = "Service"
 
-        raise ValueError(
-            "Kolom 'Service' tidak ditemukan"
-        )
-
-    y = df["Service"].map({
+    y = df[target].map({
 
         "Ringan": 0,
         "Berat": 1
 
     })
 
-    # =====================================
-    # HAPUS TARGET NULL
-    # =====================================
-
-    valid_index = y.notna()
-
-    df = df.loc[valid_index]
-
-    y = y.loc[valid_index]
-
-    # =====================================
+    # =====================================================
     # DROP COLUMN
-    # =====================================
+    # =====================================================
 
     drop_columns = [
 
@@ -121,9 +108,8 @@ def preprocess_data(df):
         # TANGGAL
         "Reg Date",
 
-        # DATA LEAKAGE
+        # LEAKAGE
         "Parts Name",
-        "Parts Qty",
         "Total Payment",
 
         # SUDAH DIGANTI
@@ -135,30 +121,18 @@ def preprocess_data(df):
         errors='ignore'
     )
 
-    # =====================================
-    # KONVERSI OBJECT YANG TERSISA
-    # =====================================
-
-    object_cols = X.select_dtypes(
-        include=['object']
-    ).columns
-
-    for col in object_cols:
-
-        X[col] = X[col].astype(str)
-
-    # =====================================
+    # =====================================================
     # ONE HOT ENCODING
-    # =====================================
+    # =====================================================
 
     X = pd.get_dummies(
         X,
         drop_first=True
     )
 
-    # =====================================
-    # PASTIKAN SEMUA NUMERIK
-    # =====================================
+    # =====================================================
+    # PASTIKAN NUMERIK
+    # =====================================================
 
     X = X.astype(float)
 
