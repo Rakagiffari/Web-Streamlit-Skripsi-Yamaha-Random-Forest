@@ -9,6 +9,7 @@ def preprocess_data(df):
     # =====================================
     # HAPUS DUPLIKAT
     # =====================================
+
     df = df.drop_duplicates()
 
     # =====================================
@@ -56,7 +57,7 @@ def preprocess_data(df):
     # FEATURE ENGINEERING
     # =====================================
 
-    tahun_sekarang = 2026
+    tahun_sekarang = 2025
 
     df["Usia Motor"] = (
         tahun_sekarang - df["Tahun Motor"]
@@ -90,7 +91,7 @@ def preprocess_data(df):
         "Plate",
         "Technical Name",
 
-        # TIDAK PENTING
+        # KOLOM TIDAK PENTING
         "Dealer",
         "Point",
         "YSS",
@@ -102,7 +103,6 @@ def preprocess_data(df):
 
         # DATA LEAKAGE
         "Parts Name",
-        "Parts Qty",
         "Total Payment",
 
         # SUDAH DIGANTI
