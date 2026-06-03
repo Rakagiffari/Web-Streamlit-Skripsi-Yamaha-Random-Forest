@@ -43,11 +43,11 @@ def train_model(X, y):
 
         n_estimators=300,
 
-        max_depth=20,
+        max_depth=15,
 
-        min_samples_split=2,
+        min_samples_split=5,
 
-        min_samples_leaf=1,
+        min_samples_leaf=2,
 
         class_weight='balanced',
 
@@ -112,5 +112,7 @@ def train_model(X, y):
         f1,
 
         report,
-        matrix
+        matrix,
+
+        X.columns
     )
