@@ -1,6 +1,3 @@
-# app.py
-
-```python
 import streamlit as st
 from pathlib import Path
 from PIL import Image
@@ -230,4 +227,3 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 st.success(
     "ⓘ Gunakan menu sidebar untuk memulai sistem klasifikasi layanan servis Yamaha."
 )
-```
