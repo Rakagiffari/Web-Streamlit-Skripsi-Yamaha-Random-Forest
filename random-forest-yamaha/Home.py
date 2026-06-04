@@ -124,7 +124,7 @@ section[data-testid="stSidebar"]{
 ========================= */
 .metric-value{
     color: white;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 800;
 }
 
@@ -132,7 +132,7 @@ section[data-testid="stSidebar"]{
    SUCCESS BOX
 ========================= */
 .stAlert{
-    border-radius: 20px;
+    border-radius: 15px;
 }
 
 /* =========================
