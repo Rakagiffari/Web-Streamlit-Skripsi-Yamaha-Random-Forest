@@ -206,10 +206,10 @@ with col1:
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-title">
-            Algoritma
+            YAMAHA
         </div>
         <div class="metric-value">
-            Random Forest
+            Tjahaja Tabing
         </div>
     </div>
     """, unsafe_allow_html=True)
