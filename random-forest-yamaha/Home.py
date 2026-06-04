@@ -209,7 +209,7 @@ with col1:
             YAMAHA
         </div>
         <div class="metric-value">
-            Tjahaja Tabing
+            Tjahaja Baru Tabing
         </div>
     </div>
     """, unsafe_allow_html=True)
