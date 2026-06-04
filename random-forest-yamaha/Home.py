@@ -38,15 +38,15 @@ st.markdown("""
    BACKGROUND
 ========================= */
 .stApp{
-    background-color: #400505;
+    background-color: #020617;
 }
 
 /* =========================
    SIDEBAR
 ========================= */
 section[data-testid="stSidebar"]{
-    background-color: #520A0A;
-    border-right: 1px solid #FF0000;
+    background-color: #0f172a;
+    border-right: 1px solid #1e293b;
 }
 
 /* =========================
@@ -62,9 +62,9 @@ section[data-testid="stSidebar"]{
 ========================= */
 .main-title{
     text-align: center;
-    font-size: 45px;
+    font-size: 58px;
     font-weight: 900;
-    color: black;
+    color: white;
     line-height: 1.1;
     margin-top: 5px;
     margin-bottom: 10px;
@@ -76,8 +76,8 @@ section[data-testid="stSidebar"]{
 ========================= */
 .desc{
     text-align: center;
-    color: #000000;
-    font-size: 15px;
+    color: #cbd5e1;
+    font-size: 20px;
     margin-top: 0px;
     margin-bottom: 45px;
 }
