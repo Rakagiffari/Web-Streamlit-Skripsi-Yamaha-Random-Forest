@@ -25,6 +25,49 @@ st.set_page_config(
 # STYLE
 # =========================================
 st.markdown("""
+<style>
+
+.main-title{
+    font-size:40px;
+    font-weight:700;
+    color:white;
+    margin-bottom:0px;
+}
+
+.sub-title{
+    color:#9ca3af;
+    font-size:16px;
+    margin-top:-10px;
+}
+
+.block{
+    background-color:#111827;
+    padding:25px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,0.08);
+    margin-bottom:20px;
+}
+
+.metric-card{
+    background:#1f2937;
+    padding:20px;
+    border-radius:16px;
+    text-align:center;
+}
+
+.metric-label{
+    color:#9ca3af;
+    font-size:15px;
+}
+
+.metric-value{
+    color:white;
+    font-size:30px;
+    font-weight:bold;
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 
 
