@@ -423,6 +423,14 @@ if uploaded_file is not None:
                     use_container_width=False
                 )
 
+            # =========================
+            # TABEL
+            # =========================
+            st.dataframe(
+                importance_grouped,
+                use_container_width=True
+            )
+
     except Exception as e:
 
         st.error(
