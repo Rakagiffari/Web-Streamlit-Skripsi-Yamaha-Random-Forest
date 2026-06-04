@@ -46,7 +46,7 @@ st.markdown("""
 ========================= */
 section[data-testid="stSidebar"]{
     background-color: #FFFFFF;
-    border-right: 1px solid #1e293b;
+    border-right: 1px solid #FF0000;
 }
 
 /* =========================
