@@ -114,7 +114,7 @@ section[data-testid="stSidebar"]{
 ========================= */
 .metric-title{
     color: #94a3b8;
-    font-size: 10px;
+    font-size: 15px;
     margin-bottom: 12px;
     font-weight: 600;
 }
@@ -124,7 +124,7 @@ section[data-testid="stSidebar"]{
 ========================= */
 .metric-value{
     color: white;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 800;
 }
 
