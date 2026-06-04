@@ -196,33 +196,21 @@ st.markdown(
 # =========================================
 # 3 CENTER CARDS
 # =========================================
-space1, col1, col2, col3, space2 = st.columns([0.7,1,1,1,0.7])
+space1, col1, col2, space2 = st.columns([0.7,1,1,1,0.7])
 
 with col1:
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-title">
-            Algoritma
+            YAMAHA
         </div>
         <div class="metric-value">
-            Random Forest
+             Tjahaja Tabing
         </div>
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
-    st.markdown(f"""
-    <div class="metric-card">
-        <div class="metric-title">
-            Yamaha
-        </div>
-        <div class="metric-value">
-            Tjahaja Baru Tabing
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col3:
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-title">
