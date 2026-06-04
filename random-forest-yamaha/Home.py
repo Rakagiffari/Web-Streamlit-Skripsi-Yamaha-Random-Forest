@@ -166,7 +166,7 @@ col1, col2, col3 = st.columns([2,1,2])
 with col2:
     st.image(
         str(logo_path),
-        width=220
+        width=200
     )
 
 # =========================================
