@@ -132,7 +132,7 @@ section[data-testid="stSidebar"]{
    SUCCESS BOX
 ========================= */
 .stAlert{
-    border-radius: 10px;
+    border-radius: 20px;
 }
 
 /* =========================
