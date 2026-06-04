@@ -62,7 +62,7 @@ section[data-testid="stSidebar"]{
 ========================= */
 .main-title{
     text-align: center;
-    font-size: 45px;
+    font-size: 43px;
     font-weight: 900;
     color: white;
     line-height: 1.1;
