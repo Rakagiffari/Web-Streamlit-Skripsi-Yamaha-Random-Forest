@@ -38,14 +38,14 @@ st.markdown("""
    BACKGROUND
 ========================= */
 .stApp{
-    background-color: #B8CFCA;
+    background-color: #FFFFFF;
 }
 
 /* =========================
    SIDEBAR
 ========================= */
 section[data-testid="stSidebar"]{
-    background-color: #0f172a;
+    background-color: #FFFFFF;
     border-right: 1px solid #1e293b;
 }
 
