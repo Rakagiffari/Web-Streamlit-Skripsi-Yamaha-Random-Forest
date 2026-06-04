@@ -214,10 +214,10 @@ with col2:
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-title">
-            Dataset
+            Yamaha
         </div>
         <div class="metric-value">
-            CSV File
+            Tjahaja Baru Tabing
         </div>
     </div>
     """, unsafe_allow_html=True)
