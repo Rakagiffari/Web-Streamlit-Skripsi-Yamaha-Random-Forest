@@ -133,6 +133,11 @@ section[data-testid="stSidebar"]{
 ========================= */
 .stAlert{
     border-radius: 15px;
+
+.stAlert p{
+    font-size: 13px !important;
+    font-weight: 500 !important;
+}
 }
 
 /* =========================
