@@ -77,7 +77,7 @@ section[data-testid="stSidebar"]{
 .desc{
     text-align: center;
     color: #cbd5e1;
-    font-size: 20px;
+    font-size: 13px;
     margin-top: 0px;
     margin-bottom: 45px;
 }
