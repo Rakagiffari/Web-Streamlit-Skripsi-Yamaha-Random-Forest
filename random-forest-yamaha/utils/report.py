@@ -11,6 +11,7 @@ from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import cm
 
+from pathlib import Path
 from datetime import datetime
 
 
@@ -30,12 +31,9 @@ def generate_pdf(
 ):
 
     doc = SimpleDocTemplate(
-
         pdf_path,
-
         leftMargin=20,
         rightMargin=20,
-
         topMargin=20,
         bottomMargin=20
     )
@@ -48,65 +46,43 @@ def generate_pdf(
     # HEADER
     # =====================================
 
-    try:
+    logo_file = Path(logo_path)
+
+    if logo_file.exists():
 
         logo = Image(
-            logo_path,
-            width=2.0 * cm,
-            height=2.0 * cm
-        )
-
-        logo_table = Table(
-            [[logo]]
-        )
-
-        logo_table.setStyle(
-            TableStyle([
-                ("ALIGN", (0,0), (-1,-1), "CENTER")
-            ])
+            str(logo_file),
+            width=2*cm,
+            height=2*cm
         )
 
         elements.append(
-            logo_table
+            Table(
+                [[logo]],
+                style=[
+                    ("ALIGN",(0,0),(-1,-1),"CENTER")
+                ]
+            )
         )
 
-    except:
-        pass
-
     elements.append(
-
         Paragraph(
-
             "<para align='center'><b>PT YAMAHA TJAHAJA BARU TABING</b></para>",
-
             styles["Heading2"]
-
         )
     )
 
     elements.append(
-
         Paragraph(
-
             "<para align='center'><b>LAPORAN TRAINING MODEL</b></para>",
-
             styles["Title"]
-
         )
     )
 
-    tanggal = datetime.now().strftime(
-        "%d-%m-%Y %H:%M"
-    )
-
     elements.append(
-
         Paragraph(
-
-            f"<para align='center'>Tanggal Training : {tanggal}</para>",
-
+            f"<para align='center'>Tanggal Training : {datetime.now().strftime('%d-%m-%Y %H:%M')}</para>",
             styles["Normal"]
-
         )
     )
 
@@ -118,38 +94,35 @@ def generate_pdf(
     # DATASET + METRIK
     # =====================================
 
-    dataset_text = f"""
-    <b>INFORMASI DATASET</b><br/><br/>
-    Jumlah Data : {total_data}<br/>
-    Data Training : {train_data}<br/>
-    Data Testing : {test_data}
-    """
-
-    metric_text = f"""
-    <b>HASIL EVALUASI</b><br/><br/>
-    Accuracy : {accuracy:.2%}<br/>
-    Precision : {precision:.2%}<br/>
-    Recall : {recall:.2%}<br/>
-    F1 Score : {f1:.2%}
-    """
-
     info_table = Table(
 
         [[
 
             Paragraph(
-                dataset_text,
+                f"""
+                <b>INFORMASI DATASET</b><br/><br/>
+                Jumlah Data : {total_data}<br/>
+                Data Training : {train_data}<br/>
+                Data Testing : {test_data}
+                """,
                 styles["BodyText"]
             ),
 
             Paragraph(
-                metric_text,
+                f"""
+                <b>HASIL EVALUASI</b><br/><br/>
+                Accuracy : {accuracy:.2%}<br/>
+                Precision : {precision:.2%}<br/>
+                Recall : {recall:.2%}<br/>
+                F1 Score : {f1:.2%}
+                """,
                 styles["BodyText"]
             )
 
         ]],
 
         colWidths=[250,250]
+
     )
 
     info_table.setStyle(
@@ -157,19 +130,13 @@ def generate_pdf(
         TableStyle([
 
             ("BOX",(0,0),(-1,-1),1,colors.black),
-
-            ("VALIGN",(0,0),(-1,-1),"TOP"),
-
-            ("BACKGROUND",(0,0),(0,0),colors.whitesmoke),
-
-            ("BACKGROUND",(1,0),(1,0),colors.whitesmoke)
+            ("GRID",(0,0),(-1,-1),1,colors.black)
 
         ])
+
     )
 
-    elements.append(
-        info_table
-    )
+    elements.append(info_table)
 
     elements.append(
         Spacer(1,10)
@@ -179,60 +146,68 @@ def generate_pdf(
     # GAMBAR
     # =====================================
 
-    try:
+    cm_file = Path(cm_image)
+    fi_file = Path(fi_image)
+
+    if cm_file.exists():
 
         cm = Image(
-            cm_image,
-            width=6.5 * cm,
-            height=5 * cm
+            str(cm_file),
+            width=6*cm,
+            height=4.5*cm
         )
 
-    except:
+    else:
 
         cm = Paragraph(
-            "Confusion Matrix tidak tersedia",
+            f"Gambar tidak ditemukan:<br/>{cm_file}",
             styles["BodyText"]
         )
 
-    try:
+    if fi_file.exists():
 
         fi = Image(
-            fi_image,
-            width=6.5 * cm,
-            height=5 * cm
+            str(fi_file),
+            width=6*cm,
+            height=4.5*cm
         )
 
-    except:
+    else:
 
         fi = Paragraph(
-            "Feature Importance tidak tersedia",
+            f"Gambar tidak ditemukan:<br/>{fi_file}",
             styles["BodyText"]
         )
 
     grafik_table = Table(
 
-        [[
+        [
 
-            Paragraph(
-                "<b>CONFUSION MATRIX</b>",
-                styles["BodyText"]
-            ),
+            [
 
-            Paragraph(
-                "<b>FEATURE IMPORTANCE</b>",
-                styles["BodyText"]
-            )
+                Paragraph(
+                    "<b>CONFUSION MATRIX</b>",
+                    styles["BodyText"]
+                ),
+
+                Paragraph(
+                    "<b>FEATURE IMPORTANCE</b>",
+                    styles["BodyText"]
+                )
+
+            ],
+
+            [
+
+                cm,
+                fi
+
+            ]
 
         ],
 
-        [
-
-            cm,
-            fi
-
-        ]],
-
         colWidths=[250,250]
+
     )
 
     grafik_table.setStyle(
@@ -240,14 +215,12 @@ def generate_pdf(
         TableStyle([
 
             ("BOX",(0,0),(-1,-1),1,colors.black),
-
             ("GRID",(0,0),(-1,-1),1,colors.black),
-
             ("ALIGN",(0,0),(-1,-1),"CENTER"),
-
             ("VALIGN",(0,0),(-1,-1),"MIDDLE")
 
         ])
+
     )
 
     elements.append(
@@ -259,7 +232,7 @@ def generate_pdf(
     )
 
     # =====================================
-    # TOP FITUR
+    # FITUR
     # =====================================
 
     fitur_text = ""
@@ -280,6 +253,7 @@ def generate_pdf(
             styles["BodyText"]
 
         )
+
     )
 
     elements.append(
@@ -290,49 +264,49 @@ def generate_pdf(
     # KESIMPULAN
     # =====================================
 
-    kesimpulan = f"""
-    <b>KESIMPULAN</b><br/><br/>
-
-    Model Random Forest berhasil dilatih menggunakan
-    dataset layanan servis Yamaha.
-
-    Model memperoleh Accuracy {accuracy:.2%},
-    Precision {precision:.2%},
-    Recall {recall:.2%},
-    dan F1 Score {f1:.2%}.
-
-    Berdasarkan hasil tersebut, model dapat digunakan
-    sebagai alat bantu klasifikasi Service Ringan dan
-    Service Berat.
-    """
-
-    kesimpulan_table = Table(
+    kesimpulan = Table(
 
         [[
 
             Paragraph(
-                kesimpulan,
+
+                f"""
+                <b>KESIMPULAN</b><br/><br/>
+
+                Model Random Forest memperoleh:
+
+                Accuracy : {accuracy:.2%}<br/>
+                Precision : {precision:.2%}<br/>
+                Recall : {recall:.2%}<br/>
+                F1 Score : {f1:.2%}<br/><br/>
+
+                Model dapat digunakan sebagai
+                alat bantu klasifikasi Service
+                Ringan dan Service Berat.
+                """,
+
                 styles["BodyText"]
+
             )
 
         ]],
 
         colWidths=[500]
+
     )
 
-    kesimpulan_table.setStyle(
+    kesimpulan.setStyle(
 
         TableStyle([
 
-            ("BOX",(0,0),(-1,-1),1,colors.black),
-
-            ("BACKGROUND",(0,0),(-1,-1),colors.whitesmoke)
+            ("BOX",(0,0),(-1,-1),1,colors.black)
 
         ])
+
     )
 
     elements.append(
-        kesimpulan_table
+        kesimpulan
     )
 
     doc.build(elements)
