@@ -461,12 +461,12 @@ if uploaded_file is not None:
 
             fi_path = BASE_DIR / "feature_importance.png"
 
-fig3.savefig(
-    str(fi_path),
-    bbox_inches="tight"
-)
+            fig3.savefig(
+                str(fi_path),
+                bbox_inches="tight"
+            )
 
-plt.close(fig3)
+            plt.close(fig3)
 
             st.dataframe(
 
