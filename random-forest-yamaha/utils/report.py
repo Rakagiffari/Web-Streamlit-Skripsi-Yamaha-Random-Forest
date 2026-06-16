@@ -12,6 +12,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import cm
 
 from datetime import datetime
+import os
 
 
 def generate_pdf(
@@ -30,12 +31,9 @@ def generate_pdf(
 ):
 
     doc = SimpleDocTemplate(
-
         pdf_path,
-
         leftMargin=20,
         rightMargin=20,
-
         topMargin=20,
         bottomMargin=20
     )
@@ -56,42 +54,31 @@ def generate_pdf(
             height=2.0 * cm
         )
 
-        logo_table = Table(
-            [[logo]]
-        )
+        logo_table = Table([[logo]])
 
         logo_table.setStyle(
             TableStyle([
-                ("ALIGN", (0,0), (-1,-1), "CENTER")
+                ("ALIGN", (0, 0), (-1, -1), "CENTER")
             ])
         )
 
-        elements.append(
-            logo_table
-        )
+        elements.append(logo_table)
 
-    except:
-        pass
+    except Exception as e:
+
+        print("ERROR LOGO:", e)
 
     elements.append(
-
         Paragraph(
-
             "<para align='center'><b>PT YAMAHA TJAHAJA BARU TABING</b></para>",
-
             styles["Heading2"]
-
         )
     )
 
     elements.append(
-
         Paragraph(
-
             "<para align='center'><b>LAPORAN TRAINING MODEL</b></para>",
-
             styles["Title"]
-
         )
     )
 
@@ -100,18 +87,14 @@ def generate_pdf(
     )
 
     elements.append(
-
         Paragraph(
-
             f"<para align='center'>Tanggal Training : {tanggal}</para>",
-
             styles["Normal"]
-
         )
     )
 
     elements.append(
-        Spacer(1,10)
+        Spacer(1, 10)
     )
 
     # =====================================
@@ -134,9 +117,7 @@ def generate_pdf(
     """
 
     info_table = Table(
-
         [[
-
             Paragraph(
                 dataset_text,
                 styles["BodyText"]
@@ -146,121 +127,117 @@ def generate_pdf(
                 metric_text,
                 styles["BodyText"]
             )
-
         ]],
-
-        colWidths=[250,250]
+        colWidths=[250, 250]
     )
 
     info_table.setStyle(
-
         TableStyle([
+            ("BOX", (0, 0), (-1, -1), 1, colors.black),
+            ("VALIGN", (0, 0), (-1, -1), "TOP"),
+            ("BACKGROUND", (0, 0), (0, 0), colors.whitesmoke),
+            ("BACKGROUND", (1, 0), (1, 0), colors.whitesmoke)
+        ])
+    )
 
-            ("BOX",(0,0),(-1,-1),1,colors.black),
+    elements.append(info_table)
 
-            ("VALIGN",(0,0),(-1,-1),"TOP"),
+    elements.append(
+        Spacer(1, 10)
+    )
 
-            ("BACKGROUND",(0,0),(0,0),colors.whitesmoke),
+    # =====================================
+    # GAMBAR
+    # =====================================
 
-            ("BACKGROUND",(1,0),(1,0),colors.whitesmoke)
+    print("CM IMAGE:", cm_image)
+    print("FI IMAGE:", fi_image)
 
+    print("CM EXISTS:", os.path.exists(cm_image))
+    print("FI EXISTS:", os.path.exists(fi_image))
+
+    try:
+
+        if not os.path.exists(cm_image):
+            raise FileNotFoundError(
+                f"File tidak ditemukan: {cm_image}"
+            )
+
+        cm_img = Image(
+            cm_image,
+            width=6.5 * cm,
+            height=5 * cm
+        )
+
+    except Exception as e:
+
+        print("ERROR CONFUSION MATRIX:", e)
+
+        cm_img = Paragraph(
+            f"Error: {e}",
+            styles["BodyText"]
+        )
+
+    try:
+
+        if not os.path.exists(fi_image):
+            raise FileNotFoundError(
+                f"File tidak ditemukan: {fi_image}"
+            )
+
+        fi_img = Image(
+            fi_image,
+            width=6.5 * cm,
+            height=5 * cm
+        )
+
+    except Exception as e:
+
+        print("ERROR FEATURE IMPORTANCE:", e)
+
+        fi_img = Paragraph(
+            f"Error: {e}",
+            styles["BodyText"]
+        )
+
+    grafik_table = Table(
+        [
+            [
+                Paragraph(
+                    "<b>CONFUSION MATRIX</b>",
+                    styles["BodyText"]
+                ),
+
+                Paragraph(
+                    "<b>FEATURE IMPORTANCE</b>",
+                    styles["BodyText"]
+                )
+            ],
+
+            [
+                cm_img,
+                fi_img
+            ]
+        ],
+        colWidths=[250, 250]
+    )
+
+    grafik_table.setStyle(
+        TableStyle([
+            ("BOX", (0, 0), (-1, -1), 1, colors.black),
+            ("GRID", (0, 0), (-1, -1), 1, colors.black),
+            ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+            ("VALIGN", (0, 0), (-1, -1), "MIDDLE")
         ])
     )
 
     elements.append(
-        info_table
+        grafik_table
     )
 
     elements.append(
-        Spacer(1,10)
+        Spacer(1, 10)
     )
-
-# =====================================
-# GAMBAR
-# =====================================
-
-import os
-
-print("CM IMAGE:", cm_image)
-print("FI IMAGE:", fi_image)
-
-print("CM EXISTS:", os.path.exists(cm_image))
-print("FI EXISTS:", os.path.exists(fi_image))
-
-try:
-
-    if not os.path.exists(cm_image):
-        raise FileNotFoundError(
-            f"File tidak ditemukan: {cm_image}"
-        )
-
-    cm_img = Image(
-        cm_image,
-        width=6.5 * cm,
-        height=5 * cm
-    )
-
-except Exception as e:
-
-    print("ERROR CONFUSION MATRIX:", e)
-
-    cm_img = Paragraph(
-        f"Error: {e}",
-        styles["BodyText"]
-    )
-
-try:
-
-    if not os.path.exists(fi_image):
-        raise FileNotFoundError(
-            f"File tidak ditemukan: {fi_image}"
-        )
-
-    fi_img = Image(
-        fi_image,
-        width=6.5 * cm,
-        height=5 * cm
-    )
-
-except Exception as e:
-
-    print("ERROR FEATURE IMPORTANCE:", e)
-
-    fi_img = Paragraph(
-        f"Error: {e}",
-        styles["BodyText"]
-    )
-
-grafik_table = Table(
-
-    [
-
-        [
-
-            Paragraph(
-                "<b>CONFUSION MATRIX</b>",
-                styles["BodyText"]
-            ),
-
-            Paragraph(
-                "<b>FEATURE IMPORTANCE</b>",
-                styles["BodyText"]
-            )
-
-        ],
-
-        [
-
-            cm_img,
-            fi_img
-
-        ]
-
-    ],
-
-    colWidths=[250, 250]
-
-)
 
     # =====================================
     # TOP FITUR
@@ -269,25 +246,20 @@ grafik_table = Table(
     fitur_text = ""
 
     for i, fitur in enumerate(top_features):
-
         fitur_text += f"{i+1}. {fitur}<br/>"
 
     elements.append(
-
         Paragraph(
-
             f"""
             <b>FITUR PALING BERPENGARUH</b><br/><br/>
             {fitur_text}
             """,
-
             styles["BodyText"]
-
         )
     )
 
     elements.append(
-        Spacer(1,10)
+        Spacer(1, 10)
     )
 
     # =====================================
@@ -311,27 +283,19 @@ grafik_table = Table(
     """
 
     kesimpulan_table = Table(
-
         [[
-
             Paragraph(
                 kesimpulan,
                 styles["BodyText"]
             )
-
         ]],
-
         colWidths=[500]
     )
 
     kesimpulan_table.setStyle(
-
         TableStyle([
-
-            ("BOX",(0,0),(-1,-1),1,colors.black),
-
-            ("BACKGROUND",(0,0),(-1,-1),colors.whitesmoke)
-
+            ("BOX", (0, 0), (-1, -1), 1, colors.black),
+            ("BACKGROUND", (0, 0), (-1, -1), colors.whitesmoke)
         ])
     )
 
