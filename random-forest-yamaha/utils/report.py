@@ -175,43 +175,67 @@ def generate_pdf(
         Spacer(1,10)
     )
 
-    # =====================================
-    # GAMBAR
-    # =====================================
+# =====================================
+# GAMBAR
+# =====================================
 
-    try:
+import os
 
-        cm = Image(
-            cm_image,
-            width=6.5 * cm,
-            height=5 * cm
+print("CM IMAGE:", cm_image)
+print("FI IMAGE:", fi_image)
+
+print("CM EXISTS:", os.path.exists(cm_image))
+print("FI EXISTS:", os.path.exists(fi_image))
+
+try:
+
+    if not os.path.exists(cm_image):
+        raise FileNotFoundError(
+            f"File tidak ditemukan: {cm_image}"
         )
 
-    except:
+    cm_img = Image(
+        cm_image,
+        width=6.5 * cm,
+        height=5 * cm
+    )
 
-        cm = Paragraph(
-            "Confusion Matrix tidak tersedia",
-            styles["BodyText"]
+except Exception as e:
+
+    print("ERROR CONFUSION MATRIX:", e)
+
+    cm_img = Paragraph(
+        f"Error: {e}",
+        styles["BodyText"]
+    )
+
+try:
+
+    if not os.path.exists(fi_image):
+        raise FileNotFoundError(
+            f"File tidak ditemukan: {fi_image}"
         )
 
-    try:
+    fi_img = Image(
+        fi_image,
+        width=6.5 * cm,
+        height=5 * cm
+    )
 
-        fi = Image(
-            fi_image,
-            width=6.5 * cm,
-            height=5 * cm
-        )
+except Exception as e:
 
-    except:
+    print("ERROR FEATURE IMPORTANCE:", e)
 
-        fi = Paragraph(
-            "Feature Importance tidak tersedia",
-            styles["BodyText"]
-        )
+    fi_img = Paragraph(
+        f"Error: {e}",
+        styles["BodyText"]
+    )
 
-    grafik_table = Table(
+grafik_table = Table(
 
-        [[
+    [
+
+        [
 
             Paragraph(
                 "<b>CONFUSION MATRIX</b>",
@@ -227,36 +251,16 @@ def generate_pdf(
 
         [
 
-            cm,
-            fi
+            cm_img,
+            fi_img
 
-        ]],
+        ]
 
-        colWidths=[250,250]
-    )
+    ],
 
-    grafik_table.setStyle(
+    colWidths=[250, 250]
 
-        TableStyle([
-
-            ("BOX",(0,0),(-1,-1),1,colors.black),
-
-            ("GRID",(0,0),(-1,-1),1,colors.black),
-
-            ("ALIGN",(0,0),(-1,-1),"CENTER"),
-
-            ("VALIGN",(0,0),(-1,-1),"MIDDLE")
-
-        ])
-    )
-
-    elements.append(
-        grafik_table
-    )
-
-    elements.append(
-        Spacer(1,10)
-    )
+)
 
     # =====================================
     # TOP FITUR
