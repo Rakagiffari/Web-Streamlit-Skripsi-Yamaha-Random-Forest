@@ -3,12 +3,12 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import joblib
-import numpy as np
 
 from pathlib import Path
 
 from utils.preprocessing import preprocess_data
 from utils.training import train_model
+from utils.report import generate_pdf
 
 
 # =========================================
@@ -19,7 +19,6 @@ st.set_page_config(
     page_icon="⚙️",
     layout="wide"
 )
-
 
 # =========================================
 # STYLE
@@ -38,14 +37,6 @@ st.markdown("""
     color:#9ca3af;
     font-size:16px;
     margin-top:-10px;
-}
-
-.block{
-    background-color:#111827;
-    padding:25px;
-    border-radius:18px;
-    border:1px solid rgba(255,255,255,0.08);
-    margin-bottom:20px;
 }
 
 .metric-card{
@@ -69,8 +60,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-
-
 # =========================================
 # HEADER
 # =========================================
@@ -86,7 +75,6 @@ st.markdown(
 
 st.markdown("---")
 
-
 # =========================================
 # FILE UPLOAD
 # =========================================
@@ -95,7 +83,6 @@ uploaded_file = st.file_uploader(
     type=["csv"]
 )
 
-
 # =========================================
 # MAIN
 # =========================================
@@ -103,28 +90,17 @@ if uploaded_file is not None:
 
     try:
 
-        # =========================================
-        # READ DATASET
-        # =========================================
         df = pd.read_csv(uploaded_file)
 
         st.success("Dataset berhasil diupload")
 
-        # =========================================
-        # PREVIEW
-        # =========================================
-        with st.container():
+        st.markdown("## 📄 Preview Dataset")
 
-            st.markdown("## 📄 Preview Dataset")
+        st.dataframe(
+            df.head(),
+            use_container_width=True
+        )
 
-            st.dataframe(
-                df.head(),
-                use_container_width=True
-            )
-
-        # =========================================
-        # VALIDASI TARGET
-        # =========================================
         if "Service" not in df.columns:
 
             st.error(
@@ -133,17 +109,15 @@ if uploaded_file is not None:
 
             st.stop()
 
-        # =========================================
-        # PREPROCESSING
-        # =========================================
         X, y = preprocess_data(df)
 
-        st.success("Preprocessing berhasil")
+        st.success(
+            "Preprocessing berhasil"
+        )
 
-        # =========================================
-        # INFO DATASET
-        # =========================================
-        st.markdown("## 📊 Informasi Dataset")
+        st.markdown(
+            "## 📊 Informasi Dataset"
+        )
 
         c1, c2, c3 = st.columns(3)
 
@@ -160,33 +134,50 @@ if uploaded_file is not None:
         ]
 
         with c1:
+
             st.markdown(f"""
             <div class="metric-card">
-                <div class="metric-label">Jumlah Data</div>
-                <div class="metric-value">{len(df)}</div>
+                <div class="metric-label">
+                    Jumlah Data
+                </div>
+                <div class="metric-value">
+                    {len(df)}
+                </div>
             </div>
             """, unsafe_allow_html=True)
 
         with c2:
+
             st.markdown(f"""
             <div class="metric-card">
-                <div class="metric-label">Jumlah Fitur</div>
-                <div class="metric-value">{len(fitur_asli)}</div>
+                <div class="metric-label">
+                    Jumlah Fitur
+                </div>
+                <div class="metric-value">
+                    {len(fitur_asli)}
+                </div>
             </div>
             """, unsafe_allow_html=True)
 
         with c3:
+
             st.markdown(f"""
             <div class="metric-card">
-                <div class="metric-label">Jumlah Kelas</div>
-                <div class="metric-value">{len(y.unique())}</div>
+                <div class="metric-label">
+                    Jumlah Kelas
+                </div>
+                <div class="metric-value">
+                    {len(y.unique())}
+                </div>
             </div>
             """, unsafe_allow_html=True)
 
         st.markdown("<br>", unsafe_allow_html=True)
-        # =========================================
+
+        # =====================================
         # DISTRIBUSI TARGET
-        # =========================================
+        # =====================================
+
         st.markdown(
             "## 📌 Distribusi Target"
         )
@@ -197,41 +188,25 @@ if uploaded_file is not None:
         )
 
         fig, ax = plt.subplots(
-            figsize=(4, 2.5)
+            figsize=(5,3)
         )
 
         sns.barplot(
+
             x=service_count.index,
+
             y=service_count.values,
+
             ax=ax
-        )
 
-        ax.set_xlabel(
-            "Kategori Service",
-            fontsize=9
-        )
-
-        ax.set_ylabel(
-            "Jumlah",
-            fontsize=9
-        )
-
-        ax.tick_params(
-            labelsize=8
         )
 
         c1, c2, c3 = st.columns([1,2,1])
 
         with c2:
 
-            st.pyplot(
-                fig,
-                use_container_width=False
-            )
+            st.pyplot(fig)
 
-        # =========================================
-        # VALIDASI KELAS
-        # =========================================
         if len(y.unique()) < 2:
 
             st.error(
@@ -240,47 +215,57 @@ if uploaded_file is not None:
 
             st.stop()
 
-        # =========================================
-        # BUTTON TRAIN
-        # =========================================
-        if st.button("🚀 Training Model"):
+        # =====================================
+        # TRAIN BUTTON
+        # =====================================
+
+        if st.button(
+            "🚀 Training Model"
+        ):
 
             progress = st.progress(0)
 
             status = st.empty()
 
-            status.info("Memulai training model...")
+            status.info(
+                "Memulai training..."
+            )
+
             progress.progress(20)
 
-            try:
+            (
+                model,
 
-                (
-                    model,
-                    accuracy,
-                    precision,
-                    recall,
-                    f1,
-                    report,
-                    matrix,
-                    importance_grouped
-                ) = train_model(X, y)
+                accuracy,
+                precision,
+                recall,
+                f1,
 
-                progress.progress(80)
+                report,
+                matrix,
 
-            except Exception as e:
+                importance_grouped,
 
-                st.error(
-                    f"Error training: {e}"
-                )
+                train_count,
+                test_count
 
-                st.stop()
+            ) = train_model(
+                X,
+                y
+            )
 
-            # =========================================
+            progress.progress(80)
+
+            # =====================================
             # SAVE MODEL
-            # =========================================
+            # =====================================
+
             BASE_DIR = Path(__file__).parent.parent
 
-            model_dir = BASE_DIR / "model"
+            model_dir = (
+                BASE_DIR /
+                "model"
+            )
 
             model_dir.mkdir(
                 parents=True,
@@ -305,132 +290,256 @@ if uploaded_file is not None:
 
             st.markdown("---")
 
-            # =========================================
+            # =====================================
             # METRICS
-            # =========================================
-            st.markdown("## 📈 Hasil Evaluasi")
+            # =====================================
+
+            st.markdown(
+                "## 📈 Hasil Evaluasi"
+            )
 
             m1, m2, m3, m4 = st.columns(4)
 
             metrics = [
-                ("Accuracy", accuracy),
-                ("Precision", precision),
-                ("Recall", recall),
-                ("F1 Score", f1)
+
+                (
+                    "Accuracy",
+                    accuracy
+                ),
+
+                (
+                    "Precision",
+                    precision
+                ),
+
+                (
+                    "Recall",
+                    recall
+                ),
+
+                (
+                    "F1 Score",
+                    f1
+                )
+
             ]
 
-            cols = [m1, m2, m3, m4]
+            cols = [
+                m1,
+                m2,
+                m3,
+                m4
+            ]
 
-            for col, (label, value) in zip(cols, metrics):
+            for col, (label, value) in zip(
+                cols,
+                metrics
+            ):
 
                 with col:
 
                     st.markdown(f"""
                     <div class="metric-card">
-                        <div class="metric-label">{label}</div>
+                        <div class="metric-label">
+                            {label}
+                        </div>
                         <div class="metric-value">
                             {value:.2%}
                         </div>
                     </div>
-                    """, unsafe_allow_html=True)
+                    """,
+                    unsafe_allow_html=True)
 
-            # =========================================
+            # =====================================
             # REPORT
-            # =========================================
-            st.markdown("## 📋 Classification Report")
+            # =====================================
+
+            st.markdown(
+                "## 📋 Classification Report"
+            )
 
             st.code(report)
 
-            # =========================================
+            # =====================================
             # CONFUSION MATRIX
-            # =========================================
+            # =====================================
+
             st.markdown(
                 "## 📉 Confusion Matrix"
             )
 
             fig2, ax2 = plt.subplots(
-                figsize=(4,3)
+                figsize=(5,4)
             )
 
             sns.heatmap(
+
                 matrix,
+
                 annot=True,
+
                 fmt="d",
+
                 cmap="Reds",
+
                 linewidths=1,
-                linecolor='white',
+
+                linecolor="white",
+
                 cbar=False,
+
                 ax=ax2
+
             )
 
             ax2.set_xlabel(
-                "Prediksi",
-                fontsize=9
+                "Prediksi"
             )
 
             ax2.set_ylabel(
-                "Aktual",
-                fontsize=9
+                "Aktual"
             )
 
-            ax2.tick_params(
-                labelsize=8
+            c1, c2, c3 = st.columns(
+                [1,2,1]
             )
-
-            c1, c2, c3 = st.columns([1,2,1])
 
             with c2:
 
                 st.pyplot(
-                    fig2,
-                    use_container_width=False
+                    fig2
                 )
+
+            fig2.savefig(
+                "confusion_matrix.png",
+                bbox_inches="tight"
+            )
 
             st.markdown("---")
 
-                       # =========================================
+            # =====================================
             # FEATURE IMPORTANCE
-            # =========================================
+            # =====================================
+
             st.markdown(
                 "## ⭐ Feature Importance"
             )
 
             fig3, ax3 = plt.subplots(
-                figsize=(5,3)
+                figsize=(6,4)
             )
 
             sns.barplot(
+
                 data=importance_grouped,
+
                 y="Fitur",
+
                 x="Importance",
+
                 ax=ax3
+
             )
 
             ax3.set_title(
-                "Feature Importance",
-                fontsize=10
+                "Feature Importance"
             )
 
-            ax3.tick_params(
-                labelsize=8
+            c1, c2, c3 = st.columns(
+                [1,2,1]
             )
-
-            c1, c2, c3 = st.columns([1,2,1])
 
             with c2:
 
                 st.pyplot(
-                    fig3,
-                    use_container_width=False
+                    fig3
                 )
 
-            # =========================
-            # TABEL
-            # =========================
-            st.dataframe(
-                importance_grouped,
-                use_container_width=True
+            fig3.savefig(
+                "feature_importance.png",
+                bbox_inches="tight"
             )
+
+            st.dataframe(
+
+                importance_grouped,
+
+                use_container_width=True
+
+            )
+
+            # =====================================
+            # GENERATE PDF
+            # =====================================
+
+            logo_path = (
+                BASE_DIR /
+                "assets" /
+                "yamaha_logo.png"
+            )
+
+            top_features = (
+                importance_grouped["Fitur"]
+                .head(5)
+                .tolist()
+            )
+
+            pdf_path = generate_pdf(
+
+                pdf_path="laporan_training_model.pdf",
+
+                logo_path=str(
+                    logo_path
+                ),
+
+                total_data=len(df),
+
+                train_data=train_count,
+
+                test_data=test_count,
+
+                accuracy=accuracy,
+
+                precision=precision,
+
+                recall=recall,
+
+                f1=f1,
+
+                cm_image=
+                "confusion_matrix.png",
+
+                fi_image=
+                "feature_importance.png",
+
+                top_features=
+                top_features
+            )
+
+            st.markdown("---")
+
+            st.success(
+                "Laporan PDF berhasil dibuat"
+            )
+
+            with open(
+                pdf_path,
+                "rb"
+            ) as pdf_file:
+
+                st.download_button(
+
+                    label=
+                    "📄 Download Laporan Training Model",
+
+                    data=pdf_file,
+
+                    file_name=
+                    "Laporan_Training_Model.pdf",
+
+                    mime=
+                    "application/pdf"
+                )
 
     except Exception as e:
 
