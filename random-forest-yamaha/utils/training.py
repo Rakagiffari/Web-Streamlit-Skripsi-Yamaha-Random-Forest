@@ -19,11 +19,12 @@ from sklearn.metrics import (
     f1_score
 )
 
+
 def train_model(X, y):
 
-    # =====================================================
+    # =========================================
     # PASTIKAN NUMERIK
-    # =====================================================
+    # =========================================
 
     X = X.apply(
         pd.to_numeric,
@@ -32,25 +33,25 @@ def train_model(X, y):
 
     X = X.fillna(0)
 
-    # =====================================================
+    # =========================================
     # SPLIT DATA
-    # =====================================================
+    # =========================================
 
     X_train, X_test, y_train, y_test = train_test_split(
 
         X,
         y,
 
-        test_size=0.2,
+        test_size=0.20,
 
         random_state=42,
 
         stratify=y
     )
 
-    # =====================================================
+    # =========================================
     # RANDOM FOREST
-    # =====================================================
+    # =========================================
 
     rf = RandomForestClassifier(
 
@@ -62,26 +63,31 @@ def train_model(X, y):
 
         min_samples_leaf=2,
 
-        class_weight='balanced',
+        class_weight="balanced",
 
         random_state=42
     )
 
-    # =====================================================
+    # =========================================
     # TRAINING
-    # =====================================================
+    # =========================================
 
-    rf.fit(X_train, y_train)
+    rf.fit(
+        X_train,
+        y_train
+    )
 
-    # =====================================================
+    # =========================================
     # PREDIKSI
-    # =====================================================
+    # =========================================
 
-    y_pred = rf.predict(X_test)
+    y_pred = rf.predict(
+        X_test
+    )
 
-    # =====================================================
+    # =========================================
     # METRIK
-    # =====================================================
+    # =========================================
 
     accuracy = accuracy_score(
         y_test,
@@ -117,69 +123,74 @@ def train_model(X, y):
         y_pred
     )
 
-    # =====================================================
+    # =========================================
     # FEATURE IMPORTANCE
-    # =====================================================
+    # =========================================
 
     importance = pd.DataFrame({
 
-        'Fitur': X.columns,
-        'Importance': rf.feature_importances_
+        "Fitur": X.columns,
+        "Importance": rf.feature_importances_
 
     })
 
     grouped_importance = {
 
-        'Last Kilometer': 0,
-        'Usia Motor': 0,
-        'Model Name': 0,
-        'Category': 0,
-        'Brand': 0,
-        'Status': 0
+        "Last Kilometer": 0,
+        "Usia Motor": 0,
+        "Model Name": 0,
+        "Category": 0,
+        "Brand": 0,
+        "Status": 0
 
     }
 
-    for index, row in importance.iterrows():
+    for _, row in importance.iterrows():
 
-        fitur = row['Fitur']
-        nilai = row['Importance']
+        fitur = row["Fitur"]
+        nilai = row["Importance"]
 
-        if fitur.startswith('Model Name_'):
+        if fitur.startswith("Model Name_"):
 
-            grouped_importance['Model Name'] += nilai
+            grouped_importance["Model Name"] += nilai
 
-        elif fitur.startswith('Category_'):
+        elif fitur.startswith("Category_"):
 
-            grouped_importance['Category'] += nilai
+            grouped_importance["Category"] += nilai
 
-        elif fitur.startswith('Brand_'):
+        elif fitur.startswith("Brand_"):
 
-            grouped_importance['Brand'] += nilai
+            grouped_importance["Brand"] += nilai
 
-        elif fitur.startswith('Status_'):
+        elif fitur.startswith("Status_"):
 
-            grouped_importance['Status'] += nilai
+            grouped_importance["Status"] += nilai
 
-        elif fitur == 'Last Kilometer':
+        elif fitur == "Last Kilometer":
 
-            grouped_importance['Last Kilometer'] += nilai
+            grouped_importance["Last Kilometer"] += nilai
 
-        elif fitur == 'Usia Motor':
+        elif fitur == "Usia Motor":
 
-            grouped_importance['Usia Motor'] += nilai
+            grouped_importance["Usia Motor"] += nilai
 
     importance_grouped = pd.DataFrame({
 
-        'Fitur': grouped_importance.keys(),
-        'Importance': grouped_importance.values()
+        "Fitur": grouped_importance.keys(),
+        "Importance": grouped_importance.values()
 
     })
 
     importance_grouped = importance_grouped.sort_values(
 
-        by='Importance',
+        by="Importance",
         ascending=False
+
     )
+
+    # =========================================
+    # RETURN
+    # =========================================
 
     return (
 
@@ -193,5 +204,8 @@ def train_model(X, y):
         report,
         matrix,
 
-        importance_grouped
+        importance_grouped,
+
+        len(X_train),
+        len(X_test)
     )
