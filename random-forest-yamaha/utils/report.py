@@ -142,14 +142,26 @@ def generate_pdf(
         Spacer(1,10)
     )
 
-    # =====================================
-    # GAMBAR
-    # =====================================
+# =====================================
+# GAMBAR
+# =====================================
 
-    cm_file = Path(cm_image)
-    fi_file = Path(fi_image)
+cm = Paragraph(
+    "Confusion Matrix tidak tersedia",
+    styles["BodyText"]
+)
 
-    if cm_file.exists():
+fi = Paragraph(
+    "Feature Importance tidak tersedia",
+    styles["BodyText"]
+)
+
+cm_file = Path(str(cm_image))
+fi_file = Path(str(fi_image))
+
+if cm_file.exists():
+
+    try:
 
         cm = Image(
             str(cm_file),
@@ -157,14 +169,16 @@ def generate_pdf(
             height=4.5*cm
         )
 
-    else:
+    except Exception as e:
 
         cm = Paragraph(
-            f"Gambar tidak ditemukan:<br/>{cm_file}",
+            f"Error CM: {e}",
             styles["BodyText"]
         )
 
-    if fi_file.exists():
+if fi_file.exists():
+
+    try:
 
         fi = Image(
             str(fi_file),
@@ -172,64 +186,43 @@ def generate_pdf(
             height=4.5*cm
         )
 
-    else:
+    except Exception as e:
 
         fi = Paragraph(
-            f"Gambar tidak ditemukan:<br/>{fi_file}",
+            f"Error FI: {e}",
             styles["BodyText"]
         )
 
-    grafik_table = Table(
+grafik_table = Table(
+
+    [
 
         [
 
-            [
+            Paragraph(
+                "<b>CONFUSION MATRIX</b>",
+                styles["BodyText"]
+            ),
 
-                Paragraph(
-                    "<b>CONFUSION MATRIX</b>",
-                    styles["BodyText"]
-                ),
-
-                Paragraph(
-                    "<b>FEATURE IMPORTANCE</b>",
-                    styles["BodyText"]
-                )
-
-            ],
-
-            [
-
-                cm,
-                fi
-
-            ]
+            Paragraph(
+                "<b>FEATURE IMPORTANCE</b>",
+                styles["BodyText"]
+            )
 
         ],
 
-        colWidths=[250,250]
+        [
 
-    )
+            cm,
+            fi
 
-    grafik_table.setStyle(
+        ]
 
-        TableStyle([
+    ],
 
-            ("BOX",(0,0),(-1,-1),1,colors.black),
-            ("GRID",(0,0),(-1,-1),1,colors.black),
-            ("ALIGN",(0,0),(-1,-1),"CENTER"),
-            ("VALIGN",(0,0),(-1,-1),"MIDDLE")
+    colWidths=[250,250]
 
-        ])
-
-    )
-
-    elements.append(
-        grafik_table
-    )
-
-    elements.append(
-        Spacer(1,10)
-    )
+)
 
     # =====================================
     # FITUR
