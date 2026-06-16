@@ -30,47 +30,68 @@ def generate_pdf(
 ):
 
     doc = SimpleDocTemplate(
+
         pdf_path,
-        rightMargin=20,
+
         leftMargin=20,
+        rightMargin=20,
+
         topMargin=20,
         bottomMargin=20
     )
 
     styles = getSampleStyleSheet()
 
-    content = []
-
-    # =====================================
-    # LOGO
-    # =====================================
-    try:
-
-        logo = Image(
-            logo_path,
-            width=2.5 * cm,
-            height=2.5 * cm
-        )
-
-        content.append(logo)
-
-    except:
-        pass
+    elements = []
 
     # =====================================
     # HEADER
     # =====================================
-    content.append(
+
+    try:
+
+        logo = Image(
+            logo_path,
+            width=2.0 * cm,
+            height=2.0 * cm
+        )
+
+        logo_table = Table(
+            [[logo]]
+        )
+
+        logo_table.setStyle(
+            TableStyle([
+                ("ALIGN", (0,0), (-1,-1), "CENTER")
+            ])
+        )
+
+        elements.append(
+            logo_table
+        )
+
+    except:
+        pass
+
+    elements.append(
+
         Paragraph(
-            "<b>PT YAMAHA TJAHAJA BARU TABING</b>",
+
+            "<para align='center'><b>PT YAMAHA TJAHAJA BARU TABING</b></para>",
+
             styles["Heading2"]
+
         )
     )
 
-    content.append(
+    elements.append(
+
         Paragraph(
-            "<b>LAPORAN TRAINING MODEL</b>",
+
+            "<para align='center'><b>LAPORAN TRAINING MODEL</b></para>",
+
             styles["Title"]
+
         )
     )
 
@@ -78,133 +99,168 @@ def generate_pdf(
         "%d-%m-%Y %H:%M"
     )
 
-    content.append(
+    elements.append(
+
         Paragraph(
-            f"Tanggal Training : {tanggal}",
+
+            f"<para align='center'>Tanggal Training : {tanggal}</para>",
+
             styles["Normal"]
+
         )
     )
 
-    content.append(
-        Spacer(1, 10)
+    elements.append(
+        Spacer(1,10)
     )
 
     # =====================================
-    # DATASET
+    # DATASET + METRIK
     # =====================================
-    dataset_table = Table(
 
-        [
-            ["Jumlah Data", total_data],
-            ["Data Training", train_data],
-            ["Data Testing", test_data]
-        ],
+    dataset_text = f"""
+    <b>INFORMASI DATASET</b><br/><br/>
+    Jumlah Data : {total_data}<br/>
+    Data Training : {train_data}<br/>
+    Data Testing : {test_data}
+    """
 
-        colWidths=[180, 180]
+    metric_text = f"""
+    <b>HASIL EVALUASI</b><br/><br/>
+    Accuracy : {accuracy:.2%}<br/>
+    Precision : {precision:.2%}<br/>
+    Recall : {recall:.2%}<br/>
+    F1 Score : {f1:.2%}
+    """
+
+    info_table = Table(
+
+        [[
+
+            Paragraph(
+                dataset_text,
+                styles["BodyText"]
+            ),
+
+            Paragraph(
+                metric_text,
+                styles["BodyText"]
+            )
+
+        ]],
+
+        colWidths=[250,250]
     )
 
-    dataset_table.setStyle(
+    info_table.setStyle(
 
         TableStyle([
 
-            ("GRID", (0,0), (-1,-1), 1, colors.black),
+            ("BOX",(0,0),(-1,-1),1,colors.black),
 
-            ("BACKGROUND", (0,0), (0,-1), colors.lightgrey),
+            ("VALIGN",(0,0),(-1,-1),"TOP"),
 
-            ("FONTNAME", (0,0), (-1,-1), "Helvetica-Bold")
+            ("BACKGROUND",(0,0),(0,0),colors.whitesmoke),
+
+            ("BACKGROUND",(1,0),(1,0),colors.whitesmoke)
+
         ])
     )
 
-    content.append(
-        Paragraph(
-            "<b>INFORMASI DATASET</b>",
-            styles["Heading3"]
-        )
+    elements.append(
+        info_table
     )
 
-    content.append(dataset_table)
-
-    content.append(
-        Spacer(1, 10)
+    elements.append(
+        Spacer(1,10)
     )
 
     # =====================================
-    # METRIK
+    # GAMBAR
     # =====================================
-    metric_table = Table(
-
-        [
-            ["Accuracy", f"{accuracy:.2%}"],
-            ["Precision", f"{precision:.2%}"],
-            ["Recall", f"{recall:.2%}"],
-            ["F1 Score", f"{f1:.2%}"]
-        ],
-
-        colWidths=[180, 180]
-    )
-
-    metric_table.setStyle(
-
-        TableStyle([
-
-            ("GRID", (0,0), (-1,-1), 1, colors.black),
-
-            ("BACKGROUND", (0,0), (0,-1), colors.lightgrey),
-
-            ("FONTNAME", (0,0), (-1,-1), "Helvetica-Bold")
-        ])
-    )
-
-    content.append(
-        Paragraph(
-            "<b>HASIL EVALUASI MODEL</b>",
-            styles["Heading3"]
-        )
-    )
-
-    content.append(metric_table)
-
-    content.append(
-        Spacer(1, 10)
-    )
-
-    # =====================================
-    # CONFUSION MATRIX
-    # =====================================
-    content.append(
-        Paragraph(
-            "<b>CONFUSION MATRIX</b>",
-            styles["Heading3"]
-        )
-    )
 
     try:
 
-        content.append(
-
-            Image(
-                cm_image,
-                width=7 * cm,
-                height=5 * cm
-            )
+        cm = Image(
+            cm_image,
+            width=6.5 * cm,
+            height=5 * cm
         )
 
     except:
-        pass
 
-    content.append(
-        Spacer(1, 10)
-    )
-
-    # =====================================
-    # FEATURE IMPORTANCE
-    # =====================================
-    content.append(
-        Paragraph(
-            "<b>FITUR PALING BERPENGARUH</b>",
-            styles["Heading3"]
+        cm = Paragraph(
+            "Confusion Matrix tidak tersedia",
+            styles["BodyText"]
         )
+
+    try:
+
+        fi = Image(
+            fi_image,
+            width=6.5 * cm,
+            height=5 * cm
+        )
+
+    except:
+
+        fi = Paragraph(
+            "Feature Importance tidak tersedia",
+            styles["BodyText"]
+        )
+
+    grafik_table = Table(
+
+        [[
+
+            Paragraph(
+                "<b>CONFUSION MATRIX</b>",
+                styles["BodyText"]
+            ),
+
+            Paragraph(
+                "<b>FEATURE IMPORTANCE</b>",
+                styles["BodyText"]
+            )
+
+        ],
+
+        [
+
+            cm,
+            fi
+
+        ]],
+
+        colWidths=[250,250]
     )
+
+    grafik_table.setStyle(
+
+        TableStyle([
+
+            ("BOX",(0,0),(-1,-1),1,colors.black),
+
+            ("GRID",(0,0),(-1,-1),1,colors.black),
+
+            ("ALIGN",(0,0),(-1,-1),"CENTER"),
+
+            ("VALIGN",(0,0),(-1,-1),"MIDDLE")
+
+        ])
+    )
+
+    elements.append(
+        grafik_table
+    )
+
+    elements.append(
+        Spacer(1,10)
+    )
+
+    # =====================================
+    # TOP FITUR
+    # =====================================
 
     fitur_text = ""
 
@@ -212,65 +268,73 @@ def generate_pdf(
 
         fitur_text += f"{i+1}. {fitur}<br/>"
 
-    content.append(
+    elements.append(
+
         Paragraph(
-            fitur_text,
-            styles["Normal"]
+
+            f"""
+            <b>FITUR PALING BERPENGARUH</b><br/><br/>
+            {fitur_text}
+            """,
+
+            styles["BodyText"]
+
         )
     )
 
-    try:
-
-        content.append(
-
-            Image(
-                fi_image,
-                width=8 * cm,
-                height=5 * cm
-            )
-        )
-
-    except:
-        pass
-
-    content.append(
-        Spacer(1, 10)
+    elements.append(
+        Spacer(1,10)
     )
 
     # =====================================
     # KESIMPULAN
     # =====================================
-    content.append(
-        Paragraph(
-            "<b>KESIMPULAN</b>",
-            styles["Heading3"]
-        )
+
+    kesimpulan = f"""
+    <b>KESIMPULAN</b><br/><br/>
+
+    Model Random Forest berhasil dilatih menggunakan
+    dataset layanan servis Yamaha.
+
+    Model memperoleh Accuracy {accuracy:.2%},
+    Precision {precision:.2%},
+    Recall {recall:.2%},
+    dan F1 Score {f1:.2%}.
+
+    Berdasarkan hasil tersebut, model dapat digunakan
+    sebagai alat bantu klasifikasi Service Ringan dan
+    Service Berat.
+    """
+
+    kesimpulan_table = Table(
+
+        [[
+
+            Paragraph(
+                kesimpulan,
+                styles["BodyText"]
+            )
+
+        ]],
+
+        colWidths=[500]
     )
 
-    content.append(
+    kesimpulan_table.setStyle(
 
-        Paragraph(
+        TableStyle([
 
-            f"""
-            Model Random Forest berhasil dilatih
-            menggunakan dataset layanan servis Yamaha.
+            ("BOX",(0,0),(-1,-1),1,colors.black),
 
-            Berdasarkan hasil evaluasi, model memperoleh
-            akurasi sebesar {accuracy:.2%},
-            precision sebesar {precision:.2%},
-            recall sebesar {recall:.2%},
-            dan F1-score sebesar {f1:.2%}.
+            ("BACKGROUND",(0,0),(-1,-1),colors.whitesmoke)
 
-            Hasil tersebut menunjukkan bahwa model
-            memiliki kemampuan yang baik dalam
-            mengklasifikasikan layanan servis
-            Ringan dan Berat.
-            """,
-
-            styles["Normal"]
-        )
+        ])
     )
 
-    doc.build(content)
+    elements.append(
+        kesimpulan_table
+    )
+
+    doc.build(elements)
 
     return pdf_path
