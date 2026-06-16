@@ -1,4 +1,3 @@
-```python
 from reportlab.platypus import (
     SimpleDocTemplate,
     Paragraph,
@@ -339,4 +338,3 @@ def generate_pdf(
     doc.build(elements)
 
     return pdf_path
-```
