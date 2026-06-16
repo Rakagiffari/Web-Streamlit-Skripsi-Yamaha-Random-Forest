@@ -410,10 +410,14 @@ if uploaded_file is not None:
                     fig2
                 )
 
+            cm_path = BASE_DIR / "confusion_matrix.png"
+
             fig2.savefig(
-                "confusion_matrix.png",
+                str(cm_path),
                 bbox_inches="tight"
-            )
+                )
+
+            plt.close(fig2)
 
             st.markdown("---")
 
@@ -455,10 +459,14 @@ if uploaded_file is not None:
                     fig3
                 )
 
-            fig3.savefig(
-                "feature_importance.png",
-                bbox_inches="tight"
-            )
+            fi_path = BASE_DIR / "feature_importance.png"
+
+fig3.savefig(
+    str(fi_path),
+    bbox_inches="tight"
+)
+
+plt.close(fig3)
 
             st.dataframe(
 
@@ -486,35 +494,30 @@ if uploaded_file is not None:
 
             pdf_path = generate_pdf(
 
-                pdf_path="laporan_training_model.pdf",
+            pdf_path="laporan_training_model.pdf",
 
-                logo_path=str(
-                    logo_path
-                ),
+            logo_path=str(logo_path),
+    
+            total_data=len(df),
 
-                total_data=len(df),
+            train_data=train_count,
 
-                train_data=train_count,
+            test_data=test_count,
 
-                test_data=test_count,
+            accuracy=accuracy,
 
-                accuracy=accuracy,
+            precision=precision,
 
-                precision=precision,
+            recall=recall,
 
-                recall=recall,
+            f1=f1,
 
-                f1=f1,
+            cm_image=str(cm_path),
 
-                cm_image=
-                "confusion_matrix.png",
+            fi_image=str(fi_path),
 
-                fi_image=
-                "feature_importance.png",
-
-                top_features=
-                top_features
-            )
+            top_features=top_features
+        )
 
             st.markdown("---")
 
