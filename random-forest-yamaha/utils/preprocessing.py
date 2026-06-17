@@ -4,136 +4,139 @@
 
 import pandas as pd
 
+
 def preprocess_data(df):
 
-    # =====================================================
+    # =========================================
     # HAPUS DUPLIKAT
-    # =====================================================
+    # =========================================
 
     df = df.drop_duplicates()
 
-    # =====================================================
+    # =========================================
     # HANDLE MISSING VALUE
-    # =====================================================
+    # =========================================
 
-    # =========================
-    # KOLOM KATEGORIKAL
-    # =========================
+    # -------------------------
+    # KATEGORIKAL
+    # -------------------------
 
-    df["Category"] = df["Category"].fillna(
-        "Unknown"
+    if "Brand" in df.columns:
+        df["Brand"] = df["Brand"].fillna("Unknown")
+
+    if "Jenis" in df.columns:
+        df["Jenis"] = df["Jenis"].fillna("Unknown")
+
+    if "Indikasi" in df.columns:
+        df["Indikasi"] = df["Indikasi"].fillna("Unknown")
+
+    # -------------------------
+    # NUMERIK
+    # -------------------------
+
+    df["Kilometer"] = pd.to_numeric(
+        df["Kilometer"],
+        errors="coerce"
     )
 
-    df["Brand"] = df["Brand"].fillna(
-        "Unknown"
+    df["Usia Motor"] = pd.to_numeric(
+        df["Usia Motor"],
+        errors="coerce"
     )
 
-    df["Model Name"] = df["Model Name"].fillna(
-        "Unknown"
+    df["Qty"] = pd.to_numeric(
+        df["Qty"],
+        errors="coerce"
     )
 
-    df["Status"] = df["Status"].fillna(
-        "Unknown"
+    df["Kilometer"] = df["Kilometer"].fillna(
+        df["Kilometer"].median()
     )
 
-    # =========================
-    # KOLOM NUMERIK
-    # =========================
-
-    df["Tahun Motor"] = pd.to_numeric(
-        df["Tahun Motor"],
-        errors='coerce'
+    df["Usia Motor"] = df["Usia Motor"].fillna(
+        df["Usia Motor"].median()
     )
 
-    df["Last Kilometer"] = pd.to_numeric(
-        df["Last Kilometer"],
-        errors='coerce'
+    df["Qty"] = df["Qty"].fillna(
+        df["Qty"].median()
     )
 
-    df["Tahun Motor"] = df["Tahun Motor"].fillna(
-        df["Tahun Motor"].median()
-    )
-
-    df["Last Kilometer"] = df["Last Kilometer"].fillna(
-        df["Last Kilometer"].median()
-    )
-
-    # =====================================================
-    # FEATURE ENGINEERING
-    # =====================================================
-
-    tahun_sekarang = 2025
-
-    df["Usia Motor"] = (
-        tahun_sekarang - df["Tahun Motor"]
-    )
-
-    # =====================================================
+    # =========================================
     # TARGET
-    # =====================================================
+    # =========================================
 
-    target = "Service"
+    if "Service" not in df.columns:
+        raise ValueError(
+            "Kolom 'Service' tidak ditemukan."
+        )
 
-    y = df[target].map({
+    y = df["Service"].map({
 
         "Ringan": 0,
         "Berat": 1
 
     })
 
-    # =====================================================
-    # DROP COLUMN
-    # =====================================================
+    # =========================================
+    # FITUR FINAL SKRIPSI
+    # =========================================
 
-    drop_columns = [
+    fitur = [
 
-        # TARGET
-        "Service",
+        "Brand",
+        "Jenis",
+        "Kilometer",
+        "Usia Motor",
+        "Indikasi",
+        "Qty"
 
-        # IDENTITAS
-        "Nama",
-        "KTP",
-        "Telepon",
-        "Invoice",
-        "Plate",
-        "Technical Name",
-
-        # KOLOM TIDAK PENTING
-        "Dealer",
-        "Point",
-        "YSS",
-        "Order",
-        "No Work Order",
-
-        # TANGGAL
-        "Reg Date",
-
-        # LEAKAGE
-        "Parts Name",
-        "Total Payment",
-
-        # SUDAH DIGANTI
-        "Tahun Motor"
     ]
 
-    X = df.drop(
-        columns=drop_columns,
-        errors='ignore'
-    )
+    # cek kolom wajib
 
-    # =====================================================
+    kolom_tidak_ada = [
+
+        col for col in fitur
+        if col not in df.columns
+
+    ]
+
+    if len(kolom_tidak_ada) > 0:
+
+        raise ValueError(
+            f"Kolom tidak ditemukan: {kolom_tidak_ada}"
+        )
+
+    X = df[fitur].copy()
+
+    # =========================================
     # ONE HOT ENCODING
-    # =====================================================
+    # =========================================
 
     X = pd.get_dummies(
+
         X,
-        drop_first=True
+
+        columns=[
+
+            "Brand",
+            "Jenis",
+            "Indikasi"
+
+        ],
+
+        drop_first=False
+
     )
 
-    # =====================================================
+    # =========================================
     # PASTIKAN NUMERIK
-    # =====================================================
+    # =========================================
 
     X = X.astype(float)
+
+    # =========================================
+    # RETURN
+    # =========================================
 
     return X, y
