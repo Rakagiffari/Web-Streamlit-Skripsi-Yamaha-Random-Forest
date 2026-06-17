@@ -6,48 +6,76 @@ import pandas as pd
 from datetime import datetime
 
 
+# =========================================
+# PEMBENTUKAN JENIS MOTOR
+# =========================================
+
 def get_jenis(model):
 
     model = str(model).upper()
 
     # MAXI
     if any(x in model for x in [
-        "XMAX", "NMAX", "AEROX", "LEXI", "TMAX"
+        "XMAX",
+        "NMAX",
+        "AEROX",
+        "LEXI",
+        "TMAX"
     ]):
         return "MAXi"
 
     # CLASSY
     elif any(x in model for x in [
-        "FAZZIO", "FILANO"
+        "FAZZIO",
+        "FILANO"
     ]):
         return "Classy"
 
     # MATIC
     elif any(x in model for x in [
-        "MIO", "SOUL", "XEON", "FINO",
-        "GEAR", "FREEGO", "X-RIDE",
-        "XRIDE", "NOUVO", "LEXAM"
+        "MIO",
+        "SOUL",
+        "XEON",
+        "FINO",
+        "GEAR",
+        "FREEGO",
+        "X-RIDE",
+        "XRIDE",
+        "NOUVO",
+        "LEXAM"
     ]):
         return "Matic"
 
     # SPORT
     elif any(x in model for x in [
-        "R15", "R25", "R6", "R1",
-        "VIXION", "BYSON", "SCORPIO",
-        "RX", "XSR", "MT"
+        "R15",
+        "R25",
+        "R6",
+        "R1",
+        "VIXION",
+        "BYSON",
+        "SCORPIO",
+        "RX",
+        "XSR",
+        "MT"
     ]):
         return "Sport"
 
     # OFFROAD
     elif any(x in model for x in [
-        "WR", "YZ"
+        "WR",
+        "YZ"
     ]):
         return "Off-road"
 
     # MOPED
     elif any(x in model for x in [
-        "JUPITER", "VEGA", "CRYPTON",
-        "ALFA", "SIGMA", "F1ZR",
+        "JUPITER",
+        "VEGA",
+        "CRYPTON",
+        "ALFA",
+        "SIGMA",
+        "F1ZR",
         "MX KING"
     ]):
         return "Moped"
@@ -55,47 +83,65 @@ def get_jenis(model):
     return "Unknown"
 
 
+# =========================================
+# PREPROCESSING
+# =========================================
+
 def preprocess_data(df):
 
-    # =========================================
+    # =====================================
     # HAPUS DUPLIKAT
-    # =========================================
+    # =====================================
 
     df = df.drop_duplicates()
 
-    # =========================================
+    # =====================================
     # VALIDASI KOLOM
-    # =========================================
+    # =====================================
 
     required_columns = [
+
         "Brand",
         "Model",
         "Tahun",
         "Km",
         "Indikasi",
-        "Qty",
         "Service"
+
     ]
 
-    for col in required_columns:
+    missing_columns = [
 
-        if col not in df.columns:
+        col for col in required_columns
+        if col not in df.columns
 
-            raise ValueError(
-                f"Kolom '{col}' tidak ditemukan pada dataset."
-            )
+    ]
 
-    # =========================================
+    if missing_columns:
+
+        raise ValueError(
+            f"Kolom tidak ditemukan: {missing_columns}"
+        )
+
+    # =====================================
     # HANDLE MISSING VALUE
-    # =========================================
+    # =====================================
 
-    df["Brand"] = df["Brand"].fillna("Unknown")
-    df["Model"] = df["Model"].fillna("Unknown")
-    df["Indikasi"] = df["Indikasi"].fillna("Unknown")
+    df["Brand"] = df["Brand"].fillna(
+        "Unknown"
+    )
 
-    # =========================================
+    df["Model"] = df["Model"].fillna(
+        "Unknown"
+    )
+
+    df["Indikasi"] = df["Indikasi"].fillna(
+        "Unknown"
+    )
+
+    # =====================================
     # NUMERIK
-    # =========================================
+    # =====================================
 
     df["Tahun"] = pd.to_numeric(
         df["Tahun"],
@@ -107,11 +153,6 @@ def preprocess_data(df):
         errors="coerce"
     )
 
-    df["Qty"] = pd.to_numeric(
-        df["Qty"],
-        errors="coerce"
-    )
-
     df["Tahun"] = df["Tahun"].fillna(
         df["Tahun"].median()
     )
@@ -120,13 +161,9 @@ def preprocess_data(df):
         df["Km"].median()
     )
 
-    df["Qty"] = df["Qty"].fillna(
-        df["Qty"].median()
-    )
-
-    # =========================================
+    # =====================================
     # FEATURE ENGINEERING
-    # =========================================
+    # =====================================
 
     tahun_sekarang = datetime.now().year
 
@@ -138,9 +175,9 @@ def preprocess_data(df):
         get_jenis
     )
 
-    # =========================================
+    # =====================================
     # TARGET
-    # =========================================
+    # =====================================
 
     y = df["Service"].map({
 
@@ -152,12 +189,12 @@ def preprocess_data(df):
     if y.isnull().sum() > 0:
 
         raise ValueError(
-            "Kolom Service harus berisi Ringan atau Berat."
+            "Kolom Service harus berisi Ringan atau Berat"
         )
 
-    # =========================================
+    # =====================================
     # FITUR FINAL
-    # =========================================
+    # =====================================
 
     X = df[
 
@@ -166,15 +203,14 @@ def preprocess_data(df):
             "Jenis",
             "Km",
             "Usia Motor",
-            "Indikasi",
-            "Qty"
+            "Indikasi"
         ]
 
     ].copy()
 
-    # =========================================
-    # ENCODING
-    # =========================================
+    # =====================================
+    # ONE HOT ENCODING
+    # =====================================
 
     X = pd.get_dummies(
 
@@ -190,9 +226,9 @@ def preprocess_data(df):
 
     )
 
-    # =========================================
+    # =====================================
     # PASTIKAN NUMERIK
-    # =========================================
+    # =====================================
 
     X = X.astype(float)
 
