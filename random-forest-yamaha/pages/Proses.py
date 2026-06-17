@@ -1,551 +1,239 @@
-import streamlit as st
+# =========================================
+# utils/preprocessing.py
+# =========================================
+
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import joblib
-
-from pathlib import Path
-
-from utils.preprocessing import preprocess_data
-from utils.training import train_model
-from utils.report import generate_pdf
+from datetime import datetime
 
 
-# =========================================
-# CONFIG
-# =========================================
-st.set_page_config(
-    page_title="Training Model",
-    page_icon="⚙️",
-    layout="wide"
-)
+def get_jenis(model):
 
-# =========================================
-# STYLE
-# =========================================
-st.markdown("""
-<style>
+    model = str(model).upper()
 
-.main-title{
-    font-size:40px;
-    font-weight:700;
-    color:white;
-    margin-bottom:0px;
-}
+    # MAXI
+    if any(x in model for x in [
+        "XMAX",
+        "NMAX",
+        "AEROX",
+        "LEXI",
+        "TMAX"
+    ]):
+        return "MAXi"
 
-.sub-title{
-    color:#9ca3af;
-    font-size:16px;
-    margin-top:-10px;
-}
+    # CLASSY
+    elif any(x in model for x in [
+        "FAZZIO",
+        "FILANO"
+    ]):
+        return "Classy"
 
-.metric-card{
-    background:#1f2937;
-    padding:20px;
-    border-radius:16px;
-    text-align:center;
-}
+    # MATIC
+    elif any(x in model for x in [
+        "MIO",
+        "SOUL",
+        "XEON",
+        "FINO",
+        "GEAR",
+        "FREEGO",
+        "X-RIDE",
+        "XRIDE",
+        "NOUVO",
+        "LEXAM"
+    ]):
+        return "Matic"
 
-.metric-label{
-    color:#9ca3af;
-    font-size:15px;
-}
+    # SPORT
+    elif any(x in model for x in [
+        "R15",
+        "R25",
+        "R6",
+        "R1",
+        "VIXION",
+        "BYSON",
+        "SCORPIO",
+        "RX",
+        "XSR",
+        "MT"
+    ]):
+        return "Sport"
 
-.metric-value{
-    color:white;
-    font-size:30px;
-    font-weight:bold;
-}
+    # OFFROAD
+    elif any(x in model for x in [
+        "WR",
+        "YZ"
+    ]):
+        return "Off-road"
 
-</style>
-""", unsafe_allow_html=True)
+    # MOPED
+    elif any(x in model for x in [
+        "JUPITER",
+        "VEGA",
+        "CRYPTON",
+        "ALFA",
+        "SIGMA",
+        "F1ZR",
+        "MX KING"
+    ]):
+        return "Moped"
 
-# =========================================
-# HEADER
-# =========================================
-st.markdown(
-    '<p class="main-title">⚙️ Training Random Forest</p>',
-    unsafe_allow_html=True
-)
+    return "Unknown"
 
-st.markdown(
-    '<p class="sub-title">Klasifikasi Service Ringan & Berat</p>',
-    unsafe_allow_html=True
-)
 
-st.markdown("---")
+def preprocess_data(df):
 
-# =========================================
-# FILE UPLOAD
-# =========================================
-uploaded_file = st.file_uploader(
-    "📂 Upload Dataset CSV",
-    type=["csv"]
-)
+    # =========================================
+    # HAPUS DUPLIKAT
+    # =========================================
 
-# =========================================
-# MAIN
-# =========================================
-if uploaded_file is not None:
+    df = df.drop_duplicates()
 
-    try:
+    # =========================================
+    # VALIDASI KOLOM
+    # =========================================
 
-        df = pd.read_csv(uploaded_file)
+    required_columns = [
 
-        st.success("Dataset berhasil diupload")
+        "Brand",
+        "Model",
+        "Tahun",
+        "Km",
+        "Indikasi",
+        "Qty",
+        "Service"
 
-        st.markdown("## 📄 Preview Dataset")
+    ]
 
-        st.dataframe(
-            df.head(),
-            use_container_width=True
+    missing_columns = [
+
+        col for col in required_columns
+        if col not in df.columns
+
+    ]
+
+    if missing_columns:
+
+        raise ValueError(
+            f"Kolom tidak ditemukan: {missing_columns}"
         )
 
-        if "Service" not in df.columns:
+    # =========================================
+    # HANDLE MISSING VALUE
+    # =========================================
 
-            st.error(
-                "Kolom 'Service' tidak ditemukan"
-            )
+    df["Brand"] = df["Brand"].fillna("Unknown")
 
-            st.stop()
+    df["Model"] = df["Model"].fillna("Unknown")
 
-        X, y = preprocess_data(df)
+    df["Indikasi"] = df["Indikasi"].fillna("Unknown")
 
-        st.success(
-            "Preprocessing berhasil"
+    # =========================================
+    # NUMERIK
+    # =========================================
+
+    df["Tahun"] = pd.to_numeric(
+        df["Tahun"],
+        errors="coerce"
+    )
+
+    df["Km"] = pd.to_numeric(
+        df["Km"],
+        errors="coerce"
+    )
+
+    df["Qty"] = pd.to_numeric(
+        df["Qty"],
+        errors="coerce"
+    )
+
+    df["Tahun"] = df["Tahun"].fillna(
+        df["Tahun"].median()
+    )
+
+    df["Km"] = df["Km"].fillna(
+        df["Km"].median()
+    )
+
+    df["Qty"] = df["Qty"].fillna(
+        df["Qty"].median()
+    )
+
+    # =========================================
+    # FEATURE ENGINEERING
+    # =========================================
+
+    tahun_sekarang = datetime.now().year
+
+    df["Usia Motor"] = (
+
+        tahun_sekarang
+        - df["Tahun"]
+
+    )
+
+    df["Jenis"] = df["Model"].apply(
+        get_jenis
+    )
+
+    # =========================================
+    # TARGET
+    # =========================================
+
+    y = df["Service"].map({
+
+        "Ringan": 0,
+        "Berat": 1
+
+    })
+
+    if y.isnull().sum() > 0:
+
+        raise ValueError(
+            "Kolom Service harus berisi Ringan atau Berat."
         )
 
-        st.markdown(
-            "## 📊 Informasi Dataset"
-        )
+    # =========================================
+    # FITUR FINAL
+    # =========================================
 
-        c1, c2, c3 = st.columns(3)
+    X = df[
 
-        fitur_asli = [
-
-            "Category",
+        [
             "Brand",
-            "Model Name",
-            "Status",
-            "Last Kilometer",
+            "Jenis",
+            "Km",
             "Usia Motor",
-            "Parts Qty"
-
+            "Indikasi",
+            "Qty"
         ]
 
-        with c1:
+    ].copy()
 
-            st.markdown(f"""
-            <div class="metric-card">
-                <div class="metric-label">
-                    Jumlah Data
-                </div>
-                <div class="metric-value">
-                    {len(df)}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+    # =========================================
+    # ONE HOT ENCODING
+    # =========================================
 
-        with c2:
+    X = pd.get_dummies(
 
-            st.markdown(f"""
-            <div class="metric-card">
-                <div class="metric-label">
-                    Jumlah Fitur
-                </div>
-                <div class="metric-value">
-                    {len(fitur_asli)}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+        X,
 
-        with c3:
+        columns=[
+            "Brand",
+            "Jenis",
+            "Indikasi"
+        ],
 
-            st.markdown(f"""
-            <div class="metric-card">
-                <div class="metric-label">
-                    Jumlah Kelas
-                </div>
-                <div class="metric-value">
-                    {len(y.unique())}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+        drop_first=False
 
-        st.markdown("<br>", unsafe_allow_html=True)
+    )
 
-        # =====================================
-        # DISTRIBUSI TARGET
-        # =====================================
+    # =========================================
+    # PASTIKAN NUMERIK
+    # =========================================
 
-        st.markdown(
-            "## 📌 Distribusi Target"
-        )
+    X = X.astype(float)
 
-        service_count = (
-            df["Service"]
-            .value_counts()
-        )
+    # =========================================
+    # RETURN
+    # =========================================
 
-        fig, ax = plt.subplots(
-            figsize=(5,3)
-        )
-
-        sns.barplot(
-
-            x=service_count.index,
-
-            y=service_count.values,
-
-            ax=ax
-
-        )
-
-        c1, c2, c3 = st.columns([1,2,1])
-
-        with c2:
-
-            st.pyplot(fig)
-
-        if len(y.unique()) < 2:
-
-            st.error(
-                "Target hanya memiliki 1 kelas"
-            )
-
-            st.stop()
-
-        # =====================================
-        # TRAIN BUTTON
-        # =====================================
-
-        if st.button(
-            "🚀 Training Model"
-        ):
-
-            progress = st.progress(0)
-
-            status = st.empty()
-
-            status.info(
-                "Memulai training..."
-            )
-
-            progress.progress(20)
-
-            (
-                model,
-
-                accuracy,
-                precision,
-                recall,
-                f1,
-
-                report,
-                matrix,
-
-                importance_grouped,
-
-                train_count,
-                test_count
-
-            ) = train_model(
-                X,
-                y
-            )
-
-            progress.progress(80)
-
-            # =====================================
-            # SAVE MODEL
-            # =====================================
-
-            BASE_DIR = Path(__file__).parent.parent
-
-            model_dir = (
-                BASE_DIR /
-                "model"
-            )
-
-            model_dir.mkdir(
-                parents=True,
-                exist_ok=True
-            )
-
-            model_path = (
-                model_dir /
-                "random_forest_model.pkl"
-            )
-
-            joblib.dump(
-                model,
-                model_path
-            )
-
-            progress.progress(100)
-
-            status.success(
-                "Training selesai & model berhasil disimpan"
-            )
-
-            st.markdown("---")
-
-            # =====================================
-            # METRICS
-            # =====================================
-
-            st.markdown(
-                "## 📈 Hasil Evaluasi"
-            )
-
-            m1, m2, m3, m4 = st.columns(4)
-
-            metrics = [
-
-                (
-                    "Accuracy",
-                    accuracy
-                ),
-
-                (
-                    "Precision",
-                    precision
-                ),
-
-                (
-                    "Recall",
-                    recall
-                ),
-
-                (
-                    "F1 Score",
-                    f1
-                )
-
-            ]
-
-            cols = [
-                m1,
-                m2,
-                m3,
-                m4
-            ]
-
-            for col, (label, value) in zip(
-                cols,
-                metrics
-            ):
-
-                with col:
-
-                    st.markdown(f"""
-                    <div class="metric-card">
-                        <div class="metric-label">
-                            {label}
-                        </div>
-                        <div class="metric-value">
-                            {value:.2%}
-                        </div>
-                    </div>
-                    """,
-                    unsafe_allow_html=True)
-
-            # =====================================
-            # REPORT
-            # =====================================
-
-            st.markdown(
-                "## 📋 Classification Report"
-            )
-
-            st.code(report)
-
-            # =====================================
-            # CONFUSION MATRIX
-            # =====================================
-
-            st.markdown(
-                "## 📉 Confusion Matrix"
-            )
-
-            fig2, ax2 = plt.subplots(
-                figsize=(5,4)
-            )
-
-            sns.heatmap(
-
-                matrix,
-
-                annot=True,
-
-                fmt="d",
-
-                cmap="Reds",
-
-                linewidths=1,
-
-                linecolor="white",
-
-                cbar=False,
-
-                ax=ax2
-
-            )
-
-            ax2.set_xlabel(
-                "Prediksi"
-            )
-
-            ax2.set_ylabel(
-                "Aktual"
-            )
-
-            c1, c2, c3 = st.columns(
-                [1,2,1]
-            )
-
-            with c2:
-
-                st.pyplot(
-                    fig2
-                )
-
-            cm_path = BASE_DIR / "confusion_matrix.png"
-
-            fig2.savefig(
-                str(cm_path),
-                bbox_inches="tight"
-                )
-
-            plt.close(fig2)
-
-            st.markdown("---")
-
-            # =====================================
-            # FEATURE IMPORTANCE
-            # =====================================
-
-            st.markdown(
-                "## ⭐ Feature Importance"
-            )
-
-            fig3, ax3 = plt.subplots(
-                figsize=(6,4)
-            )
-
-            sns.barplot(
-
-                data=importance_grouped,
-
-                y="Fitur",
-
-                x="Importance",
-
-                ax=ax3
-
-            )
-
-            ax3.set_title(
-                "Feature Importance"
-            )
-
-            c1, c2, c3 = st.columns(
-                [1,2,1]
-            )
-
-            with c2:
-
-                st.pyplot(
-                    fig3
-                )
-
-            fi_path = BASE_DIR / "feature_importance.png"
-
-            fig3.savefig(
-                str(fi_path),
-                bbox_inches="tight"
-            )
-
-            plt.close(fig3)
-
-            st.dataframe(
-
-                importance_grouped,
-
-                use_container_width=True
-
-            )
-
-            # =====================================
-            # GENERATE PDF
-            # =====================================
-
-            logo_path = (
-                BASE_DIR /
-                "assets" /
-                "yamaha_logo.png"
-            )
-
-            top_features = (
-                importance_grouped["Fitur"]
-                .head(5)
-                .tolist()
-            )
-
-            pdf_path = generate_pdf(
-
-            pdf_path="laporan_training_model.pdf",
-
-            logo_path=str(logo_path),
-    
-            total_data=len(df),
-
-            train_data=train_count,
-
-            test_data=test_count,
-
-            accuracy=accuracy,
-
-            precision=precision,
-
-            recall=recall,
-
-            f1=f1,
-
-            cm_image=str(cm_path),
-
-            fi_image=str(fi_path),
-
-            top_features=top_features
-        )
-
-            st.markdown("---")
-
-            st.success(
-                "Laporan PDF berhasil dibuat"
-            )
-
-            with open(
-                pdf_path,
-                "rb"
-            ) as pdf_file:
-
-                st.download_button(
-
-                    label=
-                    "📄 Download Laporan Training Model",
-
-                    data=pdf_file,
-
-                    file_name=
-                    "Laporan_Training_Model.pdf",
-
-                    mime=
-                    "application/pdf"
-                )
-
-    except Exception as e:
-
-        st.error(
-            f"Terjadi error: {e}"
-        )
+    return X, y
