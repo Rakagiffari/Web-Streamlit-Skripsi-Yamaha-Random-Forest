@@ -21,9 +21,9 @@ from sklearn.metrics import (
 
 def train_model(X, y):
 
-    # =========================================
+    # =====================================
     # PASTIKAN NUMERIK
-    # =========================================
+    # =====================================
 
     X = X.apply(
         pd.to_numeric,
@@ -32,9 +32,9 @@ def train_model(X, y):
 
     X = X.fillna(0)
 
-    # =========================================
+    # =====================================
     # TRAIN TEST SPLIT
-    # =========================================
+    # =====================================
 
     X_train, X_test, y_train, y_test = train_test_split(
 
@@ -49,9 +49,9 @@ def train_model(X, y):
 
     )
 
-    # =========================================
+    # =====================================
     # RANDOM FOREST
-    # =========================================
+    # =====================================
 
     rf = RandomForestClassifier(
 
@@ -71,26 +71,26 @@ def train_model(X, y):
 
     )
 
-    # =========================================
+    # =====================================
     # TRAINING
-    # =========================================
+    # =====================================
 
     rf.fit(
         X_train,
         y_train
     )
 
-    # =========================================
+    # =====================================
     # PREDIKSI
-    # =========================================
+    # =====================================
 
     y_pred = rf.predict(
         X_test
     )
 
-    # =========================================
+    # =====================================
     # EVALUASI
-    # =========================================
+    # =====================================
 
     accuracy = accuracy_score(
         y_test,
@@ -140,9 +140,9 @@ def train_model(X, y):
 
     )
 
-    # =========================================
+    # =====================================
     # FEATURE IMPORTANCE
-    # =========================================
+    # =====================================
 
     importance = pd.DataFrame({
 
@@ -153,9 +153,8 @@ def train_model(X, y):
 
     grouped_importance = {
 
-        "Qty": 0,
         "Indikasi": 0,
-        "Kilometer": 0,
+        "Km": 0,
         "Usia Motor": 0,
         "Jenis": 0,
         "Brand": 0
@@ -167,17 +166,17 @@ def train_model(X, y):
         fitur = row["Fitur"]
         nilai = row["Importance"]
 
-        if fitur == "Qty":
+        # NUMERIK
 
-            grouped_importance["Qty"] += nilai
+        if fitur == "Km":
 
-        elif fitur == "Kilometer":
-
-            grouped_importance["Kilometer"] += nilai
+            grouped_importance["Km"] += nilai
 
         elif fitur == "Usia Motor":
 
             grouped_importance["Usia Motor"] += nilai
+
+        # KATEGORIKAL
 
         elif fitur.startswith("Brand_"):
 
@@ -205,9 +204,13 @@ def train_model(X, y):
 
     )
 
-    # =========================================
+    importance_grouped = importance_grouped.reset_index(
+        drop=True
+    )
+
+    # =====================================
     # RETURN
-    # =========================================
+    # =====================================
 
     return (
 
