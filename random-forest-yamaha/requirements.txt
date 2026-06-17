@@ -8,3 +8,4 @@ seaborn
 joblib
 pillow
 reportlab
+openpyxl
