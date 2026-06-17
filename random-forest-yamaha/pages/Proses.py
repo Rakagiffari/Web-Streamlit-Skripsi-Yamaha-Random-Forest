@@ -220,37 +220,27 @@ if uploaded_file is not None:
         # DISTRIBUSI TARGET
         # =====================================
 
-st.markdown(
-    "## 📌 Distribusi Target"
-)
+        st.markdown(
+            "## 📌 Distribusi Target"
+        )
 
-service_count = (
-    df["Service"]
-    .value_counts()
-)
+        service_count = (
+            df["Service"]
+            .value_counts()
+        )
 
-fig, ax = plt.subplots(
-    figsize=(3,2)
-)
+        fig, ax = plt.subplots(
+            figsize=(6,4)
+        )
 
-sns.barplot(
-    x=service_count.index,
-    y=service_count.values,
-    palette="Reds",
-    ax=ax
-)
+        sns.barplot(
+            x=service_count.index,
+            y=service_count.values,
+            palette="Reds",
+            ax=ax
+        )
 
-ax.tick_params(
-    axis="both",
-    labelsize=8
-)
-
-st.pyplot(
-    fig,
-    use_container_width=False
-)
-
-plt.close(fig)
+        st.pyplot(fig)
 
         # =====================================
         # TRAINING
