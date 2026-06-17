@@ -3,6 +3,56 @@
 # =========================================
 
 import pandas as pd
+from datetime import datetime
+
+
+def get_jenis(model):
+
+    model = str(model).upper()
+
+    # MAXI
+    if any(x in model for x in [
+        "XMAX", "NMAX", "AEROX", "LEXI", "TMAX"
+    ]):
+        return "MAXi"
+
+    # CLASSY
+    elif any(x in model for x in [
+        "FAZZIO", "FILANO"
+    ]):
+        return "Classy"
+
+    # MATIC
+    elif any(x in model for x in [
+        "MIO", "SOUL", "XEON", "FINO",
+        "GEAR", "FREEGO", "X-RIDE",
+        "XRIDE", "NOUVO", "LEXAM"
+    ]):
+        return "Matic"
+
+    # SPORT
+    elif any(x in model for x in [
+        "R15", "R25", "R6", "R1",
+        "VIXION", "BYSON", "SCORPIO",
+        "RX", "XSR", "MT"
+    ]):
+        return "Sport"
+
+    # OFFROAD
+    elif any(x in model for x in [
+        "WR", "YZ"
+    ]):
+        return "Off-road"
+
+    # MOPED
+    elif any(x in model for x in [
+        "JUPITER", "VEGA", "CRYPTON",
+        "ALFA", "SIGMA", "F1ZR",
+        "MX KING"
+    ]):
+        return "Moped"
+
+    return "Unknown"
 
 
 def preprocess_data(df):
@@ -14,33 +64,46 @@ def preprocess_data(df):
     df = df.drop_duplicates()
 
     # =========================================
+    # VALIDASI KOLOM
+    # =========================================
+
+    required_columns = [
+        "Brand",
+        "Model",
+        "Tahun",
+        "Km",
+        "Indikasi",
+        "Qty",
+        "Service"
+    ]
+
+    for col in required_columns:
+
+        if col not in df.columns:
+
+            raise ValueError(
+                f"Kolom '{col}' tidak ditemukan pada dataset."
+            )
+
+    # =========================================
     # HANDLE MISSING VALUE
     # =========================================
 
-    # -------------------------
-    # KATEGORIKAL
-    # -------------------------
+    df["Brand"] = df["Brand"].fillna("Unknown")
+    df["Model"] = df["Model"].fillna("Unknown")
+    df["Indikasi"] = df["Indikasi"].fillna("Unknown")
 
-    if "Brand" in df.columns:
-        df["Brand"] = df["Brand"].fillna("Unknown")
-
-    if "Jenis" in df.columns:
-        df["Jenis"] = df["Jenis"].fillna("Unknown")
-
-    if "Indikasi" in df.columns:
-        df["Indikasi"] = df["Indikasi"].fillna("Unknown")
-
-    # -------------------------
+    # =========================================
     # NUMERIK
-    # -------------------------
+    # =========================================
 
-    df["Kilometer"] = pd.to_numeric(
-        df["Kilometer"],
+    df["Tahun"] = pd.to_numeric(
+        df["Tahun"],
         errors="coerce"
     )
 
-    df["Usia Motor"] = pd.to_numeric(
-        df["Usia Motor"],
+    df["Km"] = pd.to_numeric(
+        df["Km"],
         errors="coerce"
     )
 
@@ -49,12 +112,12 @@ def preprocess_data(df):
         errors="coerce"
     )
 
-    df["Kilometer"] = df["Kilometer"].fillna(
-        df["Kilometer"].median()
+    df["Tahun"] = df["Tahun"].fillna(
+        df["Tahun"].median()
     )
 
-    df["Usia Motor"] = df["Usia Motor"].fillna(
-        df["Usia Motor"].median()
+    df["Km"] = df["Km"].fillna(
+        df["Km"].median()
     )
 
     df["Qty"] = df["Qty"].fillna(
@@ -62,13 +125,22 @@ def preprocess_data(df):
     )
 
     # =========================================
-    # TARGET
+    # FEATURE ENGINEERING
     # =========================================
 
-    if "Service" not in df.columns:
-        raise ValueError(
-            "Kolom 'Service' tidak ditemukan."
-        )
+    tahun_sekarang = datetime.now().year
+
+    df["Usia Motor"] = (
+        tahun_sekarang - df["Tahun"]
+    )
+
+    df["Jenis"] = df["Model"].apply(
+        get_jenis
+    )
+
+    # =========================================
+    # TARGET
+    # =========================================
 
     y = df["Service"].map({
 
@@ -77,40 +149,31 @@ def preprocess_data(df):
 
     })
 
-    # =========================================
-    # FITUR FINAL SKRIPSI
-    # =========================================
-
-    fitur = [
-
-        "Brand",
-        "Jenis",
-        "Kilometer",
-        "Usia Motor",
-        "Indikasi",
-        "Qty"
-
-    ]
-
-    # cek kolom wajib
-
-    kolom_tidak_ada = [
-
-        col for col in fitur
-        if col not in df.columns
-
-    ]
-
-    if len(kolom_tidak_ada) > 0:
+    if y.isnull().sum() > 0:
 
         raise ValueError(
-            f"Kolom tidak ditemukan: {kolom_tidak_ada}"
+            "Kolom Service harus berisi Ringan atau Berat."
         )
 
-    X = df[fitur].copy()
+    # =========================================
+    # FITUR FINAL
+    # =========================================
+
+    X = df[
+
+        [
+            "Brand",
+            "Jenis",
+            "Km",
+            "Usia Motor",
+            "Indikasi",
+            "Qty"
+        ]
+
+    ].copy()
 
     # =========================================
-    # ONE HOT ENCODING
+    # ENCODING
     # =========================================
 
     X = pd.get_dummies(
@@ -118,11 +181,9 @@ def preprocess_data(df):
         X,
 
         columns=[
-
             "Brand",
             "Jenis",
             "Indikasi"
-
         ],
 
         drop_first=False
@@ -134,9 +195,5 @@ def preprocess_data(df):
     # =========================================
 
     X = X.astype(float)
-
-    # =========================================
-    # RETURN
-    # =========================================
 
     return X, y
