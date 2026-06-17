@@ -8,12 +8,14 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 
 from sklearn.metrics import (
+
     accuracy_score,
     classification_report,
     confusion_matrix,
     precision_score,
     recall_score,
     f1_score
+
 )
 
 
@@ -31,7 +33,7 @@ def train_model(X, y):
     X = X.fillna(0)
 
     # =========================================
-    # SPLIT DATA
+    # TRAIN TEST SPLIT
     # =========================================
 
     X_train, X_test, y_train, y_test = train_test_split(
@@ -44,6 +46,7 @@ def train_model(X, y):
         random_state=42,
 
         stratify=y
+
     )
 
     # =========================================
@@ -62,7 +65,10 @@ def train_model(X, y):
 
         class_weight="balanced",
 
-        random_state=42
+        random_state=42,
+
+        n_jobs=-1
+
     )
 
     # =========================================
@@ -83,7 +89,7 @@ def train_model(X, y):
     )
 
     # =========================================
-    # METRIK
+    # EVALUASI
     # =========================================
 
     accuracy = accuracy_score(
@@ -92,32 +98,46 @@ def train_model(X, y):
     )
 
     precision = precision_score(
+
         y_test,
         y_pred,
+
         zero_division=0
+
     )
 
     recall = recall_score(
+
         y_test,
         y_pred,
+
         zero_division=0
+
     )
 
     f1 = f1_score(
+
         y_test,
         y_pred,
+
         zero_division=0
+
     )
 
     report = classification_report(
+
         y_test,
         y_pred,
+
         zero_division=0
+
     )
 
     matrix = confusion_matrix(
+
         y_test,
         y_pred
+
     )
 
     # =========================================
@@ -133,12 +153,12 @@ def train_model(X, y):
 
     grouped_importance = {
 
-        "Last Kilometer": 0,
+        "Qty": 0,
+        "Indikasi": 0,
+        "Kilometer": 0,
         "Usia Motor": 0,
-        "Model Name": 0,
-        "Category": 0,
-        "Brand": 0,
-        "Status": 0
+        "Jenis": 0,
+        "Brand": 0
 
     }
 
@@ -147,29 +167,29 @@ def train_model(X, y):
         fitur = row["Fitur"]
         nilai = row["Importance"]
 
-        if fitur.startswith("Model Name_"):
+        if fitur == "Qty":
 
-            grouped_importance["Model Name"] += nilai
+            grouped_importance["Qty"] += nilai
 
-        elif fitur.startswith("Category_"):
+        elif fitur == "Kilometer":
 
-            grouped_importance["Category"] += nilai
+            grouped_importance["Kilometer"] += nilai
+
+        elif fitur == "Usia Motor":
+
+            grouped_importance["Usia Motor"] += nilai
 
         elif fitur.startswith("Brand_"):
 
             grouped_importance["Brand"] += nilai
 
-        elif fitur.startswith("Status_"):
+        elif fitur.startswith("Jenis_"):
 
-            grouped_importance["Status"] += nilai
+            grouped_importance["Jenis"] += nilai
 
-        elif fitur == "Last Kilometer":
+        elif fitur.startswith("Indikasi_"):
 
-            grouped_importance["Last Kilometer"] += nilai
-
-        elif fitur == "Usia Motor":
-
-            grouped_importance["Usia Motor"] += nilai
+            grouped_importance["Indikasi"] += nilai
 
     importance_grouped = pd.DataFrame({
 
@@ -205,4 +225,5 @@ def train_model(X, y):
 
         len(X_train),
         len(X_test)
+
     )
