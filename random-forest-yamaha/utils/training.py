@@ -261,3 +261,25 @@ def train_model(X, y):
 
     )
     
+    # =====================================
+    # RETURN
+    # =====================================
+
+    return (
+
+        rf,
+
+        accuracy,
+        precision,
+        recall,
+        f1,
+
+        report,
+        matrix,
+
+        importance_grouped,
+
+        len(X_train),
+        len(X_test)
+
+    )
