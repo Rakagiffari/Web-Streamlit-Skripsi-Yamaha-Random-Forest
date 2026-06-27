@@ -3,6 +3,9 @@
 # =========================================
 
 import pandas as pd
+import joblib
+
+from pathlib import Path
 
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -81,6 +84,42 @@ def train_model(X, y):
     )
 
     # =====================================
+    # SIMPAN MODEL
+    # =====================================
+
+    BASE_DIR = Path(__file__).resolve().parent.parent
+
+    MODEL_DIR = BASE_DIR / "model"
+
+    MODEL_DIR.mkdir(
+
+        parents=True,
+
+        exist_ok=True
+
+    )
+
+    # Simpan Model
+
+    joblib.dump(
+
+        rf,
+
+        MODEL_DIR / "random_forest_model.pkl"
+
+    )
+
+    # Simpan Urutan Fitur
+
+    joblib.dump(
+
+        X.columns.tolist(),
+
+        MODEL_DIR / "feature_columns.pkl"
+
+    )
+
+    # =====================================
     # PREDIKSI
     # =====================================
 
@@ -139,8 +178,7 @@ def train_model(X, y):
         y_pred
 
     )
-
-    # =====================================
+        # =====================================
     # FEATURE IMPORTANCE
     # =====================================
 
@@ -151,22 +189,28 @@ def train_model(X, y):
 
     })
 
+    # =====================================
+    # KELOMPOK FEATURE IMPORTANCE
+    # =====================================
+
     grouped_importance = {
 
-        "Indikasi": 0,
-        "Km": 0,
-        "Usia Motor": 0,
-        "Jenis": 0,
-        "Brand": 0
+        "Indikasi": 0.0,
+        "Km": 0.0,
+        "Usia Motor": 0.0,
+        "Jenis": 0.0,
+        "Brand": 0.0
 
     }
 
     for _, row in importance.iterrows():
 
         fitur = row["Fitur"]
-        nilai = row["Importance"]
+        nilai = float(row["Importance"])
 
-        # NUMERIK
+        # =================================
+        # FITUR NUMERIK
+        # =================================
 
         if fitur == "Km":
 
@@ -176,7 +220,9 @@ def train_model(X, y):
 
             grouped_importance["Usia Motor"] += nilai
 
-        # KATEGORIKAL
+        # =================================
+        # FITUR KATEGORI
+        # =================================
 
         elif fitur.startswith("Brand_"):
 
@@ -190,43 +236,28 @@ def train_model(X, y):
 
             grouped_importance["Indikasi"] += nilai
 
+    # =====================================
+    # DATAFRAME FEATURE IMPORTANCE
+    # =====================================
+
     importance_grouped = pd.DataFrame({
 
-        "Fitur": grouped_importance.keys(),
-        "Importance": grouped_importance.values()
+        "Fitur": list(grouped_importance.keys()),
+        "Importance": list(grouped_importance.values())
 
     })
 
     importance_grouped = importance_grouped.sort_values(
 
         by="Importance",
+
         ascending=False
 
     )
 
     importance_grouped = importance_grouped.reset_index(
+
         drop=True
-    )
-
-    # =====================================
-    # RETURN
-    # =====================================
-
-    return (
-
-        rf,
-
-        accuracy,
-        precision,
-        recall,
-        f1,
-
-        report,
-        matrix,
-
-        importance_grouped,
-
-        len(X_train),
-        len(X_test)
 
     )
+    
