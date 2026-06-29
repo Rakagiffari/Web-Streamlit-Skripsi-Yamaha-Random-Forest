@@ -282,12 +282,6 @@ if uploaded_file is not None:
                 model_dir /
                 "random_forest_model.pkl"
             )
-            joblib.dump(
-                X.columns.tolist(),
-                model_dir /
-                "feature_columns.pkl"
-
-            )
 
             # =====================================
             # METRICS
