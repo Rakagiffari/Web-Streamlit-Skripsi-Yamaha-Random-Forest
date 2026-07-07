@@ -127,7 +127,6 @@ if uploaded_file is not None:
 
         required_columns = [
 
-            "Brand",
             "Model",
             "Tahun",
             "Km",
@@ -185,7 +184,6 @@ if uploaded_file is not None:
 
         fitur_asli = [
 
-            "Brand",
             "Jenis",
             "Km",
             "Usia Motor",
