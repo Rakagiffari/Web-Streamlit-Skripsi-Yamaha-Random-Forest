@@ -126,10 +126,6 @@ def preprocess_data(df):
     # HANDLE MISSING VALUE
     # =====================================
 
-    df["Brand"] = df["Brand"].fillna(
-        "Unknown"
-    )
-
     df["Model"] = df["Model"].fillna(
         "Unknown"
     )
