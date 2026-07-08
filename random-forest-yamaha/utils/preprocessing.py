@@ -101,7 +101,6 @@ def preprocess_data(df):
 
     required_columns = [
 
-        "Brand",
         "Model",
         "Tahun",
         "Km",
@@ -126,11 +125,7 @@ def preprocess_data(df):
     # =====================================
     # HANDLE MISSING VALUE
     # =====================================
-
-    df["Brand"] = df["Brand"].fillna(
-        "Unknown"
-    )
-
+    
     df["Model"] = df["Model"].fillna(
         "Unknown"
     )
@@ -199,7 +194,6 @@ def preprocess_data(df):
     X = df[
 
         [
-            "Brand",
             "Jenis",
             "Km",
             "Usia Motor",
@@ -217,7 +211,6 @@ def preprocess_data(df):
         X,
 
         columns=[
-            "Brand",
             "Jenis",
             "Indikasi"
         ],
