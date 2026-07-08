@@ -80,6 +80,9 @@ st.markdown("---")
 # =========================================
 # FILE UPLOAD
 # =========================================
+# =========================================
+# FILE UPLOAD
+# =========================================
 
 uploaded_file = st.file_uploader(
     "📂 Upload Dataset",
@@ -95,34 +98,24 @@ if uploaded_file is not None:
     try:
 
         # =====================================
-        # BACA FILE
+        # MEMBACA DATASET
         # =====================================
 
         if uploaded_file.name.endswith(".csv"):
 
             df = pd.read_csv(uploaded_file)
 
-        elif uploaded_file.name.endswith(".xlsx"):
-
-            df = pd.read_excel(
-                uploaded_file,
-                engine="openpyxl"
-            )
-
-        elif uploaded_file.name.endswith(".xls"):
+        elif uploaded_file.name.endswith((".xlsx", ".xls")):
 
             df = pd.read_excel(uploaded_file)
 
         else:
 
-            st.error(
-                "Format file tidak didukung"
-            )
-
+            st.error("Format file tidak didukung.")
             st.stop()
 
         # =====================================
-        # VALIDASI DATASET
+        # VALIDASI KOLOM
         # =====================================
 
         required_columns = [
@@ -146,320 +139,180 @@ if uploaded_file is not None:
         if missing_columns:
 
             st.error(
-                f"Kolom tidak ditemukan: {missing_columns}"
+                f"Kolom berikut tidak ditemukan:\n{', '.join(missing_columns)}"
             )
 
             st.stop()
 
         # =====================================
-        # PREVIEW
+        # DATASET BERHASIL
         # =====================================
 
-        st.success(
-            "Dataset berhasil diupload"
-        )
+        st.success("✅ Dataset berhasil diupload")
 
-        st.dataframe(
-            df.head(),
-            use_container_width=True
-        )
+        col1, col2, col3 = st.columns(3)
 
-        # =====================================
-        # PREPROCESSING
-        # =====================================
+        with col1:
 
-        X, y = preprocess_data(df)
+            st.metric(
+                "Nama File",
+                uploaded_file.name
+            )
 
-        st.success(
-            "Preprocessing berhasil"
-        )
-
-        # =====================================
-        # INFORMASI DATASET
-        # =====================================
-
-        st.markdown(
-            "## 📊 Informasi Dataset"
-        )
-
-        fitur_asli = [
-
-            "Jenis",
-            "Km",
-            "Usia Motor",
-            "Indikasi"
-
-        ]
-
-        c1, c2, c3 = st.columns(3)
-
-        with c1:
+        with col2:
 
             st.metric(
                 "Jumlah Data",
                 len(df)
             )
 
+        with col3:
+
+            st.metric(
+                "Jumlah Kolom",
+                len(df.columns)
+            )
+
+        # =====================================
+        # PREVIEW DATASET
+        # =====================================
+
+        st.markdown("## 📄 Preview Dataset")
+
+        st.dataframe(
+            df.head(),
+            use_container_width=True,
+            hide_index=True
+        )
+
+        # =====================================
+        # INFORMASI DATASET
+        # =====================================
+
+        st.markdown("## 📊 Informasi Dataset")
+
+        total_missing = df.isnull().sum().sum()
+
+        total_duplicate = df.duplicated().sum()
+
+        numeric_cols = len(
+            df.select_dtypes(include="number").columns
+        )
+
+        categorical_cols = len(
+            df.select_dtypes(include=["object", "category"]).columns
+        )
+
+        c1, c2, c3 = st.columns(3)
+
+        with c1:
+
+            st.metric(
+                "Missing Value",
+                total_missing
+            )
+
         with c2:
 
             st.metric(
-                "Jumlah Fitur",
-                len(fitur_asli)
+                "Data Duplikat",
+                total_duplicate
             )
 
         with c3:
 
             st.metric(
                 "Jumlah Kelas",
-                len(y.unique())
+                df["Service"].nunique()
             )
 
         # =====================================
-        # DISTRIBUSI TARGET
+        # INFORMASI TIPE DATA
         # =====================================
 
-        st.markdown(
-            "## 📌 Distribusi Target"
-        )
+        st.markdown("### 🧾 Ringkasan Tipe Data")
 
-        service_count = (
-            df["Service"]
-            .value_counts()
-        )
+        info_df = pd.DataFrame({
 
-        fig, ax = plt.subplots(
-            figsize=(6,4)
-        )
+            "Informasi": [
 
-        sns.barplot(
-            x=service_count.index,
-            y=service_count.values,
-            palette="Reds",
-            ax=ax
-        )
+                "Kolom Numerik",
+                "Kolom Kategori"
 
-        st.pyplot(fig)
+            ],
+
+            "Jumlah": [
+
+                numeric_cols,
+                categorical_cols
+
+            ]
+
+        })
+
+        st.dataframe(
+            info_df,
+            use_container_width=True,
+            hide_index=True
+        )
 
         # =====================================
-        # TRAINING
+        # MISSING VALUE
         # =====================================
 
-        if st.button(
-            "🚀 Training Model"
-        ):
+        st.markdown("### 🔍 Missing Value per Kolom")
 
-            (
-                model,
-                accuracy,
-                precision,
-                recall,
-                f1,
-                report,
-                matrix,
-                importance_grouped,
-                train_count,
-                test_count
+        missing_df = (
 
-            ) = train_model(X, y)
+            df.isnull()
+            .sum()
+            .reset_index()
 
-            BASE_DIR = Path(
-                __file__
-            ).parent.parent
-
-            model_dir = (
-                BASE_DIR / "model"
-            )
-
-            model_dir.mkdir(
-                parents=True,
-                exist_ok=True
-            )
-
-            joblib.dump(
-                model,
-                model_dir /
-                "random_forest_model.pkl"
-            )
-
-            # =====================================
-            # METRICS
-            # =====================================
-
-            st.markdown(
-                "## 📈 Hasil Evaluasi"
-            )
-
-            c1, c2, c3, c4 = st.columns(4)
-
-            c1.metric(
-                "Accuracy",
-                f"{accuracy:.2%}"
-            )
-
-            c2.metric(
-                "Precision",
-                f"{precision:.2%}"
-            )
-
-            c3.metric(
-                "Recall",
-                f"{recall:.2%}"
-            )
-
-            c4.metric(
-                "F1 Score",
-                f"{f1:.2%}"
-            )
-
-            # =====================================
-            # CLASSIFICATION REPORT
-            # =====================================
-
-            st.markdown(
-                "## 📋 Classification Report"
-            )
-
-            st.code(report)
-
-            # =====================================
-            # CONFUSION MATRIX
-            # =====================================
-
-            st.markdown(
-                "## 📉 Confusion Matrix"
-            )
-
-            fig2, ax2 = plt.subplots(
-                figsize=(5,4)
-            )
-
-            sns.heatmap(
-                matrix,
-                annot=True,
-                fmt="d",
-                cmap="Reds",
-                ax=ax2
-            )
-
-            st.pyplot(fig2)
-
-            cm_path = (
-                BASE_DIR /
-                "confusion_matrix.png"
-            )
-
-            fig2.savefig(
-                cm_path,
-                bbox_inches="tight"
-            )
-
-            # =====================================
-            # FEATURE IMPORTANCE
-            # =====================================
-
-            st.markdown(
-                "## ⭐ Feature Importance"
-            )
-
-            fig3, ax3 = plt.subplots(
-                figsize=(6,4)
-            )
-
-            sns.barplot(
-                data=importance_grouped,
-                x="Importance",
-                y="Fitur",
-                ax=ax3
-            )
-
-            st.pyplot(fig3)
-
-            fi_path = (
-                BASE_DIR /
-                "feature_importance.png"
-            )
-
-            fig3.savefig(
-                fi_path,
-                bbox_inches="tight"
-            )
-
-            st.dataframe(
-                importance_grouped,
-                use_container_width=True
-            )
-
-            # =====================================
-            # PDF
-            # =====================================
-
-            logo_path = (
-                BASE_DIR /
-                "assets" /
-                "yamaha_logo.png"
-            )
-
-            pdf_path = generate_pdf(
-
-                pdf_path=
-                "laporan_training_model.pdf",
-
-                logo_path=
-                str(logo_path),
-
-                total_data=
-                len(df),
-
-                train_data=
-                train_count,
-
-                test_data=
-                test_count,
-
-                accuracy=
-                accuracy,
-
-                precision=
-                precision,
-
-                recall=
-                recall,
-
-                f1=
-                f1,
-
-                cm_image=
-                str(cm_path),
-
-                fi_image=
-                str(fi_path),
-
-                top_features=
-                importance_grouped[
-                    "Fitur"
-                ].head(5).tolist()
-            )
-
-            with open(
-                pdf_path,
-                "rb"
-            ) as pdf_file:
-
-                st.download_button(
-
-                    "📄 Download Laporan",
-
-                    pdf_file,
-
-                    file_name=
-                    "Laporan_Training_Model.pdf",
-
-                    mime=
-                    "application/pdf"
-                )
-
-    except Exception as e:
-
-        st.error(
-            f"Terjadi error: {e}"
         )
+
+        missing_df.columns = [
+
+            "Kolom",
+            "Jumlah Missing"
+
+        ]
+
+        st.dataframe(
+
+            missing_df,
+
+            use_container_width=True,
+
+            hide_index=True
+
+        )
+
+        # =====================================
+        # DUPLIKAT
+        # =====================================
+
+        st.markdown("### 📑 Informasi Data Duplikat")
+
+        dup1, dup2 = st.columns(2)
+
+        with dup1:
+
+            st.metric(
+                "Sebelum Hapus",
+                len(df)
+            )
+
+        with dup2:
+
+            st.metric(
+                "Jumlah Duplikat",
+                total_duplicate
+            )
+
+        st.markdown("---")
+
+        # =====================================
+        # PREPROCESSING
+        # =====================================
+
+        X, y = preprocess_data(df)
