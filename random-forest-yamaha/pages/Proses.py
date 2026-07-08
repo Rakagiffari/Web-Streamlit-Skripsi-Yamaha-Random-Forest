@@ -410,7 +410,7 @@ if uploaded_file is not None:
                     "Indikasi",
                     "Service"
                 ]
-            ].head(10),
+            ].head(5),
             use_container_width=True,
             hide_index=True
         )
