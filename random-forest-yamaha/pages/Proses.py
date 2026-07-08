@@ -322,7 +322,7 @@ if uploaded_file is not None:
         st.markdown("## ⚙️ Tahapan Preprocessing")
 
         # STEP 1
-        st.markdown("### ✅ Step 1 - Dataset Awal")
+        st.markdown("### Dataset Awal")
 
         st.dataframe(
             df.head(),
@@ -335,6 +335,7 @@ if uploaded_file is not None:
         feature_df["Usia Motor"] = 2026 - feature_df["Tahun"]
         feature_df["Jenis"] = feature_df["Model"]
 
+        st.markdown("### Feature")
         st.dataframe(
             feature_df[
                 [
