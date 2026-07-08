@@ -186,11 +186,21 @@ if uploaded_file is not None:
         # INFORMASI DATASET
         # =====================================
 
-        st.markdown("## 📊 Hasil EDA")
+        st.markdown("## 📊 Hasil Prepocessing")
 
         total_missing = df.isnull().sum().sum()
 
         total_duplicate = df.duplicated().sum()
+
+        fitur_asli = [
+
+            "Brand",
+            "Jenis",
+            "Km",
+            "Usia Motor",
+            "Indikasi"
+
+        ]
 
         numeric_cols = len(
             df.select_dtypes(include="number").columns
