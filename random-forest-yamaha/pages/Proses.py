@@ -326,31 +326,73 @@ if uploaded_file is not None:
         )
 
         # =====================================
-        # DISTRIBUSI TARGET
-        # =====================================
+# DISTRIBUSI TARGET
+# =====================================
 
-        st.markdown(
-            "## 📌 Distribusi Target"
+st.markdown("## 📌 Distribusi Target")
+
+service_count = df["Service"].value_counts()
+
+# Membuat kolom agar grafik berada di tengah
+col1, col2, col3 = st.columns([1, 8, 1])
+
+with col2:
+    fig, ax = plt.subplots(figsize=(7, 4.5))
+
+    sns.barplot(
+        x=service_count.index,
+        y=service_count.values,
+        palette="Reds",
+        ax=ax
+    )
+
+    # Judul dan label
+    ax.set_title(
+        "Distribusi Target Service",
+        fontsize=15,
+        fontweight="bold",
+        pad=15
+    )
+    ax.set_xlabel(
+        "Kategori Service",
+        fontsize=11
+    )
+    ax.set_ylabel(
+        "Jumlah Data",
+        fontsize=11
+    )
+
+    # Menampilkan jumlah data di atas bar
+    for p in ax.patches:
+        ax.annotate(
+            f"{int(p.get_height())}",
+            (
+                p.get_x() + p.get_width() / 2,
+                p.get_height()
+            ),
+            ha="center",
+            va="bottom",
+            fontsize=11,
+            fontweight="bold"
         )
 
-        service_count = (
-            df["Service"]
-            .value_counts()
-        )
+    # Mengatur margin agar lebih simetris
+    ax.margins(x=0.15)
 
-        fig, ax = plt.subplots(
-            figsize=(12,4)
-        )
+    # Menghilangkan garis atas dan kanan
+    sns.despine()
 
-        sns.barplot(
-            x=service_count.index,
-            y=service_count.values,
-            palette="Reds",
-            ax=ax
-        )
+    # Merapikan layout
+    plt.tight_layout()
 
-        st.pyplot(fig)
+    # Menampilkan grafik
+    st.pyplot(
+        fig,
+        use_container_width=True
+    )
 
+    # Membersihkan memori
+    plt.close(fig)
         # =====================================
         # TRAINING
         # =====================================
