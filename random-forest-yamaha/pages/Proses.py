@@ -440,8 +440,6 @@ if uploaded_file is not None:
 
         })
 
-        st.markdown("### 📊 Ringkasan Distribusi")
-
         st.dataframe(
             summary_df,
             use_container_width=True,
