@@ -376,8 +376,9 @@ if uploaded_file is not None:
                 return "Moped"
 
             return "Unknown"
-        feature_df["Jenis"] = feature_df["Model"].apply(get_jenis)
-
+                    
+        from utils.preprocessing import preprocess_data, get_jenis
+        
         st.markdown("### Hasil Feature ")
         st.dataframe(
             feature_df[
