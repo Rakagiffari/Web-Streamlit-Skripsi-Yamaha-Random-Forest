@@ -356,69 +356,68 @@ if uploaded_file is not None:
         st.success("Feature Engginering berhasil")
 
         # =====================================
-# DISTRIBUSI TARGET
-# =====================================
+        # DISTRIBUSI TARGET
+        # =====================================
 
-st.markdown("## 📌 Distribusi Target")
+        st.markdown("## 📌 Distribusi Target")
 
-service_count = df["Service"].value_counts()
+        service_count = df["Service"].value_counts()
 
-col_bar, col_pie = st.columns(2)
+        col_bar, col_pie = st.columns(2)
 
-# ==========================
-# BAR CHART
-# ==========================
+        # ==========================
+        # BAR CHART
+        # ==========================
 
-with col_bar:
+        with col_bar:
 
-    fig1, ax1 = plt.subplots(figsize=(6,4))
+            fig1, ax1 = plt.subplots(figsize=(6,4))
 
-    sns.barplot(
-        x=service_count.index,
-        y=service_count.values,
-        palette="Reds",
-        ax=ax1
-    )
+            sns.barplot(
+                x=service_count.index,
+                y=service_count.values,
+                palette="Reds",
+                ax=ax1
+            )
 
-    ax1.set_xlabel("Kategori Service")
-    ax1.set_ylabel("Jumlah Data")
-    ax1.set_title("Distribusi Target")
+            ax1.set_xlabel("Kategori Service")
+            ax1.set_ylabel("Jumlah Data")
+            ax1.set_title("Distribusi Target")
 
-    # tampilkan angka di atas bar
-    for i, v in enumerate(service_count.values):
-        ax1.text(
-            i,
-            v,
-            str(v),
-            ha="center",
-            va="bottom",
-            fontsize=10,
-            fontweight="bold"
-        )
+            # tampilkan angka di atas bar
+            for i, v in enumerate(service_count.values):
+              ax1.text(
+                i,
+                v,
+                str(v),
+                ha="center",
+                va="bottom",
+                fontsize=10,
+                fontweight="bold"
+                )
 
-    st.pyplot(fig1)
+            st.pyplot(fig1)
 
-# ==========================
-# PIE CHART
-# ==========================
+        # ==========================
+        # PIE CHART
+        # ==========================
 
-with col_pie:
+        with col_pie:
 
-    fig2, ax2 = plt.subplots(figsize=(6,4))
+            fig2, ax2 = plt.subplots(figsize=(6,4))
 
-    colors = sns.color_palette("Reds", len(service_count))
+            colors = sns.color_palette("Reds", len(service_count))
 
-    ax2.pie(
-        service_count.values,
-        labels=service_count.index,
-        autopct="%1.1f%%",
-        startangle=90,
-        colors=colors
-    )
+            ax2.pie(
+                service_count.values,
+                labels=service_count.index,
+                autopct="%1.1f%%",
+                startangle=90,
+                colors=colors
+            )
 
-    ax2.set_title("Persentase Target")
-
-    st.pyplot(fig2)
+         ax2.set_title("Persentase Target")
+         st.pyplot(fig2)
 
         # =====================================
         # TRAINING
