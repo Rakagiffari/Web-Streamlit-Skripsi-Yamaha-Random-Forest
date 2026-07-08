@@ -200,23 +200,30 @@ if uploaded_file is not None:
             df.select_dtypes(include=["object", "category"]).columns
         )
 
-        c1, c2, c3 = st.columns(3)
+        c1, c2, c3, c4 = st.columns(4)
 
         with c1:
+
+            st.metric(
+                "Jumlah Data",
+                len(df)
+            )
+        
+        with c2:
 
             st.metric(
                 "Missing Value",
                 total_missing
             )
 
-        with c2:
+        with c3:
 
             st.metric(
                 "Data Duplikat",
                 total_duplicate
             )
 
-        with c3:
+        with c4:
 
             st.metric(
                 "Jumlah Kelas",
@@ -308,11 +315,6 @@ if uploaded_file is not None:
 
         st.markdown("---")
 
-        # =====================================
-        # PREPROCESSING
-        # =====================================
-
-        X, y = preprocess_data(df)
         # =====================================
         # PREPROCESSING
         # =====================================
