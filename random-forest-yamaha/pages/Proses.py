@@ -126,8 +126,7 @@ if uploaded_file is not None:
         # =====================================
 
         required_columns = [
-
-            "Brand",
+            
             "Model",
             "Tahun",
             "Km",
@@ -152,7 +151,7 @@ if uploaded_file is not None:
 
             st.stop()
 
-        # =====================================
+# =====================================
 # DATASET BERHASIL DIUPLOAD
 # =====================================
 
