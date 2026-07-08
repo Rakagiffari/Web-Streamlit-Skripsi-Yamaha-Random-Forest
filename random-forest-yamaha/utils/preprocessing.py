@@ -16,114 +16,67 @@ def get_jenis(model):
 
     # MAXI
     if any(x in model for x in [
-        "Xmax 250", 
-        "Xmax 300", 
-        "Xmax 400", 
-        "Nmax 155",
-        "Aerox 125", 
-        "Aerox 155",
-        "Lexi 125", 
-        "Lexi LX 155", 
-        "Tmax 530", 
-        "Tmax 560"
+        "XMAX",
+        "NMAX",
+        "AEROX",
+        "LEXI",
+        "TMAX"
     ]):
         return "MAXi"
 
     # CLASSY
     elif any(x in model for x in [
-        "Grand Filano 125", 
-        "Fazzio 125"
+        "FAZZIO",
+        "FILANO"
     ]):
         return "Classy"
 
     # MATIC
     elif any(x in model for x in [
-        "Mio Sporty",
-        "Mio Smile", 
-        "Mio J", 
-        "Mio GT", 
-        "Mio M3",
-        "Mio Z", 
-        "Mio S",
-        "Soul GT 115", 
-        "Soul GT 125", 
-        "Xeon 125", 
-        "Xeon RC", 
-        "Xeon GT 125", 
-        "Fino 115", 
-        "Fino 125", 
-        "Gear 125", 
-        "Freego 125", 
-        "X-Ride 115", 
-        "X-Ride 125", 
-        "Nouvo Generasi 1", 
-        "Nouvo Elegance", 
-        "Lexam"
+        "MIO",
+        "SOUL",
+        "XEON",
+        "FINO",
+        "GEAR",
+        "FREEGO",
+        "X-RIDE",
+        "XRIDE",
+        "NOUVO",
+        "LEXAM"
     ]):
         return "Matic"
 
     # SPORT
     elif any(x in model for x in [
-        "YZF-R15 V1", 
-        "YZF-R15 V2", 
-        "YZF-R15 V3", 
-        "YZF-R15 V4", 
-        "R15M", 
-        "YZF-R25", 
-        "YZF-R6", 
-        "YZF-R1", 
-        "Vixion Generasi 1", 
-        "Vixion New NVL", 
-        "Vixion Advance", 
-        "Vixion R", 
-        "Byson Generasi 1", 
-        "Byson FI", 
-        "Scorpio 225", 
-        "Scorpio Z", 
-        "Scorpio King", 
-        "RX-King", 
-        "RX-K", 
-        "RX-S", 
-        "RX-Z", 
-        "XSR 155", 
-        "MT-15", 
-        "MT-25", 
-        "MT-07", 
-        "MT-09", 
-        "MT-10"
+        "R15",
+        "R25",
+        "R6",
+        "R1",
+        "VIXION",
+        "BYSON",
+        "SCORPIO",
+        "RX",
+        "XSR",
+        "MT"
     ]):
         return "Sport"
 
     # OFFROAD
     elif any(x in model for x in [
-        "WR 155R", 
-        "WR 250R", 
-        "YZ 125", 
-        "YZ 125X", 
-        "YZ 250", 
-        "YZ 250F", 
-        "YZ 250X", 
-        "YZ 450F"
+        "WR",
+        "YZ"
     ]):
         return "Off-road"
 
     # MOPED
     elif any(x in model for x in [
-        "Jupiter MX 135 Generasi 1", 
-        "Jupiter MX 135 Generasi 2", 
-        "MX King 150", 
-        "Jupiter Z Generasi 3", 
-        "Jupiter Z Generasi 1", 
-        "Jupiter Z Generasi 2", 
-        "Jupiter Z1", 
-        "Vega R", 
-        "Vega ZR", 
-        "Vega RR", 
-        "Vega Force", 
-        "Crypton", 
-        "Alfa", 
-        "Sigma", 
-        "F1ZR"
+        "JUPITER",
+        "VEGA",
+        "CRYPTON",
+        "ALFA",
+        "SIGMA",
+        "F1ZR",
+        "MX KING"
     ]):
         return "Moped"
 
@@ -147,7 +100,8 @@ def preprocess_data(df):
     # =====================================
 
     required_columns = [
-        
+
+        "Brand",
         "Model",
         "Tahun",
         "Km",
@@ -172,6 +126,10 @@ def preprocess_data(df):
     # =====================================
     # HANDLE MISSING VALUE
     # =====================================
+
+    df["Brand"] = df["Brand"].fillna(
+        "Unknown"
+    )
 
     df["Model"] = df["Model"].fillna(
         "Unknown"
@@ -241,6 +199,7 @@ def preprocess_data(df):
     X = df[
 
         [
+            "Brand",
             "Jenis",
             "Km",
             "Usia Motor",
@@ -258,6 +217,7 @@ def preprocess_data(df):
         X,
 
         columns=[
+            "Brand",
             "Jenis",
             "Indikasi"
         ],
