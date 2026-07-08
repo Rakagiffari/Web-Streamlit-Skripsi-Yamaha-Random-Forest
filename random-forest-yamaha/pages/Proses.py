@@ -227,7 +227,7 @@ if uploaded_file is not None:
 
             st.metric(
                 "Jumlah Fitur",
-                len(fitur_asli)
+                fitur_asli
             )
 
         with c5:
