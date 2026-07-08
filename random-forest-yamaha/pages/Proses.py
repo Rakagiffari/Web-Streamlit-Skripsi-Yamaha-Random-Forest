@@ -192,15 +192,6 @@ if uploaded_file is not None:
 
         total_duplicate = df.duplicated().sum()
 
-        fitur_asli = [
-
-            "Jenis",
-            "Km",
-            "Usia Motor",
-            "Indikasi"
-
-        ]
-
         numeric_cols = len(
             df.select_dtypes(include="number").columns
         )
@@ -209,7 +200,7 @@ if uploaded_file is not None:
             df.select_dtypes(include=["object", "category"]).columns
         )
 
-        c1, c2, c3, c4, c5 = st.columns(5)
+        c1, c2, c3, c4 = st.columns(4)
 
         with c1:
 
@@ -230,13 +221,6 @@ if uploaded_file is not None:
             st.metric(
                 "Data Duplikat",
                 total_duplicate
-            )
-
-        with c4:
-
-            st.metric(
-                "Jumlah Fitur",
-                fitur_asli
             )
 
         with c5:
