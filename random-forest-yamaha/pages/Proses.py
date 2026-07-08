@@ -145,7 +145,7 @@ if uploaded_file is not None:
         # DATASET BERHASIL
         # =====================================
 
-        st.success("✅ Dataset berhasil diupload")
+        st.success("Dataset berhasil diupload")
 
         col1, col2, col3 = st.columns(3)
 
@@ -227,7 +227,7 @@ if uploaded_file is not None:
         # INFORMASI TIPE DATA
         # =====================================
 
-        st.markdown("### 🧾 Ringkasan Tipe Data")
+        st.markdown("### 📝 Ringkasan Tipe Data")
 
         info_df = pd.DataFrame({
 
