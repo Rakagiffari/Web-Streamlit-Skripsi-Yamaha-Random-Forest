@@ -302,7 +302,7 @@ if uploaded_file is not None:
         with dup1:
 
             st.metric(
-                "Sebelum Dihapus",
+                "Jumlah Data",
                 len(df)
             )
 
