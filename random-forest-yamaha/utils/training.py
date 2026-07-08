@@ -156,7 +156,8 @@ def train_model(X, y):
         "Indikasi": 0,
         "Km": 0,
         "Usia Motor": 0,
-        "Jenis": 0
+        "Jenis": 0,
+        "Brand": 0
 
     }
 
@@ -176,6 +177,10 @@ def train_model(X, y):
             grouped_importance["Usia Motor"] += nilai
 
         # KATEGORIKAL
+
+        elif fitur.startswith("Brand_"):
+
+            grouped_importance["Brand"] += nilai
 
         elif fitur.startswith("Jenis_"):
 
