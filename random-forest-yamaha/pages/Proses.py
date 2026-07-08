@@ -331,7 +331,7 @@ if uploaded_file is not None:
 
         feature_df = df.copy()
 
-        feature_df["Usia Motor"] = 2026 - feature_df["Tahun"]
+        feature_df["Usia Motor"] = 2025 - feature_df["Tahun"]
         feature_df["Jenis"] = feature_df["Model"]
 
         st.markdown("### Hasil Feature ")
@@ -355,7 +355,7 @@ if uploaded_file is not None:
 
         st.success("Feature Engginering berhasil")
 
-        # =====================================
+                # =====================================
         # DISTRIBUSI TARGET
         # =====================================
 
@@ -371,7 +371,7 @@ if uploaded_file is not None:
 
         with col_bar:
 
-            fig1, ax1 = plt.subplots(figsize=(6,4))
+            fig1, ax1 = plt.subplots(figsize=(6, 4))
 
             sns.barplot(
                 x=service_count.index,
@@ -380,20 +380,19 @@ if uploaded_file is not None:
                 ax=ax1
             )
 
+            ax1.set_title("Distribusi Target")
             ax1.set_xlabel("Kategori Service")
             ax1.set_ylabel("Jumlah Data")
-            ax1.set_title("Distribusi Target")
 
-            # tampilkan angka di atas bar
-            for i, v in enumerate(service_count.values):
-              ax1.text(
-                i,
-                v,
-                str(v),
-                ha="center",
-                va="bottom",
-                fontsize=10,
-                fontweight="bold"
+            for i, value in enumerate(service_count.values):
+                ax1.text(
+                    i,
+                    value,
+                    str(value),
+                    ha="center",
+                    va="bottom",
+                    fontsize=10,
+                    fontweight="bold"
                 )
 
             st.pyplot(fig1)
@@ -404,7 +403,7 @@ if uploaded_file is not None:
 
         with col_pie:
 
-            fig2, ax2 = plt.subplots(figsize=(6,4))
+            fig2, ax2 = plt.subplots(figsize=(6, 4))
 
             colors = sns.color_palette("Reds", len(service_count))
 
@@ -416,8 +415,31 @@ if uploaded_file is not None:
                 colors=colors
             )
 
-         ax2.set_title("Persentase Target")
-         st.pyplot(fig2)
+            ax2.set_title("Persentase Target")
+
+            st.pyplot(fig2)
+
+        # ==========================
+        # TABEL RINGKASAN
+        # ==========================
+
+        summary_df = pd.DataFrame({
+
+            "Kategori": service_count.index,
+            "Jumlah": service_count.values,
+            "Persentase (%)":
+                (service_count.values /
+                 service_count.sum() * 100).round(2)
+
+        })
+
+        st.markdown("### 📊 Ringkasan Distribusi")
+
+        st.dataframe(
+            summary_df,
+            use_container_width=True,
+            hide_index=True
+        )
 
         # =====================================
         # TRAINING
