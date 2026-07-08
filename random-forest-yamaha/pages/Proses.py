@@ -186,7 +186,7 @@ if uploaded_file is not None:
         # INFORMASI DATASET
         # =====================================
 
-        st.markdown("## 📊 Informasi Dataset")
+        st.markdown("## 📊 Hasil EDA")
 
         total_missing = df.isnull().sum().sum()
 
