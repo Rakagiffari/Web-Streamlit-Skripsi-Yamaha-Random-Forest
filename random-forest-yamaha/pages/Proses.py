@@ -315,11 +315,11 @@ if uploaded_file is not None:
 
         st.markdown("---")
 
-        # =====================================
+                # =====================================
         # PREPROCESSING
         # =====================================
 
-        st.markdown("## 📇 Feature Engginering")
+        st.markdown("## 📇 Feature Engineering")
 
         st.markdown("### Dataset Awal")
 
@@ -331,9 +331,23 @@ if uploaded_file is not None:
 
         feature_df = df.copy()
 
-        feature_df["Usia Motor"] = 2025 - feature_df["Tahun"]
+        # =====================================
+        # Feature 1 : Usia Motor
+        # =====================================
 
-                def get_jenis(model):
+        from datetime import datetime
+
+        tahun_sekarang = datetime.now().year
+
+        feature_df["Usia Motor"] = (
+            tahun_sekarang - feature_df["Tahun"]
+        )
+
+        # =====================================
+        # Feature 2 : Jenis Motor
+        # =====================================
+
+        def get_jenis(model):
 
             model = str(model).upper()
 
@@ -376,30 +390,34 @@ if uploaded_file is not None:
                 return "Moped"
 
             return "Unknown"
-                    
-        from utils.preprocessing import preprocess_data, get_jenis
-        
-        st.markdown("### Hasil Feature ")
+
+        feature_df["Jenis"] = feature_df["Model"].apply(get_jenis)
+
+        # =====================================
+        # HASIL FEATURE ENGINEERING
+        # =====================================
+
+        st.markdown("### Hasil Feature Engineering")
+
         st.dataframe(
             feature_df[
                 [
                     "Model",
+                    "Jenis",
                     "Tahun",
                     "Usia Motor",
-                    "Jenis",
                     "Km",
                     "Indikasi",
                     "Service"
                 ]
-            ].head(),
+            ].head(10),
             use_container_width=True,
             hide_index=True
         )
 
         X, y = preprocess_data(df)
 
-        st.success("Feature Engginering berhasil")
-
+        st.success("Feature Engineering berhasil")
         # =====================================
         # DISTRIBUSI TARGET
         # =====================================
