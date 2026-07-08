@@ -333,49 +333,49 @@ if uploaded_file is not None:
 
         feature_df["Usia Motor"] = 2025 - feature_df["Tahun"]
 
-        def get_jenis(model):
+                def get_jenis(model):
 
             model = str(model).upper()
 
             if any(x in model for x in [
-                "XMAX","NMAX","AEROX","LEXI","TMAX"
+                "XMAX", "NMAX", "AEROX", "LEXI", "TMAX"
             ]):
-            return "MAXi"
+                return "MAXi"
 
             elif any(x in model for x in [
-                "FAZZIO","FILANO"
+                "FAZZIO", "FILANO"
             ]):
-            return "Classy"
+                return "Classy"
 
             elif any(x in model for x in [
-                "MIO","SOUL","XEON","FINO",
-                "GEAR","FREEGO","X-RIDE",
-                "XRIDE","NOUVO","LEXAM"
+                "MIO", "SOUL", "XEON", "FINO",
+                "GEAR", "FREEGO", "X-RIDE",
+                "XRIDE", "NOUVO", "LEXAM"
             ]):
-            return "Matic"
+                return "Matic"
 
             elif any(x in model for x in [
-                "R15","R25","R6","R1",
-                "VIXION","BYSON",
-                "SCORPIO","RX",
-                "XSR","MT"
+                "R15", "R25", "R6", "R1",
+                "VIXION", "BYSON",
+                "SCORPIO", "RX",
+                "XSR", "MT"
             ]):
-            return "Sport"
+                return "Sport"
 
             elif any(x in model for x in [
-                "WR","YZ"
+                "WR", "YZ"
             ]):
-            return "Off-road"
+                return "Off-road"
 
             elif any(x in model for x in [
-                "JUPITER","VEGA",
-                "CRYPTON","ALFA",
-                "SIGMA","F1ZR","MX"
+                "JUPITER", "VEGA",
+                "CRYPTON", "ALFA",
+                "SIGMA", "F1ZR",
+                "MX"
             ]):
-            return "Moped"
+                return "Moped"
 
             return "Unknown"
-
         feature_df["Jenis"] = feature_df["Model"].apply(get_jenis)
 
         st.markdown("### Hasil Feature ")
