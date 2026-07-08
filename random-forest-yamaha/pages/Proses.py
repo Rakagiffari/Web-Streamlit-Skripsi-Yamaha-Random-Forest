@@ -355,7 +355,7 @@ if uploaded_file is not None:
 
         st.success("Feature Engginering berhasil")
 
-                # =====================================
+        # =====================================
         # DISTRIBUSI TARGET
         # =====================================
 
@@ -371,7 +371,7 @@ if uploaded_file is not None:
 
         with col_bar:
 
-            fig1, ax1 = plt.subplots(figsize=(6, 4))
+            fig1, ax1 = plt.subplots(figsize=(6, 5))
 
             sns.barplot(
                 x=service_count.index,
@@ -395,6 +395,8 @@ if uploaded_file is not None:
                     fontweight="bold"
                 )
 
+            plt.tight_layout()
+
             st.pyplot(fig1)
 
         # ==========================
@@ -403,7 +405,7 @@ if uploaded_file is not None:
 
         with col_pie:
 
-            fig2, ax2 = plt.subplots(figsize=(6, 4))
+            fig2, ax2 = plt.subplots(figsize=(6, 5))
 
             colors = sns.color_palette("Reds", len(service_count))
 
@@ -412,10 +414,15 @@ if uploaded_file is not None:
                 labels=service_count.index,
                 autopct="%1.1f%%",
                 startangle=90,
-                colors=colors
+                colors=colors,
+                textprops={"fontsize":10}
             )
 
             ax2.set_title("Persentase Target")
+
+            ax2.axis("equal")      # membuat pie benar-benar bulat
+
+            plt.tight_layout()
 
             st.pyplot(fig2)
 
