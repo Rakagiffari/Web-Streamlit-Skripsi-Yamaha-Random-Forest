@@ -353,7 +353,7 @@ if uploaded_file is not None:
 
         X, y = preprocess_data(df)
 
-        st.success("Preprocessing berhasil")
+        st.success("Feature Engginering berhasil")
 
         # =====================================
         # DISTRIBUSI TARGET
