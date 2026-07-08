@@ -200,7 +200,7 @@ if uploaded_file is not None:
             df.select_dtypes(include=["object", "category"]).columns
         )
 
-        c1, c2, c3, c4 = st.columns(4)
+        c1, c2, c3, c4, c5 = st.columns(5)
 
         with c1:
 
@@ -224,6 +224,13 @@ if uploaded_file is not None:
             )
 
         with c4:
+
+            st.metric(
+                "Jumlah Fitur",
+                len(fitur_asli)
+            )
+
+        with c5:
 
             st.metric(
                 "Jumlah Kelas",
@@ -324,46 +331,6 @@ if uploaded_file is not None:
         st.success(
             "Preprocessing berhasil"
         )
-
-        # =====================================
-        # INFORMASI DATASET
-        # =====================================
-
-        st.markdown(
-            "## 📊 Informasi Dataset"
-        )
-
-        fitur_asli = [
-
-            "Jenis",
-            "Km",
-            "Usia Motor",
-            "Indikasi"
-
-        ]
-
-        c1, c2, c3 = st.columns(3)
-
-        with c1:
-
-            st.metric(
-                "Jumlah Data",
-                len(df)
-            )
-
-        with c2:
-
-            st.metric(
-                "Jumlah Fitur",
-                len(fitur_asli)
-            )
-
-        with c3:
-
-            st.metric(
-                "Jumlah Kelas",
-                len(y.unique())
-            )
 
         # =====================================
         # DISTRIBUSI TARGET
