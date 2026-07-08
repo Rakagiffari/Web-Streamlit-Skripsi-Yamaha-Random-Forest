@@ -194,7 +194,6 @@ if uploaded_file is not None:
 
         fitur_asli = [
 
-            "Brand",
             "Jenis",
             "Km",
             "Usia Motor",
