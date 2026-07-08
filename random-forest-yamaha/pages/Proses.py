@@ -339,7 +339,7 @@ if uploaded_file is not None:
         )
 
         fig, ax = plt.subplots(
-            figsize=(2,3)
+            figsize=(6,9)
         )
 
         sns.barplot(
