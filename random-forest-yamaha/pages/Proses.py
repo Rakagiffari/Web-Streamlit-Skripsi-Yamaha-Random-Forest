@@ -223,7 +223,7 @@ if uploaded_file is not None:
                 total_duplicate
             )
 
-        with c5:
+        with c4:
 
             st.metric(
                 "Jumlah Kelas",
