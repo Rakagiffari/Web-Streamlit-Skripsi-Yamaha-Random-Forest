@@ -297,7 +297,7 @@ if uploaded_file is not None:
 
         st.markdown("### 📑 Informasi Data Duplikat")
 
-        dup1, dup2, dup3 = st.columns(3)
+        dup1, dup2 = st.columns(2)
 
         with dup1:
 
@@ -306,14 +306,7 @@ if uploaded_file is not None:
                 len(df)
             )
 
-         with dup2:
-
-            st.metric(
-                "Sesudah Dihapus",
-                len(df)
-            )
-
-        with dup3:
+        with dup2:
 
             st.metric(
                 "Jumlah Duplikat",
