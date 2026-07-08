@@ -310,7 +310,7 @@ if uploaded_file is not None:
 
             st.metric(
                 "Sesudah Dihapus",
-                total_duplicate
+                len(df)
             )
 
         with dup3:
