@@ -332,7 +332,51 @@ if uploaded_file is not None:
         feature_df = df.copy()
 
         feature_df["Usia Motor"] = 2025 - feature_df["Tahun"]
-        feature_df["Jenis"] = feature_df["Model"]
+
+        def get_jenis(model):
+
+            model = str(model).upper()
+
+            if any(x in model for x in [
+                "XMAX","NMAX","AEROX","LEXI","TMAX"
+            ]):
+            return "MAXi"
+
+            elif any(x in model for x in [
+                "FAZZIO","FILANO"
+            ]):
+            return "Classy"
+
+            elif any(x in model for x in [
+                "MIO","SOUL","XEON","FINO",
+                "GEAR","FREEGO","X-RIDE",
+                "XRIDE","NOUVO","LEXAM"
+            ]):
+            return "Matic"
+
+            elif any(x in model for x in [
+                "R15","R25","R6","R1",
+                "VIXION","BYSON",
+                "SCORPIO","RX",
+                "XSR","MT"
+            ]):
+            return "Sport"
+
+            elif any(x in model for x in [
+                "WR","YZ"
+            ]):
+            return "Off-road"
+
+            elif any(x in model for x in [
+                "JUPITER","VEGA",
+                "CRYPTON","ALFA",
+                "SIGMA","F1ZR","MX"
+            ]):
+            return "Moped"
+
+            return "Unknown"
+
+        feature_df["Jenis"] = feature_df["Model"].apply(get_jenis)
 
         st.markdown("### Hasil Feature ")
         st.dataframe(
