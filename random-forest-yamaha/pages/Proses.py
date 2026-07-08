@@ -315,66 +315,51 @@ if uploaded_file is not None:
 
         st.markdown("---")
 
+                # =====================================
+        # PREPROCESSING
         # =====================================
-# PREPROCESSING
-# =====================================
 
-st.markdown("## ⚙️ Tahapan Preprocessing")
+        st.markdown("## ⚙️ Tahapan Preprocessing")
 
-# STEP 1
-st.markdown("### ✅ Step 1 - Dataset Awal")
+        # STEP 1
+        st.markdown("### ✅ Step 1 - Dataset Awal")
 
-st.dataframe(
-    df.head(),
-    use_container_width=True,
-    hide_index=True
-)
+        st.dataframe(
+            df.head(),
+            use_container_width=True,
+            hide_index=True
+        )
 
-# STEP 2
-st.markdown("### ✅ Step 2 - Feature Engineering")
+        feature_df = df.copy()
 
-feature_df = df.copy()
+        feature_df["Usia Motor"] = 2026 - feature_df["Tahun"]
+        feature_df["Jenis"] = feature_df["Model"]
 
-# Contoh jika preprocess membuat kolom baru
-feature_df["Usia Motor"] = 2026 - feature_df["Tahun"]
+        st.dataframe(
+            feature_df[
+                [
+                    "Model",
+                    "Tahun",
+                    "Usia Motor",
+                    "Jenis",
+                    "Km",
+                    "Indikasi",
+                    "Service"
+                ]
+            ].head(),
+            use_container_width=True,
+            hide_index=True
+        )
 
-# contoh mapping Jenis
-feature_df["Jenis"] = feature_df["Model"]
+        X, y = preprocess_data(df)
 
-st.dataframe(
+        st.success("Preprocessing berhasil")
 
-    feature_df[
-        [
-            "Model",
-            "Tahun",
-            "Usia Motor",
-            "Jenis",
-            "Km",
-            "Indikasi",
-            "Service"
-        ]
-    ].head(),
-
-    use_container_width=True,
-    hide_index=True
-
-)
-
-# STEP 3
-st.markdown("### ✅ Step 3 - Dataset Setelah Preprocessing")
-
-X, y = preprocess_data(df)
-
-st.success("Preprocessing berhasil")
-
-st.write("Jumlah Data :", len(X))
-st.write("Jumlah Fitur :", X.shape[1])
-
-st.dataframe(
-    X.head(),
-    use_container_width=True,
-    hide_index=True
-)
+        st.dataframe(
+            X.head(),
+            use_container_width=True,
+            hide_index=True
+        )
 
         # =====================================
         # DISTRIBUSI TARGET
