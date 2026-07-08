@@ -315,13 +315,12 @@ if uploaded_file is not None:
 
         st.markdown("---")
 
-                # =====================================
+        # =====================================
         # PREPROCESSING
         # =====================================
 
-        st.markdown("## ⚙️ Tahapan Preprocessing")
+        st.markdown("## 📇 Feature Engginering")
 
-        # STEP 1
         st.markdown("### Dataset Awal")
 
         st.dataframe(
@@ -335,7 +334,7 @@ if uploaded_file is not None:
         feature_df["Usia Motor"] = 2026 - feature_df["Tahun"]
         feature_df["Jenis"] = feature_df["Model"]
 
-        st.markdown("### Feature")
+        st.markdown("### Hasil Feature ")
         st.dataframe(
             feature_df[
                 [
@@ -355,12 +354,6 @@ if uploaded_file is not None:
         X, y = preprocess_data(df)
 
         st.success("Preprocessing berhasil")
-
-        st.dataframe(
-            X.head(),
-            use_container_width=True,
-            hide_index=True
-        )
 
         # =====================================
         # DISTRIBUSI TARGET
