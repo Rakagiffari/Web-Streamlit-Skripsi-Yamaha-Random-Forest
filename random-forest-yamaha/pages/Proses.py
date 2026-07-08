@@ -174,7 +174,7 @@ if uploaded_file is not None:
         # PREVIEW DATASET
         # =====================================
 
-        st.markdown("## 📄 Preview Dataset")
+        st.markdown("## 🗃️ Preview Dataset")
 
         st.dataframe(
             df.head(),
