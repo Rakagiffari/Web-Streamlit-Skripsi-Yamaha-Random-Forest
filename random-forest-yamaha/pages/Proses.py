@@ -311,227 +311,216 @@ if uploaded_file is not None:
         # PREPROCESSING
         # =====================================
 
-        X, y = preprocess_data(df)
+        with st.spinner("Sedang melakukan preprocessing data..."):
 
-        st.success(
-            "Preprocessing berhasil"
-        )
+    X, y = preprocess_data(df)
 
-        # =====================================
-        # INFORMASI DATASET
-        # =====================================
+st.success("✅ Preprocessing berhasil dilakukan")
 
-        st.markdown(
-            "## 📊 Informasi Dataset"
-        )
+st.markdown("## ⚙️ Hasil Preprocessing")
 
-        fitur_asli = [
+# =====================================
+# INFORMASI PREPROCESSING
+# =====================================
 
-            "Brand",
-            "Jenis",
-            "Km",
-            "Usia Motor",
-            "Indikasi"
+tahun_sekarang = pd.Timestamp.now().year
 
-        ]
+preview_df = df.copy()
 
-        c1, c2, c3 = st.columns(3)
+# -----------------------------
+# Feature Engineering
+# -----------------------------
 
-        with c1:
+preview_df["Usia Motor"] = tahun_sekarang - preview_df["Tahun"]
 
-            st.metric(
-                "Jumlah Data",
-                len(df)
-            )
+def get_jenis(model):
 
-        with c2:
+    model = str(model).upper()
 
-            st.metric(
-                "Jumlah Fitur",
-                len(fitur_asli)
-            )
+    if any(x in model for x in [
+        "XMAX","NMAX","AEROX","LEXI","TMAX"
+    ]):
+        return "MAXi"
 
-        with c3:
+    elif any(x in model for x in [
+        "FAZZIO","FILANO"
+    ]):
+        return "Classy"
 
-            st.metric(
-                "Jumlah Kelas",
-                len(y.unique())
-            )
+    elif any(x in model for x in [
+        "MIO","SOUL","XEON",
+        "FINO","GEAR",
+        "FREEGO","X-RIDE",
+        "XRIDE","NOUVO",
+        "LEXAM"
+    ]):
+        return "Matic"
 
-        # =====================================
-        # DISTRIBUSI TARGET
-        # =====================================
+    elif any(x in model for x in [
+        "R15","R25","R6","R1",
+        "VIXION","BYSON",
+        "SCORPIO","RX",
+        "XSR","MT"
+    ]):
+        return "Sport"
 
-        st.markdown(
-            "## 📌 Distribusi Target"
-        )
+    elif any(x in model for x in [
+        "WR","YZ"
+    ]):
+        return "Off-road"
 
-        service_count = (
-            df["Service"]
-            .value_counts()
-        )
+    elif any(x in model for x in [
+        "JUPITER","VEGA",
+        "CRYPTON","ALFA",
+        "SIGMA","F1ZR",
+        "MX KING"
+    ]):
+        return "Moped"
 
-        fig, ax = plt.subplots(
-            figsize=(6,4)
-        )
+    return "Unknown"
 
-        sns.barplot(
-            x=service_count.index,
-            y=service_count.values,
-            palette="Reds",
-            ax=ax
-        )
+preview_df["Jenis"] = preview_df["Model"].apply(get_jenis)
 
-        st.pyplot(fig)
+# =====================================
+# STATUS PREPROCESSING
+# =====================================
 
-        # =====================================
-        # TRAINING
-        # =====================================
+st.markdown("### 📋 Status Tahapan Preprocessing")
 
-        if st.button(
-            "🚀 Training Model"
-        ):
+status_df = pd.DataFrame({
 
-            (
-                model,
-                accuracy,
-                precision,
-                recall,
-                f1,
-                report,
-                matrix,
-                importance_grouped,
-                train_count,
-                test_count
+    "Tahapan":[
 
-            ) = train_model(X, y)
+        "Validasi Dataset",
+        "Pengecekan Missing Value",
+        "Pengecekan Data Duplikat",
+        "Feature Engineering",
+        "Encoding Dataset"
 
-            BASE_DIR = Path(
-                __file__
-            ).parent.parent
+    ],
 
-            model_dir = (
-                BASE_DIR / "model"
-            )
+    "Status":[
 
-            model_dir.mkdir(
-                parents=True,
-                exist_ok=True
-            )
+        "✅ Berhasil",
+        "✅ Berhasil",
+        "✅ Berhasil",
+        "✅ Berhasil",
+        "✅ Berhasil"
 
-            joblib.dump(
-                model,
-                model_dir /
-                "random_forest_model.pkl"
-            )
+    ]
 
-            # =====================================
-            # METRICS
-            # =====================================
+})
 
-            st.markdown(
-                "## 📈 Hasil Evaluasi"
-            )
+st.dataframe(
+    status_df,
+    use_container_width=True,
+    hide_index=True
+)
 
-            c1, c2, c3, c4 = st.columns(4)
+# =====================================
+# RINGKASAN PREPROCESSING
+# =====================================
 
-            c1.metric(
-                "Accuracy",
-                f"{accuracy:.2%}"
-            )
+st.markdown("### 📊 Ringkasan Hasil Preprocessing")
 
-            c2.metric(
-                "Precision",
-                f"{precision:.2%}"
-            )
+c1, c2, c3, c4 = st.columns(4)
 
-            c3.metric(
-                "Recall",
-                f"{recall:.2%}"
-            )
+with c1:
 
-            c4.metric(
-                "F1 Score",
-                f"{f1:.2%}"
-            )
+    st.metric(
+        "Jumlah Data",
+        len(preview_df)
+    )
 
-            # =====================================
-            # CLASSIFICATION REPORT
-            # =====================================
+with c2:
 
-            st.markdown(
-                "## 📋 Classification Report"
-            )
+    st.metric(
+        "Jumlah Fitur",
+        X.shape[1]
+    )
 
-            st.code(report)
+with c3:
 
-            # =====================================
-            # CONFUSION MATRIX
-            # =====================================
+    st.metric(
+        "Jumlah Target",
+        y.nunique()
+    )
 
-            st.markdown(
-                "## 📉 Confusion Matrix"
-            )
+with c4:
 
-            fig2, ax2 = plt.subplots(
-                figsize=(5,4)
-            )
+    st.metric(
+        "Fitur Setelah Encoding",
+        X.shape[1]
+    )
 
-            sns.heatmap(
-                matrix,
-                annot=True,
-                fmt="d",
-                cmap="Reds",
-                ax=ax2
-            )
+# =====================================
+# HASIL FEATURE ENGINEERING
+# =====================================
 
-            st.pyplot(fig2)
+st.markdown("## 🛠 Hasil Feature Engineering")
 
-            cm_path = (
-                BASE_DIR /
-                "confusion_matrix.png"
-            )
+st.info(
+    "Feature Engineering menghasilkan dua fitur baru yaitu **Jenis Motor** "
+    "dan **Usia Motor** yang akan digunakan pada proses klasifikasi."
+)
 
-            fig2.savefig(
-                cm_path,
-                bbox_inches="tight"
-            )
+feature_df = preview_df[
 
-            # =====================================
-            # FEATURE IMPORTANCE
-            # =====================================
+    [
 
-            st.markdown(
-                "## ⭐ Feature Importance"
-            )
+        "Indikasi",
+        "Model",
+        "Jenis",
+        "Tahun",
+        "Usia Motor",
+        "Km",
+        "Service"
 
-            fig3, ax3 = plt.subplots(
-                figsize=(6,4)
-            )
+    ]
 
-            sns.barplot(
-                data=importance_grouped,
-                x="Importance",
-                y="Fitur",
-                ax=ax3
-            )
+].head(10)
 
-            st.pyplot(fig3)
+st.dataframe(
+    feature_df,
+    use_container_width=True,
+    hide_index=True
+)
 
-            fi_path = (
-                BASE_DIR /
-                "feature_importance.png"
-            )
+# =====================================
+# INFORMASI FITUR MODEL
+# =====================================
 
-            fig3.savefig(
-                fi_path,
-                bbox_inches="tight"
-            )
+st.markdown("### 📌 Fitur yang Digunakan")
 
-            st.dataframe(
-                importance_grouped,
-                use_container_width=True
-            )
+fitur_df = pd.DataFrame({
+
+    "Fitur":[
+
+        "Indikasi",
+        "Jenis",
+        "Km",
+        "Usia Motor"
+
+    ],
+
+    "Keterangan":[
+
+        "Kategori indikasi kerusakan",
+        "Hasil Feature Engineering",
+        "Kilometer kendaraan",
+        "Hasil Feature Engineering"
+
+    ]
+
+})
+
+st.dataframe(
+    fitur_df,
+    use_container_width=True,
+    hide_index=True
+)
+
+st.markdown("---")
 
             # =====================================
             # PDF
