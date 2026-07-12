@@ -357,8 +357,6 @@ st.markdown("""
         Apa itu Random Forest?
     </h2>
     
-    <p style="font-size:17px;color:#475569;text-align:center;line-height:1.9;">
-
 Random Forest merupakan algoritma Machine Learning berbasis
 <b>Decision Tree</b> yang bekerja dengan membangun banyak pohon keputusan
 (Tree). Setiap Decision Tree mempelajari pola data servis yang berbeda,
@@ -366,7 +364,6 @@ kemudian seluruh hasil klasifikasi digabung menggunakan
 <b>Majority Voting</b> sehingga menghasilkan prediksi yang lebih stabil,
 lebih akurat, dan mengurangi risiko overfitting.
 
-</p>
 </div>
 """, unsafe_allow_html=True)
 
