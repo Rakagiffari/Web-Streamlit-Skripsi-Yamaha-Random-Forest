@@ -123,29 +123,19 @@ TITLE
 /* ===================================================
 INFO CARD
 =================================================== */
-
 .info-card{
-
-    background:white;
+    background:020617;
     border-radius:18px;
     padding:28px;
-
     box-shadow:0px 8px 25px rgba(0,0,0,0.08);
-
     border:1px solid #edf2f7;
-
     transition:.3s;
-
     height:170px;
-
 }
 
 .info-card:hover{
-
     transform:translateY(-5px);
-
     box-shadow:0px 15px 35px rgba(0,0,0,.12);
-
 }
 
 .card-title{
