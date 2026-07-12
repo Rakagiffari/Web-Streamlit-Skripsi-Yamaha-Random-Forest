@@ -348,9 +348,7 @@ st.markdown("""
 <div class="rf-box">
 
 <h2 style="color:#14332a;text-align:center;">
-
 🌲 Apa itu Random Forest?
-
 </h2>
 
 <p style="font-size:17px;color:#475569;text-align:center;line-height:1.9;">
