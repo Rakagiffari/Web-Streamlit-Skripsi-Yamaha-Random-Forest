@@ -412,12 +412,6 @@ Tjahaja Baru Tabing
 
 </div>
 
-<br>
-
-Dealer resmi Yamaha sebagai objek penelitian.
-
-</div>
-
 """, unsafe_allow_html=True)
 
 with col2:
