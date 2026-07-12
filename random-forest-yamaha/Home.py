@@ -170,7 +170,7 @@ SECTION TITLE
 RANDOM FOREST BOX
 =================================================== */
 .rf-box{
-    background:white;
+    background:linear-gradient(145deg, #111827, #1e293b);
     border-radius:22px;
     padding:35px;
     border:1px solid #e5e7eb;
