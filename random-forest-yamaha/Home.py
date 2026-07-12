@@ -135,18 +135,15 @@ INFO CARD
 }
 
 .card-title{
-
-    font-size:17px;
-    color:#64748b;
+    font-size:28px;
+    color:#FFFFFF;
     font-weight:700;
     margin-bottom:10px;
-
 }
 
 .card-value{
-
-    font-size:28px;
-    color:#111827;
+    font-size:17px;
+    color:#FFFFFF;
     font-weight:800;
 
 }
