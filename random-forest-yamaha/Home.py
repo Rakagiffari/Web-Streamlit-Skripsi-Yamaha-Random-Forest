@@ -59,7 +59,7 @@ SIDEBAR
 
 section[data-testid="stSidebar"]{
 
-    background:#27463d;
+    background:#020617;
     border-right:none;
 
 }
