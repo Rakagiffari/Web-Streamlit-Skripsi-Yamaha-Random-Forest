@@ -64,7 +64,7 @@ section[data-testid="stSidebar"]{
     text-align: center;
     font-size: 43px;
     font-weight: 900;
-    color: b;ack;
+    color: black;
     line-height: 1.1;
     margin-top: 5px;
     margin-bottom: 10px;
