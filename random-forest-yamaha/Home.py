@@ -40,7 +40,6 @@ st.markdown("""
 /* ===================================================
 GLOBAL
 =================================================== */
-
 html,
 body,
 [class*="css"]{
@@ -48,32 +47,24 @@ body,
 }
 
 .stApp{
-
     background:#020617;
-
 }
 
 /* ===================================================
 SIDEBAR
 =================================================== */
-
 section[data-testid="stSidebar"]{
-
     background:#0f172a;
     border-right:none;
-
 }
 
 section[data-testid="stSidebar"] *{
-
     color:white;
-
 }
 
 /* ===================================================
 HEADER STREAMLIT
 =================================================== */
-
 header{
     visibility:hidden;
 }
@@ -124,7 +115,7 @@ TITLE
 INFO CARD
 =================================================== */
 .info-card{
-    background:020617;
+    background:0f172a;
     border-radius:18px;
     padding:28px;
     box-shadow:0px 8px 25px rgba(0,0,0,0.08);
