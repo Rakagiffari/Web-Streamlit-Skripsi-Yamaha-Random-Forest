@@ -416,7 +416,7 @@ with col1:
 
 <div class="card-title">
 
-🏢 Dealer Yamaha
+Dealer Yamaha
 
 </div>
 
@@ -448,7 +448,7 @@ with col2:
 
 <div class="card-value">
 
-{tanggal}
+{tanggal} | {jam}
 
 </div>
 
