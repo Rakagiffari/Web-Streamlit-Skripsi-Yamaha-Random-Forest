@@ -3,9 +3,9 @@ from pathlib import Path
 from PIL import Image
 from datetime import datetime, timedelta
 
-# ======================================================
+# ==========================================================
 # PAGE CONFIG
-# ======================================================
+# ==========================================================
 
 BASE_DIR = Path(__file__).parent
 
@@ -20,40 +20,47 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ======================================================
-# DATE TIME
-# ======================================================
+# ==========================================================
+# DATE & TIME (WIB)
+# ==========================================================
 
 utc_now = datetime.utcnow()
-wib = utc_now + timedelta(hours=7)
+wib_now = utc_now + timedelta(hours=7)
 
-tanggal = wib.strftime("%d %B %Y")
-jam = wib.strftime("%H:%M WIB")
+tanggal = wib_now.strftime("%d-%m-%Y")
+jam = wib_now.strftime("%H:%M WIB")
 
-# ======================================================
-# CSS
-# ======================================================
+# ==========================================================
+# LOAD CSS
+# ==========================================================
 
 st.markdown("""
 <style>
 
-#MainMenu{visibility:hidden;}
-footer{visibility:hidden;}
-header{visibility:hidden;}
+/* ===================================================
+GLOBAL
+=================================================== */
+
+html,
+body,
+[class*="css"]{
+    font-family: "Segoe UI", sans-serif;
+}
 
 .stApp{
-    background:#F5F7FA;
+
+    background:#f8fafc;
+
 }
 
-.block-container{
-    max-width:1350px;
-    padding-top:20px;
-    padding-bottom:50px;
-}
+/* ===================================================
+SIDEBAR
+=================================================== */
 
 section[data-testid="stSidebar"]{
 
     background:#27463d;
+    border-right:none;
 
 }
 
@@ -63,47 +70,76 @@ section[data-testid="stSidebar"] *{
 
 }
 
-/* HERO */
+/* ===================================================
+HEADER STREAMLIT
+=================================================== */
 
-.hero-title{
+header{
+    visibility:hidden;
+}
+
+footer{
+    visibility:hidden;
+}
+
+#MainMenu{
+    visibility:hidden;
+}
+
+/* ===================================================
+CONTAINER
+=================================================== */
+
+.block-container{
+
+    padding-top:1rem;
+    padding-bottom:3rem;
+    max-width:1400px;
+
+}
+
+/* ===================================================
+TITLE
+=================================================== */
+
+.main-title{
 
     text-align:center;
-    font-size:54px;
+    font-size:52px;
     font-weight:900;
-    color:#14332A;
-    margin-top:5px;
-    margin-bottom:5px;
+    color:#14332a;
     letter-spacing:1px;
+    margin-top:5px;
+    margin-bottom:10px;
 
 }
 
-.hero-sub{
+.subtitle{
 
     text-align:center;
+    color:#4b5563;
     font-size:18px;
-    color:#5B6472;
-    line-height:1.7;
-    margin-bottom:35px;
+    margin-bottom:40px;
 
 }
 
-/* CARD */
+/* ===================================================
+INFO CARD
+=================================================== */
 
 .info-card{
 
     background:white;
+    border-radius:18px;
+    padding:28px;
 
-    border-radius:15px;
+    box-shadow:0px 8px 25px rgba(0,0,0,0.08);
 
-    padding:25px;
-
-    border:1px solid #E5E7EB;
-
-    box-shadow:0px 5px 20px rgba(0,0,0,.05);
+    border:1px solid #edf2f7;
 
     transition:.3s;
 
-    min-height:150px;
+    height:170px;
 
 }
 
@@ -111,59 +147,40 @@ section[data-testid="stSidebar"] *{
 
     transform:translateY(-5px);
 
-    box-shadow:0px 12px 25px rgba(0,0,0,.08);
-
-}
-
-.card-icon{
-
-    font-size:30px;
+    box-shadow:0px 15px 35px rgba(0,0,0,.12);
 
 }
 
 .card-title{
 
-    color:#64748B;
-
-    font-size:15px;
-
-    margin-top:10px;
-
-    margin-bottom:12px;
+    font-size:17px;
+    color:#64748b;
+    font-weight:700;
+    margin-bottom:10px;
 
 }
 
 .card-value{
 
-    font-size:30px;
-
-    font-weight:700;
-
-    color:#14332A;
+    font-size:28px;
+    color:#111827;
+    font-weight:800;
 
 }
 
-.card-desc{
-
-    margin-top:10px;
-
-    color:#94A3B8;
-
-    font-size:14px;
-
-}
-
-/* SECTION */
+/* ===================================================
+SECTION TITLE
+=================================================== */
 
 .section-title{
 
     text-align:center;
 
-    font-size:36px;
+    font-size:34px;
 
     font-weight:800;
 
-    color:#14332A;
+    color:#14332a;
 
     margin-top:60px;
 
@@ -175,65 +192,234 @@ section[data-testid="stSidebar"] *{
 
     text-align:center;
 
-    color:#64748B;
+    color:#6b7280;
 
-    font-size:17px;
+    font-size:16px;
 
-    margin-bottom:30px;
+    margin-bottom:35px;
+
+}
+
+/* ===================================================
+RANDOM FOREST BOX
+=================================================== */
+
+.rf-box{
+
+    background:white;
+
+    border-radius:22px;
+
+    padding:35px;
+
+    border:1px solid #e5e7eb;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+}
+
+/* ===================================================
+FEATURE BOX
+=================================================== */
+
+.feature-box{
+
+    background:#ffffff;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    text-align:center;
+
+    border:1px solid #ececec;
+
+    transition:.3s;
+
+    min-height:180px;
+
+}
+
+.feature-box:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0px 15px 30px rgba(0,0,0,.12);
+
+}
+
+.feature-icon{
+
+    font-size:45px;
+
+    margin-bottom:10px;
+
+}
+
+.feature-title{
+
+    font-size:20px;
+
+    font-weight:700;
+
+    color:#14332a;
+
+    margin-bottom:10px;
+
+}
+
+.feature-desc{
+
+    color:#64748b;
+
+    font-size:15px;
+
+}
+
+/* ===================================================
+FLOW CARD
+=================================================== */
+
+.flow-card{
+
+    background:white;
+
+    border-radius:20px;
+
+    border:1px solid #e5e7eb;
+
+    padding:20px;
+
+    text-align:center;
+
+    box-shadow:0px 5px 15px rgba(0,0,0,.08);
+
+    min-height:200px;
+
+    transition:.3s;
+
+}
+
+.flow-card:hover{
+
+    transform:translateY(-6px);
+
+}
+
+.flow-number{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    background:#14332a;
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin:auto;
+
+    font-weight:bold;
+
+    margin-bottom:18px;
+
+}
+
+.flow-title{
+
+    font-size:20px;
+
+    font-weight:700;
+
+    color:#14332a;
+
+    margin-bottom:12px;
+
+}
+
+.flow-desc{
+
+    color:#64748b;
+
+    font-size:14px;
+
+}
+
+/* ===================================================
+ALERT
+=================================================== */
+
+.stAlert{
+
+    border-radius:15px;
+
+}
+
+/* ===================================================
+HR
+=================================================== */
+
+hr{
+
+    border:none;
+
+    border-top:1px solid #e5e7eb;
+
+    margin-top:45px;
+
+    margin-bottom:45px;
 
 }
 
 </style>
 """, unsafe_allow_html=True)
 
-# ======================================================
-# HERO
-# ======================================================
+# ==========================================================
+# HERO SECTION
+# ==========================================================
 
-st.image(str(logo_path), width=130)
+st.markdown("<br>", unsafe_allow_html=True)
+
+col1, col2, col3 = st.columns([2.5,1,2.5])
+
+with col2:
+    st.image(str(logo_path), width=180)
 
 st.markdown("""
-
-<div class="hero-title">
-
+<div class="main-title">
 KLASIFIKASI LAYANAN SERVIS YAMAHA
-
 </div>
-
 """, unsafe_allow_html=True)
 
 st.markdown("""
-
-<div class="hero-sub">
-
-Penerapan <b>Algoritma Random Forest</b> untuk mengklasifikasikan
-layanan servis kendaraan Yamaha berdasarkan pola data servis.
-
+<div class="subtitle">
+Penerapan Algoritma <b>Random Forest</b> untuk mengklasifikasikan layanan servis
+kendaraan Yamaha berdasarkan pola data servis.
 </div>
-
 """, unsafe_allow_html=True)
 
-# ======================================================
-# INFO CARD
-# ======================================================
+# ==========================================================
+# INFORMATION CARD
+# ==========================================================
 
-c1,c2,c3 = st.columns(3)
+space1,col1,col2,space2 = st.columns([0.6,1,1,0.6])
 
-with c1:
+with col1:
 
-    st.markdown("""
+    st.markdown(f"""
 
 <div class="info-card">
 
-<div class="card-icon">
-
-🏢
-
-</div>
-
 <div class="card-title">
 
-Dealer Penelitian
+🏢 Dealer Yamaha
 
 </div>
 
@@ -243,9 +429,103 @@ Tjahaja Baru Tabing
 
 </div>
 
-<div class="card-desc">
+<br>
 
-Lokasi penelitian yang digunakan dalam pengumpulan dataset.
+Dealer resmi Yamaha sebagai objek penelitian.
+
+</div>
+
+""", unsafe_allow_html=True)
+
+with col2:
+
+    st.markdown(f"""
+
+<div class="info-card">
+
+<div class="card-title">
+
+🕒 Tanggal & Jam
+
+</div>
+
+<div class="card-value">
+
+{tanggal}
+
+</div>
+
+<div style="font-size:18px;color:#64748b;font-weight:600;margin-top:8px;">
+
+{jam}
+
+</div>
+
+</div>
+
+""", unsafe_allow_html=True)
+
+# ==========================================================
+# RANDOM FOREST DESCRIPTION
+# ==========================================================
+
+st.markdown("<br><br>", unsafe_allow_html=True)
+
+st.markdown("""
+
+<div class="rf-box">
+
+<h2 style="color:#14332a;text-align:center;">
+
+🌲 Apa itu Random Forest?
+
+</h2>
+
+<p style="font-size:17px;color:#475569;text-align:center;line-height:1.9;">
+
+Random Forest merupakan algoritma Machine Learning berbasis
+<b>Decision Tree</b> yang bekerja dengan membangun banyak pohon keputusan
+(Tree). Setiap Decision Tree mempelajari pola data servis yang berbeda,
+kemudian seluruh hasil klasifikasi digabung menggunakan
+<b>Majority Voting</b> sehingga menghasilkan prediksi yang lebih stabil,
+lebih akurat, dan mengurangi risiko overfitting.
+
+</p>
+
+</div>
+
+""", unsafe_allow_html=True)
+
+# ==========================================================
+# KEUNGGULAN SISTEM
+# ==========================================================
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+c1,c2,c3 = st.columns(3)
+
+with c1:
+
+    st.markdown("""
+
+<div class="feature-box">
+
+<div class="feature-icon">
+
+🎯
+
+</div>
+
+<div class="feature-title">
+
+Akurat
+
+</div>
+
+<div class="feature-desc">
+
+Random Forest memanfaatkan banyak Decision Tree sehingga mampu
+menghasilkan klasifikasi layanan servis dengan tingkat akurasi yang baik.
 
 </div>
 
@@ -257,29 +537,24 @@ with c2:
 
     st.markdown("""
 
-<div class="info-card">
+<div class="feature-box">
 
-<div class="card-icon">
+<div class="feature-icon">
 
-🌲
-
-</div>
-
-<div class="card-title">
-
-Algoritma
+⚡
 
 </div>
 
-<div class="card-value">
+<div class="feature-title">
 
-Random Forest
+Cepat
 
 </div>
 
-<div class="card-desc">
+<div class="feature-desc">
 
-Algoritma ensemble berbasis Decision Tree dengan metode Majority Voting.
+Seluruh proses preprocessing, training hingga prediksi
+dapat dilakukan secara otomatis dalam satu sistem.
 
 </div>
 
@@ -289,31 +564,27 @@ Algoritma ensemble berbasis Decision Tree dengan metode Majority Voting.
 
 with c3:
 
-    st.markdown(f"""
+    st.markdown("""
 
-<div class="info-card">
+<div class="feature-box">
 
-<div class="card-icon">
+<div class="feature-icon">
 
-🕒
-
-</div>
-
-<div class="card-title">
-
-Update Sistem
+🌳
 
 </div>
 
-<div class="card-value" style="font-size:24px;">
+<div class="feature-title">
 
-{tanggal}
+Mudah Dipahami
 
 </div>
 
-<div class="card-desc">
+<div class="feature-desc">
 
-{jam}
+Sistem menampilkan konsep Random Forest,
+Decision Tree serta proses klasifikasi
+agar pengguna memahami cara kerja model.
 
 </div>
 
@@ -321,734 +592,716 @@ Update Sistem
 
 """, unsafe_allow_html=True)
 
-# ======================================================
-# TENTANG SISTEM
-# ======================================================
+# ==========================================================
+# RANDOM FOREST WORKFLOW
+# ==========================================================
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 
 st.markdown("""
 <div class="section-title">
-📌 Tentang Sistem
+🌳 Cara Kerja Algoritma Random Forest
 </div>
 
 <div class="section-desc">
-Sistem ini dikembangkan untuk membantu proses klasifikasi layanan servis
-kendaraan Yamaha menggunakan algoritma <b>Random Forest</b>.
-Model mempelajari pola dari data servis sehingga mampu menghasilkan
-klasifikasi layanan secara lebih konsisten dan terstruktur.
+Random Forest membangun banyak <b>Decision Tree</b> dari dataset pelatihan.
+Setiap pohon melakukan proses klasifikasi secara independen, kemudian seluruh
+hasil digabung menggunakan <b>Majority Voting</b> untuk memperoleh prediksi akhir.
 </div>
 """, unsafe_allow_html=True)
-
-# ======================================================
-# OVERVIEW CARD
-# ======================================================
-
-o1,o2,o3 = st.columns(3)
-
-with o1:
-
-    st.markdown("""
-
-<div class="info-card">
-
-<div class="card-icon">
-📂
-</div>
-
-<div class="card-title">
-
-Dataset
-
-</div>
-
-<div class="card-value">
-
-1.483 Data
-
-</div>
-
-<div class="card-desc">
-
-Dataset servis kendaraan Yamaha
-yang digunakan sebagai data pelatihan
-dan pengujian model.
-
-</div>
-
-</div>
-
-""", unsafe_allow_html=True)
-
-with o2:
-
-    st.markdown("""
-
-<div class="info-card">
-
-<div class="card-icon">
-🌲
-</div>
-
-<div class="card-title">
-
-Machine Learning
-
-</div>
-
-<div class="card-value">
-
-Random Forest
-
-</div>
-
-<div class="card-desc">
-
-Algoritma Ensemble Learning
-yang membangun banyak
-Decision Tree.
-
-</div>
-
-</div>
-
-""", unsafe_allow_html=True)
-
-with o3:
-
-    st.markdown("""
-
-<div class="info-card">
-
-<div class="card-icon">
-🎯
-</div>
-
-<div class="card-title">
-
-Output
-
-</div>
-
-<div class="card-value">
-
-Klasifikasi
-
-</div>
-
-<div class="card-desc">
-
-Menghasilkan klasifikasi
-layanan servis berdasarkan
-pola data yang dipelajari.
-
-</div>
-
-</div>
-
-""", unsafe_allow_html=True)
-
-# ======================================================
-# PENJELASAN
-# ======================================================
-
-st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown("""
 
-<div style="
+<style>
 
-background:#ffffff;
+.rf-container{
 
-padding:28px;
+    background:white;
 
-border-radius:15px;
+    border-radius:22px;
 
-border:1px solid #E5E7EB;
+    padding:40px;
 
-box-shadow:0px 5px 20px rgba(0,0,0,.05);
+    border:1px solid #e5e7eb;
 
-line-height:1.9;
+    box-shadow:0px 8px 25px rgba(0,0,0,.08);
 
-font-size:16px;
+}
 
-color:#4B5563;
+.rf-title{
 
-">
+    text-align:center;
 
-<b>Tujuan Sistem</b>
+    font-size:22px;
+
+    font-weight:800;
+
+    color:#14332a;
+
+}
+
+.step-box{
+
+    background:#14332a;
+
+    color:white;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    font-weight:bold;
+
+    margin:auto;
+
+    width:220px;
+
+}
+
+.arrow{
+
+    text-align:center;
+
+    font-size:28px;
+
+    color:#14332a;
+
+    margin:8px;
+
+}
+
+.rf-main{
+
+    background:#edf7f3;
+
+    border:2px solid #14332a;
+
+    border-radius:18px;
+
+    padding:20px;
+
+    text-align:center;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    color:#14332a;
+
+}
+
+.tree-box{
+
+    background:#ffffff;
+
+    border:2px solid #16a34a;
+
+    border-radius:15px;
+
+    padding:18px;
+
+    text-align:center;
+
+    font-weight:bold;
+
+    color:#14332a;
+
+}
+
+.vote-box{
+
+    background:#dcfce7;
+
+    border:2px solid #16a34a;
+
+    border-radius:15px;
+
+    padding:18px;
+
+    text-align:center;
+
+    font-weight:bold;
+
+    color:#14532d;
+
+}
+
+.result-box{
+
+    background:#14332a;
+
+    color:white;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    font-weight:bold;
+
+}
+
+</style>
+
+<div class="rf-container">
+
+<div class="step-box">
+
+📂 Dataset Servis Yamaha
+
+</div>
+
+<div class="arrow">
+
+⬇
+
+</div>
+
+<div class="step-box">
+
+⚙️ Preprocessing & Feature Engineering
+
+</div>
+
+<div class="arrow">
+
+⬇
+
+</div>
+
+<div class="rf-main">
+
+🌲 RANDOM FOREST
+
+</div>
+
+<br>
+
+<table width="100%">
+
+<tr>
+
+<td align="center">
+
+<div class="tree-box">
+
+🌳 Decision Tree 1
+
+</div>
+
+</td>
+
+<td align="center">
+
+<div class="tree-box">
+
+🌳 Decision Tree 2
+
+</div>
+
+</td>
+
+<td align="center">
+
+<div class="tree-box">
+
+🌳 Decision Tree 3
+
+</div>
+
+</td>
+
+<td align="center">
+
+<div class="tree-box">
+
+⋯
+
+</div>
+
+</td>
+
+<td align="center">
+
+<div class="tree-box">
+
+🌳 Decision Tree n
+
+</div>
+
+</td>
+
+</tr>
+
+</table>
+
+<div class="arrow">
+
+⬇
+
+</div>
+
+<div class="vote-box">
+
+🗳️ Majority Voting
+
+<br>
+
+Menggabungkan hasil seluruh Decision Tree
+
+</div>
+
+<div class="arrow">
+
+⬇
+
+</div>
+
+<div class="result-box">
+
+🎯 Hasil Klasifikasi
 
 <br><br>
 
-Sistem ini memanfaatkan algoritma <b>Random Forest</b> untuk mempelajari
-hubungan antar fitur seperti <b>jenis motor, usia motor, kilometer,
-indikasi,</b> dan <b>jumlah komponen (Qty)</b>.
-Pengetahuan yang dipelajari model digunakan untuk menghasilkan
-<b>hasil klasifikasi layanan servis</b> secara otomatis berdasarkan
-pola data historis.
+Service Ringan
+
+atau
+
+Service Berat
+
+</div>
 
 </div>
 
 """, unsafe_allow_html=True)
 
-# ======================================================
-# CARA KERJA RANDOM FOREST
-# ======================================================
+# ==========================================================
+# ALUR SISTEM
+# ==========================================================
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 
 st.markdown("""
 <div class="section-title">
-🌲 Cara Kerja Random Forest
+⚙️ Alur Sistem Klasifikasi
 </div>
 
 <div class="section-desc">
-Random Forest merupakan algoritma Ensemble Learning yang terdiri dari
-banyak <b>Decision Tree</b>. Setiap pohon mempelajari pola data secara
-mandiri, kemudian seluruh hasil digabung menggunakan
-<b>Majority Voting</b> untuk menghasilkan klasifikasi akhir.
+Tahapan proses klasifikasi layanan servis menggunakan algoritma Random Forest.
 </div>
 """, unsafe_allow_html=True)
 
-# ======================================================
-# DATASET
-# ======================================================
+flow_data = [
 
-st.markdown("""
-<div class="info-card" style="text-align:center;">
+("1","📂","Upload Dataset",
+"Pengguna mengunggah dataset servis Yamaha dalam format CSV atau Excel."),
 
-<div style="font-size:40px;">📂</div>
+("2","🧹","Preprocessing",
+"Pembersihan data, menghapus missing value, duplikasi, serta menyiapkan data."),
 
-<h3 style="color:#14332A;margin-bottom:5px;">
-Dataset Servis
-</h3>
+("3","⚙️","Feature Engineering",
+"Membentuk fitur baru seperti Usia Motor, Jenis Motor, dan Indikasi."),
 
-Dataset kendaraan Yamaha
-yang digunakan sebagai data pelatihan.
+("4","🔤","Encoding",
+"Mengubah data kategorikal menjadi data numerik agar dapat diproses model."),
+
+("5","✂️","Train-Test Split",
+"Membagi dataset menjadi data latih dan data uji."),
+
+("6","🌲","Random Forest",
+"Model membangun banyak Decision Tree untuk mempelajari pola data servis."),
+
+("7","📊","Evaluasi Model",
+"Menghasilkan Accuracy, Confusion Matrix, Classification Report, dan Feature Importance."),
+
+("8","🎯","Prediksi",
+"Model melakukan klasifikasi layanan servis menjadi Ringan atau Berat."),
+
+("9","📄","Laporan PDF",
+"Sistem menghasilkan laporan hasil pelatihan model dalam format PDF.")
+
+]
+
+# ==========================================================
+# BARIS 1
+# ==========================================================
+
+cols = st.columns(3)
+
+for i in range(3):
+
+    no,icon,title,desc = flow_data[i]
+
+    with cols[i]:
+
+        st.markdown(f"""
+<div class="flow-card">
+
+<div class="flow-number">
+
+{no}
+
+</div>
+
+<div style="font-size:48px;margin-bottom:15px;">
+
+{icon}
+
+</div>
+
+<div class="flow-title">
+
+{title}
+
+</div>
+
+<div class="flow-desc">
+
+{desc}
+
+</div>
 
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown(
-"<h1 style='text-align:center;color:#16A34A;'>↓</h1>",
-unsafe_allow_html=True)
+st.markdown("<div style='text-align:center;font-size:35px;'>⬇️</div>", unsafe_allow_html=True)
 
-# ======================================================
-# DATA PREPARATION
-# ======================================================
+# ==========================================================
+# BARIS 2
+# ==========================================================
 
-st.markdown("""
-<div class="info-card" style="text-align:center;">
+cols = st.columns(3)
 
-<div style="font-size:40px;">⚙️</div>
+for i in range(3,6):
 
-<h3 style="color:#14332A;margin-bottom:5px;">
-Data Preparation
-</h3>
+    no,icon,title,desc = flow_data[i]
 
-Preprocessing • Feature Engineering
+    with cols[i-3]:
 
-Encoding • Train-Test Split
+        st.markdown(f"""
+<div class="flow-card">
+
+<div class="flow-number">
+
+{no}
+
+</div>
+
+<div style="font-size:48px;margin-bottom:15px;">
+
+{icon}
+
+</div>
+
+<div class="flow-title">
+
+{title}
+
+</div>
+
+<div class="flow-desc">
+
+{desc}
+
+</div>
 
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown(
-"<h1 style='text-align:center;color:#16A34A;'>↓</h1>",
-unsafe_allow_html=True)
+st.markdown("<div style='text-align:center;font-size:35px;'>⬇️</div>", unsafe_allow_html=True)
 
-# ======================================================
-# RANDOM FOREST
-# ======================================================
+# ==========================================================
+# BARIS 3
+# ==========================================================
 
-st.markdown("""
+cols = st.columns(3)
 
-<div style="
+for i in range(6,9):
 
-background:#14332A;
+    no,icon,title,desc = flow_data[i]
 
-padding:18px;
+    with cols[i-6]:
 
-border-radius:12px;
+        st.markdown(f"""
+<div class="flow-card">
 
-text-align:center;
+<div class="flow-number">
 
-color:white;
-
-font-size:28px;
-
-font-weight:bold;
-
-">
-
-🌲 RANDOM FOREST MODEL
+{no}
 
 </div>
 
+<div style="font-size:48px;margin-bottom:15px;">
+
+{icon}
+
+</div>
+
+<div class="flow-title">
+
+{title}
+
+</div>
+
+<div class="flow-desc">
+
+{desc}
+
+</div>
+
+</div>
 """, unsafe_allow_html=True)
+
+# ==========================================================
+# PENJELASAN
+# ==========================================================
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# ======================================================
-# DECISION TREE
-# ======================================================
+st.info("""
 
-t1,t2,t3,t4 = st.columns(4)
+💡 **Cara kerja sistem**
 
-with t1:
+Dataset servis yang diunggah akan melalui proses preprocessing dan feature engineering.
+Selanjutnya data diubah ke bentuk numerik melalui proses encoding, kemudian dibagi
+menjadi data latih dan data uji. Model Random Forest membangun banyak Decision Tree
+untuk mempelajari pola data, kemudian melakukan klasifikasi menggunakan mekanisme
+**Majority Voting**. Hasil pelatihan dievaluasi menggunakan Accuracy, Confusion Matrix,
+Classification Report, dan Feature Importance sebelum digunakan untuk melakukan prediksi
+layanan servis kendaraan Yamaha.
 
-    st.success("🌳\n\nDecision Tree 1")
+""")
+# ==========================================================
+# FITUR SISTEM
+# ==========================================================
 
-with t2:
-
-    st.success("🌳\n\nDecision Tree 2")
-
-with t3:
-
-    st.success("🌳\n\nDecision Tree 3")
-
-with t4:
-
-    st.success("🌳\n\nDecision Tree n")
-
-st.markdown(
-"<h1 style='text-align:center;color:#16A34A;'>↓</h1>",
-unsafe_allow_html=True)
-
-# ======================================================
-# MAJORITY VOTING
-# ======================================================
+st.markdown("<br><br>", unsafe_allow_html=True)
 
 st.markdown("""
-
-<div class="info-card" style="text-align:center;">
-
-<div style="font-size:40px;">
-🗳️
+<div class="section-title">
+🚀 Fitur Utama Sistem
 </div>
 
-<h3 style="color:#14332A;">
+<div class="section-desc">
+Fitur-fitur yang tersedia pada Sistem Klasifikasi Layanan Servis Yamaha.
+</div>
+""", unsafe_allow_html=True)
 
-Majority Voting
+fitur1, fitur2, fitur3 = st.columns(3)
 
-</h3>
+with fitur1:
 
-Seluruh hasil prediksi dari setiap
-Decision Tree digabung untuk
-menentukan hasil akhir.
+    st.markdown("""
+
+<div class="feature-box">
+
+<div class="feature-icon">
+📂
+</div>
+
+<div class="feature-title">
+Upload Dataset
+</div>
+
+<div class="feature-desc">
+
+Mendukung dataset format
+CSV maupun Excel
+untuk proses pelatihan model.
+
+</div>
 
 </div>
 
 """, unsafe_allow_html=True)
 
-st.markdown(
-"<h1 style='text-align:center;color:#16A34A;'>↓</h1>",
-unsafe_allow_html=True)
+with fitur2:
 
-# ======================================================
-# OUTPUT
-# ======================================================
+    st.markdown("""
 
-st.markdown("""
+<div class="feature-box">
 
-<div style="
+<div class="feature-icon">
+🌲
+</div>
 
-background:#16A34A;
+<div class="feature-title">
+Random Forest
+</div>
 
-padding:20px;
+<div class="feature-desc">
 
-border-radius:12px;
+Model membangun banyak
+Decision Tree untuk
+mempelajari pola data servis.
 
-text-align:center;
+</div>
 
-color:white;
+</div>
 
-">
+""", unsafe_allow_html=True)
 
-<h2>
+with fitur3:
 
-🎯 HASIL KLASIFIKASI
+    st.markdown("""
 
+<div class="feature-box">
+
+<div class="feature-icon">
+📊
+</div>
+
+<div class="feature-title">
+Evaluasi Model
+</div>
+
+<div class="feature-desc">
+
+Menampilkan Accuracy,
+Confusion Matrix,
+Classification Report,
+dan Feature Importance.
+
+</div>
+
+</div>
+
+""", unsafe_allow_html=True)
+
+# ==========================================================
+# INFORMASI SISTEM
+# ==========================================================
+
+st.markdown("<br><br>", unsafe_allow_html=True)
+
+col1,col2 = st.columns([1.2,1])
+
+with col1:
+
+    st.markdown("""
+
+<div class="rf-box">
+
+<h2 style="color:#14332a;">
+🎯 Tujuan Sistem
 </h2>
 
-Model menghasilkan klasifikasi
-layanan servis berdasarkan
-pola data yang telah dipelajari.
+<p style="line-height:1.9;color:#475569;font-size:16px;">
+
+Sistem ini dikembangkan untuk membantu proses
+klasifikasi layanan servis kendaraan Yamaha
+menggunakan algoritma <b>Random Forest</b>.
+
+Model mempelajari pola dari data servis
+berdasarkan fitur seperti:
+
+<ul>
+
+<li>Jenis Motor</li>
+
+<li>Usia Motor</li>
+
+<li>Kilometer</li>
+
+<li>Indikasi</li>
+
+<li>Qty</li>
+
+</ul>
+
+Hasil pembelajaran digunakan untuk
+mengklasifikasikan layanan servis menjadi
+<b>Service Ringan</b> atau
+<b>Service Berat</b>.
+
+</p>
 
 </div>
 
 """, unsafe_allow_html=True)
-
-# ======================================================
-# WORKFLOW SISTEM
-# ======================================================
-
-st.markdown("<br><br>", unsafe_allow_html=True)
-
-st.markdown("""
-<div class="section-title">
-⚙️ Workflow Sistem
-</div>
-
-<div class="section-desc">
-Tahapan utama proses klasifikasi layanan servis kendaraan Yamaha.
-</div>
-""", unsafe_allow_html=True)
-
-col1,col_arrow1,col2,col_arrow2,col3,col_arrow3,col4,col_arrow4,col5 = st.columns(
-    [2,0.5,2,0.5,2,0.5,2,0.5,2]
-)
-
-# ======================================================
-# STEP 1
-# ======================================================
-
-with col1:
-
-    st.markdown("""
-
-<div class="info-card" style="text-align:center;height:200px;">
-
-<div style="font-size:45px;">📂</div>
-
-<h4 style="color:#14332A;">Upload Dataset</h4>
-
-<div style="font-size:14px;color:#64748B;">
-
-Mengunggah dataset
-CSV atau Excel.
-
-</div>
-
-</div>
-
-""", unsafe_allow_html=True)
-
-with col_arrow1:
-
-    st.markdown("<h1 style='text-align:center;margin-top:70px;'>➜</h1>",
-    unsafe_allow_html=True)
-
-# ======================================================
-# STEP 2
-# ======================================================
 
 with col2:
 
     st.markdown("""
 
-<div class="info-card" style="text-align:center;height:200px;">
+<div class="rf-box">
 
-<div style="font-size:45px;">⚙️</div>
+<h2 style="color:#14332a;">
+🛠 Teknologi
+</h2>
 
-<h4 style="color:#14332A;">Data Preparation</h4>
+<table width="100%" style="font-size:16px;">
 
-<div style="font-size:14px;color:#64748B;">
+<tr>
+<td><b>Bahasa</b></td>
+<td>Python</td>
+</tr>
 
-Preprocessing
+<tr>
+<td><b>Framework</b></td>
+<td>Streamlit</td>
+</tr>
 
-Feature Engineering
+<tr>
+<td><b>Machine Learning</b></td>
+<td>Random Forest</td>
+</tr>
 
-Encoding
+<tr>
+<td><b>Library</b></td>
+<td>Scikit-Learn</td>
+</tr>
 
-Train-Test Split
+<tr>
+<td><b>Visualisasi</b></td>
+<td>Matplotlib</td>
+</tr>
 
-</div>
+<tr>
+<td><b>Laporan</b></td>
+<td>PDF Report</td>
+</tr>
 
-</div>
-
-""", unsafe_allow_html=True)
-
-with col_arrow2:
-
-    st.markdown("<h1 style='text-align:center;margin-top:70px;'>➜</h1>",
-    unsafe_allow_html=True)
-
-# ======================================================
-# STEP 3
-# ======================================================
-
-with col3:
-
-    st.markdown("""
-
-<div class="info-card" style="text-align:center;height:200px;">
-
-<div style="font-size:45px;">🌲</div>
-
-<h4 style="color:#14332A;">Random Forest</h4>
-
-<div style="font-size:14px;color:#64748B;">
-
-Training model
-
-Decision Tree
-
-Majority Voting
-
-</div>
+</table>
 
 </div>
 
 """, unsafe_allow_html=True)
 
-with col_arrow3:
-
-    st.markdown("<h1 style='text-align:center;margin-top:70px;'>➜</h1>",
-    unsafe_allow_html=True)
-
-# ======================================================
-# STEP 4
-# ======================================================
-
-with col4:
-
-    st.markdown("""
-
-<div class="info-card" style="text-align:center;height:200px;">
-
-<div style="font-size:45px;">📊</div>
-
-<h4 style="color:#14332A;">Evaluation</h4>
-
-<div style="font-size:14px;color:#64748B;">
-
-Accuracy
-
-Confusion Matrix
-
-Classification Report
-
-Feature Importance
-
-</div>
-
-</div>
-
-""", unsafe_allow_html=True)
-
-with col_arrow4:
-
-    st.markdown("<h1 style='text-align:center;margin-top:70px;'>➜</h1>",
-    unsafe_allow_html=True)
-
-# ======================================================
-# STEP 5
-# ======================================================
-
-with col5:
-
-    st.markdown("""
-
-<div class="info-card" style="text-align:center;height:200px;">
-
-<div style="font-size:45px;">🎯</div>
-
-<h4 style="color:#14332A;">Prediction</h4>
-
-<div style="font-size:14px;color:#64748B;">
-
-Model menghasilkan
-
-hasil klasifikasi
-
-layanan servis.
-
-</div>
-
-</div>
-
-""", unsafe_allow_html=True)
-
-st.markdown("<br>", unsafe_allow_html=True)
-
-st.info("""
-💡 **Workflow Sistem** menunjukkan tahapan utama mulai dari pengunggahan dataset, proses persiapan data, pelatihan model Random Forest, evaluasi performa model, hingga menghasilkan prediksi klasifikasi layanan servis.
-""")
-
-# ======================================================
-# WORKFLOW SISTEM
-# ======================================================
+# ==========================================================
+# FOOTER
+# ==========================================================
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 
-st.markdown("""
-<div class="section-title">
-⚙️ Workflow Sistem
-</div>
+st.success(
+"""
+✅ Selamat datang di Sistem Klasifikasi Layanan Servis Yamaha.
 
-<div class="section-desc">
-Tahapan utama proses klasifikasi layanan servis kendaraan Yamaha.
-</div>
-""", unsafe_allow_html=True)
-
-col1,col_arrow1,col2,col_arrow2,col3,col_arrow3,col4,col_arrow4,col5 = st.columns(
-    [2,0.5,2,0.5,2,0.5,2,0.5,2]
+Gunakan menu pada sidebar untuk memulai proses klasifikasi,
+melatih model Random Forest, melihat visualisasi Decision Tree,
+mengevaluasi performa model, dan menghasilkan laporan PDF.
+"""
 )
-
-# ======================================================
-# STEP 1
-# ======================================================
-
-with col1:
-
-    st.markdown("""
-
-<div class="info-card" style="text-align:center;height:200px;">
-
-<div style="font-size:45px;">📂</div>
-
-<h4 style="color:#14332A;">Upload Dataset</h4>
-
-<div style="font-size:14px;color:#64748B;">
-
-Mengunggah dataset
-CSV atau Excel.
-
-</div>
-
-</div>
-
-""", unsafe_allow_html=True)
-
-with col_arrow1:
-
-    st.markdown("<h1 style='text-align:center;margin-top:70px;'>➜</h1>",
-    unsafe_allow_html=True)
-
-# ======================================================
-# STEP 2
-# ======================================================
-
-with col2:
-
-    st.markdown("""
-
-<div class="info-card" style="text-align:center;height:200px;">
-
-<div style="font-size:45px;">⚙️</div>
-
-<h4 style="color:#14332A;">Data Preparation</h4>
-
-<div style="font-size:14px;color:#64748B;">
-
-Preprocessing
-
-Feature Engineering
-
-Encoding
-
-Train-Test Split
-
-</div>
-
-</div>
-
-""", unsafe_allow_html=True)
-
-with col_arrow2:
-
-    st.markdown("<h1 style='text-align:center;margin-top:70px;'>➜</h1>",
-    unsafe_allow_html=True)
-
-# ======================================================
-# STEP 3
-# ======================================================
-
-with col3:
-
-    st.markdown("""
-
-<div class="info-card" style="text-align:center;height:200px;">
-
-<div style="font-size:45px;">🌲</div>
-
-<h4 style="color:#14332A;">Random Forest</h4>
-
-<div style="font-size:14px;color:#64748B;">
-
-Training model
-
-Decision Tree
-
-Majority Voting
-
-</div>
-
-</div>
-
-""", unsafe_allow_html=True)
-
-with col_arrow3:
-
-    st.markdown("<h1 style='text-align:center;margin-top:70px;'>➜</h1>",
-    unsafe_allow_html=True)
-
-# ======================================================
-# STEP 4
-# ======================================================
-
-with col4:
-
-    st.markdown("""
-
-<div class="info-card" style="text-align:center;height:200px;">
-
-<div style="font-size:45px;">📊</div>
-
-<h4 style="color:#14332A;">Evaluation</h4>
-
-<div style="font-size:14px;color:#64748B;">
-
-Accuracy
-
-Confusion Matrix
-
-Classification Report
-
-Feature Importance
-
-</div>
-
-</div>
-
-""", unsafe_allow_html=True)
-
-with col_arrow4:
-
-    st.markdown("<h1 style='text-align:center;margin-top:70px;'>➜</h1>",
-    unsafe_allow_html=True)
-
-# ======================================================
-# STEP 5
-# ======================================================
-
-with col5:
-
-    st.markdown("""
-
-<div class="info-card" style="text-align:center;height:200px;">
-
-<div style="font-size:45px;">🎯</div>
-
-<h4 style="color:#14332A;">Prediction</h4>
-
-<div style="font-size:14px;color:#64748B;">
-
-Model menghasilkan
-
-hasil klasifikasi
-
-layanan servis.
-
-</div>
-
-</div>
-
-""", unsafe_allow_html=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-st.info("""
-💡 **Workflow Sistem** menunjukkan tahapan utama mulai dari pengunggahan dataset, proses persiapan data, pelatihan model Random Forest, evaluasi performa model, hingga menghasilkan prediksi klasifikasi layanan servis.
-""")
+st.markdown("""
+<hr>
+
+<div style="text-align:center;
+font-size:15px;
+color:#64748b;
+line-height:1.8;">
+
+<b>Sistem Klasifikasi Layanan Servis Yamaha</b><br>
+
+Penerapan Algoritma Random Forest untuk Klasifikasi Layanan Servis Kendaraan Yamaha<br><br>
+
+© 2026 | Universitas Putra Indonesia "YPTK" Padang
+
+</div>
+""", unsafe_allow_html=True)
