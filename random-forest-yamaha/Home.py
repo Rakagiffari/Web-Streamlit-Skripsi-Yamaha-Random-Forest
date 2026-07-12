@@ -115,7 +115,7 @@ TITLE
 INFO CARD
 =================================================== */
 .info-card{
-    background:0f172a;
+    background:linear-gradient(145deg, #111827, #1e293b);;
     border-radius:18px;
     padding:28px;
     box-shadow:0px 8px 25px rgba(0,0,0,0.08);
