@@ -115,13 +115,18 @@ TITLE
 INFO CARD
 =================================================== */
 .info-card{
-    background:linear-gradient(145deg, #111827, #1e293b);;
-    border-radius:18px;
-    padding:28px;
-    box-shadow:0px 8px 25px rgba(0,0,0,0.08);
-    border:1px solid #edf2f7;
-    transition:.3s;
-    height:170px;
+    background: linear-gradient(145deg, #111827, #1e293b);
+    padding: 28px 20px;
+    border-radius: 22px;
+    border: 1px solid #334155;
+    text-align: center;
+    transition: 0.3s ease;
+    box-shadow: 0 0 15px rgba(0,0,0,0.25);
+    min-height: 150px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 }
 
 .info-card:hover{
