@@ -170,7 +170,7 @@ SECTION TITLE
 RANDOM FOREST BOX
 =================================================== */
 .rf-box{
-        background: linear-gradient(145deg, #111827, #1e293b);
+    background: linear-gradient(145deg, #111827, #1e293b);
     padding: 28px 20px;
     border-radius: 22px;
     border: 1px solid #334155;
@@ -353,10 +353,10 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 st.markdown("""
 
 <div class="rf-box">
-
-<h2 style="color:#14332a;text-align:center;">
+    <div class="info-card">
+        🌲 Apa itu Random Forest?
+    </div> 
 🌲 Apa itu Random Forest?
-</h2>
 
 <p style="font-size:17px;color:#475569;text-align:center;line-height:1.9;">
 
