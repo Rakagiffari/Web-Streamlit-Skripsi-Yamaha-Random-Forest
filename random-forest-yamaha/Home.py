@@ -113,12 +113,11 @@ TITLE
 }
 
 .subtitle{
-
-    text-align:center;
-    color:#4b5563;
-    font-size:18px;
-    margin-bottom:40px;
-
+    text-align: center;
+    color: #cbd5e1;
+    font-size: 14px;
+    margin-top: 0px;
+    margin-bottom: 45px;
 }
 
 /* ===================================================
