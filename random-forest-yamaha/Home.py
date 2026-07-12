@@ -358,11 +358,14 @@ st.markdown("""
     </h2>
     
     <p style="font-size:17px;color:#475569;text-align:center;line-height:1.9;">
-        Random Forest merupakan algoritma Machine Learning berbasis Decision Tree yang bekerja dengan membangun banyak pohon keputusan (Tree). Setiap Decision Tree mempelajari pola data servis yang berbeda, kemudian seluruh hasil klasifikasi digabung menggunakan Majority Voting sehingga menghasilkan prediksi yang lebih stabil, lebih akurat, dan mengurangi risiko overfitting.
+        Random Forest merupakan algoritma Machine Learning berbasis
+        Decision Tree yang bekerja dengan membangun banyak pohon keputusan
+        (Tree). Setiap Decision Tree mempelajari pola data servis yang berbeda,
+        kemudian seluruh hasil klasifikasi digabung menggunakan
+        Majority Voting sehingga menghasilkan prediksi yang lebih stabil,
+        lebih akurat, dan mengurangi risiko overfitting.
     </p>
-
 </div>
-
 """, unsafe_allow_html=True)
 
 # ==========================================================
