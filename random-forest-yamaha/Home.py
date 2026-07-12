@@ -150,51 +150,31 @@ INFO CARD
 /* ===================================================
 SECTION TITLE
 =================================================== */
-
 .section-title{
-
     text-align:center;
-
     font-size:34px;
-
     font-weight:800;
-
     color:#14332a;
-
     margin-top:60px;
-
     margin-bottom:8px;
-
 }
 
 .section-desc{
-
     text-align:center;
-
     color:#6b7280;
-
     font-size:16px;
-
     margin-bottom:35px;
-
 }
 
 /* ===================================================
 RANDOM FOREST BOX
 =================================================== */
-
 .rf-box{
-
     background:white;
-
     border-radius:22px;
-
     padding:35px;
-
     border:1px solid #e5e7eb;
-
     box-shadow:0 8px 20px rgba(0,0,0,.08);
-
 }
 
 /* ===================================================
@@ -202,133 +182,79 @@ FEATURE BOX
 =================================================== */
 
 .feature-box{
-
     background:#ffffff;
-
     border-radius:18px;
-
     padding:25px;
-
     text-align:center;
-
     border:1px solid #ececec;
-
     transition:.3s;
-
     min-height:180px;
-
 }
 
 .feature-box:hover{
-
     transform:translateY(-8px);
-
     box-shadow:0px 15px 30px rgba(0,0,0,.12);
-
 }
 
 .feature-icon{
-
     font-size:45px;
-
     margin-bottom:10px;
-
 }
 
 .feature-title{
-
     font-size:20px;
-
     font-weight:700;
-
     color:#14332a;
-
     margin-bottom:10px;
-
 }
 
 .feature-desc{
-
     color:#64748b;
-
     font-size:15px;
-
 }
 
 /* ===================================================
 FLOW CARD
 =================================================== */
-
 .flow-card{
-
     background:white;
-
     border-radius:20px;
-
     border:1px solid #e5e7eb;
-
     padding:20px;
-
     text-align:center;
-
     box-shadow:0px 5px 15px rgba(0,0,0,.08);
-
     min-height:200px;
-
     transition:.3s;
-
 }
 
 .flow-card:hover{
-
     transform:translateY(-6px);
-
 }
 
 .flow-number{
-
     width:42px;
-
     height:42px;
-
     border-radius:50%;
-
     background:#14332a;
-
     color:white;
-
     display:flex;
-
     align-items:center;
-
     justify-content:center;
-
     margin:auto;
-
     font-weight:bold;
-
     margin-bottom:18px;
-
 }
 
 .flow-title{
-
     font-size:20px;
-
     font-weight:700;
-
     color:#14332a;
-
     margin-bottom:12px;
-
 }
 
 .flow-desc{
-
     color:#64748b;
-
     font-size:14px;
-
 }
 
 /* ===================================================
@@ -336,25 +262,17 @@ ALERT
 =================================================== */
 
 .stAlert{
-
     border-radius:15px;
-
 }
 
 /* ===================================================
 HR
 =================================================== */
-
 hr{
-
     border:none;
-
     border-top:1px solid #e5e7eb;
-
     margin-top:45px;
-
     margin-bottom:45px;
-
 }
 
 </style>
@@ -379,7 +297,7 @@ KLASIFIKASI LAYANAN SERVIS YAMAHA
 
 st.markdown("""
 <div class="subtitle">
-Penerapan Algoritma <b>Random Forest</b> untuk mengklasifikasikan layanan servis
+Penerapan Algoritma Random Forest untuk mengklasifikasikan layanan servis
 kendaraan Yamaha berdasarkan pola data servis.
 </div>
 """, unsafe_allow_html=True)
@@ -397,15 +315,11 @@ with col1:
 <div class="info-card">
 
 <div class="card-title">
-
 Dealer Yamaha
-
 </div>
 
 <div class="card-value">
-
 Tjahaja Baru Tabing
-
 </div>
 
 """, unsafe_allow_html=True)
@@ -418,7 +332,7 @@ with col2:
 
 <div class="card-title">
 
-🕒 Tanggal & Jam
+Tanggal & Jam
 
 </div>
 
