@@ -441,7 +441,7 @@ with c3:
 
 <div class="feature-icon">
 
-🌳
+📖
 
 </div>
 
