@@ -430,15 +430,7 @@ with col2:
 
 {tanggal} | {jam}
 
-</div>
-
-<div style="font-size:18px;color:#64748b;font-weight:600;margin-top:8px;">
-
-{jam}
-
-</div>
-
-</div>
+</div> </div>
 
 """, unsafe_allow_html=True)
 
