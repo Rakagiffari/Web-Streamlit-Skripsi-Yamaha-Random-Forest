@@ -313,15 +313,13 @@ with col1:
     st.markdown(f"""
 
 <div class="info-card">
-
-<div class="card-title">
-Dealer Yamaha
+    <div class="card-title">
+        Dealer Yamaha
+    </div>
+    <div class="card-value">
+        Tjahaja Baru Tabing
+    </div>
 </div>
-
-<div class="card-value">
-Tjahaja Baru Tabing
-</div>
-
 """, unsafe_allow_html=True)
 
 with col2:
@@ -329,18 +327,13 @@ with col2:
     st.markdown(f"""
 
 <div class="info-card">
-
-<div class="card-title">
-
-Tanggal & Jam
-
+    <div class="card-title">
+        Tanggal & Jam
+    </div>
+    <div class="card-value">
+    {tanggal} | {jam}
+    </div> 
 </div>
-
-<div class="card-value">
-
-{tanggal} | {jam}
-
-</div> </div>
 
 """, unsafe_allow_html=True)
 
