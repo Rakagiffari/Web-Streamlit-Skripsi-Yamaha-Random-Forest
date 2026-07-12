@@ -173,7 +173,6 @@ RANDOM FOREST BOX
     background:linear-gradient(145deg, #111827, #1e293b);
     border-radius:22px;
     padding:35px;
-    border:1px solid #e5e7eb;
     box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
