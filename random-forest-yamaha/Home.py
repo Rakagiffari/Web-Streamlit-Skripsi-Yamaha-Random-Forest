@@ -49,7 +49,7 @@ body,
 
 .stApp{
 
-    background:#f8fafc;
+    background:#020617;
 
 }
 
