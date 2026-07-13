@@ -228,12 +228,12 @@ FEATURE BOX
 FLOW CARD
 =================================================== */
 .flow-card{
-    background:white;
+    background: linear-gradient(145deg, #111827, #1e293b);
     border-radius:20px;
     border:1px solid #e5e7eb;
     padding:20px;
     text-align:center;
-    box-shadow:0px 5px 15px rgba(0,0,0,.08);
+    box-shadow:0 0 20px rgba(239,68,68,0.25);
     min-height:200px;
     transition:.3s;
 }
