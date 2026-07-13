@@ -129,7 +129,7 @@ INFO CARD
 
 .info-card:hover{
     transform:translateY(-5px);
-    box-shadow:0px 15px 35px rgba(0,0,0,.12);
+    box-shadow:0 0 20px rgba(239,68,68,0.25);
 }
 
 .card-title{
