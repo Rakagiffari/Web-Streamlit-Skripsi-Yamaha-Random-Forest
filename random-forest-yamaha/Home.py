@@ -309,159 +309,92 @@ RANDOM FOREST WORKFLOW
 }
 
 .rf-node{
-
     width:320px;
-
     margin:auto;
-
     padding:18px;
-
     border-radius:18px;
-
     background:#ffffff;
-
     color:#111827;
-
     text-align:center;
-
     font-size:20px;
-
     font-weight:700;
-
     transition:.35s;
-
     box-shadow:0 8px 18px rgba(0,0,0,.20);
-
 }
 
 .rf-node:hover{
-
     transform:translateY(-6px);
-
     box-shadow:0 0 25px rgba(34,197,94,.30);
-
 }
 
 .rf-arrow{
-
     text-align:center;
-
     color:#22c55e;
-
     font-size:40px;
-
     margin:15px 0;
-
 }
 
 .rf-tree-row{
-
     display:flex;
-
     justify-content:center;
-
     gap:28px;
-
     margin:30px 0;
-
 }
 
 .rf-tree{
-
     flex:1;
-
     max-width:220px;
-
     padding:22px;
-
     background:#ffffff;
-
     color:#111827;
-
     text-align:center;
-
     border-radius:18px;
-
     font-size:18px;
-
     font-weight:700;
-
     transition:.35s;
-
     box-shadow:0 8px 18px rgba(0,0,0,.18);
-
 }
 
 .rf-tree:hover{
-
     transform:translateY(-8px);
-
 }
 
 .rf-voting{
-
     width:340px;
-
     margin:auto;
-
     padding:18px;
-
     background:#16a34a;
-
     color:white;
-
     border-radius:18px;
-
     text-align:center;
-
     font-size:22px;
-
     font-weight:700;
-
-    box-shadow:0 10px 25px rgba(22,163,74,.35);
-
+    box-shaow:0 10px 25px rgba(22,163,74,.35);
 }
 
 .rf-result{
-
     width:360px;
-
     margin:auto;
-
     padding:22px;
-
     background:linear-gradient(145deg,#dc2626,#ef4444);
-
     color:white;
-
     border-radius:20px;
-
     text-align:center;
-
     font-size:24px;
-
     font-weight:800;
-
     box-shadow:0 12px 30px rgba(239,68,68,.35);
-
 }
 
 .rf-description{
-
     text-align:center;
-
     color:#cbd5e1;
-
     margin-top:25px;
-
     font-size:15px;
-
     line-height:1.8;
-
 }
+
 </style>
 """, unsafe_allow_html=True)
-
 
 # ==========================================================
 # HERO SECTION
@@ -617,24 +550,18 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown("""
-
-<div class="rf-workflow">
-
-<div class="rf-main-title">
-🌲 Random Forest
-</div>
-
-<div class="rf-node">
-🗂 Bootstrap Sampling
-</div>
-
-<div class="rf-arrow">
-⬇
-</div>
-
-<div class="rf-tree-row">
-
-<div class="rf-tree">
+    <div class="rf-workflow">
+        <div class="rf-main-title">
+            Random Forest
+        </div>
+        <div class="rf-node">
+            Bootstrap Sampling
+        </div>
+        <div class="rf-arrow">
+            ⬇
+        </div>
+    <div class="rf-tree-row">
+        <div class="rf-tree">
 🌳<br>
 Decision Tree 1
 </div>
