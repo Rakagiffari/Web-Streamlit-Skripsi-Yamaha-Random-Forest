@@ -152,14 +152,14 @@ SECTION TITLE
     text-align:center;
     font-size:34px;
     font-weight:800;
-    color:#14332a;
+    color:#ffffff;
     margin-top:60px;
     margin-bottom:8px;
 }
 
 .section-desc{
     text-align:center;
-    color:#6b7280;
+    color:#ffffff;
     font-size:16px;
     margin-bottom:35px;
 }
