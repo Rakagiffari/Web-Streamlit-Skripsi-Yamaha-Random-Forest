@@ -440,13 +440,14 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-image = Image.open("assets/rf_workflow.png")
-st.image(
-    image,
-    use_container_width=True
-)
+# lokasi gambar
+rf_workflow_path = BASE_DIR / "assets" / "rf_workflow.png"
 
-st.markdown("</div>", unsafe_allow_html=True)
+# cek apakah gambar ada
+if rf_workflow_path.exists():
+    st.image(str(rf_workflow_path), use_container_width=True)
+else:
+    st.error(f"Gambar tidak ditemukan:\n{rf_workflow_path}")
 
 # ==========================================================
 # ALUR SISTEM
