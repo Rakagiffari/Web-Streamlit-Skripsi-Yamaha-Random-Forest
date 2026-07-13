@@ -440,14 +440,271 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# lokasi gambar
-rf_workflow_path = BASE_DIR / "assets" / "rf_workflow.png"
+<style>
 
-# cek apakah gambar ada
-if rf_workflow_path.exists():
-    st.image(str(rf_workflow_path), use_container_width=True)
-else:
-    st.error(f"Gambar tidak ditemukan:\n{rf_workflow_path}")
+.rf-container{
+
+    background:white;
+
+    border-radius:22px;
+
+    padding:40px;
+
+    border:1px solid #e5e7eb;
+
+    box-shadow:0px 8px 25px rgba(0,0,0,.08);
+
+}
+
+.rf-title{
+
+    text-align:center;
+
+    font-size:22px;
+
+    font-weight:800;
+
+    color:#14332a;
+
+}
+
+.step-box{
+
+    background:#14332a;
+
+    color:white;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    font-weight:bold;
+
+    margin:auto;
+
+    width:220px;
+
+}
+
+.arrow{
+
+    text-align:center;
+
+    font-size:28px;
+
+    color:#14332a;
+
+    margin:8px;
+
+}
+
+.rf-main{
+
+    background:#edf7f3;
+
+    border:2px solid #14332a;
+
+    border-radius:18px;
+
+    padding:20px;
+
+    text-align:center;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    color:#14332a;
+
+}
+
+.tree-box{
+
+    background:#ffffff;
+
+    border:2px solid #16a34a;
+
+    border-radius:15px;
+
+    padding:18px;
+
+    text-align:center;
+
+    font-weight:bold;
+
+    color:#14332a;
+
+}
+
+.vote-box{
+
+    background:#dcfce7;
+
+    border:2px solid #16a34a;
+
+    border-radius:15px;
+
+    padding:18px;
+
+    text-align:center;
+
+    font-weight:bold;
+
+    color:#14532d;
+
+}
+
+.result-box{
+
+    background:#14332a;
+
+    color:white;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    font-weight:bold;
+
+}
+
+</style>
+
+<div class="rf-container">
+
+<div class="step-box">
+
+📂 Dataset Servis Yamaha
+
+</div>
+
+<div class="arrow">
+
+⬇
+
+</div>
+
+<div class="step-box">
+
+⚙️ Preprocessing & Feature Engineering
+
+</div>
+
+<div class="arrow">
+
+⬇
+
+</div>
+
+<div class="rf-main">
+
+🌲 RANDOM FOREST
+
+</div>
+
+<br>
+
+<table width="100%">
+
+<tr>
+
+<td align="center">
+
+<div class="tree-box">
+
+🌳 Decision Tree 1
+
+</div>
+
+</td>
+
+<td align="center">
+
+<div class="tree-box">
+
+🌳 Decision Tree 2
+
+</div>
+
+</td>
+
+<td align="center">
+
+<div class="tree-box">
+
+🌳 Decision Tree 3
+
+</div>
+
+</td>
+
+<td align="center">
+
+<div class="tree-box">
+
+⋯
+
+</div>
+
+</td>
+
+<td align="center">
+
+<div class="tree-box">
+
+🌳 Decision Tree n
+
+</div>
+
+</td>
+
+</tr>
+
+</table>
+
+<div class="arrow">
+
+⬇
+
+</div>
+
+<div class="vote-box">
+
+🗳️ Majority Voting
+
+<br>
+
+Menggabungkan hasil seluruh Decision Tree
+
+</div>
+
+<div class="arrow">
+
+⬇
+
+</div>
+
+<div class="result-box">
+
+🎯 Hasil Klasifikasi
+
+<br><br>
+
+Service Ringan
+
+atau
+
+Service Berat
+
+</div>
+
+</div>
+
+""", unsafe_allow_html=True)
 
 # ==========================================================
 # ALUR SISTEM
