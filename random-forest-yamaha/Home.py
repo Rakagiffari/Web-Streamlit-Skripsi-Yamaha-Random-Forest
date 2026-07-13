@@ -190,12 +190,17 @@ FEATURE BOX
 
 .feature-box{
     background: linear-gradient(145deg, #111827, #1e293b);
-    border-radius:18px;
-    padding:25px;
-    text-align:center;
-    border:1px solid #ececec;
-    transition:.3s;
-    min-height:180px;
+    padding: 28px 20px;
+    border-radius: 22px;
+    border: 1px solid #334155;
+    text-align: center;
+    transition: 0.3s ease;
+    box-shadow: 0 0 15px rgba(0,0,0,0.25);
+    min-height: 150px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 }
 
 .feature-box:hover{
