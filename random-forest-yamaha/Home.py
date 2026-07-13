@@ -429,9 +429,6 @@ with c3:
 # ==========================================================
 # RANDOM FOREST WORKFLOW
 # ==========================================================
-
-st.markdown("<br><br>", unsafe_allow_html=True)
-
 st.markdown("""
     <div class="section-title">
         🛠️ Cara Kerja Algoritma Random Forest
