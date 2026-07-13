@@ -477,9 +477,9 @@ flow_data = [
 # BARIS 1
 # ==========================================================
 
-cols = st.columns(3)
+cols = st.columns(4)
 
-for i in range(3):
+for i in range(4):
 
     no,icon,title,desc = flow_data[i]
 
