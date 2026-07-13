@@ -149,19 +149,22 @@ INFO CARD
 SECTION TITLE
 =================================================== */
 .section-title{
-    text-align:center;
-    font-size:43px;
-    font-weight:800;
-    color:#ffffff;
-    margin-top:60px;
-    margin-bottom:8px;
+    text-align: center;
+    font-size: 43px;
+    font-weight: 900;
+    color: white;
+    line-height: 1.1;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
 }
 
 .section-desc{
-    text-align:center;
-    color:#ffffff;
-    font-size:14px;
-    margin-bottom:35px;
+    text-align: center;
+    color: #cbd5e1;
+    font-size: 14px;
+    margin-top: 0px;
+    margin-bottom: 45px;
 }
 
 /* ===================================================
