@@ -523,7 +523,7 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 
 cols = st.columns(4)
 
-for i in range(5,6):
+for i in range(4,6):
 
     no,icon,title,desc = flow_data[i]
 
