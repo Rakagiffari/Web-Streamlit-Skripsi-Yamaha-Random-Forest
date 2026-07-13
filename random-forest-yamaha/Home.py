@@ -529,17 +529,13 @@ with c3:
 # ==========================================================
 # ALUR SISTEM
 # ==========================================================
-
-st.markdown("<br><br>", unsafe_allow_html=True)
-
 st.markdown("""
-<div class="section-title">
-⚙️ Alur Sistem Klasifikasi
-</div>
-
-<div class="section-desc">
-Tahapan proses klasifikasi layanan servis menggunakan algoritma Random Forest.
-</div>
+    <div class="section-title">
+        Alur Sistem Klasifikasi
+    </div>
+    <div class="section-desc">
+        Tahapan proses klasifikasi layanan servis menggunakan algoritma Random Forest.
+    </div>
 """, unsafe_allow_html=True)
 
 flow_data = [
