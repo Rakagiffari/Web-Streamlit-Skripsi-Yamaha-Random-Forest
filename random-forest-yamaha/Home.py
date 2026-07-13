@@ -379,7 +379,7 @@ RANDOM FOREST WORKFLOW
 
 .rf-description{
     text-align:center;
-    color:#cbd5e1;
+    color:#ffffff;
     margin-top:25px;
     font-size:15px;
     line-height:1.8;
