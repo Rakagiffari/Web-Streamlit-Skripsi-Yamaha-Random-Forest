@@ -648,12 +648,97 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-rf_workflow_path = BASE_DIR / "assets" / "rf_workflow.png"
+st.markdown("""
 
-if rf_workflow_path.exists():
-    st.image(str(rf_workflow_path), use_container_width=True)
-else:
-    st.error(f"Gambar tidak ditemukan:\n{rf_workflow_path}")
+<div class="workflow-container">
+
+<div class="workflow-step">
+📂 Upload Dataset
+</div>
+
+<div class="workflow-arrow">
+⬇
+</div>
+
+<div class="workflow-step">
+⚙️ Preprocessing
+</div>
+
+<div class="workflow-arrow">
+⬇
+</div>
+
+<div class="workflow-step">
+🛠️ Proses
+</div>
+
+<div class="workflow-arrow">
+⬇
+</div>
+
+<div class="rf-container">
+
+<div class="rf-title">
+🌲 Random Forest
+</div>
+
+<div class="rf-card">
+🗂 Bootstrap Sampling
+</div>
+
+<div class="rf-center">
+⬇
+</div>
+
+<div class="rf-card">
+📊 Gini Index
+</div>
+
+<div class="rf-center">
+⬇
+</div>
+
+<div class="rf-tree-row">
+
+<div class="rf-tree">
+🌳 Tree 1
+</div>
+
+<div class="rf-tree">
+🌳 Tree 2
+</div>
+
+<div class="rf-tree">
+🌳 Tree 3
+</div>
+
+</div>
+
+<div class="rf-center">
+⬇
+</div>
+
+<div class="rf-card">
+👥 Majority Voting
+</div>
+
+<div class="rf-note">
+Menggabungkan hasil seluruh Decision Tree untuk menentukan prediksi akhir.
+</div>
+
+</div>
+
+<div class="rf-down">
+⬇
+</div>
+
+<div class="rf-result">
+🎯 Hasil Klasifikasi
+</div>
+
+</div>
+
+""", unsafe_allow_html=True)
 # ==========================================================
 # ALUR SISTEM
 # ==========================================================
