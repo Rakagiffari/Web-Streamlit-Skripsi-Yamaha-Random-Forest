@@ -197,7 +197,6 @@ FEATURE BOX
     transition: 0.3s ease;
     box-shadow: 0 0 15px rgba(0,0,0,0.25);
     min-height: 150px;
-
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -216,12 +215,12 @@ FEATURE BOX
 .feature-title{
     font-size:20px;
     font-weight:700;
-    color:#14332a;
+    color: white;
     margin-bottom:10px;
 }
 
 .feature-desc{
-    color:#64748b;
+    color: white;
     font-size:15px;
 }
 
