@@ -287,6 +287,214 @@ hr{
 </style>
 """, unsafe_allow_html=True)
 
+/* =====================================================
+   RANDOM FOREST WORKFLOW
+===================================================== */
+
+.workflow-container{
+    max-width:1000px;
+    margin:auto;
+}
+
+.workflow-step{
+    width:320px;
+    margin:auto;
+    background:linear-gradient(145deg,#111827,#1e293b);
+    border:1px solid #334155;
+    border-radius:18px;
+    padding:18px;
+    text-align:center;
+    color:white;
+    font-size:22px;
+    font-weight:700;
+    transition:.35s;
+    box-shadow:0 8px 18px rgba(0,0,0,.25);
+}
+
+.workflow-step:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 25px rgba(34,197,94,.25);
+}
+
+.workflow-arrow{
+    text-align:center;
+    color:#22c55e;
+    font-size:42px;
+    margin:8px 0;
+}
+
+.rf-container{
+
+    margin-top:15px;
+    border-radius:24px;
+
+    background:linear-gradient(
+        145deg,
+        #0f3d2e,
+        #123d35
+    );
+
+    padding:30px;
+
+    border:2px solid rgba(34,197,94,.25);
+
+    box-shadow:
+        0 20px 40px rgba(0,0,0,.35),
+        inset 0 0 0 1px rgba(255,255,255,.05);
+
+}
+
+.rf-title{
+
+    text-align:center;
+    color:white;
+    font-size:38px;
+    font-weight:800;
+    margin-bottom:25px;
+
+}
+
+.rf-card{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:16px;
+
+    text-align:center;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:#111827;
+
+    width:320px;
+
+    margin:auto;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+
+    transition:.3s;
+
+}
+
+.rf-card:hover{
+
+    transform:scale(1.04);
+
+}
+
+.rf-tree-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    margin-top:35px;
+
+    margin-bottom:35px;
+
+}
+
+.rf-tree{
+
+    flex:1;
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    text-align:center;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:#111827;
+
+    transition:.3s;
+
+    box-shadow:0 8px 18px rgba(0,0,0,.18);
+
+}
+
+.rf-tree:hover{
+
+    transform:translateY(-6px);
+
+}
+
+.rf-note{
+
+    margin-top:20px;
+
+    border:1px dashed rgba(255,255,255,.35);
+
+    border-radius:15px;
+
+    padding:15px;
+
+    text-align:center;
+
+    color:white;
+
+    font-size:18px;
+
+}
+
+.rf-result{
+
+    width:350px;
+
+    margin:auto;
+
+    background:linear-gradient(145deg,#111827,#1e293b);
+
+    color:white;
+
+    padding:20px;
+
+    border-radius:18px;
+
+    font-size:26px;
+
+    font-weight:800;
+
+    text-align:center;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+
+}
+
+.rf-down{
+
+    text-align:center;
+
+    font-size:42px;
+
+    color:#22c55e;
+
+    margin:12px;
+
+}
+
+.rf-center{
+
+    text-align:center;
+
+    color:white;
+
+    font-size:38px;
+
+    margin:12px;
+
+}
 # ==========================================================
 # HERO SECTION
 # ==========================================================
