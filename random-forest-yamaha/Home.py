@@ -202,7 +202,7 @@ FEATURE BOX
 
 .feature-box:hover{
     transform:translateY(-8px);
-    box-shadow:0px 15px 30px rgba(0,0,0,.12);
+    box-shadow:0 0 20px rgba(239,68,68,0.25);
 }
 
 .feature-icon{
