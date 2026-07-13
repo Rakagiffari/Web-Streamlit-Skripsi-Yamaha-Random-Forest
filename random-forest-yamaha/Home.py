@@ -431,6 +431,8 @@ with c3:
 # ==========================================================
 # ALUR SISTEM
 # ==========================================================
+
+st.markdown("<br><br>", unsafe_allow_html=True)
 st.markdown("""
     <div class="section-title">
         Alur Sistem Klasifikasi
