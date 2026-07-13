@@ -477,9 +477,9 @@ flow_data = [
 # BARIS 1
 # ==========================================================
 
-cols = st.columns(5)
+cols = st.columns(4)
 
-for i in range(5):
+for i in range(4):
 
     no,icon,title,desc = flow_data[i]
 
@@ -521,9 +521,9 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 # BARIS 2
 # ==========================================================
 
-cols = st.columns(3)
+cols = st.columns(4)
 
-for i in range(3,6):
+for i in range(4):
 
     no,icon,title,desc = flow_data[i]
 
