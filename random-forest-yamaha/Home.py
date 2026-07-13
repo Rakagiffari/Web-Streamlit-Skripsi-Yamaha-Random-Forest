@@ -300,26 +300,18 @@ RANDOM FOREST WORKFLOW
     justify-content:center;
 }
 
-.rf-main-title{
-    text-align:center;
-    color:#ffffff;
-    font-size:38px;
-    font-weight:800;
-    margin-bottom:35px;
-}
-
 .rf-node{
-    width:320px;
-    margin:auto;
-    padding:18px;
-    border-radius:18px;
-    background:#ffffff;
-    color:#111827;
-    text-align:center;
-    font-size:20px;
-    font-weight:700;
-    transition:.35s;
-    box-shadow:0 8px 18px rgba(0,0,0,.20);
+    background: linear-gradient(145deg, #111827, #1e293b);
+    padding: 28px 20px;
+    border-radius: 22px;
+    border: 1px solid #334155;
+    text-align: center;
+    transition: 0.3s ease;
+    box-shadow: 0px 5px 15px rgba(0,0,0,.08);
+    min-height: 150px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 }
 
 .rf-node:hover{
