@@ -176,7 +176,6 @@ RANDOM FOREST BOX
     transition: 0.3s ease;
     box-shadow: 0px 5px 15px rgba(0,0,0,.08);
     min-height: 150px;
-
     display:flex;
     flex-direction:column;
     justify-content:center;
