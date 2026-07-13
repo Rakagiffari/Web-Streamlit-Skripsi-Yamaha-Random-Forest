@@ -525,75 +525,7 @@ with c3:
             </div>
         </div>
 """, unsafe_allow_html=True)
-
-# ==========================================================
-# RANDOM FOREST WORKFLOW
-# ==========================================================
-st.markdown("""
-    <div class="section-title">
-        🛠️ Cara Kerja Algoritma Random Forest
-    </div>
-    <div class="section-desc">
-        Random Forest membangun banyak <b>Decision Tree</b> dari dataset pelatihan.
-        Setiap pohon melakukan proses klasifikasi secara independen, kemudian seluruh
-        hasil digabung menggunakan <b>Majority Voting</b> untuk memperoleh prediksi akhir.
-    </div>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-    <div class="rf-workflow">
-        <div class="rf-node">
-            Bootstrap Sampling
-        </div>
-        <div class="rf-arrow">
-            ⬇
-        </div>
-    <div class="rf-tree-row">
-        <div class="rf-tree">
-🌳<br>
-Decision Tree 1
-</div>
-
-<div class="rf-tree">
-🌳<br>
-Decision Tree 2
-</div>
-
-<div class="rf-tree">
-🌳<br>
-Decision Tree n
-</div>
-
-</div>
-
-<div class="rf-arrow">
-⬇
-</div>
-
-<div class="rf-voting">
-👥 Majority Voting
-</div>
-
-<div class="rf-arrow">
-⬇
-</div>
-
-<div class="rf-result">
-🎯 Hasil Klasifikasi
-</div>
-
-<div class="rf-description">
-
-Setiap <b>Decision Tree</b> dibangun menggunakan sampel data yang berbeda melalui
-<b>Bootstrap Sampling</b>. Selanjutnya, setiap pohon memberikan hasil prediksi,
-kemudian seluruh hasil digabung menggunakan metode
-<b>Majority Voting</b> untuk menentukan hasil klasifikasi akhir.
-
-</div>
-
-</div>
-
-""", unsafe_allow_html=True)
+    
 # ==========================================================
 # ALUR SISTEM
 # ==========================================================
