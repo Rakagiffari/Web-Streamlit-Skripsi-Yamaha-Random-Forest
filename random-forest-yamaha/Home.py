@@ -119,7 +119,7 @@ INFO CARD
     border: 1px solid #334155;
     text-align: center;
     transition: 0.3s ease;
-    box-shadow: 0 0 20px rgba(239,68,68,0.25);
+    box-shadow: 0px 5px 15px rgba(0,0,0,.08);
     min-height: 150px;
 
     display:flex;
@@ -193,7 +193,7 @@ FEATURE BOX
     border: 1px solid #334155;
     text-align: center;
     transition: 0.3s ease;
-    box-shadow: 0 0 20px rgba(239,68,68,0.25);
+    box-shadow: 0px 5px 15px rgba(0,0,0,.08);
     min-height: 150px;
     display:flex;
     flex-direction:column;
