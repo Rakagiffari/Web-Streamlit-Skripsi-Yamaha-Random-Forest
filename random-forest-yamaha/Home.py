@@ -82,11 +82,9 @@ CONTAINER
 =================================================== */
 
 .block-container{
-
     padding-top:1rem;
     padding-bottom:3rem;
     max-width:1400px;
-
 }
 
 /* ===================================================
@@ -121,7 +119,7 @@ INFO CARD
     border: 1px solid #334155;
     text-align: center;
     transition: 0.3s ease;
-    box-shadow: 0 0 15px rgba(0,0,0,0.25);
+    box-shadow: 0 0 20px rgba(239,68,68,0.25);
     min-height: 150px;
 
     display:flex;
@@ -176,7 +174,7 @@ RANDOM FOREST BOX
     border: 1px solid #334155;
     text-align: center;
     transition: 0.3s ease;
-    box-shadow: 0 0 15px rgba(0,0,0,0.25);
+    box-shadow: 0 0 20px rgba(239,68,68,0.25);
     min-height: 150px;
 
     display:flex;
@@ -195,7 +193,7 @@ FEATURE BOX
     border: 1px solid #334155;
     text-align: center;
     transition: 0.3s ease;
-    box-shadow: 0 0 15px rgba(0,0,0,0.25);
+    box-shadow: 0 0 20px rgba(239,68,68,0.25);
     min-height: 150px;
     display:flex;
     flex-direction:column;
