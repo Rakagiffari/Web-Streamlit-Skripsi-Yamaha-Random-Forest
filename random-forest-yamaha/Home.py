@@ -224,7 +224,7 @@ FEATURE BOX
 FLOW CARD
 =================================================== */
 .flow-card{
-    background:white;
+    background:linear-gradient(145deg, #111827, #1e293b);
     border-radius:20px;
     border:1px solid #e5e7eb;
     padding:20px;
@@ -381,18 +381,13 @@ with c1:
             <div class="feature-icon">
                 🎯
             </div>
-        <div class="feature-title">
-
-Akurat
-
-</div>
-
-<div class="feature-desc">
-
-Random Forest memanfaatkan banyak Decision Tree sehingga mampu
-menghasilkan klasifikasi layanan servis dengan tingkat akurasi yang baik.
-
-</div>
+            <div class="feature-title">
+                Akurat
+            </div>
+            <div class="feature-desc">
+                Random Forest memanfaatkan banyak Decision Tree sehingga mampu
+                menghasilkan klasifikasi layanan servis dengan tingkat akurasi yang baik.
+            </div>
 
 </div>
 
