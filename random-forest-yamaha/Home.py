@@ -376,18 +376,12 @@ st.markdown("<br>", unsafe_allow_html=True)
 c1,c2,c3 = st.columns(3)
 
 with c1:
-
     st.markdown("""
-
-<div class="feature-box">
-
-<div class="feature-icon">
-
-🎯
-
-</div>
-
-<div class="feature-title">
+        <div class="feature-box">
+            <div class="feature-icon">
+                🎯
+            </div>
+        <div class="feature-title">
 
 Akurat
 
