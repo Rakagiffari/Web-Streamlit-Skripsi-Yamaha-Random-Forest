@@ -306,8 +306,8 @@ KLASIFIKASI LAYANAN SERVIS YAMAHA
 
 st.markdown("""
 <div class="subtitle">
-Penerapan Algoritma Random Forest untuk mengklasifikasikan layanan servis
-kendaraan Yamaha berdasarkan pola data servis.
+    Penerapan Algoritma Random Forest untuk mengklasifikasikan layanan servis
+    kendaraan Yamaha berdasarkan pola data servis.
 </div>
 """, unsafe_allow_html=True)
 
@@ -357,7 +357,7 @@ st.markdown("""
 <div class="rf-box">
     <h2 style="color:#ffffff;text-align:center;">
         Apa itu Random Forest ?
-    </h2>
+    </h2>  
     
 Random Forest merupakan algoritma Machine Learning berbasis
 Decision Tree yang bekerja dengan membangun banyak pohon keputusan
@@ -395,35 +395,35 @@ with c1:
 
 with c2:
     st.markdown("""
-<div class="feature-box">
-<div class="feature-icon">
-⚡
-</div>
-<div class="feature-title">
-Cepat
-</div>
-<div class="feature-desc">
-Seluruh proses preprocessing, training hingga prediksi
-dapat dilakukan secara otomatis dalam satu sistem.
-</div>
-</div>
+        <div class="feature-box">
+            <div class="feature-icon">
+                ⚡
+            </div>
+            <div class="feature-title">
+                Cepat
+            </div>
+            <div class="feature-desc">
+                Seluruh proses preprocessing, training hingga prediksi
+                dapat dilakukan secara otomatis dalam satu sistem.
+            </div>
+        </div>
 """, unsafe_allow_html=True)
 
 with c3:
     st.markdown("""
-<div class="feature-box">
-<div class="feature-icon">
-📖
-</div>
-<div class="feature-title">
-Mudah Dipahami
-</div>
-<div class="feature-desc">
-Sistem menampilkan konsep Random Forest,
-Decision Tree serta proses klasifikasi
-agar pengguna memahami cara kerja model.
-</div>
-</div>
+        <div class="feature-box">
+            <div class="feature-icon">
+                📖
+            </div>
+            <div class="feature-title">
+                Mudah Dipahami
+            </div>
+            <div class="feature-desc">
+                Sistem menampilkan konsep Random Forest,
+                Decision Tree serta proses klasifikasi
+                agar pengguna memahami cara kerja model.
+            </div>
+        </div>
 """, unsafe_allow_html=True)
 
 # ==========================================================
