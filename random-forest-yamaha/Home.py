@@ -304,7 +304,7 @@ RANDOM FOREST WORKFLOW
     width:320px;
     margin:auto;
     padding:18px;
-    border-radius:18px;
+    border-radius:15px;
     background:#ffffff;
     color:#111827;
     text-align:center;
