@@ -441,7 +441,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 rf_workflow_path = BASE_DIR / "assets" / "rf_workflow.png"
-
+    if rf_workflow_path.exists():
+        st.image(str(rf_workflow_path), use_container_width=True)
+    else:
+        st.error(f"Gambar tidak ditemukan:\n{rf_workflow_path}")
 # ==========================================================
 # ALUR SISTEM
 # ==========================================================
