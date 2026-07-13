@@ -283,102 +283,83 @@ hr{
     margin-top:45px;
     margin-bottom:45px;
 }
-/* =====================================================
+/* ===================================================
    RANDOM FOREST WORKFLOW
-===================================================== */
+=================================================== */
 
-.workflow-container{
-    max-width:1000px;
-    margin:auto;
-}
+.rf-workflow{
 
-.workflow-step{
-    width:320px;
-    margin:auto;
+    max-width:950px;
+    margin:40px auto;
+    padding:35px;
+
     background:linear-gradient(145deg,#111827,#1e293b);
+
     border:1px solid #334155;
-    border-radius:18px;
-    padding:18px;
-    text-align:center;
-    color:white;
-    font-size:22px;
-    font-weight:700;
-    transition:.35s;
-    box-shadow:0 8px 18px rgba(0,0,0,.25);
-}
 
-.workflow-step:hover{
-    transform:translateY(-5px);
-    box-shadow:0 0 25px rgba(34,197,94,.25);
-}
+    border-radius:28px;
 
-.workflow-arrow{
-    text-align:center;
-    color:#22c55e;
-    font-size:42px;
-    margin:8px 0;
-}
-
-.rf-container{
-
-    margin-top:15px;
-    border-radius:24px;
-
-    background:linear-gradient(
-        145deg,
-        #0f3d2e,
-        #123d35
-    );
-
-    padding:30px;
-
-    border:2px solid rgba(34,197,94,.25);
-
-    box-shadow:
-        0 20px 40px rgba(0,0,0,.35),
-        inset 0 0 0 1px rgba(255,255,255,.05);
+    box-shadow:0 15px 35px rgba(0,0,0,.35);
 
 }
 
-.rf-title{
+.rf-main-title{
 
     text-align:center;
-    color:white;
+
+    color:#ffffff;
+
     font-size:38px;
+
     font-weight:800;
-    margin-bottom:25px;
+
+    margin-bottom:35px;
 
 }
 
-.rf-card{
+.rf-node{
 
-    background:white;
+    width:320px;
+
+    margin:auto;
+
+    padding:18px;
 
     border-radius:18px;
 
-    padding:16px;
-
-    text-align:center;
-
-    font-size:18px;
-
-    font-weight:700;
+    background:#ffffff;
 
     color:#111827;
 
-    width:320px;
+    text-align:center;
 
-    margin:auto;
+    font-size:20px;
 
-    box-shadow:0 8px 20px rgba(0,0,0,.15);
+    font-weight:700;
 
-    transition:.3s;
+    transition:.35s;
+
+    box-shadow:0 8px 18px rgba(0,0,0,.20);
 
 }
 
-.rf-card:hover{
+.rf-node:hover{
 
-    transform:scale(1.04);
+    transform:translateY(-6px);
+
+    box-shadow:0 0 25px rgba(34,197,94,.30);
+
+}
+
+.rf-arrow{
+
+    text-align:center;
+
+    color:#22c55e;
+
+    font-size:40px;
+
+    margin:15px 0;
 
 }
 
@@ -386,13 +367,11 @@ hr{
 
     display:flex;
 
-    justify-content:space-between;
+    justify-content:center;
 
-    gap:20px;
+    gap:28px;
 
-    margin-top:35px;
-
-    margin-bottom:35px;
+    margin:30px 0;
 
 }
 
@@ -400,21 +379,23 @@ hr{
 
     flex:1;
 
-    background:white;
+    max-width:220px;
 
-    border-radius:18px;
+    padding:22px;
 
-    padding:18px;
+    background:#ffffff;
+
+    color:#111827;
 
     text-align:center;
+
+    border-radius:18px;
 
     font-size:18px;
 
     font-weight:700;
 
-    color:#111827;
-
-    transition:.3s;
+    transition:.35s;
 
     box-shadow:0 8px 18px rgba(0,0,0,.18);
 
@@ -422,76 +403,71 @@ hr{
 
 .rf-tree:hover{
 
-    transform:translateY(-6px);
+    transform:translateY(-8px);
 
 }
 
-.rf-note{
+.rf-voting{
 
-    margin-top:20px;
+    width:340px;
 
-    border:1px dashed rgba(255,255,255,.35);
+    margin:auto;
 
-    border-radius:15px;
+    padding:18px;
 
-    padding:15px;
-
-    text-align:center;
+    background:#16a34a;
 
     color:white;
 
-    font-size:18px;
+    border-radius:18px;
+
+    text-align:center;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    box-shadow:0 10px 25px rgba(22,163,74,.35);
 
 }
 
 .rf-result{
 
-    width:350px;
+    width:360px;
 
     margin:auto;
 
-    background:linear-gradient(145deg,#111827,#1e293b);
+    padding:22px;
+
+    background:linear-gradient(145deg,#dc2626,#ef4444);
 
     color:white;
 
-    padding:20px;
+    border-radius:20px;
 
-    border-radius:18px;
+    text-align:center;
 
-    font-size:26px;
+    font-size:24px;
 
     font-weight:800;
 
-    text-align:center;
-
-    box-shadow:0 10px 25px rgba(0,0,0,.25);
+    box-shadow:0 12px 30px rgba(239,68,68,.35);
 
 }
 
-.rf-down{
+.rf-description{
 
     text-align:center;
 
-    font-size:42px;
+    color:#cbd5e1;
 
-    color:#22c55e;
+    margin-top:25px;
 
-    margin:12px;
+    font-size:15px;
 
-}
-
-.rf-center{
-
-    text-align:center;
-
-    color:white;
-
-    font-size:38px;
-
-    margin:12px;
+    line-height:1.8;
 
 }
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -650,62 +626,63 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown("""
-    <div class="workflow-container">
-        <div class="rf-container">
-            <div class="rf-title">
-                🌲 Random Forest
-            </div>
-            <div class="rf-card"
-                🗂 Bootstrap Sampling
-            </div>
-            <div class="rf-center">
-                ⬇
-            </div>
 
-<div class="rf-card">
-📊 Gini Index
+<div class="rf-workflow">
+
+<div class="rf-main-title">
+🌲 Random Forest
 </div>
 
-<div class="rf-center">
+<div class="rf-node">
+🗂 Bootstrap Sampling
+</div>
+
+<div class="rf-arrow">
 ⬇
 </div>
 
 <div class="rf-tree-row">
 
 <div class="rf-tree">
-🌳 Tree 1
+🌳<br>
+Decision Tree 1
 </div>
 
 <div class="rf-tree">
-🌳 Tree 2
+🌳<br>
+Decision Tree 2
 </div>
 
 <div class="rf-tree">
-🌳 Tree 3
+🌳<br>
+Decision Tree n
 </div>
 
 </div>
 
-<div class="rf-center">
+<div class="rf-arrow">
 ⬇
 </div>
 
-<div class="rf-card">
+<div class="rf-voting">
 👥 Majority Voting
 </div>
 
-<div class="rf-note">
-Menggabungkan hasil seluruh Decision Tree untuk menentukan prediksi akhir.
-</div>
-
-</div>
-
-<div class="rf-down">
+<div class="rf-arrow">
 ⬇
 </div>
 
 <div class="rf-result">
 🎯 Hasil Klasifikasi
+</div>
+
+<div class="rf-description">
+
+Setiap <b>Decision Tree</b> dibangun menggunakan sampel data yang berbeda melalui
+<b>Bootstrap Sampling</b>. Selanjutnya, setiap pohon memberikan hasil prediksi,
+kemudian seluruh hasil digabung menggunakan metode
+<b>Majority Voting</b> untuk menentukan hasil klasifikasi akhir.
+
 </div>
 
 </div>
