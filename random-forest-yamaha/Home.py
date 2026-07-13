@@ -440,8 +440,9 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
+image = Image.open("assets/rf_workflow.png")
 st.image(
-    "assets/rf_workflow.png",
+    image,
     use_container_width=True
 )
 
