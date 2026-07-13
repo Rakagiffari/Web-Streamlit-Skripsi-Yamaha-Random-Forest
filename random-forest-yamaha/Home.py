@@ -260,15 +260,21 @@ FLOW CARD
 }
 
 .flow-title{
-    font-size:20px;
-    font-weight:700;
-    color:#ffffff;
-    margin-bottom:12px;
+    text-align: center;
+    font-size: 43px;
+    font-weight: 900;
+    color: white;
+    line-height: 1.1;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
 }
-
 .flow-desc{
-    color:#ffffff;
-    font-size:14px;
+    text-align: center;
+    color: #cbd5e1;
+    font-size: 14px;
+    margin-top: 0px;
+    margin-bottom: 45px;
 }
 
 /* ===================================================
