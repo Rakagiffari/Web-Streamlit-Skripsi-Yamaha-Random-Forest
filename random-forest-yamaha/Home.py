@@ -262,12 +262,12 @@ FLOW CARD
 .flow-title{
     font-size:20px;
     font-weight:700;
-    color:#14332a;
+    color:#ffffff;
     margin-bottom:12px;
 }
 
 .flow-desc{
-    color:#64748b;
+    color:#ffffff;
     font-size:14px;
 }
 
