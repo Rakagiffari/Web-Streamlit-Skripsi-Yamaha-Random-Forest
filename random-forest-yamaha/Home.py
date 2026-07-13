@@ -284,37 +284,28 @@ hr{
     margin-bottom:45px;
 }
 /* ===================================================
-   RANDOM FOREST WORKFLOW
+RANDOM FOREST WORKFLOW
 =================================================== */
-
 .rf-workflow{
-
-    max-width:950px;
-    margin:40px auto;
-    padding:35px;
-
-    background:linear-gradient(145deg,#111827,#1e293b);
-
-    border:1px solid #334155;
-
-    border-radius:28px;
-
-    box-shadow:0 15px 35px rgba(0,0,0,.35);
-
+    background: linear-gradient(145deg, #111827, #1e293b);
+    padding: 28px 20px;
+    border-radius: 22px;
+    border: 1px solid #334155;
+    text-align: center;
+    transition: 0.3s ease;
+    box-shadow: 0px 5px 15px rgba(0,0,0,.08);
+    min-height: 150px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 }
 
 .rf-main-title{
-
     text-align:center;
-
     color:#ffffff;
-
     font-size:38px;
-
     font-weight:800;
-
     margin-bottom:35px;
-
 }
 
 .rf-node{
