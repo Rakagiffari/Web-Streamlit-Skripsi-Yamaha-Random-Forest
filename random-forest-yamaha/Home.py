@@ -392,38 +392,23 @@ with c1:
                 Random Forest memanfaatkan banyak Decision Tree sehingga mampu
                 menghasilkan klasifikasi layanan servis dengan tingkat akurasi yang baik.
             </div>
-
-</div>
-
+        </div>
 """, unsafe_allow_html=True)
 
 with c2:
-
     st.markdown("""
-
 <div class="feature-box">
-
 <div class="feature-icon">
-
 ⚡
-
 </div>
-
 <div class="feature-title">
-
 Cepat
-
 </div>
-
 <div class="feature-desc">
-
 Seluruh proses preprocessing, training hingga prediksi
 dapat dilakukan secara otomatis dalam satu sistem.
-
 </div>
-
 </div>
-
 """, unsafe_allow_html=True)
 
 with c3:
