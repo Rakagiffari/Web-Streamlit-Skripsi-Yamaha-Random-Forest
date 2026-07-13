@@ -447,7 +447,7 @@ st.markdown("""
 
 flow_data = [
 
-("1","📂","Upload Dataset",
+("📂","Upload Dataset",
 "Pengguna mengunggah dataset servis Yamaha dalam format CSV atau Excel."),
 
 ("2","🧹","Preprocessing",
