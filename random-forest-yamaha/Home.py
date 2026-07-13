@@ -551,9 +551,6 @@ st.markdown("""
 
 st.markdown("""
     <div class="rf-workflow">
-        <div class="rf-main-title">
-            Random Forest
-        </div>
         <div class="rf-node">
             Bootstrap Sampling
         </div>
