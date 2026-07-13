@@ -412,33 +412,20 @@ dapat dilakukan secara otomatis dalam satu sistem.
 """, unsafe_allow_html=True)
 
 with c3:
-
     st.markdown("""
-
 <div class="feature-box">
-
 <div class="feature-icon">
-
 📖
-
 </div>
-
 <div class="feature-title">
-
 Mudah Dipahami
-
 </div>
-
 <div class="feature-desc">
-
 Sistem menampilkan konsep Random Forest,
 Decision Tree serta proses klasifikasi
 agar pengguna memahami cara kerja model.
-
 </div>
-
 </div>
-
 """, unsafe_allow_html=True)
 
 # ==========================================================
