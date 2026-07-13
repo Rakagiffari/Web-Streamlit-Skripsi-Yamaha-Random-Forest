@@ -389,8 +389,8 @@ with c1:
                 Akurat
             </div>
             <div class="feature-desc">
-                Random Forest memanfaatkan banyak Decision Tree sehingga mampu
-                menghasilkan klasifikasi layanan servis dengan tingkat akurasi yang baik.
+                Random Forest memanfaatkan banyak Decision Tree sehingga menghasilkan
+                klasifikasi dengan tingkat akurasi yang baik.
             </div>
         </div>
 """, unsafe_allow_html=True)
