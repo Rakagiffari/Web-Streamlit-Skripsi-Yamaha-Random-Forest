@@ -189,7 +189,7 @@ FEATURE BOX
 =================================================== */
 
 .feature-box{
-    background:#ffffff;
+    background:#linear-gradient(145deg, #111827, #1e293b);
     border-radius:18px;
     padding:25px;
     text-align:center;
