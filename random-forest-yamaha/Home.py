@@ -305,7 +305,7 @@ RANDOM FOREST WORKFLOW
     margin:auto;
     padding:18px;
     border-radius:18px;
-    background:linear-gradient(145deg, #111827, #1e293b);
+    background:#0f172a;
     color:#111827;
     text-align:center;
     font-size:20px;
