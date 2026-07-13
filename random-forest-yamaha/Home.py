@@ -506,6 +506,13 @@ for i in range(5):
 
 </div>
 
+<div class="flow-desc">
+
+{desc}
+
+</div>
+
+
 </div>
 """, unsafe_allow_html=True)
 
