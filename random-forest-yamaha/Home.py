@@ -302,7 +302,7 @@ RANDOM FOREST WORKFLOW
 
 .rf-node{
     width:320px;
-    margIn:auto;
+    margin:auto;
     padding:18px;
     border-radius:18px;
     background:#ffffff;
