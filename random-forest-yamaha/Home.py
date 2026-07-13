@@ -150,7 +150,7 @@ SECTION TITLE
 =================================================== */
 .section-title{
     text-align:center;
-    font-size:34px;
+    font-size:43px;
     font-weight:800;
     color:#ffffff;
     margin-top:60px;
