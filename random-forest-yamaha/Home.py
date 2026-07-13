@@ -433,22 +433,19 @@ with c3:
 st.markdown("<br><br>", unsafe_allow_html=True)
 
 st.markdown("""
-<div class="section-title">
-🌳 Cara Kerja Algoritma Random Forest
-</div>
-
-<div class="section-desc">
-Random Forest membangun banyak <b>Decision Tree</b> dari dataset pelatihan.
-Setiap pohon melakukan proses klasifikasi secara independen, kemudian seluruh
-hasil digabung menggunakan <b>Majority Voting</b> untuk memperoleh prediksi akhir.
-</div>
+    <div class="section-title">
+        🛠️ Cara Kerja Algoritma Random Forest
+    </div>
+    <div class="section-desc">
+        Random Forest membangun banyak <b>Decision Tree</b> dari dataset pelatihan.
+        Setiap pohon melakukan proses klasifikasi secara independen, kemudian seluruh
+        hasil digabung menggunakan <b>Majority Voting</b> untuk memperoleh prediksi akhir.
+    </div>
 """, unsafe_allow_html=True)
 
 st.markdown("""
-
 <style>
-
-.rf-container{
+    .rf-container{
 
     background:white;
 
