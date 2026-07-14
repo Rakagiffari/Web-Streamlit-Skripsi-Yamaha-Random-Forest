@@ -287,7 +287,7 @@ FLOW CARD
 HR
 =================================================== */
 hr{
-    font-size:5px;
+    font-size:10px;
     border:none;
     border-top:1px solid #e5e7eb;
     margin-top:45px;
@@ -535,7 +535,7 @@ st.success(
 st.markdown("""
     <hr>
         <div style="text-align:center;
-            font-size:15px;
+            font-size:10px;
             color:#64748b;
             line-height:1.8;">
                 <b>Klasifikasi Layanan Servis Yamaha</b><br>
