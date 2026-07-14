@@ -492,19 +492,17 @@ for i in range(4,8):
                 </div>
                 <div style="font-size:48px;margin-bottom:15px;">
                     {icon}
-</div>
-<div class="flow-title">
-{title}
-</div>
-</div>
+                </div>
+                <div class="flow-title">
+                    {title}
+                </div>
+            </div>
 """, unsafe_allow_html=True)
         
 # ==========================================================
 # PENJELASAN
 # ==========================================================
-
 st.markdown("<br>", unsafe_allow_html=True)
-
 st.info("""
 
 💡 **Cara kerja sistem**
@@ -528,8 +526,7 @@ analisis dapat disimpan dalam bentuk Laporan PDF.
 # FOOTER
 # ==========================================================
 
-st.markdown("<br><br>", unsafe_allow_html=True)
-
+st.markdown("<br>", unsafe_allow_html=True)
 st.success(
 """
 ✅ Selamat datang di Sistem Klasifikasi Layanan Servis Yamaha.
