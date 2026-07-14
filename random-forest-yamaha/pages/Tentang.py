@@ -1,4 +1,5 @@
 import streamlit as st
+from pathlib import Path
 import base64
 
 # ==========================================================
@@ -12,16 +13,26 @@ st.set_page_config(
 )
 
 # ==========================================================
-# LOAD FOTO
+# PATH PROJECT
 # ==========================================================
 
-def get_base64(image_path):
-    with open(image_path, "rb") as img:
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# ==========================================================
+# FOTO PROFIL
+# ==========================================================
+
+FOTO_PATH = BASE_DIR / "assets" / "foto.jpg"
+
+def load_image_base64(path):
+
+    if not path.exists():
+        return ""
+
+    with open(path, "rb") as img:
         return base64.b64encode(img.read()).decode()
 
-# Ganti sesuai lokasi foto
-foto = get_base64("assets/foto.jpg")
-
+foto = load_image_base64(FOTO_PATH)
 
 # ==========================================================
 # CSS
@@ -35,31 +46,43 @@ st.markdown("""
 }
 
 .block-container{
+
     max-width:1200px;
+
     padding-top:2rem;
+
     padding-bottom:2rem;
+
 }
 
 /* ==========================
-JUDUL
+TITLE
 ========================== */
 
 .title{
 
     text-align:center;
+
     color:white;
-    font-size:42px;
+
+    font-size:40px;
+
     font-weight:700;
-    margin-bottom:10px;
+
+    margin-bottom:12px;
 
 }
 
 .description{
 
     color:#d1d5db;
-    font-size:20px;
+
+    font-size:19px;
+
     line-height:1.8;
+
     text-align:justify;
+
     margin-bottom:35px;
 
 }
@@ -70,15 +93,15 @@ CARD
 
 .card{
 
-    background:#3a3d4d;
+    background:#3b3e4d;
 
     border-radius:28px;
 
     padding:30px;
 
-    box-shadow:0 8px 25px rgba(0,0,0,.25);
+    transition:.35s;
 
-    transition:0.3s;
+    box-shadow:0 8px 25px rgba(0,0,0,.25);
 
 }
 
@@ -86,7 +109,7 @@ CARD
 
     transform:translateY(-5px);
 
-    box-shadow:0 15px 40px rgba(0,0,0,.35);
+    box-shadow:0 15px 35px rgba(0,0,0,.35);
 
 }
 
@@ -102,11 +125,9 @@ PROFILE
 
 }
 
-/* FOTO */
-
 .photo{
 
-    width:160px;
+    width:165px;
 
     height:210px;
 
@@ -117,6 +138,8 @@ PROFILE
     border:3px solid white;
 
     flex-shrink:0;
+
+    background:white;
 
 }
 
@@ -130,13 +153,11 @@ PROFILE
 
 }
 
-/* GARIS */
-
 .line{
 
     width:4px;
 
-    height:210px;
+    height:215px;
 
     background:white;
 
@@ -146,27 +167,25 @@ PROFILE
 
 }
 
-/* TEXT */
-
 .profile-text{
 
     color:white;
 
     font-size:20px;
 
-    line-height:2.0;
+    line-height:2;
 
 }
 
 /* ==========================
-TEKNOLOGI
+TECH
 ========================== */
 
 .tech-title{
 
-    text-align:center;
-
     color:white;
+
+    text-align:center;
 
     font-size:28px;
 
@@ -178,9 +197,9 @@ TEKNOLOGI
 
 .tech{
 
-    text-align:center;
-
     color:white;
+
+    text-align:center;
 
     font-size:21px;
 
@@ -194,7 +213,7 @@ SECTION
 
 .section{
 
-    background:#3a3d4d;
+    background:#3b3e4d;
 
     border-radius:28px;
 
@@ -214,17 +233,15 @@ SECTION
 
     font-weight:700;
 
-    margin-bottom:20px;
-
 }
 
 .section-text{
 
-    color:#E5E7EB;
+    color:#d1d5db;
 
     font-size:19px;
 
-    line-height:1.9;
+    line-height:1.8;
 
     text-align:justify;
 
@@ -240,7 +257,7 @@ FOOTER
 
     text-align:center;
 
-    margin-top:35px;
+    margin-top:40px;
 
     font-size:18px;
 
@@ -262,20 +279,44 @@ st.markdown("""
 st.markdown("""
 <div class="description">
 
-Halaman ini menyajikan informasi mengenai sistem klasifikasi layanan
-servis sepeda motor Yamaha menggunakan algoritma <b>Random Forest</b>.
-Selain informasi mengenai penelitian, halaman ini juga menampilkan
-profil pengembang serta teknologi yang digunakan dalam membangun
-aplikasi berbasis web.
+Halaman ini menyajikan informasi mengenai sistem klasifikasi
+layanan servis sepeda motor Yamaha menggunakan algoritma
+<b>Random Forest</b>. Selain informasi penelitian, halaman
+ini juga menampilkan profil pengembang dan teknologi yang
+digunakan dalam membangun aplikasi.
 
 </div>
 """, unsafe_allow_html=True)
 
 # ==========================================================
+# FOTO HTML
+# ==========================================================
+
+if foto:
+    foto_html = f"""
+    <img src="data:image/jpeg;base64,{foto}">
+    """
+else:
+    foto_html = """
+    <div style="
+        width:100%;
+        height:100%;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        font-size:26px;
+        color:#64748b;
+        font-weight:bold;
+    ">
+        FOTO
+    </div>
+    """
+
+# ==========================================================
 # BIODATA & TEKNOLOGI
 # ==========================================================
 
-left, right = st.columns([2,1], gap="large")
+left, right = st.columns([2, 1], gap="large")
 
 # ==========================================================
 # CARD BIODATA
@@ -291,7 +332,7 @@ with left:
 
             <div class="photo">
 
-                <img src="data:image/png;base64,{foto}">
+                {foto_html}
 
             </div>
 
@@ -348,25 +389,15 @@ with right:
 
         <div class="tech">
 
-            🐍 Python
+            🐍 Python <br><br>
 
-            <br><br>
+            🌲 Random Forest <br><br>
 
-            🌲 Random Forest
+            📊 Pandas <br><br>
 
-            <br><br>
+            🤖 Scikit-Learn <br><br>
 
-            📊 Pandas
-
-            <br><br>
-
-            🤖 Scikit-Learn
-
-            <br><br>
-
-            🎈 Streamlit
-
-            <br><br>
+            🎈 Streamlit <br><br>
 
             📄 ReportLab
 
@@ -383,54 +414,38 @@ with right:
 st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown("""
+
 <div class="section">
 
     <div class="section-title">
-        📖 Tentang Penelitian
+
+        TENTANG PENELITIAN
+
     </div>
+
+    <br>
 
     <div class="section-text">
 
-    Penelitian ini berjudul <b>
-    "Penerapan Algoritma Random Forest untuk Mengklasifikasi
-    Layanan Servis pada Yamaha"
-    </b>.
-    <br><br>
+Penelitian ini bertujuan mengembangkan sistem klasifikasi layanan
+servis sepeda motor Yamaha menggunakan algoritma
+<b>Random Forest</b>. Sistem dibangun berbasis web menggunakan
+framework <b>Streamlit</b> sehingga pengguna dapat melakukan
+proses upload dataset, preprocessing, feature engineering,
+pelatihan model, evaluasi, hingga memperoleh hasil prediksi
+secara otomatis dalam satu aplikasi.
 
-    Sistem dikembangkan sebagai implementasi algoritma
-    <b>Random Forest</b> untuk membantu proses klasifikasi
-    layanan servis sepeda motor Yamaha berdasarkan data historis.
-    Seluruh proses dilakukan secara otomatis mulai dari
-    pengunggahan dataset, preprocessing, feature engineering,
-    pelatihan model, evaluasi performa, hingga menghasilkan
-    prediksi layanan servis.
+<br><br>
 
-    <br><br>
-
-    <b>Tujuan Penelitian</b>
-
-    <ul>
-
-        <li>
-        Mengembangkan sistem klasifikasi layanan servis
-        berbasis Machine Learning.
-        </li>
-
-        <li>
-        Mengimplementasikan algoritma Random Forest
-        sebagai metode klasifikasi.
-        </li>
-
-        <li>
-        Membantu proses analisis data layanan servis
-        secara lebih cepat, konsisten, dan efisien.
-        </li>
-
-    </ul>
+Aplikasi ini diharapkan dapat membantu proses analisis data
+layanan servis menjadi lebih cepat, konsisten, dan mudah
+digunakan baik untuk kebutuhan penelitian maupun pengembangan
+lebih lanjut.
 
     </div>
 
 </div>
+
 """, unsafe_allow_html=True)
 
 # ==========================================================
@@ -441,7 +456,9 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 col1, col2, col3 = st.columns(3, gap="large")
 
-# ----------------------------------------------------------
+# ==========================================================
+# ALGORITMA
+# ==========================================================
 
 with col1:
 
@@ -449,30 +466,35 @@ with col1:
 
     <div class="card">
 
-        <div style="text-align:center;font-size:55px;">
-        🌲
+        <div style="font-size:55px;text-align:center;">
+            🌲
         </div>
 
-        <div class="tech-title">
+        <h3 style="text-align:center;color:white;">
+            Random Forest
+        </h3>
 
-        Algoritma
+        <p style="
+            color:#d1d5db;
+            text-align:center;
+            line-height:1.8;
+            font-size:16px;
+        ">
 
-        </div>
+        Algoritma Random Forest digunakan
+        sebagai model klasifikasi untuk
+        memprediksi kategori layanan servis
+        berdasarkan data historis.
 
-        <div class="section-text" style="text-align:center;">
-
-        Random Forest digunakan sebagai
-        metode klasifikasi utama karena
-        mampu menghasilkan performa yang
-        baik pada data penelitian.
-
-        </div>
+        </p>
 
     </div>
 
     """, unsafe_allow_html=True)
 
-# ----------------------------------------------------------
+# ==========================================================
+# DATASET
+# ==========================================================
 
 with col2:
 
@@ -480,30 +502,36 @@ with col2:
 
     <div class="card">
 
-        <div style="text-align:center;font-size:55px;">
-        📊
+        <div style="font-size:55px;text-align:center;">
+            📊
         </div>
 
-        <div class="tech-title">
+        <h3 style="text-align:center;color:white;">
+            Dataset
+        </h3>
 
-        Dataset
+        <p style="
+            color:#d1d5db;
+            text-align:center;
+            line-height:1.8;
+            font-size:16px;
+        ">
 
-        </div>
+        Dataset layanan servis Yamaha
+        diproses melalui preprocessing,
+        feature engineering, encoding,
+        serta pembagian data latih
+        dan data uji.
 
-        <div class="section-text" style="text-align:center;">
-
-        Dataset berisi data historis
-        layanan servis sepeda motor Yamaha
-        yang telah melalui proses
-        preprocessing dan feature engineering.
-
-        </div>
+        </p>
 
     </div>
 
     """, unsafe_allow_html=True)
 
-# ----------------------------------------------------------
+# ==========================================================
+# SISTEM
+# ==========================================================
 
 with col3:
 
@@ -511,24 +539,28 @@ with col3:
 
     <div class="card">
 
-        <div style="text-align:center;font-size:55px;">
-        💻
+        <div style="font-size:55px;text-align:center;">
+            💻
         </div>
 
-        <div class="tech-title">
+        <h3 style="text-align:center;color:white;">
+            Sistem
+        </h3>
 
-        Output Sistem
+        <p style="
+            color:#d1d5db;
+            text-align:center;
+            line-height:1.8;
+            font-size:16px;
+        ">
 
-        </div>
+        Sistem menyediakan proses
+        upload dataset, pelatihan
+        model Random Forest,
+        evaluasi performa,
+        dan visualisasi hasil.
 
-        <div class="section-text" style="text-align:center;">
-
-        Sistem menghasilkan model
-        klasifikasi beserta evaluasi
-        performa dan prediksi layanan
-        servis secara otomatis.
-
-        </div>
+        </p>
 
     </div>
 
@@ -542,7 +574,7 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 
 st.markdown("""
 <div class="section-title">
-    🚀 Ringkasan Sistem
+    INFORMASI APLIKASI
 </div>
 """, unsafe_allow_html=True)
 
@@ -556,22 +588,25 @@ with col1:
 
     st.markdown("""
 
-    <div class="card" style="text-align:center; min-height:220px;">
+    <div class="card" style="text-align:center;min-height:220px;">
 
-        <div style="font-size:55px;">
-        🌲
-        </div>
+        <div style="font-size:55px;">🌲</div>
 
-        <h3 style="color:white;">
-        Algoritma
+        <h3 style="color:white;margin-top:10px;">
+            Algoritma
         </h3>
 
-        <div class="section-text"
-             style="text-align:center;font-size:17px;">
+        <p style="
+            color:#d1d5db;
+            line-height:1.8;
+            font-size:16px;
+        ">
 
-        Random Forest
+        Random Forest digunakan
+        sebagai model klasifikasi
+        layanan servis.
 
-        </div>
+        </p>
 
     </div>
 
@@ -585,24 +620,26 @@ with col2:
 
     st.markdown("""
 
-    <div class="card" style="text-align:center; min-height:220px;">
+    <div class="card" style="text-align:center;min-height:220px;">
 
-        <div style="font-size:55px;">
-        💻
-        </div>
+        <div style="font-size:55px;">📊</div>
 
-        <h3 style="color:white;">
-        Platform
+        <h3 style="color:white;margin-top:10px;">
+            Dataset
         </h3>
 
-        <div class="section-text"
-             style="text-align:center;font-size:17px;">
+        <p style="
+            color:#d1d5db;
+            line-height:1.8;
+            font-size:16px;
+        ">
 
-        Web Application
-        <br>
-        Streamlit
+        Dataset histori layanan
+        servis Yamaha yang telah
+        diproses melalui
+        preprocessing.
 
-        </div>
+        </p>
 
     </div>
 
@@ -616,22 +653,25 @@ with col3:
 
     st.markdown("""
 
-    <div class="card" style="text-align:center; min-height:220px;">
+    <div class="card" style="text-align:center;min-height:220px;">
 
-        <div style="font-size:55px;">
-        🐍
-        </div>
+        <div style="font-size:55px;">💻</div>
 
-        <h3 style="color:white;">
-        Bahasa
+        <h3 style="color:white;margin-top:10px;">
+            Platform
         </h3>
 
-        <div class="section-text"
-             style="text-align:center;font-size:17px;">
+        <p style="
+            color:#d1d5db;
+            line-height:1.8;
+            font-size:16px;
+        ">
 
-        Python
+        Web Application
+        menggunakan
+        Streamlit Framework.
 
-        </div>
+        </p>
 
     </div>
 
@@ -645,56 +685,85 @@ with col4:
 
     st.markdown("""
 
-    <div class="card" style="text-align:center; min-height:220px;">
+    <div class="card" style="text-align:center;min-height:220px;">
 
-        <div style="font-size:55px;">
-        📦
-        </div>
+        <div style="font-size:55px;">⚙️</div>
 
-        <h3 style="color:white;">
-        Versi
+        <h3 style="color:white;margin-top:10px;">
+            Versi
         </h3>
 
-        <div class="section-text"
-             style="text-align:center;font-size:17px;">
+        <p style="
+            color:#d1d5db;
+            line-height:1.8;
+            font-size:16px;
+        ">
 
         Version 1.0
 
-        </div>
+        <br>
+
+        Tahun 2026
+
+        </p>
 
     </div>
 
     """, unsafe_allow_html=True)
 
 # ==========================================================
-# FOOTER
+# GARIS PEMBATAS
 # ==========================================================
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 
 st.markdown("""
-<hr style="border:1px solid rgba(255,255,255,.12);">
+<hr style="
+border:1px solid rgba(255,255,255,.10);
+margin-top:10px;
+margin-bottom:25px;
+">
 """, unsafe_allow_html=True)
+
+# ==========================================================
+# FOOTER
+# ==========================================================
 
 st.markdown("""
 
 <div class="footer">
 
-<h3 style="color:white; margin-bottom:8px;">
+<div style="
+font-size:22px;
+font-weight:700;
+color:white;
+margin-bottom:10px;
+">
 
 Sistem Klasifikasi Layanan Servis Yamaha
 
-</h3>
+</div>
 
-<div style="font-size:17px;">
+<div style="
+font-size:17px;
+line-height:1.8;
+">
 
-Dikembangkan sebagai implementasi penelitian menggunakan
-algoritma <b>Random Forest</b> untuk membantu proses
-klasifikasi layanan servis sepeda motor Yamaha.
+Dikembangkan sebagai implementasi penelitian
+menggunakan algoritma <b>Random Forest</b>
+untuk membantu proses klasifikasi layanan
+servis sepeda motor Yamaha.
 
-<br><br>
+</div>
 
-© 2026 Giffari • Universitas Muhammadiyah Kalimantan Timur
+<br>
+
+<div style="
+font-size:15px;
+color:#9ca3af;
+">
+
+© 2026 Giffari | Universitas Muhammadiyah Kalimantan Timur
 
 </div>
 
