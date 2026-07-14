@@ -289,7 +289,7 @@ HR
 hr{
     border:none;
     border-top:1px solid #e5e7eb;
-    margin-top:45px;
+    margin-top:10px;
     margin-bottom:45px;
 }
 
@@ -538,7 +538,7 @@ st.markdown("""
             font-size:15px;
             color:#64748b;
             line-height:1.8;">
-                <b>Sistem Klasifikasi Layanan Servis Yamaha</b><br>
+                <b>Klasifikasi Layanan Servis Yamaha</b><br>
                 Penerapan Algoritma Random Forest untuk Klasifikasi Layanan Servis Kendaraan Yamaha<br><br>
                 © 2026 | Universitas Putra Indonesia "YPTK" Padang
         </div>
