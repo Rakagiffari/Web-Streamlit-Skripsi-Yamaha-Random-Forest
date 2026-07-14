@@ -246,8 +246,8 @@ FLOW CARD
 .flow-number{
     width:42px;
     height:42px;
-    border-radius:50%;
-    background:#ffffff;
+    border-radius:40%;
+    background:#14332a;
     color:white;
     display:flex;
     align-items:center;
@@ -260,7 +260,7 @@ FLOW CARD
 .flow-title{
     font-size:14px;
     font-weight:700;
-    color: #14332a;
+    color: white;
     margin-bottom:10px;
 }
 
