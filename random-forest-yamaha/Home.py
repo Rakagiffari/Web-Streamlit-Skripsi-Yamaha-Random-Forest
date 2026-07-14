@@ -518,49 +518,6 @@ for i in range(7):
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 # ==========================================================
-# BARIS 2
-# ==========================================================
-
-cols = st.columns(4)
-
-for i in range(4,6):
-
-    no,icon,title,desc = flow_data[i]
-
-    with cols[i-3]:
-
-        st.markdown(f"""
-<div class="flow-card">
-
-<div class="flow-number">
-
-{no}
-
-</div>
-
-<div style="font-size:48px;margin-bottom:15px;">
-
-{icon}
-
-</div>
-
-<div class="flow-title">
-
-{title}
-
-</div>
-
-<div class="flow-desc">
-
-{desc}
-
-</div>
-
-</div>
-""", unsafe_allow_html=True)
-
-st.markdown("<br><br>", unsafe_allow_html=True)
-# ==========================================================
 # PENJELASAN
 # ==========================================================
 
