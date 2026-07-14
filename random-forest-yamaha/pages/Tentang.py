@@ -197,3 +197,98 @@ Sistem Klasifikasi Layanan Servis Yamaha.
 </div>
 
 """, unsafe_allow_html=True)
+
+# ==========================================================
+# HERO BIODATA
+# ==========================================================
+
+col1, col2 = st.columns([1.2, 2.3], gap="large")
+
+# ==========================================================
+# FOTO
+# ==========================================================
+
+with col1:
+
+    st.markdown("""
+    <div class="info-card">
+
+        <div class="card-title">
+            Pengembang
+        </div>
+
+    """, unsafe_allow_html=True)
+
+    if foto_path.exists():
+
+        st.image(str(foto_path), use_container_width=True)
+
+    else:
+
+        st.warning("Foto belum tersedia.")
+
+    st.markdown("""
+    </div>
+    """, unsafe_allow_html=True)
+
+# ==========================================================
+# BIODATA
+# ==========================================================
+
+with col2:
+
+    st.markdown("""
+
+    <div class="info-card">
+
+        <div class="card-title">
+            Biodata Pengembang
+        </div>
+
+    """, unsafe_allow_html=True)
+
+    info1, info2 = st.columns(2)
+
+    with info1:
+
+        st.markdown("""
+**Nama**
+
+Raka Giffari Ramadhan
+
+**Program Studi**
+
+Sistem Informasi
+
+**Universitas**
+
+Universitas Putra Indonesia "YPTK" Padang
+""")
+
+    with info2:
+
+        st.markdown("""
+**NIM**
+
+20XXXXXXXX
+
+**Email**
+
+giffari@email.com
+
+**Tahun**
+
+2026
+""")
+
+    st.markdown("""
+
+Sistem ini dikembangkan sebagai implementasi penelitian
+mengenai **klasifikasi layanan servis Yamaha menggunakan
+algoritma Random Forest** berbasis aplikasi web.
+
+""")
+
+    st.markdown("""
+    </div>
+    """, unsafe_allow_html=True)
