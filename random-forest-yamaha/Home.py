@@ -258,10 +258,14 @@ FLOW CARD
 }
 
 .flow-title{
-    font-size:14px;
-    font-weight:700;
+    text-align: center;
+    font-size: 43px;
+    font-weight: 900;
     color: white;
-    margin-bottom:10px;
+    line-height: 1.1;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
 }
 
 .flow-desc{
