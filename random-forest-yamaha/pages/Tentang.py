@@ -409,3 +409,73 @@ with col6:
             "Digunakan untuk membaca dan memproses file "
             "berformat Microsoft Excel."
         )
+
+# ==========================================================
+# PENGEMBANG & INFORMASI APLIKASI
+# ==========================================================
+
+st.markdown("<div class='divider'></div>", unsafe_allow_html=True)
+
+st.markdown("""
+<div class="section-title">
+    👨‍💻 Pengembang
+</div>
+
+<div class="section-subtitle">
+Informasi mengenai pengembang dan aplikasi.
+</div>
+""", unsafe_allow_html=True)
+
+col1, col2 = st.columns([1,1], gap="large")
+
+# ==========================================================
+# CARD PENGEMBANG
+# ==========================================================
+
+with col1:
+
+    with st.container(border=True):
+
+        st.markdown("## 👤 Profil Pengembang")
+
+        st.markdown("---")
+
+        st.write("**Nama**")
+        st.write("Giffari")
+
+        st.write("**Program Studi**")
+        st.write("Sistem Informasi")
+
+        st.write("**Universitas**")
+        st.write("Universitas Muhammadiyah Kalimantan Timur")
+
+        st.write("**Tahun Pengembangan**")
+        st.write("2026")
+
+
+# ==========================================================
+# CARD APLIKASI
+# ==========================================================
+
+with col2:
+
+    with st.container(border=True):
+
+        st.markdown("## 📘 Informasi Aplikasi")
+
+        st.markdown("---")
+
+        st.write("**Nama Sistem**")
+        st.write("Sistem Klasifikasi Layanan Servis Yamaha")
+
+        st.write("**Versi**")
+        st.write("Version 1.0")
+
+        st.write("**Platform**")
+        st.write("Web Application")
+
+        st.write("**Bahasa Pemrograman**")
+        st.write("Python")
+
+        st.write("**Framework**")
+        st.write("Streamlit")
