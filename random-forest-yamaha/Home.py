@@ -476,7 +476,6 @@ for i in range(4):
                 </div>
             </div>
 """, unsafe_allow_html=True)
-st.markdown("<br><br>", unsafe_allow_html=True)
 
 # ==========================================================
 # BARIS 2
