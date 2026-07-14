@@ -9,7 +9,7 @@ from pathlib import Path
 from utils.preprocessing import preprocess_data
 from utils.training import train_model
 from utils.report import generate_pdf
-from sklearn.tree import plot_tree
+from sklearn.tree import plot_tree, export_text
 
 # =========================================
 # CONFIG
@@ -658,45 +658,53 @@ if uploaded_file is not None:
                 importance_grouped,
                 use_container_width=True
             )
-                        # ==========================================================
-            # DECISION TREE REPRESENTATIVE
             # ==========================================================
+# REPRESENTATIVE DECISION RULE
+# ==========================================================
 
-            st.markdown("---")
-            st.markdown("## 🌳 Decision Tree Representative")
+st.markdown("---")
+st.markdown("## 🌳 Representative Decision Rule")
 
-            st.info("""
-Random Forest terdiri dari banyak Decision Tree.
+st.caption("""
+Rule berikut diambil secara otomatis dari salah satu Decision Tree
+yang membentuk Random Forest.
 
-Visualisasi berikut merupakan salah satu Decision Tree
-yang digunakan model untuk mempelajari pola data.
-
-Keputusan akhir Random Forest diperoleh melalui
-proses Majority Voting dari seluruh Decision Tree.
+Rule ini hanya merupakan representasi cara model mengambil keputusan.
+Prediksi akhir tetap menggunakan Majority Voting dari seluruh Decision Tree.
 """)
 
-            try:
+try:
 
-                fig_tree, ax = plt.subplots(figsize=(20, 10))
+    rule = export_text(
+        model.estimators_[0],
+        max_depth=3
+    )
 
-                plot_tree(
-    model.estimators_[0],
-    max_depth=3,
-    filled=True,
-    rounded=True,
-    impurity=False,
-    fontsize=10,
-    ax=ax
-)
+    st.code(rule)
+    st.success(f"""
+### Interpretasi Rule
 
-                plt.tight_layout()
+Rule di atas merupakan salah satu pola keputusan
+yang dipelajari oleh Decision Tree.
 
-                st.pyplot(fig_tree)
+Model kemudian menggabungkan hasil dari banyak
+Decision Tree melalui proses Majority Voting.
 
-            except Exception as e:
+Pada dataset ini model lebih banyak
+memanfaatkan fitur **{top1['Fitur']}**,
+kemudian **{top2['Fitur']}**
+dan **{top3['Fitur']}**.
 
-                st.warning(f"Decision Tree tidak dapat ditampilkan: {e}")
+Jika dataset berubah,
+maka Decision Rule di atas juga akan berubah
+secara otomatis setelah proses training.
+""")
 
+except Exception as e:
+
+    st.warning(
+        f"Tidak dapat membuat Decision Rule : {e}"
+    )
             # ==========================================================
             # INSIGHT MODEL
             # ==========================================================
