@@ -484,21 +484,21 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 cols = st.columns(4)
 for i in range(3,8):
     no,icon,title = flow_data[i]
-    with cols[i-3]:
+    with cols[i-4]:
         st.markdown(f"""
             <div class="flow-card">
                 <div class="flow-number">
-{no}
-</div>
-<div style="font-size:48px;margin-bottom:15px;">
-{icon}
+                    {no}
+                </div>
+                <div style="font-size:48px;margin-bottom:15px;">
+                    {icon}
 </div>
 <div class="flow-title">
 {title}
 </div>
 </div>
 """, unsafe_allow_html=True)
-
+        
 # ==========================================================
 # PENJELASAN
 # ==========================================================
