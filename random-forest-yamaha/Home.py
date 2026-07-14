@@ -273,6 +273,17 @@ FLOW CARD
 }
 
 /* ===================================================
+   SUCCESS BOX
+=================================================== */
+.stAlert{
+    border-radius: 15px;
+}
+.stAlert p{
+    font-size: 13px !important;
+    font-weight: 500 !important;
+}
+
+/* ===================================================
 ALERT
 =================================================== */
 
@@ -527,13 +538,9 @@ analisis dapat disimpan dalam bentuk Laporan PDF.
 # ==========================================================
 
 st.markdown("<br>", unsafe_allow_html=True)
-st.success("""
-
-ⓘ Gunakan menu pada sidebar untuk memulai proses klasifikasi,
-melatih model Random Forest, melihat visualisasi Decision Tree,
-mengevaluasi performa model, dan menghasilkan laporan PDF.
-
-""")
+st.success(
+    "ⓘ Gunakan menu sidebar untuk memulai sistem klasifikasi."
+)
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("""
     <hr>
