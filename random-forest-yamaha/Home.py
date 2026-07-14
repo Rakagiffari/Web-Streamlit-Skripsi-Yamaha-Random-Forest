@@ -258,8 +258,8 @@ FLOW CARD
 }
 
 .flow-title{
-    font-size:20px;
-    font-weight:300;
+    font-size:14px;
+    font-weight:900;
     color: white;
     margin-bottom:12px;
 }
