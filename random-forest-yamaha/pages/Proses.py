@@ -658,63 +658,17 @@ if uploaded_file is not None:
                 importance_grouped,
                 use_container_width=True
             )
-            # ==========================================================
-# REPRESENTATIVE DECISION RULE
-# ==========================================================
-
-st.markdown("---")
-st.markdown("## 🌳 Representative Decision Rule")
-
-st.caption("""
-Rule berikut diambil secara otomatis dari salah satu Decision Tree
-yang membentuk Random Forest.
-
-Rule ini hanya merupakan representasi cara model mengambil keputusan.
-Prediksi akhir tetap menggunakan Majority Voting dari seluruh Decision Tree.
-""")
-
-try:
-
-    rule = export_text(
-        model.estimators_[0],
-        max_depth=3
-    )
-
-    st.code(rule)
-    st.success(f"""
-### Interpretasi Rule
-
-Rule di atas merupakan salah satu pola keputusan
-yang dipelajari oleh Decision Tree.
-
-Model kemudian menggabungkan hasil dari banyak
-Decision Tree melalui proses Majority Voting.
-
-Pada dataset ini model lebih banyak
-memanfaatkan fitur **{top1['Fitur']}**,
-kemudian **{top2['Fitur']}**
-dan **{top3['Fitur']}**.
-
-Jika dataset berubah,
-maka Decision Rule di atas juga akan berubah
-secara otomatis setelah proses training.
-""")
-
-except Exception as e:
-
-    st.warning(
-        f"Tidak dapat membuat Decision Rule : {e}"
-    )
-            # ==========================================================
-            # INSIGHT MODEL
+                        # ==========================================================
+            # REPRESENTATIVE DECISION PROCESS
             # ==========================================================
 
             st.markdown("---")
-            st.markdown("## 💡 Insight Model Random Forest")
+            st.markdown("## 🌳 Representative Decision Process")
 
+            # Urutkan Feature Importance
             importance_sorted = (
                 importance_grouped
-                .sort_values(by="Importance", ascending=False)
+                .sort_values("Importance", ascending=False)
                 .reset_index(drop=True)
             )
 
@@ -722,43 +676,102 @@ except Exception as e:
             top2 = importance_sorted.iloc[1]
             top3 = importance_sorted.iloc[2]
 
-            ranking = importance_sorted.copy()
-            ranking["Importance"] = (
-                ranking["Importance"] * 100
-            ).round(2)
+            st.caption("""
+Diagram berikut merupakan representasi sederhana bagaimana Random Forest
+menggunakan fitur-fitur yang paling penting dalam proses klasifikasi.
 
-            st.markdown("### ⭐ Ranking Feature Importance")
+Diagram ini bukan satu Decision Tree tertentu,
+melainkan ringkasan berdasarkan hasil Feature Importance.
+""")
 
-            st.dataframe(
-                ranking.rename(
-                    columns={
-                        "Importance": "Importance (%)"
-                    }
-                ),
-                use_container_width=True,
-                hide_index=True
-            )
+            st.markdown(f"""
+<div style="
+background:#111827;
+padding:25px;
+border-radius:15px;
+border:1px solid #374151;
+text-align:center;
+">
 
-            st.markdown("### 📊 Insight Otomatis")
+<h3>🚀 Mulai Klasifikasi</h3>
+
+<br>
+
+⬇️
+
+<h3>🥇 Evaluasi <span style="color:#ef4444">{top1['Fitur']}</span></h3>
+
+<br>
+
+⬇️
+
+<h3>🥈 Evaluasi <span style="color:#f59e0b">{top2['Fitur']}</span></h3>
+
+<br>
+
+⬇️
+
+<h3>🥉 Evaluasi <span style="color:#3b82f6">{top3['Fitur']}</span></h3>
+
+<br>
+
+⬇️
+
+<h3>🌲 Seluruh Decision Tree Melakukan Voting</h3>
+
+<br>
+
+⬇️
+
+<h2 style="color:#22c55e;">
+✅ Prediksi Kategori Service
+</h2>
+
+</div>
+""", unsafe_allow_html=True)
+                        st.markdown("---")
+            st.markdown("## 💡 Insight Model Random Forest")
+
+            st.success(f"""
+### Hasil Analisis
+
+Model Random Forest memperoleh:
+
+• Accuracy : **{accuracy:.2%}**
+
+• Precision : **{precision:.2%}**
+
+• Recall : **{recall:.2%}**
+
+• F1 Score : **{f1:.2%}**
+""")
+
+            st.markdown("### 📌 Insight Otomatis")
 
             st.info(f"""
-Model Random Forest memperoleh Accuracy sebesar **{accuracy:.2%}**.
+Berdasarkan hasil pelatihan model,
+fitur yang paling berpengaruh adalah
+**{top1['Fitur']}**
+dengan nilai Feature Importance sebesar
+**{top1['Importance']:.2%}**.
 
-Fitur yang paling berpengaruh adalah **{top1['Fitur']}**
-dengan nilai importance **{top1['Importance']:.2%}**.
+Selanjutnya model mempertimbangkan
+**{top2['Fitur']}**
+({top2['Importance']:.2%})
+dan
+**{top3['Fitur']}**
+({top3['Importance']:.2%})
+untuk membantu proses klasifikasi.
 
-Selanjutnya diikuti oleh:
+Artinya proses pengambilan keputusan
+lebih banyak dipengaruhi oleh kombinasi
+ketiga fitur tersebut dibandingkan fitur lainnya.
 
-🥈 **{top2['Fitur']}** ({top2['Importance']:.2%})
-
-🥉 **{top3['Fitur']}** ({top3['Importance']:.2%})
-
-Hal ini menunjukkan bahwa model lebih banyak memanfaatkan
-ketiga fitur tersebut ketika melakukan proses klasifikasi.
-
-Jika dataset diganti kemudian model dilatih ulang,
-maka ranking dan insight ini akan berubah secara otomatis
-mengikuti hasil Feature Importance terbaru.
+Karena Random Forest terdiri dari banyak Decision Tree,
+hasil prediksi akhir diperoleh melalui mekanisme
+**Majority Voting** sehingga prediksi menjadi
+lebih stabil dibandingkan hanya menggunakan
+satu Decision Tree.
 """)
 
             # ==========================================================
