@@ -58,33 +58,6 @@ st.markdown("""
     font-weight:bold;
 }
 
-/* ============================= */
-/* CARD */
-/* ============================= */
-
-.section-card{
-    background:#ffffff;
-    border:1px solid #e5e7eb;
-    border-radius:18px;
-    padding:24px;
-    margin-top:18px;
-    margin-bottom:20px;
-    box-shadow:0 6px 18px rgba(0,0,0,.06);
-}
-
-.section-title{
-    font-size:28px;
-    font-weight:700;
-    color:#111827;
-    margin-bottom:5px;
-}
-
-.section-subtitle{
-    font-size:15px;
-    color:#6b7280;
-    margin-bottom:20px;
-}
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -260,60 +233,32 @@ if uploaded_file is not None:
         # =====================================
         # INFORMASI TIPE DATA
         # =====================================
-st.markdown("""
-<div class="section-card">
 
-<div class="section-title">
-📝 Ringkasan Tipe Data
-total_missing = df.isnull().sum().sum()
+        st.markdown("### 📝 Ringkasan Tipe Data")
 
-        total_duplicate = df.duplicated().sum()
+        info_df = pd.DataFrame({
 
-        numeric_cols = len(
-            df.select_dtypes(include="number").columns
+            "Informasi": [
+
+                "Kolom Numerik",
+                "Kolom Kategori"
+
+            ],
+
+            "Jumlah": [
+
+                numeric_cols,
+                categorical_cols
+
+            ]
+
+        })
+
+        st.dataframe(
+            info_df,
+            use_container_width=True,
+            hide_index=True
         )
-
-        categorical_cols = len(
-            df.select_dtypes(include=["object", "category"]).columns
-        )
-
-        c1, c2, c3, c4 = st.columns(4)
-
-        with c1:
-
-            st.metric(
-                "Jumlah Data",
-                len(df)
-            )
-        
-        with c2:
-
-            st.metric(
-                "Missing Value",
-                total_missing
-            )
-
-        with c3:
-
-            st.metric(
-                "Data Duplikat",
-                total_duplicate
-            )
-
-        with c4:
-
-            st.metric(
-                "Jumlah Kelas",
-                df["Service"].nunique()
-            )
-</div>
-
-<div class="section-subtitle">
-Informasi jumlah kolom numerik dan kategori pada dataset.
-</div>
-
-</div>
-""", unsafe_allow_html=True)
 
         # =====================================
         # MISSING VALUE
