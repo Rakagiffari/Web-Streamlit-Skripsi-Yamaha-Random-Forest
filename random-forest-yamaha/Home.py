@@ -247,7 +247,7 @@ FLOW CARD
     width:42px;
     height:42px;
     border-radius:50%;
-    background:#14332a;
+    background:#ffffff;
     color:white;
     display:flex;
     align-items:center;
@@ -466,7 +466,7 @@ for i in range(7):
                 <div class="flow-number">
                     {no}
                 </div>
-                <div style="font-size:30px;margin-bottom:15px;">
+                <div style="font-size:40px;margin-bottom:15px;">
                     {icon}
                 </div>
 
