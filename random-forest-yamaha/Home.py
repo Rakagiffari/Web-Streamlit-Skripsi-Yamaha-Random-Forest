@@ -508,7 +508,7 @@ for i in range(4,8):
 st.markdown("<br>", unsafe_allow_html=True)
 st.info("""
 
- ** ⛔ Cara kerja sistem**
+ ⛔ Cara kerja sistem
 
 Sistem dimulai dengan mengunggah dataset layanan servis yang akan digunakan sebagai data analisis. 
 Selanjutnya, dataset melalui tahap preprocessing untuk membersihkan dan menyiapkan data, 
@@ -534,17 +534,12 @@ st.success(
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("""
     <hr>
-
-<div style="text-align:center;
-font-size:15px;
-color:#64748b;
-line-height:1.8;">
-
-<b>Sistem Klasifikasi Layanan Servis Yamaha</b><br>
-
-Penerapan Algoritma Random Forest untuk Klasifikasi Layanan Servis Kendaraan Yamaha<br><br>
-
-© 2026 | Universitas Putra Indonesia "YPTK" Padang
-
-</div>
+        <div style="text-align:center;
+            font-size:15px;
+            color:#64748b;
+            line-height:1.8;">
+                <b>Sistem Klasifikasi Layanan Servis Yamaha</b><br>
+                Penerapan Algoritma Random Forest untuk Klasifikasi Layanan Servis Kendaraan Yamaha<br><br>
+                © 2026 | Universitas Putra Indonesia "YPTK" Padang
+        </div>
 """, unsafe_allow_html=True)
