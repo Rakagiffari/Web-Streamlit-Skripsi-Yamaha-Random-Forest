@@ -3,14 +3,13 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import joblib
+import matplotlib.patches as patches
 
 from pathlib import Path
 
 from utils.preprocessing import preprocess_data
 from utils.training import train_model
 from utils.report import generate_pdf
-from sklearn.tree import plot_tree, export_text
-from graphviz import Digraph
 
 # =========================================
 # CONFIG
@@ -659,113 +658,104 @@ if uploaded_file is not None:
                 importance_grouped,
                 use_container_width=True
             )
-                        # ==========================================================
+                                    # ==========================================================
             # REPRESENTATIVE DECISION TREE
             # ==========================================================
 
             st.markdown("---")
             st.markdown("## 🌳 Representative Decision Tree")
 
-            # Mengurutkan Feature Importance
+            # Ambil Top 3 Feature Importance
             importance_sorted = (
                 importance_grouped
-                .sort_values(
-                    by="Importance",
-                    ascending=False
-                )
+                .sort_values(by="Importance", ascending=False)
                 .reset_index(drop=True)
             )
 
-            top1 = importance_sorted.iloc[0]
-            top2 = importance_sorted.iloc[1]
-            top3 = importance_sorted.iloc[2]
+            top1 = importance_sorted.iloc[0]["Fitur"]
+            top2 = importance_sorted.iloc[1]["Fitur"]
+            top3 = importance_sorted.iloc[2]["Fitur"]
 
-            st.caption("""
-Representative Decision Tree berikut merupakan visualisasi sederhana
-berdasarkan tiga fitur dengan nilai Feature Importance tertinggi.
+            fig_tree, ax = plt.subplots(figsize=(8, 6))
 
-Diagram ini akan berubah secara otomatis
-setiap kali model dilatih menggunakan dataset yang berbeda.
-""")
+            ax.set_xlim(0, 1)
+            ax.set_ylim(0, 1)
+            ax.axis("off")
 
-            tree = Digraph()
+            # ---------- Root ----------
+            root = patches.FancyBboxPatch(
+                (0.37, 0.82), 0.26, 0.10,
+                boxstyle="round,pad=0.02",
+                linewidth=2
+            )
+            ax.add_patch(root)
 
-            tree.attr(
-                rankdir="TB",
-                bgcolor="transparent",
-                splines="polyline"
+            ax.text(
+                0.50, 0.87,
+                top1,
+                ha="center",
+                va="center",
+                fontsize=14,
+                fontweight="bold"
             )
 
-            tree.attr(
-                "node",
-                shape="box",
-                style="rounded,filled",
-                fillcolor="#1F2937",
-                color="#374151",
-                fontcolor="white",
-                fontsize="12"
+            # ---------- Left ----------
+            left = patches.FancyBboxPatch(
+                (0.12, 0.48), 0.24, 0.10,
+                boxstyle="round,pad=0.02",
+                linewidth=2
+            )
+            ax.add_patch(left)
+
+            ax.text(
+                0.24, 0.53,
+                top2,
+                ha="center",
+                va="center",
+                fontsize=12,
+                fontweight="bold"
             )
 
-            # Root
-            tree.node(
-                "A",
-                f"""🥇
-{top1['Fitur']}
+            # ---------- Right ----------
+            right = patches.FancyBboxPatch(
+                (0.64, 0.48), 0.24, 0.10,
+                boxstyle="round,pad=0.02",
+                linewidth=2
+            )
+            ax.add_patch(right)
 
-Importance
-{top1['Importance']:.2%}
+            ax.text(
+                0.76, 0.53,
+                top3,
+                ha="center",
+                va="center",
+                fontsize=12,
+                fontweight="bold"
+            )
+
+            # ---------- Garis ----------
+            ax.plot(
+                [0.50, 0.24],
+                [0.82, 0.58],
+                linewidth=2
+            )
+
+            ax.plot(
+                [0.50, 0.76],
+                [0.82, 0.58],
+                linewidth=2
+            )
+
+            st.pyplot(fig_tree)
+
+            st.caption(
+                f"""
+Representative Decision Tree di atas merupakan ilustrasi sederhana berdasarkan tiga fitur dengan
+nilai Feature Importance tertinggi, yaitu **{top1}**, **{top2}**, dan **{top3}**.
+
+Visualisasi ini digunakan untuk membantu memahami proses klasifikasi secara konseptual.
+Keputusan akhir Random Forest tetap diperoleh melalui kombinasi banyak Decision Tree.
 """
-            )
-
-            # Child kiri
-            tree.node(
-                "B",
-                f"""🥈
-{top2['Fitur']}
-
-Importance
-{top2['Importance']:.2%}
-"""
-            )
-
-            # Child kanan
-            tree.node(
-                "C",
-                f"""🥉
-{top3['Fitur']}
-
-Importance
-{top3['Importance']:.2%}
-"""
-            )
-
-            # Majority Voting
-            tree.node(
-                "D",
-                "🌲\nMajority\nVoting",
-                fillcolor="#DC2626"
-            )
-
-            # Hasil
-            tree.node(
-                "E",
-                "✅\nPrediksi\nService",
-                fillcolor="#16A34A"
-            )
-
-            tree.edge("A", "B")
-
-            tree.edge("A", "C")
-
-            tree.edge("B", "D")
-
-            tree.edge("C", "D")
-
-            tree.edge("D", "E")
-
-            st.graphviz_chart(
-                tree,
-                use_container_width=True
             )
             
             # ==========================================================
