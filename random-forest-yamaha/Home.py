@@ -509,13 +509,7 @@ st.info("""
 
 💡 **Cara kerja sistem**
 
-Dataset servis yang diunggah akan melalui proses preprocessing dan feature engineering.
-Selanjutnya data diubah ke bentuk numerik melalui proses encoding, kemudian dibagi
-menjadi data latih dan data uji. Model Random Forest membangun banyak Decision Tree
-untuk mempelajari pola data, kemudian melakukan klasifikasi menggunakan mekanisme
-**Majority Voting**. Hasil pelatihan dievaluasi menggunakan Accuracy, Confusion Matrix,
-Classification Report, dan Feature Importance sebelum digunakan untuk melakukan prediksi
-layanan servis kendaraan Yamaha.
+Dataset layanan servis yang diunggah akan melalui tahap preprocessing dan feature engineering untuk mempersiapkan data sebelum dianalisis. Selanjutnya, data dikonversi ke dalam bentuk numerik melalui proses encoding, kemudian dibagi menjadi data latih dan data uji. Model Random Forest mempelajari pola dari data latih untuk membangun model klasifikasi layanan servis. Setelah proses pelatihan selesai, model dievaluasi menggunakan Accuracy, Confusion Matrix, dan Classification Report guna mengukur kinerjanya. Selain itu, sistem menampilkan Feature Importance dan insight hasil analisis yang menunjukkan faktor-faktor utama yang memengaruhi klasifikasi layanan servis. Model yang telah dievaluasi kemudian digunakan untuk melakukan prediksi kategori layanan servis kendaraan Yamaha serta menghasilkan laporan yang dapat diunduh.
 
 """)
 # ==========================================================
