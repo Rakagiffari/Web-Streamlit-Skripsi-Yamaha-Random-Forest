@@ -208,12 +208,12 @@ FEATURE BOX
 }
 
 .feature-icon{
-    font-size:20px;
+    font-size:45px;
     margin-bottom:10px;
 }
 
 .feature-title{
-    font-size:20px;
+    font-size:30px;
     font-weight:700;
     color: white;
     margin-bottom:10px;
