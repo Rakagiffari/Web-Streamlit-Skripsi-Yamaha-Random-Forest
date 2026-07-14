@@ -259,7 +259,7 @@ FLOW CARD
 
 .flow-title{
     text-align: center;
-    font-size: 43px;
+    font-size: 14px;
     font-weight: 900;
     color: white;
     line-height: 1.1;
