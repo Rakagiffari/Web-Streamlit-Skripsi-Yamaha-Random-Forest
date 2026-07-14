@@ -277,3 +277,150 @@ with col2:
 
     </div>
     """, unsafe_allow_html=True)
+
+# ==========================================================
+# TEKNOLOGI YANG DIGUNAKAN
+# ==========================================================
+
+st.markdown("<div class='divider'></div>", unsafe_allow_html=True)
+
+st.markdown("""
+<div class="section-title">
+    ⚙️ Teknologi yang Digunakan
+</div>
+
+<div class="section-subtitle">
+Library dan framework yang digunakan dalam pengembangan sistem.
+</div>
+""", unsafe_allow_html=True)
+
+
+# ==========================================================
+# BARIS PERTAMA
+# ==========================================================
+
+col1, col2, col3 = st.columns(3, gap="large")
+
+with col1:
+
+    st.markdown("""
+    <div class="info-card" style="text-align:center;">
+
+        <div style="font-size:55px;">🐍</div>
+
+        <div class="card-title">
+            Python
+        </div>
+
+        <div class="card-text">
+            Bahasa pemrograman utama yang digunakan
+            untuk membangun sistem.
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+
+    st.markdown("""
+    <div class="info-card" style="text-align:center;">
+
+        <div style="font-size:55px;">🎈</div>
+
+        <div class="card-title">
+            Streamlit
+        </div>
+
+        <div class="card-text">
+            Framework web yang digunakan
+            untuk membangun antarmuka aplikasi.
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+with col3:
+
+    st.markdown("""
+    <div class="info-card" style="text-align:center;">
+
+        <div style="font-size:55px;">🤖</div>
+
+        <div class="card-title">
+            Scikit-Learn
+        </div>
+
+        <div class="card-text">
+            Library Machine Learning
+            untuk proses klasifikasi model.
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+
+# ==========================================================
+# BARIS KEDUA
+# ==========================================================
+
+col4, col5, col6 = st.columns(3, gap="large")
+
+with col4:
+
+    st.markdown("""
+    <div class="info-card" style="text-align:center;">
+
+        <div style="font-size:55px;">🐼</div>
+
+        <div class="card-title">
+            Pandas
+        </div>
+
+        <div class="card-text">
+            Digunakan untuk membaca,
+            mengolah, dan memanipulasi dataset.
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+with col5:
+
+    st.markdown("""
+    <div class="info-card" style="text-align:center;">
+
+        <div style="font-size:55px;">📊</div>
+
+        <div class="card-title">
+            Plotly
+        </div>
+
+        <div class="card-text">
+            Digunakan untuk membuat visualisasi
+            data yang interaktif.
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+with col6:
+
+    st.markdown("""
+    <div class="info-card" style="text-align:center;">
+
+        <div style="font-size:55px;">📄</div>
+
+        <div class="card-title">
+            OpenPyXL
+        </div>
+
+        <div class="card-text">
+            Mendukung pembacaan
+            dan pengolahan file Excel.
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
