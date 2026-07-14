@@ -449,7 +449,7 @@ st.markdown("""
 flow_data = [
     ("1","📂","Upload Dataset"),
     ("2","🧹","Preprocessing",),
-    ("3","⚙️","Proses"),
+    ("3","⚙️","Persiapan Data"),
     ("4","🌲","Random Forest"),
     ("5","📊","Evaluasi Model"),
     ("6","💡","Insight"),
@@ -509,7 +509,18 @@ st.info("""
 
 💡 **Cara kerja sistem**
 
-Dataset layanan servis yang diunggah akan melalui tahap preprocessing dan feature engineering untuk mempersiapkan data sebelum dianalisis. Selanjutnya, data dikonversi ke dalam bentuk numerik melalui proses encoding, kemudian dibagi menjadi data latih dan data uji. Model Random Forest mempelajari pola dari data latih untuk membangun model klasifikasi layanan servis. Setelah proses pelatihan selesai, model dievaluasi menggunakan Accuracy, Confusion Matrix, dan Classification Report guna mengukur kinerjanya. Selain itu, sistem menampilkan Feature Importance dan insight hasil analisis yang menunjukkan faktor-faktor utama yang memengaruhi klasifikasi layanan servis. Model yang telah dievaluasi kemudian digunakan untuk melakukan prediksi kategori layanan servis kendaraan Yamaha serta menghasilkan laporan yang dapat diunduh.
+Sistem dimulai dengan mengunggah dataset layanan servis yang akan digunakan sebagai data analisis. 
+Selanjutnya, dataset melalui tahap preprocessing untuk membersihkan dan menyiapkan data, 
+kemudian dilanjutkan dengan proses feature engineering dan encoding agar data siap digunakan oleh model.
+
+Pada tahap Proses, sistem membagi dataset menjadi data latih dan data uji, kemudian membangun model klasifikasi menggunakan algoritma Random Forest. 
+Setelah model selesai dilatih, sistem melakukan evaluasi model menggunakan metrik seperti Accuracy, Precision, Recall, F1-Score, 
+dan Confusion Matrix untuk mengukur performa klasifikasi.
+
+Selanjutnya, sistem menyajikan Insight berupa Feature Importance serta interpretasi pola-pola yang ditemukan 
+dari hasil analisis Random Forest sehingga pengguna dapat memahami faktor-faktor yang paling memengaruhi klasifikasi layanan servis. 
+Model yang telah dievaluasi kemudian digunakan untuk melakukan prediksi kategori layanan servis kendaraan Yamaha, dan seluruh hasil 
+analisis dapat disimpan dalam bentuk Laporan PDF.
 
 """)
 # ==========================================================
