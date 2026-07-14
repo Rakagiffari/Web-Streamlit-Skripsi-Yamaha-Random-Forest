@@ -540,6 +540,6 @@ st.markdown("""
             line-height:1.8;">
                 <b>Klasifikasi Layanan Servis Yamaha</b><br>
                 Penerapan Algoritma Random Forest untuk Klasifikasi Layanan Servis Kendaraan Yamaha<br><br>
-                © 2026 | Universitas Putra Indonesia "YPTK" Padang
+                © 2026 | Raka Giffari Ramadhan | Universitas Putra Indonesia "YPTK" Padang
         </div>
 """, unsafe_allow_html=True)
