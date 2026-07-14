@@ -208,7 +208,7 @@ FEATURE BOX
 }
 
 .feature-icon{
-    font-size:45px;
+    font-size:20px;
     margin-bottom:10px;
 }
 
