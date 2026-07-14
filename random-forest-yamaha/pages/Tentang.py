@@ -13,6 +13,11 @@ BASE_DIR = Path(__file__).resolve().parent
 
 foto_path = BASE_DIR.parent / "assets" / "foto.jpg"
 
+import base64
+
+with open(foto_path, "rb") as image_file:
+    foto_base64 = base64.b64encode(image_file.read()).decode("utf-8")
+
 page_icon = None
 
 if foto_path.exists():
