@@ -6,15 +6,21 @@ from PIL import Image
 # PAGE CONFIG
 # ==========================================================
 
-BASE_DIR = Path(__file__).parent
+from pathlib import Path
+from PIL import Image
 
-foto_path = BASE_DIR / "assets" / "foto.jpg"
+BASE_DIR = Path(__file__).resolve().parent
 
-foto = Image.open(foto_path)
+foto_path = BASE_DIR.parent / "assets" / "foto.jpg"
+
+page_icon = None
+
+if foto_path.exists():
+    page_icon = Image.open(foto_path)
 
 st.set_page_config(
     page_title="Tentang Sistem",
-    page_icon=foto,
+    page_icon=page_icon,
     layout="wide",
     initial_sidebar_state="expanded"
 )
