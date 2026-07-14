@@ -3,7 +3,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import joblib
-import time
 
 from pathlib import Path
 
@@ -11,563 +10,725 @@ from utils.preprocessing import preprocess_data
 from utils.training import train_model
 from utils.report import generate_pdf
 
-# =====================================================
-# PAGE CONFIG
-# =====================================================
+# =========================================
+# CONFIG
+# =========================================
 
 st.set_page_config(
-    page_title="Training Random Forest",
+    page_title="Training Model",
     page_icon="⚙️",
     layout="wide"
 )
 
-# =====================================================
-# SESSION STATE
-# =====================================================
-
-if "dataset_loaded" not in st.session_state:
-    st.session_state.dataset_loaded = False
-
-if "dataset_ready" not in st.session_state:
-    st.session_state.dataset_ready = False
-
-if "training_done" not in st.session_state:
-    st.session_state.training_done = False
-
-if "model_result" not in st.session_state:
-    st.session_state.model_result = None
-
-# =====================================================
-# CSS
-# =====================================================
+# =========================================
+# STYLE
+# =========================================
 
 st.markdown("""
 <style>
 
-/* ================================
-BACKGROUND
-================================ */
-
-.stApp{
-    background:#020617;
-}
-
-/* ================================
-HEADER
-================================ */
-
 .main-title{
-
-    font-size:42px;
-
-    font-weight:800;
-
+    font-size:40px;
+    font-weight:700;
     color:white;
-
-    margin-bottom:0;
-
+    margin-bottom:0px;
 }
 
 .sub-title{
-
-    color:#94a3b8;
-
+    color:#9ca3af;
     font-size:16px;
-
-    margin-top:-5px;
-
-    margin-bottom:30px;
-
+    margin-top:-10px;
 }
-
-/* ================================
-CARD
-================================ */
 
 .metric-card{
-
-    background:linear-gradient(145deg,#111827,#1e293b);
-
-    border:1px solid #334155;
-
-    border-radius:18px;
-
-    padding:18px;
-
+    background:#1f2937;
+    padding:20px;
+    border-radius:16px;
     text-align:center;
-
 }
 
-.metric-title{
-
-    color:#94a3b8;
-
-    font-size:14px;
-
+.metric-label{
+    color:#9ca3af;
+    font-size:15px;
 }
 
 .metric-value{
-
     color:white;
-
     font-size:30px;
-
     font-weight:bold;
-
-}
-
-/* ================================
-SECTION
-================================ */
-
-.section-title{
-
-    color:white;
-
-    font-size:22px;
-
-    font-weight:700;
-
-    margin-top:20px;
-
-    margin-bottom:10px;
-
-}
-
-/* ================================
-SUCCESS
-================================ */
-
-.stAlert{
-
-    border-radius:15px;
-
-}
-
-/* ================================
-UPLOAD
-================================ */
-
-[data-testid="stFileUploader"]{
-
-    border-radius:15px;
-
 }
 
 </style>
 """, unsafe_allow_html=True)
 
-# =====================================================
+# =========================================
 # HEADER
-# =====================================================
+# =========================================
 
-st.markdown("""
-<div class="main-title">
-⚙️ Training Random Forest
-</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    '<p class="main-title">⚙️ Training Random Forest</p>',
+    unsafe_allow_html=True
+)
 
-st.markdown("""
-<div class="sub-title">
-Random Forest untuk Klasifikasi Layanan Service Kendaraan Yamaha
-</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    '<p class="sub-title">Random Forest untuk Klasifikasi Layanan Service Kendaraan Yamaha</p>',
+    unsafe_allow_html=True
+)
 
 st.markdown("---")
 
-# =====================================================
-# UPLOAD DATASET
-# =====================================================
-
-st.markdown("### 📂 Upload Dataset")
+# =========================================
+# FILE UPLOAD
+# =========================================
 
 uploaded_file = st.file_uploader(
-
-    "Upload file CSV atau Excel",
-
-    type=["csv","xlsx","xls"]
-
+    "📂 Upload Dataset",
+    type=["csv", "xlsx", "xls"]
 )
 
-# =====================================================
-# BELUM ADA DATA
-# =====================================================
+# =========================================
+# MAIN
+# =========================================
 
-if uploaded_file is None:
+if uploaded_file is not None:
 
-    st.info("Silakan upload dataset untuk memulai proses klasifikasi.")
+    try:
 
-    st.stop()
+        # =====================================
+        # MEMBACA DATASET
+        # =====================================
 
-# =====================================================
-# MEMBACA DATASET
-# =====================================================
+        if uploaded_file.name.endswith(".csv"):
 
-try:
+            df = pd.read_csv(uploaded_file)
 
-    if uploaded_file.name.endswith(".csv"):
+        elif uploaded_file.name.endswith((".xlsx", ".xls")):
 
-        df = pd.read_csv(uploaded_file)
+            df = pd.read_excel(uploaded_file)
 
-    else:
+        else:
 
-        df = pd.read_excel(uploaded_file)
+            st.error("Format file tidak didukung.")
+            st.stop()
 
-except Exception as e:
+        # =====================================
+        # VALIDASI KOLOM
+        # =====================================
 
-    st.error(e)
+        required_columns = [
 
-    st.stop()
+            "Model",
+            "Tahun",
+            "Km",
+            "Indikasi",
+            "Service"
 
-# =====================================================
-# VALIDASI KOLOM
-# =====================================================
+        ]
 
-required_columns=[
+        missing_columns = [
 
-    "Model",
+            col
+            for col in required_columns
+            if col not in df.columns
 
-    "Tahun",
+        ]
 
-    "Km",
+        if missing_columns:
 
-    "Indikasi",
+            st.error(
+                f"Kolom berikut tidak ditemukan:\n{', '.join(missing_columns)}"
+            )
 
-    "Service"
+            st.stop()
 
-]
+        # =====================================
+        # DATASET BERHASIL
+        # =====================================
 
-missing=[
+        st.success("Dataset berhasil diupload")
 
-    c
+        col1, col2, col3 = st.columns(3)
 
-    for c in required_columns
+        with col1:
 
-    if c not in df.columns
+            st.metric(
+                "Nama File",
+                uploaded_file.name
+            )
 
-]
+        with col2:
 
-if len(missing)>0:
+            st.metric(
+                "Jumlah Data",
+                len(df)
+            )
 
-    st.error(
+        with col3:
 
-        f"Kolom berikut tidak ditemukan : {', '.join(missing)}"
+            st.metric(
+                "Jumlah Kolom",
+                len(df.columns)
+            )
 
-    )
+        # =====================================
+        # PREVIEW DATASET
+        # =====================================
 
-    st.stop()
+        st.markdown("## 🗃️ Preview Dataset")
 
-# =====================================================
-# STATUS
-# =====================================================
+        st.dataframe(
+            df.head(),
+            use_container_width=True,
+            hide_index=True
+        )
 
-st.session_state.dataset_loaded=True
+        # =====================================
+        # INFORMASI DATASET
+        # =====================================
 
-st.success("✅ Dataset berhasil diupload")
+        st.markdown("## 📊 Hasil Prepocessing")
 
-# =====================================================
-# METRIC
-# =====================================================
+        total_missing = df.isnull().sum().sum()
 
-c1,c2,c3=st.columns(3)
+        total_duplicate = df.duplicated().sum()
 
-with c1:
+        numeric_cols = len(
+            df.select_dtypes(include="number").columns
+        )
 
-    st.markdown(f"""
+        categorical_cols = len(
+            df.select_dtypes(include=["object", "category"]).columns
+        )
 
-    <div class="metric-card">
+        c1, c2, c3, c4 = st.columns(4)
 
-        <div class="metric-title">
+        with c1:
 
-        Nama File
+            st.metric(
+                "Jumlah Data",
+                len(df)
+            )
+        
+        with c2:
 
-        </div>
+            st.metric(
+                "Missing Value",
+                total_missing
+            )
 
-        <div class="metric-value">
+        with c3:
 
-        {uploaded_file.name}
+            st.metric(
+                "Data Duplikat",
+                total_duplicate
+            )
 
-        </div>
+        with c4:
 
-    </div>
+            st.metric(
+                "Jumlah Kelas",
+                df["Service"].nunique()
+            )
 
-    """,unsafe_allow_html=True)
+        # =====================================
+        # INFORMASI TIPE DATA
+        # =====================================
 
-with c2:
+        st.markdown("### 📝 Ringkasan Tipe Data")
 
-    st.markdown(f"""
+        info_df = pd.DataFrame({
 
-    <div class="metric-card">
+            "Informasi": [
 
-        <div class="metric-title">
+                "Kolom Numerik",
+                "Kolom Kategori"
 
-        Jumlah Data
+            ],
 
-        </div>
+            "Jumlah": [
 
-        <div class="metric-value">
+                numeric_cols,
+                categorical_cols
 
-        {len(df)}
+            ]
 
-        </div>
+        })
 
-    </div>
+        st.dataframe(
+            info_df,
+            use_container_width=True,
+            hide_index=True
+        )
 
-    """,unsafe_allow_html=True)
+        # =====================================
+        # MISSING VALUE
+        # =====================================
 
-with c3:
+        st.markdown("### 🔍 Missing Value per Kolom")
 
-    st.markdown(f"""
+        missing_df = (
 
-    <div class="metric-card">
+            df.isnull()
+            .sum()
+            .reset_index()
 
-        <div class="metric-title">
+        )
 
-        Jumlah Kolom
+        missing_df.columns = [
 
-        </div>
+            "Kolom",
+            "Jumlah Missing"
 
-        <div class="metric-value">
+        ]
 
-        {len(df.columns)}
+        st.dataframe(
 
-        </div>
+            missing_df,
 
-    </div>
+            use_container_width=True,
 
-    """,unsafe_allow_html=True)
+            hide_index=True
 
-# =====================================================
-# DATA SIAP DIPROSES
-# =====================================================
+        )
 
-st.session_state.dataset_ready=True
+        # =====================================
+        # DUPLIKAT
+        # =====================================
 
-st.markdown("<br>",unsafe_allow_html=True)
+        st.markdown("### 📑 Informasi Data Duplikat")
 
-st.success("🟢 Dataset valid dan siap diproses.")
+        dup1, dup2 = st.columns(2)
 
-# =====================================================
-# PART 2 START
-# =====================================================
-# PROGRESS PIPELINE
-# =====================================================
+        with dup1:
 
-st.markdown("<br>", unsafe_allow_html=True)
+            st.metric(
+                "Jumlah Data",
+                len(df)
+            )
 
-st.markdown("""
-<div class="section-title">
-📌 Progress Pipeline
-</div>
-""", unsafe_allow_html=True)
+        with dup2:
 
-progress_placeholder = st.empty()
-status_placeholder = st.empty()
+            st.metric(
+                "Jumlah Duplikat",
+                total_duplicate
+            )
 
-# =====================================================
-# JALANKAN PROGRESS SEKALI
-# =====================================================
+        st.markdown("---")
 
-if "pipeline_finished" not in st.session_state:
-    st.session_state.pipeline_finished = False
+                # =====================================
+        # PREPROCESSING
+        # =====================================
 
-if not st.session_state.pipeline_finished:
+        st.markdown("## 📇 Feature Engineering")
 
-    progress = progress_placeholder.progress(0)
+        st.markdown("### Dataset Awal")
 
-    pipeline_steps = [
+        st.dataframe(
+            df.head(),
+            use_container_width=True,
+            hide_index=True
+        )
 
-        ("📂 Membaca dataset...", 10),
+        feature_df = df.copy()
 
-        ("🔍 Memvalidasi struktur dataset...", 25),
+        # =====================================
+        # Feature 1 : Usia Motor
+        # =====================================
 
-        ("📊 Mengecek missing value...", 45),
+        from datetime import datetime
 
-        ("🧹 Mengecek data duplikat...", 60),
+        tahun_sekarang = datetime.now().year
 
-        ("⚙️ Menyiapkan proses preprocessing...", 80),
+        feature_df["Usia Motor"] = (
+            tahun_sekarang - feature_df["Tahun"]
+        )
 
-        ("✅ Dataset siap diproses...", 100)
+        # =====================================
+        # Feature 2 : Jenis Motor
+        # =====================================
 
-    ]
+        def get_jenis(model):
 
-    current = 0
+            model = str(model).upper()
 
-    for text, target in pipeline_steps:
+            if any(x in model for x in [
+                "XMAX", "NMAX", "AEROX", "LEXI", "TMAX"
+            ]):
+                return "MAXi"
 
-        status_placeholder.info(text)
+            elif any(x in model for x in [
+                "FAZZIO", "FILANO"
+            ]):
+                return "Classy"
 
-        while current < target:
+            elif any(x in model for x in [
+                "MIO", "SOUL", "XEON", "FINO",
+                "GEAR", "FREEGO", "X-RIDE",
+                "XRIDE", "NOUVO", "LEXAM"
+            ]):
+                return "Matic"
 
-            current += 1
+            elif any(x in model for x in [
+                "R15", "R25", "R6", "R1",
+                "VIXION", "BYSON",
+                "SCORPIO", "RX",
+                "XSR", "MT"
+            ]):
+                return "Sport"
 
-            progress.progress(current)
+            elif any(x in model for x in [
+                "WR", "YZ"
+            ]):
+                return "Off-road"
 
-            time.sleep(0.01)
+            elif any(x in model for x in [
+                "JUPITER", "VEGA",
+                "CRYPTON", "ALFA",
+                "SIGMA", "F1ZR",
+                "MX"
+            ]):
+                return "Moped"
 
-    status_placeholder.success(
-        "🎉 Dataset berhasil diproses dan siap memasuki tahapan sistem."
-    )
+            return "Unknown"
 
-    st.session_state.pipeline_finished = True
+        feature_df["Jenis"] = feature_df["Model"].apply(get_jenis)
 
-else:
+        # =====================================
+        # HASIL FEATURE ENGINEERING
+        # =====================================
 
-    progress_placeholder.progress(100)
+        st.markdown("### Hasil Feature Engineering")
 
-    status_placeholder.success(
-        "🎉 Dataset berhasil diproses dan siap memasuki tahapan sistem."
-    )
+        st.dataframe(
+            feature_df[
+                [
+                    "Model",
+                    "Jenis",
+                    "Tahun",
+                    "Usia Motor",
+                    "Km",
+                    "Indikasi",
+                    "Service"
+                ]
+            ].head(5),
+            use_container_width=True,
+            hide_index=True
+        )
 
-# =====================================================
-# STATUS PIPELINE
-# =====================================================
+        X, y = preprocess_data(df)
 
-st.markdown("<br>", unsafe_allow_html=True)
+        st.success("Feature Engineering berhasil")
+        # =====================================
+        # DISTRIBUSI TARGET
+        # =====================================
 
-st.markdown("""
-<div class="section-title">
-📍 Status Pipeline
-</div>
-""", unsafe_allow_html=True)
+        st.markdown("## 📌 Distribusi Target")
 
-status_col1, status_col2 = st.columns(2)
+        service_count = df["Service"].value_counts()
 
-with status_col1:
+        col_bar, col_pie = st.columns(2)
 
-    st.success("✅ Upload Dataset")
+        # ==========================
+        # BAR CHART
+        # ==========================
 
-    st.success("✅ Validasi Dataset")
+        with col_bar:
 
-    st.success("✅ Dataset Siap")
+            fig1, ax1 = plt.subplots(figsize=(6, 5))
 
-    st.info("⏳ Menunggu Preprocessing")
+            sns.barplot(
+                x=service_count.index,
+                y=service_count.values,
+                palette="Reds",
+                ax=ax1
+            )
 
-with status_col2:
+            ax1.set_title("Distribusi Target")
+            ax1.set_xlabel("Kategori Service")
+            ax1.set_ylabel("Jumlah Data")
 
-    st.info("⚪ Random Forest")
+            for i, value in enumerate(service_count.values):
+                ax1.text(
+                    i,
+                    value,
+                    str(value),
+                    ha="center",
+                    va="bottom",
+                    fontsize=10,
+                    fontweight="bold"
+                )
 
-    st.info("⚪ Evaluasi")
+            plt.tight_layout()
 
-    st.info("⚪ Insight")
+            st.pyplot(fig1)
 
-    st.info("⚪ Prediksi & Laporan")
+        # ==========================
+        # PIE CHART
+        # ==========================
 
-# =====================================================
-# ACCORDION
-# =====================================================
+        with col_pie:
 
-st.markdown("<br>", unsafe_allow_html=True)
+            fig2, ax2 = plt.subplots(figsize=(6, 5))
 
-st.markdown("""
-<div class="section-title">
-🛠 Tahapan Sistem
-</div>
-""", unsafe_allow_html=True)
+            colors = sns.color_palette("Reds", len(service_count))
 
-# =====================================================
-# STEP 1
-# =====================================================
+            ax2.pie(
+                service_count.values,
+                labels=service_count.index,
+                autopct="%1.1f%%",
+                startangle=90,
+                colors=colors,
+                textprops={"fontsize":10}
+            )
 
-with st.expander(
-    "① Upload Dataset",
-    expanded=True
-):
+            ax2.set_title("Persentase Target")
 
-    st.info(
-        "Preview dataset akan ditampilkan pada tahap ini."
-    )
+            ax2.axis("equal")      # membuat pie benar-benar bulat
 
-# =====================================================
-# STEP 2
-# =====================================================
+            plt.tight_layout()
 
-with st.expander(
-    "② Preprocessing"
-):
+            st.pyplot(fig2)
 
-    st.info(
-        "Tahap preprocessing akan dibuat pada Part 3."
-    )
+        # ==========================
+        # TABEL RINGKASAN
+        # ==========================
 
-# =====================================================
-# STEP 3
-# =====================================================
+        summary_df = pd.DataFrame({
 
-with st.expander(
-    "③ Persiapan Data"
-):
+            "Kategori": service_count.index,
+            "Jumlah": service_count.values,
+            "Persentase (%)":
+                (service_count.values /
+                 service_count.sum() * 100).round(2)
 
-    st.info(
-        "Feature Engineering dan Encoding akan dibuat pada Part 4."
-    )
+        })
 
-# =====================================================
-# STEP 4
-# =====================================================
+        st.dataframe(
+            summary_df,
+            use_container_width=True,
+            hide_index=True
+        )
 
-with st.expander(
-    "④ Random Forest"
-):
+        # =====================================
+        # TRAINING
+        # =====================================
 
-    st.info(
-        "Training Random Forest akan dibuat pada Part 5."
-    )
+        if st.button(
+            "🚀 Training Model"
+        ):
 
-# =====================================================
-# STEP 5
-# =====================================================
+            (
+                model,
+                accuracy,
+                precision,
+                recall,
+                f1,
+                report,
+                matrix,
+                importance_grouped,
+                train_count,
+                test_count
 
-with st.expander(
-    "⑤ Evaluasi Model"
-):
+            ) = train_model(X, y)
 
-    st.info(
-        "Evaluasi model akan dibuat pada Part 6."
-    )
+            BASE_DIR = Path(
+                __file__
+            ).parent.parent
 
-# =====================================================
-# STEP 6
-# =====================================================
+            model_dir = (
+                BASE_DIR / "model"
+            )
 
-with st.expander(
-    "⑥ Insight"
-):
+            model_dir.mkdir(
+                parents=True,
+                exist_ok=True
+            )
 
-    st.info(
-        "Insight otomatis akan dibuat pada Part 7."
-    )
+            joblib.dump(
+                model,
+                model_dir /
+                "random_forest_model.pkl"
+            )
 
-# =====================================================
-# STEP 7
-# =====================================================
+            # =====================================
+            # METRICS
+            # =====================================
 
-with st.expander(
-    "⑦ Prediksi"
-):
+            st.markdown(
+                "## 📈 Hasil Evaluasi"
+            )
 
-    st.info(
-        "Prediksi manual akan dibuat pada Part 8."
-    )
+            c1, c2, c3, c4 = st.columns(4)
 
-# =====================================================
-# STEP 8
-# =====================================================
+            c1.metric(
+                "Accuracy",
+                f"{accuracy:.2%}"
+            )
 
-with st.expander(
-    "⑧ Download Laporan"
-):
+            c2.metric(
+                "Precision",
+                f"{precision:.2%}"
+            )
 
-    st.info(
-        "Download PDF akan dibuat pada Part 9."
-    )
+            c3.metric(
+                "Recall",
+                f"{recall:.2%}"
+            )
 
-# =====================================================
-# PART 3 START
-# =====================================================
-#
-# Upload Dataset
-# Preview Dataset
-# Ringkasan Dataset
-#
+            c4.metric(
+                "F1 Score",
+                f"{f1:.2%}"
+            )
 
+            # =====================================
+            # CLASSIFICATION REPORT
+            # =====================================
+
+            st.markdown(
+                "## 📋 Classification Report"
+            )
+
+            st.code(report)
+
+            # =====================================
+            # CONFUSION MATRIX
+            # =====================================
+
+            st.markdown(
+                "## 📉 Confusion Matrix"
+            )
+
+            fig2, ax2 = plt.subplots(
+                figsize=(5,4)
+            )
+
+            sns.heatmap(
+                matrix,
+                annot=True,
+                fmt="d",
+                cmap="Reds",
+                ax=ax2
+            )
+
+            st.pyplot(fig2)
+
+            cm_path = (
+                BASE_DIR /
+                "confusion_matrix.png"
+            )
+
+            fig2.savefig(
+                cm_path,
+                bbox_inches="tight"
+            )
+
+            # =====================================
+            # FEATURE IMPORTANCE
+            # =====================================
+
+            st.markdown(
+                "## ⭐ Feature Importance"
+            )
+
+            fig3, ax3 = plt.subplots(
+                figsize=(6,4)
+            )
+
+            sns.barplot(
+                data=importance_grouped,
+                x="Importance",
+                y="Fitur",
+                ax=ax3
+            )
+
+            st.pyplot(fig3)
+
+            fi_path = (
+                BASE_DIR /
+                "feature_importance.png"
+            )
+
+            fig3.savefig(
+                fi_path,
+                bbox_inches="tight"
+            )
+
+            st.dataframe(
+                importance_grouped,
+                use_container_width=True
+            )
+
+            # =====================================
+            # PDF
+            # =====================================
+
+            logo_path = (
+                BASE_DIR /
+                "assets" /
+                "yamaha_logo.png"
+            )
+
+            pdf_path = generate_pdf(
+
+                pdf_path=
+                "laporan_training_model.pdf",
+
+                logo_path=
+                str(logo_path),
+
+                total_data=
+                len(df),
+
+                train_data=
+                train_count,
+
+                test_data=
+                test_count,
+
+                accuracy=
+                accuracy,
+
+                precision=
+                precision,
+
+                recall=
+                recall,
+
+                f1=
+                f1,
+
+                cm_image=
+                str(cm_path),
+
+                fi_image=
+                str(fi_path),
+
+                top_features=
+                importance_grouped[
+                    "Fitur"
+                ].head(5).tolist()
+            )
+
+            with open(
+                pdf_path,
+                "rb"
+            ) as pdf_file:
+
+                st.download_button(
+
+                    "📄 Download Laporan",
+
+                    pdf_file,
+
+                    file_name=
+                    "Laporan_Training_Model.pdf",
+
+                    mime=
+                    "application/pdf"
+                )
+
+    except Exception as e:
+
+        st.error(
+            f"Terjadi error: {e}"
+        )
