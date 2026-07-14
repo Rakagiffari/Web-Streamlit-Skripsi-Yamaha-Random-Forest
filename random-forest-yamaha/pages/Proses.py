@@ -527,9 +527,9 @@ if uploaded_file is not None:
                 report,
                 matrix,
                 importance_grouped,
-                train_count,
-                test_count
-
+                train_size,
+                test_size,
+                feature_names 
             ) = train_model(X, y)
 
             BASE_DIR = Path(
