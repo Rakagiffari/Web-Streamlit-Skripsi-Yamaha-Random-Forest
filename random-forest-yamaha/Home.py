@@ -444,61 +444,31 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 flow_data = [
-    ("1","📂","Upload Dataset",
-    "Pengguna mengunggah dataset servis Yamaha dalam format CSV atau Excel."),
-
-("2","🧹","Preprocessing",
-"Pembersihan data, menghapus missing value, duplikasi, serta menyiapkan data."),
-
-("3","⚙️","Feature Engineering",
-"Membentuk fitur baru seperti Usia Motor, Jenis Motor, dan Indikasi."),
-
-("4","🔤","Encoding",
-"Mengubah data kategorikal menjadi data numerik agar dapat diproses model."),
-
-("5","✂️","Train-Test Split",
-"Membagi dataset menjadi data latih dan data uji."),
-
-("6","🌲","Random Forest",
-"Model membangun banyak Decision Tree untuk mempelajari pola data servis."),
-
-("7","📊","Evaluasi Model",
-"Menghasilkan Accuracy, Confusion Matrix, Classification Report, dan Feature Importance."),
-
-("8","🎯","Prediksi",
-"Model melakukan klasifikasi layanan servis menjadi Ringan atau Berat."),
-
-("9","📄","Laporan PDF",
-"Sistem menghasilkan laporan hasil pelatihan model dalam format PDF.")
-
+    ("1","📂","Upload Dataset"),
+    ("2","🧹","Preprocessing",),
+    ("3","⚙️","Feature Engineering"),
+    ("4","🔤","Encoding"),
+    ("5","✂️","Train-Test Split"),
+    ("6","🌲","Random Forest"),
+    ("7","📊","Evaluasi Model"),
+    ("8","🎯","Prediksi"),
+    ("9","📄","Laporan PDF")
 ]
-
 # ==========================================================
 # BARIS 1
 # ==========================================================
-
 cols = st.columns(7)
-
 for i in range(7):
-
-    no,icon,title,desc = flow_data[i]
-
+    no,icon,title = flow_data[i]
     with cols[i]:
-
         st.markdown(f"""
-<div class="flow-card">
-
-<div class="flow-number">
-
-{no}
-
-</div>
-
-<div style="font-size:48px;margin-bottom:15px;">
-
-{icon}
-
-</div>
+            <div class="flow-card">
+                <div class="flow-number">
+                    {no}
+                </div>
+                <div style="font-size:20px;margin-bottom:15px;">
+                    {icon}
+                </div>
 
 <div class="flow-title">
 
