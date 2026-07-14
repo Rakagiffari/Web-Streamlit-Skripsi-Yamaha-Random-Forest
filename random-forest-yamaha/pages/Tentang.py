@@ -6,22 +6,11 @@ from PIL import Image
 # PAGE CONFIG
 # ==========================================================
 
-from pathlib import Path
-from PIL import Image
-
 BASE_DIR = Path(__file__).resolve().parent
 
 foto_path = BASE_DIR.parent / "assets" / "foto.jpg"
 
-import base64
-
-with open(foto_path, "rb") as image_file:
-    foto_base64 = base64.b64encode(image_file.read()).decode("utf-8")
-
-page_icon = None
-
-if foto_path.exists():
-    page_icon = Image.open(foto_path)
+page_icon = Image.open(foto_path)
 
 st.set_page_config(
     page_title="Tentang Sistem",
@@ -31,7 +20,7 @@ st.set_page_config(
 )
 
 # ==========================================================
-# LOAD CSS
+# CSS
 # ==========================================================
 
 st.markdown("""
@@ -65,7 +54,7 @@ section[data-testid="stSidebar"] *{
 }
 
 /* ===================================================
-HEADER STREAMLIT
+STREAMLIT
 =================================================== */
 
 header{
@@ -85,9 +74,13 @@ CONTAINER
 =================================================== */
 
 .block-container{
-    padding-top:1rem;
-    padding-bottom:3rem;
+
     max-width:1400px;
+
+    padding-top:1rem;
+
+    padding-bottom:3rem;
+
 }
 
 /* ===================================================
@@ -97,25 +90,32 @@ TITLE
 .main-title{
 
     text-align:center;
-    color:white;
 
     font-size:42px;
+
     font-weight:900;
+
+    color:white;
 
     letter-spacing:1px;
 
-    margin-top:5px;
-    margin-bottom:18px;
+    margin-top:10px;
+
+    margin-bottom:20px;
 
 }
 
-.subtitle{
+/* ===================================================
+DESCRIPTION
+=================================================== */
+
+.main-desc{
 
     color:#e2e8f0;
 
-    font-size:15px;
-
     text-align:justify;
+
+    font-size:15px;
 
     line-height:1.8;
 
@@ -127,283 +127,193 @@ TITLE
 
 }
 
-/* ===================================================
-CARD
-=================================================== */
-
-.card{
-
-    background:#3b3d4d;
-
-    border-radius:28px;
-
-    padding:28px;
-
-    border:1px solid rgba(255,255,255,.05);
-
-    transition:.3s;
-
-}
-
-.card:hover{
-
-    transform:translateY(-5px);
-
-    box-shadow:0 15px 35px rgba(0,0,0,.25);
-
-}
-
-/* ===================================================
-FOOTER
-=================================================== */
-
-.footer{
-
-    text-align:center;
-
-    color:#d1d5db;
-
-    font-size:15px;
-
-    margin-top:45px;
-
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-# ==========================================================
-# JUDUL HALAMAN
-# ==========================================================
-
-st.markdown("<br>", unsafe_allow_html=True)
-
-st.markdown("""
-
-<div class="main-title">
-
-TENTANG SISTEM
-
-</div>
-
-""", unsafe_allow_html=True)
-
-st.markdown("""
-
-<div class="subtitle">
-
-Halaman ini menyajikan informasi mengenai penelitian,
-tujuan pengembangan sistem, teknologi yang digunakan,
-serta profil pengembang aplikasi.
-Seluruh desain halaman dibuat konsisten dengan halaman utama
-sehingga pengguna memperoleh pengalaman penggunaan
-yang nyaman dan mudah dipahami.
-
-</div>
-
-""", unsafe_allow_html=True)
-
-# ==========================================================
-# PROFIL & TEKNOLOGI
-# ==========================================================
-
-st.markdown("""
-
-<style>
-
-.about-wrapper{
-
-    display:flex;
-
-    gap:35px;
-
-    align-items:stretch;
-
-    margin-top:20px;
-
-}
+# ===================================================
+# PROFILE CARD
+# ===================================================
 
 .profile-card{
 
-    flex:1.8;
+    background:linear-gradient(145deg,#2d3142,#3b4255);
 
-    background:#3b3d4d;
+    border:1px solid rgba(255,255,255,.08);
 
-    border-radius:30px;
+    border-radius:22px;
 
     padding:28px;
 
-    display:flex;
-
-    align-items:center;
-
-    transition:.3s;
-
-}
-
-.profile-card:hover{
-
-    transform:translateY(-5px);
-
-}
-
-.profile-photo{
-
-    width:160px;
-
-    height:220px;
-
-    object-fit:cover;
-
-    border-radius:20px;
-
-    border:4px solid white;
-
-}
-
-.profile-divider{
-
-    width:4px;
-
-    height:230px;
-
-    background:white;
-
-    margin:0px 28px;
-
-    border-radius:20px;
-
-}
-
-.profile-info{
-
-    color:white;
-
-    font-size:18px;
-
-    line-height:2.2;
-
-}
-
-.profile-info b{
-
-    display:inline-block;
-
-    width:170px;
+    min-height:340px;
 
 }
 
 .tech-card{
 
-    flex:1;
+    background:linear-gradient(145deg,#2d3142,#3b4255);
 
-    background:#3b3d4d;
+    border:1px solid rgba(255,255,255,.08);
 
-    border-radius:30px;
+    border-radius:22px;
 
-    padding:30px;
+    padding:28px;
 
-    transition:.3s;
-
-}
-
-.tech-card:hover{
-
-    transform:translateY(-5px);
+    min-height:340px;
 
 }
 
-.tech-title{
+.card-title{
 
     color:white;
 
-    text-align:center;
+    font-size:22px;
 
-    font-size:18px;
+    font-weight:700;
 
-    font-weight:bold;
-
-    margin-bottom:30px;
+    margin-bottom:20px;
 
 }
 
-.tech-grid{
+.biodata{
 
-    display:grid;
+    color:white;
 
-    grid-template-columns:1fr 1fr;
+    font-size:15px;
 
-    gap:20px;
+    line-height:2.0;
 
 }
 
 .tech-item{
 
+    background:#1f2937;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    margin-bottom:12px;
+
     color:white;
 
-    font-size:18px;
+    font-size:15px;
 
-    text-align:center;
+    border:1px solid rgba(255,255,255,.05);
 
 }
-
 </style>
-
 """, unsafe_allow_html=True)
 
-st.markdown(f"""
+# ==========================================================
+# HEADER
+# ==========================================================
 
-<div class="about-wrapper">
+st.markdown("<br>", unsafe_allow_html=True)
 
-    <div class="profile-card">
+st.markdown("""
+<div class="main-title">
 
-        <img class="profile-photo"
-        src="data:image/jpeg;base64,{foto_base64}">
-
-        <div class="profile-divider"></div>
-
-        <div class="profile-info">
-
-            <b>Nama</b> : Raka Giffari Ramadhan<br>
-
-            <b>NIM</b> : 22101152620332<br>
-
-            <b>Program Studi</b> : Teknik Informatika<br>
-
-            <b>Universitas</b> : UPI "YPTK" Padang<br>
-
-            <b>Email</b> : giffari@email.com
-
-        </div>
-
-    </div>
-
-    <div class="tech-card">
-
-        <div class="tech-title">
-
-            Teknologi yang Digunakan
-
-        </div>
-
-        <div class="tech-grid">
-
-            <div class="tech-item">🐍 Python</div>
-
-            <div class="tech-item">🌲 Random Forest</div>
-
-            <div class="tech-item">📊 Pandas</div>
-
-            <div class="tech-item">📈 Scikit-Learn</div>
-
-            <div class="tech-item">🎨 Streamlit</div>
-
-            <div class="tech-item">📄 ReportLab</div>
-
-        </div>
-
-    </div>
+TENTANG SISTEM
 
 </div>
-
 """, unsafe_allow_html=True)
+
+st.markdown("""
+<div class="main-desc">
+
+Halaman ini menyajikan informasi mengenai penelitian,
+tujuan pengembangan sistem, teknologi yang digunakan,
+serta profil pengembang aplikasi.
+Seluruh tampilan dirancang konsisten dengan halaman utama
+agar memberikan pengalaman penggunaan yang nyaman,
+modern, dan mudah dipahami.
+
+</div>
+""", unsafe_allow_html=True)
+
+with left:
+
+    st.markdown("""
+    <div class="profile-card">
+    """,unsafe_allow_html=True)
+
+    foto,bio = st.columns([1,2])
+
+    with foto:
+
+        st.image(
+            foto_path,
+            use_container_width=True
+        )
+
+    with bio:
+
+        st.markdown("""
+        <div class="card-title">
+        Profil Pengembang
+        </div>
+        """,unsafe_allow_html=True)
+
+        st.markdown("""
+        <div class="biodata">
+
+        <b>Nama</b><br>
+        Raka Giffari Ramadhan
+
+        <br><br>
+
+        <b>NIM</b><br>
+        22101152620332
+
+        <br><br>
+
+        <b>Program Studi</b><br>
+        Teknik Informatika
+
+        <br><br>
+
+        <b>Universitas</b><br>
+        Universitas Putra Indonesia "YPTK" Padang
+
+        <br><br>
+
+        <b>Email</b><br>
+        giffari@email.com
+
+        </div>
+        """,unsafe_allow_html=True)
+
+    st.markdown("</div>",unsafe_allow_html=True)
+
+with right:
+
+    st.markdown("""
+    <div class="tech-card">
+
+    <div class="card-title">
+    Teknologi yang Digunakan
+    </div>
+
+    <div class="tech-item">
+    🐍 Python
+    </div>
+
+    <div class="tech-item">
+    🌲 Random Forest
+    </div>
+
+    <div class="tech-item">
+    📊 Pandas
+    </div>
+
+    <div class="tech-item">
+    📈 Scikit-Learn
+    </div>
+
+    <div class="tech-item">
+    🎨 Streamlit
+    </div>
+
+    <div class="tech-item">
+    📄 ReportLab
+    </div>
+
+    </div>
+    """,unsafe_allow_html=True)
