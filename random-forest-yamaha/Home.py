@@ -486,7 +486,7 @@ cols = st.columns(3)
 
 for i in range(3,6):
 
-    no,icon,title,desc = flow_data[i]
+    no,icon,title = flow_data[i]
 
     with cols[i-3]:
 
@@ -508,12 +508,6 @@ for i in range(3,6):
 <div class="flow-title">
 
 {title}
-
-</div>
-
-<div class="flow-desc">
-
-{desc}
 
 </div>
 
