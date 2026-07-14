@@ -279,7 +279,7 @@ FLOW CARD
     border-radius: 15px;
 }
 .stAlert p{
-    font-size: 15px !important;
+    font-size: 14px !important;
     font-weight: 500 !important;
 }
 
@@ -508,7 +508,7 @@ for i in range(4,8):
 st.markdown("<br>", unsafe_allow_html=True)
 st.info("""
 
-⛔ **Cara kerja sistem**
+ ** ⛔ Cara kerja sistem**
 
 Sistem dimulai dengan mengunggah dataset layanan servis yang akan digunakan sebagai data analisis. 
 Selanjutnya, dataset melalui tahap preprocessing untuk membersihkan dan menyiapkan data, 
