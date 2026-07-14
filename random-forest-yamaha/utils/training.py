@@ -224,5 +224,5 @@ def train_model(X, y):
     len(X_train),
     len(X_test),
 
-    X_train.columns.tolist()      # TAMBAHAN
+      X.columns.tolist()       # TAMBAHAN
 )
