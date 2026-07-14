@@ -287,7 +287,7 @@ FLOW CARD
 HR
 =================================================== */
 hr{
-    font-size:10px;
+    font-size:5px;
     border:none;
     border-top:1px solid #e5e7eb;
     margin-top:45px;
