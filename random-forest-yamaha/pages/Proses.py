@@ -659,65 +659,36 @@ if uploaded_file is not None:
                 use_container_width=True
             )
 
-                        # =====================================
-            # DECISION TREE REPRESENTATIVE
             # =====================================
+# DYNAMIC MODEL INSIGHT
+# =====================================
 
-            st.markdown("---")
-            st.markdown("## 🌳 Decision Tree Representative")
+st.markdown("---")
+st.markdown("## 💡 Insight Model Random Forest")
 
-            st.info("""
-Random Forest terdiri dari banyak Decision Tree.
-Visualisasi berikut merupakan **salah satu Decision Tree** yang digunakan model.
+# Ambil Top Feature Importance
+top_features = importance_grouped.sort_values(
+    by="Importance",
+    ascending=False
+).reset_index(drop=True)
 
-Decision Tree ini hanya digunakan sebagai representasi cara model mengambil keputusan.
+# Top 3 fitur
+top1 = top_features.iloc[0]
+top2 = top_features.iloc[1]
+top3 = top_features.iloc[2]
 
-Hasil klasifikasi akhir Random Forest diperoleh melalui proses **Majority Voting** dari seluruh Decision Tree.
-""")
+col1, col2 = st.columns([1.3,1])
 
-            try:
+# =====================================
+# HASIL ANALISIS
+# =====================================
 
-                fig_tree, ax = plt.subplots(figsize=(22,10))
+with col1:
 
-                feature_names = importance_grouped["Fitur"].tolist()
+    st.success(f"""
+### 📊 Hasil Analisis Model
 
-                plot_tree(
-                    model.estimators_[0],
-                    feature_names=feature_names,
-                    class_names=model.classes_,
-                    filled=True,
-                    rounded=True,
-                    fontsize=8,
-                    ax=ax
-                )
-
-                plt.tight_layout()
-
-                st.pyplot(fig_tree)
-
-            except Exception as e:
-
-                st.warning(
-                    f"Decision Tree tidak dapat divisualisasikan ({e})"
-                )
-
-            # =====================================
-            # MODEL INSIGHT
-            # =====================================
-
-            st.markdown("---")
-            st.markdown("## 💡 Insight Model Random Forest")
-
-            top_feature = importance_grouped.iloc[0]["Fitur"]
-
-            col_left, col_right = st.columns([1.3,1])
-
-            with col_left:
-
-                st.success(f"""
-### 📊 Hasil Analisis
-
-Model Random Forest memperoleh performa:
+Model Random Forest memperoleh performa sebagai berikut:
 
 • Accuracy : **{accuracy:.2%}**
 
@@ -727,112 +698,129 @@ Model Random Forest memperoleh performa:
 
 • F1 Score : **{f1:.2%}**
 
-Berdasarkan Feature Importance, fitur yang paling berpengaruh adalah **{top_feature}**.
+Berdasarkan hasil pelatihan, model paling banyak memanfaatkan fitur:
 
-Hal tersebut menunjukkan bahwa fitur tersebut paling sering digunakan oleh Decision Tree ketika menentukan kategori service kendaraan.
+🥇 **{top1['Fitur']}** ({top1['Importance']:.2%})
+
+🥈 **{top2['Fitur']}** ({top2['Importance']:.2%})
+
+🥉 **{top3['Fitur']}** ({top3['Importance']:.2%})
+
+Semakin tinggi nilai Feature Importance maka semakin besar kontribusinya terhadap proses klasifikasi.
 """)
 
-            with col_right:
+# =====================================
+# CARA KERJA
+# =====================================
 
-                st.info("""
-### 🌲 Cara Kerja Random Forest
+with col2:
+
+    st.info("""
+### 🌳 Cara Kerja Random Forest
 
 1. Dataset dibagi menjadi banyak Decision Tree.
 
-2. Setiap Decision Tree melakukan prediksi.
+2. Setiap Decision Tree mempelajari pola data.
 
-3. Seluruh hasil prediksi dikumpulkan.
+3. Setiap Tree menghasilkan prediksi.
 
-4. Dilakukan proses **Majority Voting**.
+4. Semua prediksi dikumpulkan.
 
-5. Prediksi dengan jumlah suara terbanyak menjadi hasil klasifikasi akhir.
+5. Majority Voting menentukan hasil akhir.
 """)
 
-            st.markdown("### 📌 Insight Berdasarkan Model")
+# =====================================
+# FEATURE IMPORTANCE
+# =====================================
 
-            c1, c2 = st.columns(2)
+st.markdown("### ⭐ Ranking Feature Importance")
 
-            with c1:
+ranking_df = top_features.copy()
 
-                st.markdown("""
-<div style="background:#111827;
-padding:20px;
-border-radius:15px;
-border-left:5px solid #ef4444;">
+ranking_df["Importance"] = (
+    ranking_df["Importance"] * 100
+).round(2)
 
-<h4>🔍 Indikasi</h4>
+ranking_df.columns = [
+    "Fitur",
+    "Importance (%)"
+]
 
-Nilai Feature Importance menunjukkan bahwa fitur **Indikasi** memberikan kontribusi terbesar terhadap proses klasifikasi.
+st.dataframe(
+    ranking_df,
+    use_container_width=True,
+    hide_index=True
+)
 
-Hal ini menunjukkan bahwa kondisi atau gejala kerusakan kendaraan merupakan faktor utama yang dipelajari Random Forest dalam membedakan kategori service.
+# =====================================
+# INSIGHT OTOMATIS
+# =====================================
 
-</div>
-""", unsafe_allow_html=True)
+st.markdown("### 📌 Insight Otomatis")
 
-            with c2:
+st.info(
+f"""
+Model menunjukkan bahwa **{top1['Fitur']}** merupakan faktor yang paling berpengaruh
+dengan nilai Feature Importance sebesar **{top1['Importance']:.2%}**.
 
-                st.markdown("""
-<div style="background:#111827;
-padding:20px;
-border-radius:15px;
-border-left:5px solid #3b82f6;">
+Fitur tersebut lebih sering digunakan oleh Decision Tree dibandingkan fitur lainnya
+ketika menentukan kategori layanan service.
 
-<h4>🚗 Kilometer</h4>
+Selanjutnya model juga mempertimbangkan fitur
+**{top2['Fitur']}** ({top2['Importance']:.2%})
+dan
+**{top3['Fitur']}** ({top3['Importance']:.2%})
+untuk meningkatkan ketepatan klasifikasi.
 
-Kilometer digunakan model untuk memperkirakan tingkat penggunaan kendaraan.
+Hal ini menunjukkan bahwa keputusan Random Forest tidak hanya dipengaruhi oleh satu variabel,
+melainkan merupakan kombinasi dari beberapa karakteristik kendaraan yang dipelajari secara bersamaan.
+"""
+)
 
-Semakin tinggi kilometer kendaraan, semakin besar kemungkinan terjadi keausan komponen sehingga kendaraan cenderung memerlukan service yang lebih kompleks.
+# =====================================
+# RULE REPRESENTATIVE
+# =====================================
 
-</div>
-""", unsafe_allow_html=True)
+st.markdown("### 🌲 Contoh Rule Decision Tree")
 
-            c3, c4 = st.columns(2)
+from sklearn.tree import export_text
 
-            with c3:
+try:
 
-                st.markdown("""
-<div style="background:#111827;
-padding:20px;
-border-radius:15px;
-border-left:5px solid #10b981;">
+    rules = export_text(
+        model.estimators_[0],
+        feature_names=list(X.columns)
+    )
 
-<h4>📅 Usia Motor</h4>
+    st.code(rules[:2500])
 
-Usia motor membantu model mengenali tingkat penurunan performa kendaraan.
+except:
 
-Motor dengan usia yang lebih lama cenderung memiliki risiko kerusakan komponen yang lebih tinggi dibanding motor yang masih baru.
+    st.warning(
+        "Rule Decision Tree tidak dapat ditampilkan karena fitur telah mengalami proses encoding."
+    )
 
-</div>
-""", unsafe_allow_html=True)
+# =====================================
+# KESIMPULAN
+# =====================================
 
-            with c4:
+st.markdown("### 📝 Kesimpulan")
 
-                st.markdown("""
-<div style="background:#111827;
-padding:20px;
-border-radius:15px;
-border-left:5px solid #f59e0b;">
+st.success(
+f"""
+Model Random Forest berhasil mencapai **Accuracy sebesar {accuracy:.2%}**.
 
-<h4>🏍 Jenis Motor</h4>
+Analisis Feature Importance menunjukkan bahwa fitur yang paling dominan adalah
+**{top1['Fitur']}**, diikuti oleh
+**{top2['Fitur']}**
+dan
+**{top3['Fitur']}**.
 
-Jenis motor memberikan informasi mengenai karakteristik kendaraan.
+Artinya proses klasifikasi lebih banyak dipengaruhi oleh kombinasi ketiga fitur tersebut dibandingkan fitur lainnya.
 
-Setiap kategori motor memiliki pola penggunaan yang berbeda sehingga membantu Random Forest meningkatkan ketepatan klasifikasi.
-
-</div>
-""", unsafe_allow_html=True)
-
-            st.markdown("### 📝 Kesimpulan Model")
-
-            st.success(f"""
-Model Random Forest berhasil memperoleh **Accuracy sebesar {accuracy:.2%}**.
-
-Hasil Feature Importance menunjukkan bahwa **{top_feature}** merupakan fitur yang paling dominan dalam proses klasifikasi.
-
-Random Forest tidak mengambil keputusan berdasarkan satu aturan saja, tetapi menggabungkan informasi dari berbagai fitur seperti **Indikasi, Kilometer, Usia Motor, dan Jenis Motor** melalui banyak Decision Tree.
-
-Keputusan akhir ditentukan menggunakan mekanisme **Majority Voting**, sehingga hasil prediksi menjadi lebih stabil dan memiliki kemampuan generalisasi yang lebih baik dibandingkan menggunakan satu Decision Tree.
-""")
+Karena Random Forest terdiri dari banyak Decision Tree, keputusan akhir diperoleh melalui mekanisme Majority Voting sehingga hasil klasifikasi menjadi lebih stabil dan robust.
+"""
+)
                     
                 # =====================================
                 # PDF
