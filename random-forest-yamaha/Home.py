@@ -449,13 +449,12 @@ st.markdown("""
 flow_data = [
     ("1","📂","Upload Dataset"),
     ("2","🧹","Preprocessing",),
-    ("3","⚙️","Feature Engineering"),
-    ("4","🔤","Encoding"),
-    ("5","✂️","Train-Test Split"),
+    ("3","⚙️","Proses"),
+    ("4","🌲","Random Forest"),
+    ("5","📊","Evaluasi Model"),
     ("6","🌲","Random Forest"),
-    ("7","📊","Evaluasi Model"),
-    ("8","🎯","Prediksi"),
-    ("9","📄","Laporan PDF")
+    ("7","🎯","Prediksi"),
+    ("8","📄","Laporan PDF"),
 ]
 # ==========================================================
 # BARIS 1
