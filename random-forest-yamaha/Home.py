@@ -532,7 +532,6 @@ analisis dapat disimpan dalam bentuk Laporan PDF.
 st.success(
     "ⓘ Gunakan menu sidebar untuk memulai sistem klasifikasi."
 )
-st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("""
     <hr>
         <div style="text-align:center;
