@@ -452,7 +452,7 @@ flow_data = [
     ("3","⚙️","Proses"),
     ("4","🌲","Random Forest"),
     ("5","📊","Evaluasi Model"),
-    ("6","🌲","Insight"),
+    ("6","💡","Insight"),
     ("7","🎯","Prediksi"),
     ("8","📄","Laporan PDF"),
 ]
