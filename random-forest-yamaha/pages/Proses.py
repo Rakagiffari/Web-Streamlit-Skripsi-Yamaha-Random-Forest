@@ -58,6 +58,33 @@ st.markdown("""
     font-weight:bold;
 }
 
+/* ============================= */
+/* CARD */
+/* ============================= */
+
+.section-card{
+    background:#ffffff;
+    border:1px solid #e5e7eb;
+    border-radius:18px;
+    padding:24px;
+    margin-top:18px;
+    margin-bottom:20px;
+    box-shadow:0 6px 18px rgba(0,0,0,.06);
+}
+
+.section-title{
+    font-size:28px;
+    font-weight:700;
+    color:#111827;
+    margin-bottom:5px;
+}
+
+.section-subtitle{
+    font-size:15px;
+    color:#6b7280;
+    margin-bottom:20px;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
