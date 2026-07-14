@@ -189,3 +189,91 @@ Version 1.0
 
 """, unsafe_allow_html=True)
 
+# ==========================================================
+# PENELITIAN & DESKRIPSI SISTEM
+# ==========================================================
+
+col1, col2 = st.columns([1, 1], gap="large")
+
+# ----------------------------------------------------------
+# CARD 1
+# ----------------------------------------------------------
+with col1:
+
+    st.markdown("""
+    <div class="info-card">
+
+        <div class="card-icon">🎓</div>
+
+        <div class="card-title">
+            Informasi Penelitian
+        </div>
+
+        <div class="card-list">
+
+        <b>Judul</b><br>
+        Penerapan Algoritma Random Forest untuk
+        Mengklasifikasi Layanan Servis pada Yamaha
+
+        <br><br>
+
+        <b>Metode</b><br>
+        Random Forest Classification
+
+        <br><br>
+
+        <b>Platform</b><br>
+        Aplikasi Berbasis Web (Streamlit)
+
+        <br><br>
+
+        <b>Tujuan</b><br>
+        Mengembangkan sistem yang mampu
+        membantu proses klasifikasi layanan
+        servis berdasarkan data historis.
+
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+
+# ----------------------------------------------------------
+# CARD 2
+# ----------------------------------------------------------
+with col2:
+
+    st.markdown("""
+    <div class="info-card">
+
+        <div class="card-icon">📖</div>
+
+        <div class="card-title">
+            Deskripsi Sistem
+        </div>
+
+        <div class="card-text">
+
+        Sistem ini dirancang untuk mengotomatisasi proses
+        klasifikasi layanan servis sepeda motor Yamaha
+        menggunakan pendekatan Machine Learning.
+
+        <br><br>
+
+        Pengguna dapat mengunggah dataset, melakukan
+        preprocessing data, melatih model klasifikasi,
+        melakukan evaluasi performa model, hingga
+        memperoleh hasil prediksi secara terintegrasi
+        dalam satu aplikasi.
+
+        <br><br>
+
+        Seluruh proses dirancang dengan antarmuka yang
+        sederhana, responsif, dan mudah digunakan
+        sehingga dapat membantu proses analisis data
+        secara lebih efisien.
+
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
