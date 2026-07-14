@@ -279,16 +279,8 @@ FLOW CARD
     border-radius: 15px;
 }
 .stAlert p{
-    font-size: 13px !important;
+    font-size: 15px !important;
     font-weight: 500 !important;
-}
-
-/* ===================================================
-ALERT
-=================================================== */
-
-.stAlert{
-    border-radius:15px;
 }
 
 /* ===================================================
