@@ -659,76 +659,86 @@ if uploaded_file is not None:
                 importance_grouped,
                 use_container_width=True
             )
-                                    # ==========================================================
-# REPRESENTATIVE DECISION TREE
-# ==========================================================
+            
+            # ==========================================================
+            # REPRESENTATIVE DECISION TREE
+            # ==========================================================
 
-from sklearn.tree import plot_tree
+            st.markdown("---")
+            st.markdown("## 🌳 Representative Decision Tree")
 
-st.markdown("---")
-st.markdown("## 🌳 Representative Decision Tree")
+            st.caption("""
+Tree berikut merupakan salah satu Decision Tree yang
+membentuk Random Forest.
 
-st.caption("""
-Visualisasi berikut merupakan salah satu Decision Tree
-yang membentuk Random Forest.
-
-Tree ditampilkan dengan kedalaman maksimal 3 level
-agar pola keputusan lebih mudah dipahami.
+Visualisasi dibatasi hingga kedalaman 3 level
+agar lebih mudah dipahami.
 """)
 
-fig_tree, ax = plt.subplots(figsize=(18,8))
+            fig_tree, ax = plt.subplots(figsize=(18,8))
 
-plot_tree(
+            plot_tree(
 
-    model.estimators_[0],
+                model.estimators_[0],
 
-    feature_names=feature_names,
+                feature_names=feature_names,
 
-    class_names=["Ringan","Berat"],
+                class_names=["Ringan","Berat"],
 
-    filled=True,
+                filled=True,
 
-    rounded=True,
+                rounded=True,
 
-    fontsize=9,
+                impurity=False,
 
-    impurity=False,
+                proportion=True,
 
-    proportion=True,
+                max_depth=3,
 
-    max_depth=3,
+                fontsize=9,
 
-    ax=ax
+                ax=ax
 
-)
+            )
 
-plt.tight_layout()
+            plt.tight_layout()
 
-st.pyplot(fig_tree)
+            st.pyplot(fig_tree)
 
-st.markdown("### 💡 Insight Decision Tree")
-root_feature = feature_names[0]
+                        # ==========================================================
+            # TREE INSIGHT
+            # ==========================================================
 
-st.info(f"""
+            st.markdown("### 💡 Insight Decision Tree")
+
+            top1 = importance_grouped.iloc[0]["Fitur"]
+            top2 = importance_grouped.iloc[1]["Fitur"]
+            top3 = importance_grouped.iloc[2]["Fitur"]
+
+            st.info(f"""
 Representative Decision Tree di atas merupakan salah satu pohon
-yang membentuk Random Forest.
+yang membentuk algoritma Random Forest.
 
-Tree menunjukkan bagaimana model melakukan proses
-pemisahan data berdasarkan beberapa fitur.
+Pada proses klasifikasi, Decision Tree melakukan pemisahan data
+berdasarkan beberapa fitur hingga menghasilkan prediksi.
 
-Berdasarkan hasil pelatihan,
-fitur yang paling dominan menurut Feature Importance adalah
-**{importance_grouped.iloc[0]['Fitur']}**.
+Berdasarkan hasil Feature Importance,
+fitur yang paling dominan adalah **{top1}**.
 
-Decision Tree membantu menjelaskan bagaimana
-fitur-fitur tersebut digunakan untuk membedakan
-kategori **Service Ringan** dan **Service Berat**.
+Selanjutnya model juga banyak memanfaatkan
+**{top2}** dan **{top3}**
+untuk meningkatkan ketepatan klasifikasi.
+
+Artinya ketiga fitur tersebut memiliki kontribusi terbesar
+dalam membedakan kategori **Service Ringan**
+dan **Service Berat**.
 
 Perlu diperhatikan bahwa prediksi akhir Random Forest
 tidak berasal dari satu Decision Tree saja,
-melainkan merupakan hasil Majority Voting
-dari seluruh Decision Tree.
+melainkan dari gabungan seluruh Decision Tree
+melalui proses Majority Voting.
 """)
+            
             # ==========================================================
             # STATISTIK DATASET
             # ==========================================================
