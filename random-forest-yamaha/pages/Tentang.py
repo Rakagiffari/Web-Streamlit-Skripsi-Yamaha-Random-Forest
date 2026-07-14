@@ -1,19 +1,12 @@
 import streamlit as st
-from pathlib import Path
-from PIL import Image
 
 # ==========================================================
 # PAGE CONFIG
 # ==========================================================
 
-BASE_DIR = Path(__file__).parent
-
-logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
-logo = Image.open(logo_path)
-
 st.set_page_config(
     page_title="Tentang Sistem",
-    page_icon=logo,
+    page_icon="📘",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -23,7 +16,6 @@ st.set_page_config(
 # ==========================================================
 
 st.markdown("""
-
 <style>
 
 /* ===================================================
@@ -33,15 +25,24 @@ GLOBAL
 html,
 body,
 [class*="css"]{
-
-    font-family:"Segoe UI",sans-serif;
-
+    font-family: "Segoe UI", sans-serif;
 }
 
 .stApp{
-
     background:#020617;
+}
 
+/* ===================================================
+SIDEBAR
+=================================================== */
+
+section[data-testid="stSidebar"]{
+    background:#0f172a;
+    border-right:none;
+}
+
+section[data-testid="stSidebar"] *{
+    color:white;
 }
 
 /* ===================================================
@@ -61,33 +62,13 @@ footer{
 }
 
 /* ===================================================
-SIDEBAR
-=================================================== */
-
-section[data-testid="stSidebar"]{
-
-    background:#0f172a;
-
-}
-
-section[data-testid="stSidebar"] *{
-
-    color:white;
-
-}
-
-/* ===================================================
 CONTAINER
 =================================================== */
 
 .block-container{
-
-    padding-top:1rem;
-
-    padding-bottom:3rem;
-
     max-width:1400px;
-
+    padding-top:1rem;
+    padding-bottom:3rem;
 }
 
 /* ===================================================
@@ -95,31 +76,39 @@ TITLE
 =================================================== */
 
 .main-title{
-
     text-align:center;
-
-    color:white;
-
     font-size:43px;
-
     font-weight:900;
-
+    color:white;
     margin-top:5px;
-
-    margin-bottom:12px;
-
+    margin-bottom:10px;
+    letter-spacing:1px;
 }
 
 .subtitle{
-
     text-align:center;
-
     color:#cbd5e1;
-
     font-size:15px;
-
     margin-bottom:45px;
+}
 
+/* ===================================================
+SECTION
+=================================================== */
+
+.section-title{
+    text-align:center;
+    font-size:40px;
+    font-weight:900;
+    color:white;
+    margin-bottom:10px;
+}
+
+.section-desc{
+    text-align:center;
+    color:#cbd5e1;
+    font-size:14px;
+    margin-bottom:40px;
 }
 
 /* ===================================================
@@ -136,9 +125,9 @@ CARD
 
     padding:30px;
 
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    transition:.3s ease;
 
-    transition:.3s;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
 
 }
 
@@ -150,19 +139,15 @@ CARD
 
 }
 
-/* ===================================================
-CARD TITLE
-=================================================== */
-
 .card-title{
 
     color:white;
 
-    font-size:28px;
+    font-size:30px;
 
     font-weight:700;
 
-    margin-bottom:18px;
+    margin-bottom:15px;
 
 }
 
@@ -170,35 +155,9 @@ CARD TITLE
 
     color:#e2e8f0;
 
-    line-height:1.9;
-
     font-size:15px;
 
-}
-
-.section-title{
-
-    text-align:center;
-
-    font-size:42px;
-
-    font-weight:900;
-
-    color:white;
-
-    margin-top:15px;
-
-    margin-bottom:10px;
-
-}
-
-.section-desc{
-
-    text-align:center;
-
-    color:#cbd5e1;
-
-    margin-bottom:40px;
+    line-height:1.9;
 
 }
 
@@ -215,7 +174,6 @@ hr{
 }
 
 </style>
-
 """, unsafe_allow_html=True)
 
 # ==========================================================
@@ -224,146 +182,65 @@ hr{
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-col1, col2, col3 = st.columns([2.5,1,2.5])
-
-with col2:
-
-    st.image(str(logo_path), width=180)
-
 st.markdown("""
 
 <div class="main-title">
 
-TENTANG SISTEM
+📘 TENTANG SISTEM
 
 </div>
 
 <div class="subtitle">
 
-Informasi mengenai penelitian, tujuan pengembangan,
-serta teknologi yang digunakan pada Sistem Klasifikasi
-Layanan Servis Yamaha.
+Sistem Klasifikasi Layanan Servis Yamaha berbasis
+Machine Learning menggunakan algoritma Random Forest.
 
 </div>
 
 """, unsafe_allow_html=True)
 
 # ==========================================================
-# TENTANG SISTEM
+# DESKRIPSI SINGKAT
 # ==========================================================
-
-st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown("""
-<div class="section-title">
-    Tentang Penelitian
+
+<div class="app-card">
+
+<h2 style="text-align:center;color:white;">
+
+Selamat Datang
+
+</h2>
+
+<p class="card-text" style="text-align:center;">
+
+Halaman ini menyajikan informasi mengenai penelitian,
+tujuan pengembangan sistem, teknologi yang digunakan,
+serta profil pengembang aplikasi.
+
+Seluruh desain halaman dibuat konsisten dengan halaman
+utama sehingga pengguna memperoleh pengalaman penggunaan
+yang nyaman dan mudah dipahami.
+
+</p>
+
 </div>
 
-<div class="section-desc">
-Informasi mengenai penelitian dan sistem yang dikembangkan.
-</div>
 """, unsafe_allow_html=True)
-
-left, right = st.columns(2, gap="large")
-
 # ==========================================================
 # INFORMASI PENELITIAN
 # ==========================================================
 
-with left:
-
-    st.markdown("""
-
-<div class="app-card">
-
-<h2 style="color:white;text-align:center;">
-🎓 Informasi Penelitian
-</h2>
-
-<hr style="border:1px solid #334155;">
-
-<p class="card-text">
-
-<b>Judul Penelitian</b><br>
-Penerapan Algoritma Random Forest untuk
-Mengklasifikasi Layanan Servis pada Yamaha.
-
-<br><br>
-
-<b>Metode</b><br>
-Random Forest Classification
-
-<br><br>
-
-<b>Platform</b><br>
-Aplikasi Web berbasis Streamlit
-
-<br><br>
-
-<b>Jenis Penelitian</b><br>
-Implementasi Machine Learning
-
-</p>
-
-</div>
-
-""", unsafe_allow_html=True)
-
-# ==========================================================
-# DESKRIPSI SISTEM
-# ==========================================================
-
-with right:
-
-    st.markdown("""
-
-<div class="app-card">
-
-<h2 style="color:white;text-align:center;">
-📘 Deskripsi Sistem
-</h2>
-
-<hr style="border:1px solid #334155;">
-
-<p class="card-text">
-
-Sistem ini dikembangkan untuk membantu proses
-klasifikasi layanan servis kendaraan Yamaha
-menggunakan algoritma Random Forest.
-
-<br><br>
-
-Pengguna dapat melakukan upload dataset,
-preprocessing, pelatihan model,
-evaluasi performa, serta memperoleh
-hasil klasifikasi melalui satu aplikasi
-berbasis web yang mudah digunakan.
-
-<br><br>
-
-Seluruh proses dirancang agar analisis data
-menjadi lebih cepat, konsisten,
-dan mudah dipahami.
-
-</p>
-
-</div>
-
-""", unsafe_allow_html=True)
-
-# ==========================================================
-# TUJUAN & MANFAAT
-# ==========================================================
-
-st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("<br><br>", unsafe_allow_html=True)
 
 st.markdown("""
 <div class="section-title">
-    Tujuan dan Manfaat
+Informasi Penelitian
 </div>
 
 <div class="section-desc">
-Gambaran tujuan penelitian serta manfaat yang diberikan oleh sistem.
+Ringkasan penelitian yang menjadi dasar pengembangan sistem.
 </div>
 """, unsafe_allow_html=True)
 
@@ -379,22 +256,26 @@ with c1:
 
 <div class="app-card">
 
-<div style="font-size:45px;text-align:center;">
-🎯
+<div style="font-size:48px;text-align:center;">
+🎓
 </div>
 
-<h3 style="color:white;text-align:center;margin-top:10px;">
-Tujuan
-</h3>
+<div class="card-title" style="text-align:center;">
+Penelitian
+</div>
 
-<p class="card-text" style="text-align:center;">
+<div class="card-text" style="text-align:center;">
 
-Mengembangkan sistem klasifikasi layanan
-servis kendaraan Yamaha menggunakan
-algoritma Random Forest sehingga proses
-analisis data menjadi lebih efektif.
+<b>Judul</b>
 
-</p>
+<br><br>
+
+Penerapan Algoritma Random Forest
+untuk Mengklasifikasi
+Layanan Servis
+pada Yamaha.
+
+</div>
 
 </div>
 
@@ -410,22 +291,23 @@ with c2:
 
 <div class="app-card">
 
-<div style="font-size:45px;text-align:center;">
-💡
+<div style="font-size:48px;text-align:center;">
+🎯
 </div>
 
-<h3 style="color:white;text-align:center;margin-top:10px;">
-Manfaat
-</h3>
+<div class="card-title" style="text-align:center;">
+Tujuan
+</div>
 
-<p class="card-text" style="text-align:center;">
+<div class="card-text" style="text-align:center;">
 
-Membantu pengguna memahami proses
-klasifikasi layanan servis melalui
-visualisasi, evaluasi model,
-serta hasil prediksi.
+Mengembangkan sistem
+berbasis Machine Learning
+untuk membantu proses
+klasifikasi layanan servis
+secara otomatis.
 
-</p>
+</div>
 
 </div>
 
@@ -441,65 +323,49 @@ with c3:
 
 <div class="app-card">
 
-<div style="font-size:45px;text-align:center;">
-🖥️
+<div style="font-size:48px;text-align:center;">
+📊
 </div>
 
-<h3 style="color:white;text-align:center;margin-top:10px;">
-Fitur Utama
-</h3>
+<div class="card-title" style="text-align:center;">
+Dataset
+</div>
 
-<p class="card-text" style="text-align:center;">
+<div class="card-text" style="text-align:center;">
 
-Upload Dataset,
-Preprocessing,
-Training Model,
-Evaluasi,
-Insight,
-Prediksi,
-dan Laporan PDF.
+Dataset historis
+layanan servis Yamaha
+digunakan sebagai
+data pelatihan
+dan evaluasi model.
 
-</p>
+</div>
 
 </div>
 
 """, unsafe_allow_html=True)
 
 # ==========================================================
-# TEKNOLOGI YANG DIGUNAKAN
+# KEMAMPUAN SISTEM
 # ==========================================================
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 
 st.markdown("""
-
-<div class="app-card">
-
-<h2 style="color:#ffffff;text-align:center;">
-⚙️ Teknologi yang Digunakan
-</h2>
-
-<p class="card-text" style="text-align:center;">
-
-Sistem dikembangkan menggunakan kombinasi beberapa teknologi
-untuk mendukung proses pengolahan data, pembangunan model,
-visualisasi hasil, serta penyajian antarmuka aplikasi berbasis web.
-
-</p>
-
-<br>
-
+<div class="section-title">
+Kemampuan Sistem
 </div>
 
+<div class="section-desc">
+Fitur utama yang tersedia pada Sistem Klasifikasi Layanan Servis Yamaha.
+</div>
 """, unsafe_allow_html=True)
 
-st.markdown("<br>", unsafe_allow_html=True)
-
-# ==========================================================
-# BARIS 1
-# ==========================================================
-
 c1, c2, c3 = st.columns(3)
+
+# ==========================================================
+# CARD 1
+# ==========================================================
 
 with c1:
 
@@ -507,25 +373,31 @@ with c1:
 
 <div class="app-card">
 
-<div style="font-size:45px;text-align:center;">
-🐍
+<div style="font-size:48px;text-align:center;">
+📂
 </div>
 
-<h3 style="text-align:center;color:white;">
-Python
-</h3>
+<div class="card-title" style="text-align:center;">
+Upload Dataset
+</div>
 
-<p class="card-text" style="text-align:center;">
+<div class="card-text" style="text-align:center;">
 
-Bahasa pemrograman utama
-yang digunakan untuk
-mengembangkan sistem.
+Mendukung proses
+unggah dataset
+berformat CSV
+maupun Excel
+untuk dianalisis.
 
-</p>
+</div>
 
 </div>
 
 """, unsafe_allow_html=True)
+
+# ==========================================================
+# CARD 2
+# ==========================================================
 
 with c2:
 
@@ -533,25 +405,31 @@ with c2:
 
 <div class="app-card">
 
-<div style="font-size:45px;text-align:center;">
-🎈
+<div style="font-size:48px;text-align:center;">
+🌲
 </div>
 
-<h3 style="text-align:center;color:white;">
-Streamlit
-</h3>
+<div class="card-title" style="text-align:center;">
+Training Model
+</div>
 
-<p class="card-text" style="text-align:center;">
+<div class="card-text" style="text-align:center;">
 
-Framework web yang
-digunakan sebagai
-antarmuka aplikasi.
+Melatih model
+Random Forest
+secara otomatis
+menggunakan
+dataset penelitian.
 
-</p>
+</div>
 
 </div>
 
 """, unsafe_allow_html=True)
+
+# ==========================================================
+# CARD 3
+# ==========================================================
 
 with c3:
 
@@ -559,21 +437,92 @@ with c3:
 
 <div class="app-card">
 
-<div style="font-size:45px;text-align:center;">
-🤖
+<div style="font-size:48px;text-align:center;">
+📊
 </div>
 
-<h3 style="text-align:center;color:white;">
-Scikit-Learn
-</h3>
+<div class="card-title" style="text-align:center;">
+Evaluasi Model
+</div>
 
-<p class="card-text" style="text-align:center;">
+<div class="card-text" style="text-align:center;">
 
-Library Machine Learning
-untuk membangun model
-Random Forest.
+Menampilkan
+Accuracy,
+Precision,
+Recall,
+F1-Score,
+dan Confusion Matrix.
 
-</p>
+</div>
+
+</div>
+
+""", unsafe_allow_html=True)
+
+# ==========================================================
+# MODUL SISTEM
+# ==========================================================
+
+st.markdown("<br><br>", unsafe_allow_html=True)
+
+st.markdown("""
+<div class="section-title">
+Modul Sistem
+</div>
+
+<div class="section-desc">
+Menu utama yang tersedia pada aplikasi klasifikasi layanan servis Yamaha.
+</div>
+""", unsafe_allow_html=True)
+
+modul = [
+
+    ("1","🏠","Home"),
+    ("2","📘","Tentang"),
+    ("3","📂","Dataset"),
+    ("4","⚙️","Preprocessing"),
+
+    ("5","🌲","Proses"),
+    ("6","📊","Insight"),
+    ("7","🎯","Prediksi"),
+    ("8","📄","Laporan")
+
+]
+
+# ==========================================================
+# BARIS 1
+# ==========================================================
+
+cols = st.columns(4)
+
+for i in range(4):
+
+    no,icon,title = modul[i]
+
+    with cols[i]:
+
+        st.markdown(f"""
+
+<div class="flow-card">
+
+<div class="flow-number">
+
+{no}
+
+</div>
+
+<div style="font-size:40px;margin-bottom:15px;">
+
+{icon}
+
+</div>
+
+<div class="flow-title">
+
+{title}
+
+</div>
 
 </div>
 
@@ -585,189 +534,72 @@ st.markdown("<br>", unsafe_allow_html=True)
 # BARIS 2
 # ==========================================================
 
-c4, c5, c6 = st.columns(3)
+cols = st.columns(4)
 
-with c4:
+for i in range(4,8):
 
-    st.markdown("""
+    no,icon,title = modul[i]
 
-<div class="app-card">
+    with cols[i-4]:
 
-<div style="font-size:45px;text-align:center;">
-🐼
-</div>
+        st.markdown(f"""
 
-<h3 style="text-align:center;color:white;">
-Pandas
-</h3>
+<div class="flow-card">
 
-<p class="card-text" style="text-align:center;">
+<div class="flow-number">
 
-Mengelola serta
-memproses dataset
-penelitian.
-
-</p>
+{no}
 
 </div>
 
-""", unsafe_allow_html=True)
+<div style="font-size:40px;margin-bottom:15px;">
 
-with c5:
-
-    st.markdown("""
-
-<div class="app-card">
-
-<div style="font-size:45px;text-align:center;">
-📊
-</div>
-
-<h3 style="text-align:center;color:white;">
-Plotly
-</h3>
-
-<p class="card-text" style="text-align:center;">
-
-Visualisasi data
-secara interaktif.
-
-</p>
+{icon}
 
 </div>
 
-""", unsafe_allow_html=True)
+<div class="flow-title">
 
-with c6:
+{title}
 
-    st.markdown("""
-
-<div class="app-card">
-
-<div style="font-size:45px;text-align:center;">
-📄
 </div>
-
-<h3 style="text-align:center;color:white;">
-OpenPyXL
-</h3>
-
-<p class="card-text" style="text-align:center;">
-
-Membaca dan
-mengolah file
-Microsoft Excel.
-
-</p>
 
 </div>
 
 """, unsafe_allow_html=True)
 
 # ==========================================================
-# PENGEMBANG
+# PENUTUP
 # ==========================================================
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 
 st.markdown("""
 
-<div class="app-card">
+<div class="rf-box">
 
 <h2 style="color:white;text-align:center;">
-👨‍💻 Profil Pengembang
+📌 Ringkasan Sistem
 </h2>
 
-<p class="card-text" style="text-align:center;">
+<p style="
+color:#e2e8f0;
+text-align:center;
+font-size:16px;
+line-height:2;
+">
 
-Aplikasi ini dikembangkan sebagai implementasi penelitian
-Program Studi Sistem Informasi yang bertujuan menerapkan
-algoritma Random Forest untuk mengklasifikasikan layanan
-servis kendaraan Yamaha berdasarkan data historis servis.
+Sistem Klasifikasi Layanan Servis Yamaha merupakan aplikasi
+berbasis web yang dikembangkan untuk membantu proses klasifikasi
+layanan servis menggunakan algoritma <b>Random Forest</b>.
 
-</p>
+Melalui aplikasi ini, pengguna dapat melakukan pengelolaan dataset,
+preprocessing, pelatihan model, evaluasi performa, analisis hasil,
+hingga prediksi layanan servis secara terintegrasi dalam satu sistem.
 
-</div>
-
-""", unsafe_allow_html=True)
-
-st.markdown("<br>", unsafe_allow_html=True)
-
-col1, col2 = st.columns(2)
-
-# ==========================================================
-# IDENTITAS
-# ==========================================================
-
-with col1:
-
-    st.markdown("""
-
-<div class="app-card">
-
-<h3 style="color:white;text-align:center;">
-📌 Identitas
-</h3>
-
-<p class="card-text">
-
-<b>Nama</b><br>
-Raka Giffari Ramadhan
-
-<br><br>
-
-<b>Program Studi</b><br>
-Sistem Informasi
-
-<br><br>
-
-<b>Universitas</b><br>
-Universitas Putra Indonesia "YPTK" Padang
-
-<br><br>
-
-<b>Tahun</b><br>
-2026
-
-</p>
-
-</div>
-
-""", unsafe_allow_html=True)
-
-# ==========================================================
-# INFORMASI APLIKASI
-# ==========================================================
-
-with col2:
-
-    st.markdown("""
-
-<div class="app-card">
-
-<h3 style="color:white;text-align:center;">
-📘 Informasi Aplikasi
-</h3>
-
-<p class="card-text">
-
-<b>Versi</b><br>
-1.0
-
-<br><br>
-
-<b>Bahasa Pemrograman</b><br>
-Python
-
-<br><br>
-
-<b>Framework</b><br>
-Streamlit
-
-<br><br>
-
-<b>Machine Learning</b><br>
-Scikit-Learn
+Diharapkan aplikasi ini dapat menjadi media pembelajaran sekaligus
+alat bantu analisis data yang mudah digunakan, interaktif,
+dan informatif.
 
 </p>
 
