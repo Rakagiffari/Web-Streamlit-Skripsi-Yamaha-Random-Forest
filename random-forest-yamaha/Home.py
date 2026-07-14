@@ -215,7 +215,7 @@ FEATURE BOX
 .feature-title{
     font-size:30px;
     font-weight:700;
-    color: white;
+    color: #14332a;
     margin-bottom:10px;
 }
 
