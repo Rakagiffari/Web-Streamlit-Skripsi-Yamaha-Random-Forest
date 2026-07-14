@@ -663,19 +663,22 @@ if uploaded_file is not None:
             # ==========================================================
             # REPRESENTATIVE DECISION TREE
             # ==========================================================
-
             st.markdown("---")
             st.markdown("## 🌳 Representative Decision Tree")
 
-            st.caption("""
-Tree berikut merupakan salah satu Decision Tree yang
-membentuk Random Forest.
+            st.info("""
+Visualisasi berikut merupakan salah satu Decision Tree
+yang membentuk Random Forest.
 
-Visualisasi dibatasi hingga kedalaman 3 level
-agar lebih mudah dipahami.
+Tree ditampilkan hingga kedalaman 3 level agar pola
+pengambilan keputusan lebih mudah dipahami.
+
+Decision Tree ini digunakan sebagai representasi proses
+klasifikasi, sedangkan keputusan akhir Random Forest
+tetap berasal dari gabungan seluruh Decision Tree.
 """)
 
-            fig_tree, ax = plt.subplots(figsize=(18,8))
+            fig_tree, ax = plt.subplots(figsize=(20,8))
 
             plot_tree(
 
@@ -689,13 +692,13 @@ agar lebih mudah dipahami.
 
                 rounded=True,
 
+                fontsize=9,
+
                 impurity=False,
 
                 proportion=True,
 
                 max_depth=3,
-
-                fontsize=9,
 
                 ax=ax
 
@@ -705,7 +708,97 @@ agar lebih mudah dipahami.
 
             st.pyplot(fig_tree)
 
-                        # ==========================================================
+            # ==========================================================
+            # TREE ANALYSIS
+            # ==========================================================
+
+            st.markdown("### 📍 Tree Analysis")
+
+            top1 = importance_grouped.iloc[0]["Fitur"]
+            top2 = importance_grouped.iloc[1]["Fitur"]
+            top3 = importance_grouped.iloc[2]["Fitur"]
+
+            col1, col2 = st.columns([1.2,1])
+
+            with col1:
+
+                st.success(f"""
+### 🌲 Representative Tree
+
+Tree di atas merupakan salah satu Decision Tree
+yang dipelajari oleh algoritma Random Forest.
+
+Node pada bagian paling atas (root node)
+menunjukkan fitur pertama yang digunakan
+untuk memisahkan data.
+
+Selanjutnya Decision Tree melakukan
+pemisahan data secara bertahap
+hingga menghasilkan prediksi kategori service.
+""")
+
+            with col2:
+
+                st.info(f"""
+### ⭐ Feature Dominan
+
+🥇 **{top1}**
+
+🥈 **{top2}**
+
+🥉 **{top3}**
+
+Ketiga fitur tersebut merupakan
+fitur yang paling sering dimanfaatkan
+oleh Random Forest.
+""")
+
+            # ==========================================================
+            # INSIGHT
+            # ==========================================================
+
+            st.markdown("### 💡 Insight Decision Tree")
+
+            st.markdown(f"""
+<div style="
+background:#111827;
+padding:20px;
+border-radius:15px;
+border-left:6px solid #ef4444;
+">
+
+<b>Interpretasi Decision Tree</b>
+
+<br><br>
+
+Representative Decision Tree menunjukkan bahwa proses
+klasifikasi dilakukan secara bertahap dengan memisahkan
+data berdasarkan nilai pada setiap node.
+
+Berdasarkan hasil Feature Importance,
+Random Forest lebih banyak memanfaatkan fitur
+<b>{top1}</b>,
+kemudian
+<b>{top2}</b>,
+serta
+<b>{top3}</b>
+untuk membedakan kategori
+<b>Service Ringan</b>
+dan
+<b>Service Berat</b>.
+
+Decision Tree di atas memberikan gambaran bagaimana
+salah satu pohon melakukan proses klasifikasi.
+
+Namun prediksi akhir Random Forest
+tetap diperoleh melalui proses
+<b>Majority Voting</b>
+dari seluruh Decision Tree.
+
+</div>
+""", unsafe_allow_html=True)
+            
+            # ==========================================================
             # TREE INSIGHT
             # ==========================================================
 
