@@ -527,20 +527,16 @@ analisis dapat disimpan dalam bentuk Laporan PDF.
 # ==========================================================
 
 st.markdown("<br>", unsafe_allow_html=True)
-st.success(
-"""
-✅ Selamat datang di Sistem Klasifikasi Layanan Servis Yamaha.
+st.success("""
 
 Gunakan menu pada sidebar untuk memulai proses klasifikasi,
 melatih model Random Forest, melihat visualisasi Decision Tree,
 mengevaluasi performa model, dan menghasilkan laporan PDF.
-"""
-)
 
+""")
 st.markdown("<br>", unsafe_allow_html=True)
-
 st.markdown("""
-<hr>
+    <hr>
 
 <div style="text-align:center;
 font-size:15px;
