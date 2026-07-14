@@ -216,7 +216,7 @@ FEATURE BOX
     font-size:30px;
     font-weight:700;
     color: white;
-    margin-bottom:10px;
+    margin-bottom:5px;
 }
 
 .feature-desc{
