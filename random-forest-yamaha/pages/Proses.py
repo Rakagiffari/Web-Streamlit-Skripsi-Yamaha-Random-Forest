@@ -233,32 +233,67 @@ if uploaded_file is not None:
         # =====================================
         # INFORMASI TIPE DATA
         # =====================================
+st.markdown(f"""
+<div class="section-card">
 
-        st.markdown("### 📝 Ringkasan Tipe Data")
+<div class="section-title">
+📝 Ringkasan Tipe Data
+</div>
 
-        info_df = pd.DataFrame({
+<table style="width:100%;
+border-collapse:collapse;
+margin-top:15px;">
 
-            "Informasi": [
+<tr style="
+background:#f3f4f6;
+">
 
-                "Kolom Numerik",
-                "Kolom Kategori"
+<th style="
+padding:14px;
+text-align:left;
+border:1px solid #e5e7eb;
+">
+Informasi
+</th>
 
-            ],
+<th style="
+padding:14px;
+text-align:center;
+border:1px solid #e5e7eb;
+">
+Jumlah
+</th>
 
-            "Jumlah": [
+</tr>
 
-                numeric_cols,
-                categorical_cols
+<tr>
 
-            ]
+<td style="padding:14px;border:1px solid #e5e7eb;">
+Kolom Numerik
+</td>
 
-        })
+<td style="padding:14px;text-align:center;border:1px solid #e5e7eb;">
+{numeric_cols}
+</td>
 
-        st.dataframe(
-            info_df,
-            use_container_width=True,
-            hide_index=True
-        )
+</tr>
+
+<tr>
+
+<td style="padding:14px;border:1px solid #e5e7eb;">
+Kolom Kategori
+</td>
+
+<td style="padding:14px;text-align:center;border:1px solid #e5e7eb;">
+{categorical_cols}
+</td>
+
+</tr>
+
+</table>
+
+</div>
+""", unsafe_allow_html=True)
 
         # =====================================
         # MISSING VALUE
