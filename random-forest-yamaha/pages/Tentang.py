@@ -1,6 +1,5 @@
 import streamlit as st
 from pathlib import Path
-import base64
 
 # ==========================================================
 # PAGE CONFIG
@@ -8,258 +7,98 @@ import base64
 
 st.set_page_config(
     page_title="Tentang Sistem",
-    page_icon="📘",
+    page_icon="ℹ️",
     layout="wide"
 )
 
 # ==========================================================
-# PATH PROJECT
-# ==========================================================
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-# ==========================================================
-# FOTO PROFIL
-# ==========================================================
-
-FOTO_PATH = BASE_DIR / "assets" / "foto.jpg"
-
-def load_image_base64(path):
-
-    if not path.exists():
-        return ""
-
-    with open(path, "rb") as img:
-        return base64.b64encode(img.read()).decode()
-
-foto = load_image_base64(FOTO_PATH)
-
-# ==========================================================
-# CSS
+# CUSTOM CSS
 # ==========================================================
 
 st.markdown("""
 <style>
 
 .stApp{
-    background:#050817;
+    background:#0f172a;
 }
 
 .block-container{
-
     max-width:1200px;
-
     padding-top:2rem;
-
     padding-bottom:2rem;
-
 }
 
-/* ==========================
-TITLE
-========================== */
-
-.title{
-
-    text-align:center;
+.main-title{
 
     color:white;
 
     font-size:40px;
 
-    font-weight:700;
+    font-weight:bold;
 
-    margin-bottom:12px;
+    text-align:center;
+
+    margin-bottom:10px;
 
 }
 
-.description{
+.main-desc{
 
-    color:#d1d5db;
+    color:#cbd5e1;
 
-    font-size:19px;
+    font-size:18px;
 
-    line-height:1.8;
-
-    text-align:justify;
+    text-align:center;
 
     margin-bottom:35px;
 
-}
+    line-height:1.8;
 
-/* ==========================
-CARD
-========================== */
+}
 
 .card{
 
-    background:#3b3e4d;
+    background:linear-gradient(145deg,#111827,#1e293b);
 
-    border-radius:28px;
+    border-radius:20px;
 
-    padding:30px;
+    padding:25px;
 
-    transition:.35s;
-
-    box-shadow:0 8px 25px rgba(0,0,0,.25);
-
-}
-
-.card:hover{
-
-    transform:translateY(-5px);
-
-    box-shadow:0 15px 35px rgba(0,0,0,.35);
-
-}
-
-/* ==========================
-PROFILE
-========================== */
-
-.profile{
-
-    display:flex;
-
-    align-items:center;
-
-}
-
-.photo{
-
-    width:165px;
-
-    height:210px;
-
-    border-radius:22px;
-
-    overflow:hidden;
-
-    border:3px solid white;
-
-    flex-shrink:0;
-
-    background:white;
-
-}
-
-.photo img{
-
-    width:100%;
-
-    height:100%;
-
-    object-fit:cover;
-
-}
-
-.line{
-
-    width:4px;
-
-    height:215px;
-
-    background:white;
-
-    margin-left:35px;
-
-    margin-right:35px;
-
-}
-
-.profile-text{
-
-    color:white;
-
-    font-size:20px;
-
-    line-height:2;
-
-}
-
-/* ==========================
-TECH
-========================== */
-
-.tech-title{
-
-    color:white;
-
-    text-align:center;
-
-    font-size:28px;
-
-    font-weight:bold;
-
-    margin-bottom:25px;
-
-}
-
-.tech{
-
-    color:white;
-
-    text-align:center;
-
-    font-size:21px;
-
-    line-height:2;
-
-}
-
-/* ==========================
-SECTION
-========================== */
-
-.section{
-
-    background:#3b3e4d;
-
-    border-radius:28px;
-
-    padding:35px;
-
-    margin-top:35px;
+    border:1px solid rgba(255,255,255,.08);
 
 }
 
 .section-title{
 
-    text-align:center;
-
     color:white;
 
-    font-size:34px;
+    font-size:28px;
 
-    font-weight:700;
+    font-weight:bold;
+
+    margin-bottom:20px;
 
 }
 
-.section-text{
+.info{
 
     color:#d1d5db;
 
-    font-size:19px;
+    font-size:17px;
 
-    line-height:1.8;
-
-    text-align:justify;
+    line-height:1.9;
 
 }
 
-/* ==========================
-FOOTER
-========================== */
-
 .footer{
-
-    color:#cbd5e1;
 
     text-align:center;
 
-    margin-top:40px;
+    color:#94a3b8;
 
-    font-size:18px;
+    margin-top:50px;
+
+    font-size:14px;
 
 }
 
@@ -270,51 +109,30 @@ FOOTER
 # HEADER
 # ==========================================================
 
-st.markdown("""
-<div class="title">
-    TENTANG SISTEM
-</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    "<div class='main-title'>📘 Tentang Sistem</div>",
+    unsafe_allow_html=True
+)
 
-st.markdown("""
-<div class="description">
-
-Halaman ini menyajikan informasi mengenai sistem klasifikasi
-layanan servis sepeda motor Yamaha menggunakan algoritma
-<b>Random Forest</b>. Selain informasi penelitian, halaman
-ini juga menampilkan profil pengembang dan teknologi yang
-digunakan dalam membangun aplikasi.
-
-</div>
-""", unsafe_allow_html=True)
-
-# ==========================================================
-# FOTO HTML
-# ==========================================================
-
-if foto:
-    foto_html = f"""
-    <img src="data:image/jpeg;base64,{foto}">
+st.markdown(
     """
-else:
-    foto_html = """
-    <div style="
-        width:100%;
-        height:100%;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        font-size:26px;
-        color:#64748b;
-        font-weight:bold;
-    ">
-        FOTO
-    </div>
-    """
+<div class='main-desc'>
 
+Sistem ini merupakan implementasi algoritma <b>Random Forest</b>
+untuk mengklasifikasikan layanan servis sepeda motor Yamaha.
+Aplikasi dibangun menggunakan Streamlit sehingga proses
+preprocessing, pelatihan model, evaluasi, hingga prediksi
+dapat dilakukan dalam satu antarmuka.
+
+</div>
+""",
+    unsafe_allow_html=True
+)
 # ==========================================================
 # BIODATA & TEKNOLOGI
 # ==========================================================
+
+st.markdown("---")
 
 left, right = st.columns([2, 1], gap="large")
 
@@ -324,52 +142,45 @@ left, right = st.columns([2, 1], gap="large")
 
 with left:
 
-    st.markdown(f"""
+    with st.container(border=True):
 
-    <div class="card">
+        st.markdown("### 👤 Biodata Pengembang")
 
-        <div class="profile">
+        foto_col, data_col = st.columns([1, 2])
 
-            <div class="photo">
+        # -------------------------
+        # FOTO
+        # -------------------------
 
-                {foto_html}
+        with foto_col:
 
-            </div>
+            foto_path = Path(__file__).resolve().parent.parent / "assets" / "foto.jpg"
 
-            <div class="line"></div>
+            if foto_path.exists():
+                st.image(str(foto_path), use_container_width=True)
+            else:
+                st.warning("Foto tidak ditemukan")
 
-            <div class="profile-text">
+        # -------------------------
+        # BIODATA
+        # -------------------------
 
-                <b>Nama</b><br>
-                Giffari
+        with data_col:
 
-                <br>
+            st.write("**Nama**")
+            st.write("Giffari")
 
-                <b>NIM</b><br>
-                20XXXXXXXX
+            st.write("**NIM**")
+            st.write("20XXXXXXXX")
 
-                <br>
+            st.write("**Program Studi**")
+            st.write("Sistem Informasi")
 
-                <b>Program Studi</b><br>
-                Sistem Informasi
+            st.write("**Universitas**")
+            st.write("Universitas Muhammadiyah Kalimantan Timur")
 
-                <br>
-
-                <b>Universitas</b><br>
-                Universitas Muhammadiyah Kalimantan Timur
-
-                <br>
-
-                <b>Email</b><br>
-                giffari@email.com
-
-            </div>
-
-        </div>
-
-    </div>
-
-    """, unsafe_allow_html=True)
+            st.write("**Email**")
+            st.write("giffari@email.com")
 
 # ==========================================================
 # CARD TEKNOLOGI
@@ -377,35 +188,33 @@ with left:
 
 with right:
 
-    st.markdown("""
+    with st.container(border=True):
 
-    <div class="card">
+        st.markdown("### ⚙️ Teknologi")
 
-        <div class="tech-title">
+        st.markdown("🐍 **Python**")
 
-            Teknologi yang Digunakan
+        st.progress(100)
 
-        </div>
+        st.markdown("🌲 **Random Forest**")
 
-        <div class="tech">
+        st.progress(100)
 
-            🐍 Python <br><br>
+        st.markdown("📊 **Pandas**")
 
-            🌲 Random Forest <br><br>
+        st.progress(100)
 
-            📊 Pandas <br><br>
+        st.markdown("🤖 **Scikit-Learn**")
 
-            🤖 Scikit-Learn <br><br>
+        st.progress(100)
 
-            🎈 Streamlit <br><br>
+        st.markdown("🎈 **Streamlit**")
 
-            📄 ReportLab
+        st.progress(100)
 
-        </div>
+        st.markdown("📄 **ReportLab**")
 
-    </div>
-
-    """, unsafe_allow_html=True)
+        st.progress(100)
 
 # ==========================================================
 # TENTANG PENELITIAN
@@ -413,360 +222,220 @@ with right:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-st.markdown("""
+st.markdown("## 📖 Tentang Penelitian")
 
-<div class="section">
+with st.container(border=True):
 
-    <div class="section-title">
+    st.write("""
+Penelitian ini bertujuan membangun sistem klasifikasi layanan servis
+sepeda motor Yamaha menggunakan algoritma **Random Forest**.
+Sistem mampu membantu proses klasifikasi berdasarkan data historis
+layanan servis sehingga proses analisis menjadi lebih cepat,
+konsisten, dan mudah digunakan.
 
-        TENTANG PENELITIAN
+Tahapan sistem meliputi proses **upload dataset, preprocessing,
+feature engineering, pelatihan model, evaluasi model,** hingga
+**prediksi layanan servis** melalui antarmuka berbasis web.
+""")
 
-    </div>
-
-    <br>
-
-    <div class="section-text">
-
-Penelitian ini bertujuan mengembangkan sistem klasifikasi layanan
-servis sepeda motor Yamaha menggunakan algoritma
-<b>Random Forest</b>. Sistem dibangun berbasis web menggunakan
-framework <b>Streamlit</b> sehingga pengguna dapat melakukan
-proses upload dataset, preprocessing, feature engineering,
-pelatihan model, evaluasi, hingga memperoleh hasil prediksi
-secara otomatis dalam satu aplikasi.
-
-<br><br>
-
-Aplikasi ini diharapkan dapat membantu proses analisis data
-layanan servis menjadi lebih cepat, konsisten, dan mudah
-digunakan baik untuk kebutuhan penelitian maupun pengembangan
-lebih lanjut.
-
-    </div>
-
-</div>
-
-""", unsafe_allow_html=True)
+st.markdown("<br>", unsafe_allow_html=True)
 
 # ==========================================================
 # INFORMASI PENELITIAN
 # ==========================================================
 
-st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("## 📊 Informasi Penelitian")
 
-col1, col2, col3 = st.columns(3, gap="large")
+col1, col2, col3 = st.columns(3)
 
-# ==========================================================
-# ALGORITMA
-# ==========================================================
+# ----------------------------------------------------------
 
 with col1:
 
-    st.markdown("""
+    with st.container(border=True):
 
-    <div class="card">
+        st.markdown("### 🌲 Algoritma")
 
-        <div style="font-size:55px;text-align:center;">
-            🌲
-        </div>
+        st.metric(
+            label="Metode",
+            value="Random Forest"
+        )
 
-        <h3 style="text-align:center;color:white;">
-            Random Forest
-        </h3>
+        st.caption(
+            "Digunakan sebagai algoritma klasifikasi utama."
+        )
 
-        <p style="
-            color:#d1d5db;
-            text-align:center;
-            line-height:1.8;
-            font-size:16px;
-        ">
-
-        Algoritma Random Forest digunakan
-        sebagai model klasifikasi untuk
-        memprediksi kategori layanan servis
-        berdasarkan data historis.
-
-        </p>
-
-    </div>
-
-    """, unsafe_allow_html=True)
-
-# ==========================================================
-# DATASET
-# ==========================================================
+# ----------------------------------------------------------
 
 with col2:
 
-    st.markdown("""
+    with st.container(border=True):
 
-    <div class="card">
+        st.markdown("### 📂 Dataset")
 
-        <div style="font-size:55px;text-align:center;">
-            📊
-        </div>
+        st.metric(
+            label="Jenis Data",
+            value="Layanan Servis"
+        )
 
-        <h3 style="text-align:center;color:white;">
-            Dataset
-        </h3>
+        st.caption(
+            "Dataset historis servis sepeda motor Yamaha."
+        )
 
-        <p style="
-            color:#d1d5db;
-            text-align:center;
-            line-height:1.8;
-            font-size:16px;
-        ">
-
-        Dataset layanan servis Yamaha
-        diproses melalui preprocessing,
-        feature engineering, encoding,
-        serta pembagian data latih
-        dan data uji.
-
-        </p>
-
-    </div>
-
-    """, unsafe_allow_html=True)
-
-# ==========================================================
-# SISTEM
-# ==========================================================
+# ----------------------------------------------------------
 
 with col3:
 
-    st.markdown("""
+    with st.container(border=True):
 
-    <div class="card">
+        st.markdown("### 💻 Platform")
 
-        <div style="font-size:55px;text-align:center;">
-            💻
-        </div>
+        st.metric(
+            label="Aplikasi",
+            value="Streamlit"
+        )
 
-        <h3 style="text-align:center;color:white;">
-            Sistem
-        </h3>
+        st.caption(
+            "Aplikasi berbasis web interaktif."
+        )
 
-        <p style="
-            color:#d1d5db;
-            text-align:center;
-            line-height:1.8;
-            font-size:16px;
-        ">
+st.markdown("<br>", unsafe_allow_html=True)
 
-        Sistem menyediakan proses
-        upload dataset, pelatihan
-        model Random Forest,
-        evaluasi performa,
-        dan visualisasi hasil.
+# ==========================================================
+# FITUR SISTEM
+# ==========================================================
 
-        </p>
+st.markdown("## 🚀 Fitur Sistem")
 
-    </div>
+fitur1, fitur2 = st.columns(2)
 
-    """, unsafe_allow_html=True)
+with fitur1:
+
+    st.success("✅ Upload Dataset")
+
+    st.success("✅ Preprocessing Data")
+
+    st.success("✅ Feature Engineering")
+
+with fitur2:
+
+    st.success("✅ Training Random Forest")
+
+    st.success("✅ Evaluasi Model")
+
+    st.success("✅ Prediksi Layanan")
 
 # ==========================================================
 # RINGKASAN SISTEM
 # ==========================================================
 
-st.markdown("<br><br>", unsafe_allow_html=True)
+st.markdown("---")
 
-st.markdown("""
-<div class="section-title">
-    INFORMASI APLIKASI
-</div>
-""", unsafe_allow_html=True)
+st.markdown("## 📌 Ringkasan Sistem")
 
-col1, col2, col3, col4 = st.columns(4, gap="large")
-
-# ==========================================================
-# CARD 1
-# ==========================================================
+col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-
-    st.markdown("""
-
-    <div class="card" style="text-align:center;min-height:220px;">
-
-        <div style="font-size:55px;">🌲</div>
-
-        <h3 style="color:white;margin-top:10px;">
-            Algoritma
-        </h3>
-
-        <p style="
-            color:#d1d5db;
-            line-height:1.8;
-            font-size:16px;
-        ">
-
-        Random Forest digunakan
-        sebagai model klasifikasi
-        layanan servis.
-
-        </p>
-
-    </div>
-
-    """, unsafe_allow_html=True)
-
-# ==========================================================
-# CARD 2
-# ==========================================================
+    st.metric(
+        label="Algoritma",
+        value="Random Forest"
+    )
 
 with col2:
-
-    st.markdown("""
-
-    <div class="card" style="text-align:center;min-height:220px;">
-
-        <div style="font-size:55px;">📊</div>
-
-        <h3 style="color:white;margin-top:10px;">
-            Dataset
-        </h3>
-
-        <p style="
-            color:#d1d5db;
-            line-height:1.8;
-            font-size:16px;
-        ">
-
-        Dataset histori layanan
-        servis Yamaha yang telah
-        diproses melalui
-        preprocessing.
-
-        </p>
-
-    </div>
-
-    """, unsafe_allow_html=True)
-
-# ==========================================================
-# CARD 3
-# ==========================================================
+    st.metric(
+        label="Framework",
+        value="Streamlit"
+    )
 
 with col3:
-
-    st.markdown("""
-
-    <div class="card" style="text-align:center;min-height:220px;">
-
-        <div style="font-size:55px;">💻</div>
-
-        <h3 style="color:white;margin-top:10px;">
-            Platform
-        </h3>
-
-        <p style="
-            color:#d1d5db;
-            line-height:1.8;
-            font-size:16px;
-        ">
-
-        Web Application
-        menggunakan
-        Streamlit Framework.
-
-        </p>
-
-    </div>
-
-    """, unsafe_allow_html=True)
-
-# ==========================================================
-# CARD 4
-# ==========================================================
+    st.metric(
+        label="Bahasa",
+        value="Python"
+    )
 
 with col4:
+    st.metric(
+        label="Versi",
+        value="1.0"
+    )
+
+# ==========================================================
+# ALUR SINGKAT
+# ==========================================================
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+st.markdown("## 🔄 Alur Sistem")
+
+with st.container(border=True):
 
     st.markdown("""
+1. 📂 Upload Dataset
 
-    <div class="card" style="text-align:center;min-height:220px;">
+2. 🧹 Preprocessing Data
 
-        <div style="font-size:55px;">⚙️</div>
+3. ⚙️ Feature Engineering
 
-        <h3 style="color:white;margin-top:10px;">
-            Versi
-        </h3>
+4. 🌲 Training Model Random Forest
 
-        <p style="
-            color:#d1d5db;
-            line-height:1.8;
-            font-size:16px;
-        ">
+5. 📈 Evaluasi Model
 
-        Version 1.0
+6. 🎯 Prediksi Layanan Servis
 
-        <br>
-
-        Tahun 2026
-
-        </p>
-
-    </div>
-
-    """, unsafe_allow_html=True)
+7. 📄 Generate Laporan
+""")
 
 # ==========================================================
-# GARIS PEMBATAS
+# LIBRARY
 # ==========================================================
 
-st.markdown("<br><br>", unsafe_allow_html=True)
+st.markdown("<br>", unsafe_allow_html=True)
 
-st.markdown("""
-<hr style="
-border:1px solid rgba(255,255,255,.10);
-margin-top:10px;
-margin-bottom:25px;
-">
-""", unsafe_allow_html=True)
+st.markdown("## 📚 Library yang Digunakan")
+
+lib1, lib2, lib3 = st.columns(3)
+
+with lib1:
+
+    st.info("""
+🐍 Python
+
+📊 Pandas
+
+🔢 NumPy
+""")
+
+with lib2:
+
+    st.info("""
+🌲 Scikit-Learn
+
+📈 Plotly
+
+📉 Matplotlib
+""")
+
+with lib3:
+
+    st.info("""
+🎈 Streamlit
+
+📄 ReportLab
+
+📂 OpenPyXL
+""")
 
 # ==========================================================
 # FOOTER
 # ==========================================================
 
-st.markdown("""
+st.markdown("---")
 
-<div class="footer">
+st.caption(
+    "Sistem Klasifikasi Layanan Servis Yamaha "
+    "| Random Forest Classification"
+)
 
-<div style="
-font-size:22px;
-font-weight:700;
-color:white;
-margin-bottom:10px;
-">
-
-Sistem Klasifikasi Layanan Servis Yamaha
-
-</div>
-
-<div style="
-font-size:17px;
-line-height:1.8;
-">
-
-Dikembangkan sebagai implementasi penelitian
-menggunakan algoritma <b>Random Forest</b>
-untuk membantu proses klasifikasi layanan
-servis sepeda motor Yamaha.
-
-</div>
-
-<br>
-
-<div style="
-font-size:15px;
-color:#9ca3af;
-">
-
-© 2026 Giffari | Universitas Muhammadiyah Kalimantan Timur
-
-</div>
-
-</div>
-
-""", unsafe_allow_html=True)
+st.caption(
+    "Dikembangkan oleh Giffari • Universitas Muhammadiyah Kalimantan Timur • 2026"
+)
