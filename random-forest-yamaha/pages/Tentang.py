@@ -8,7 +8,7 @@ from PIL import Image
 
 BASE_DIR = Path(__file__).parent
 
-foto_path = BASE_DIR / "assets" / "yamaha_logo.png"
+foto_path = BASE_DIR / "assets" / "foto.jpg"
 
 foto = Image.open(foto_path)
 
