@@ -753,52 +753,55 @@ st.dataframe(
 )
 
 # =====================================
-# INSIGHT OTOMATIS
+# INSIGHT MODEL RANDOM FOREST
 # =====================================
 
-st.markdown("### 📌 Insight Otomatis")
+st.markdown("---")
+st.markdown("## 💡 Insight Model Random Forest")
 
-st.info(
-f"""
-Model menunjukkan bahwa **{top1['Fitur']}** merupakan faktor yang paling berpengaruh
-dengan nilai Feature Importance sebesar **{top1['Importance']:.2%}**.
+# Urutkan Feature Importance
+importance_sorted = importance_grouped.sort_values(
+    by="Importance",
+    ascending=False
+).reset_index(drop=True)
 
-Fitur tersebut lebih sering digunakan oleh Decision Tree dibandingkan fitur lainnya
-ketika menentukan kategori layanan service.
+# Ambil Top 3
+top1 = importance_sorted.iloc[0]
+top2 = importance_sorted.iloc[1]
+top3 = importance_sorted.iloc[2]
 
-Selanjutnya model juga mempertimbangkan fitur
-**{top2['Fitur']}** ({top2['Importance']:.2%})
-dan
-**{top3['Fitur']}** ({top3['Importance']:.2%})
-untuk meningkatkan ketepatan klasifikasi.
+# Tampilkan ranking
+ranking = importance_sorted.copy()
+ranking["Importance"] = (ranking["Importance"] * 100).round(2)
 
-Hal ini menunjukkan bahwa keputusan Random Forest tidak hanya dipengaruhi oleh satu variabel,
-melainkan merupakan kombinasi dari beberapa karakteristik kendaraan yang dipelajari secara bersamaan.
-"""
+st.markdown("### ⭐ Ranking Feature Importance")
+
+st.dataframe(
+    ranking.rename(columns={"Importance": "Importance (%)"}),
+    use_container_width=True,
+    hide_index=True
 )
 
-# =====================================
-# RULE REPRESENTATIVE
-# =====================================
+# Insight otomatis
+st.markdown("### 📊 Insight Model")
 
-st.markdown("### 🌲 Contoh Rule Decision Tree")
+st.info(
+    f"""
+Model Random Forest memperoleh **Accuracy sebesar {accuracy:.2%}**.
 
-from sklearn.tree import export_text
+Berdasarkan hasil pelatihan, fitur yang paling berpengaruh terhadap proses klasifikasi adalah **{top1['Fitur']}** dengan nilai Feature Importance sebesar **{top1['Importance']:.2%}**.
 
-try:
+Selanjutnya diikuti oleh:
 
-    rules = export_text(
-        model.estimators_[0],
-        feature_names=list(X.columns)
-    )
+🥈 **{top2['Fitur']}** ({top2['Importance']:.2%})
 
-    st.code(rules[:2500])
+🥉 **{top3['Fitur']}** ({top3['Importance']:.2%})
 
-except:
+Hal ini menunjukkan bahwa model lebih banyak memanfaatkan ketiga fitur tersebut ketika membedakan kategori layanan service.
 
-    st.warning(
-        "Rule Decision Tree tidak dapat ditampilkan karena fitur telah mengalami proses encoding."
-    )
+Keputusan Random Forest tidak ditentukan oleh satu fitur saja, tetapi merupakan kombinasi dari seluruh fitur yang dipelajari oleh banyak Decision Tree melalui mekanisme **Majority Voting**.
+"""
+)
 
 # =====================================
 # KESIMPULAN
@@ -807,20 +810,14 @@ except:
 st.markdown("### 📝 Kesimpulan")
 
 st.success(
-f"""
+    f"""
 Model Random Forest berhasil mencapai **Accuracy sebesar {accuracy:.2%}**.
 
-Analisis Feature Importance menunjukkan bahwa fitur yang paling dominan adalah
-**{top1['Fitur']}**, diikuti oleh
-**{top2['Fitur']}**
-dan
-**{top3['Fitur']}**.
+Analisis menunjukkan bahwa fitur yang paling dominan adalah **{top1['Fitur']}**, diikuti oleh **{top2['Fitur']}** dan **{top3['Fitur']}**.
 
-Artinya proses klasifikasi lebih banyak dipengaruhi oleh kombinasi ketiga fitur tersebut dibandingkan fitur lainnya.
-
-Karena Random Forest terdiri dari banyak Decision Tree, keputusan akhir diperoleh melalui mekanisme Majority Voting sehingga hasil klasifikasi menjadi lebih stabil dan robust.
+Dengan demikian, model lebih banyak mempertimbangkan ketiga fitur tersebut dalam proses klasifikasi dibandingkan fitur lainnya.
 """
-)   
+)
                 # =====================================
                 # PDF
                 # =====================================
