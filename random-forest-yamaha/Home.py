@@ -459,8 +459,8 @@ flow_data = [
 # ==========================================================
 # BARIS 1
 # ==========================================================
-cols = st.columns(7)
-for i in range(7):
+cols = st.columns(8)
+for i in range(8):
     no,icon,title = flow_data[i]
     with cols[i]:
         st.markdown(f"""
