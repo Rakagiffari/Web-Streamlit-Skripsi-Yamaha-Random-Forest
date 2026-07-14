@@ -680,13 +680,14 @@ proses Majority Voting dari seluruh Decision Tree.
                 fig_tree, ax = plt.subplots(figsize=(20, 10))
 
                 plot_tree(
-                    model.estimators_[0],
-                    filled=True,
-                    rounded=True,
-                    impurity=False,
-                    fontsize=7,
-                    ax=ax
-                )
+    model.estimators_[0],
+    max_depth=3,
+    filled=True,
+    rounded=True,
+    impurity=False,
+    fontsize=10,
+    ax=ax
+)
 
                 plt.tight_layout()
 
