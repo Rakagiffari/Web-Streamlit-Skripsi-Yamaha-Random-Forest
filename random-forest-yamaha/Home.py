@@ -433,45 +433,6 @@ with c3:
 """, unsafe_allow_html=True)
     
 # ==========================================================
-# BARIS 2
-# ==========================================================
-cols = st.columns(4)
-    for i in range(3,8):
-        no,icon,title = flow_data[i]
-    with cols[i-3]:
-
-        st.markdown(f"""
-<div class="flow-card">
-
-<div class="flow-number">
-
-{no}
-
-</div>
-
-<div style="font-size:48px;margin-bottom:15px;">
-
-{icon}
-
-</div>
-
-<div class="flow-title">
-
-{title}
-
-</div>
-
-<div class="flow-desc">
-
-{desc}
-
-</div>
-
-</div>
-""", unsafe_allow_html=True)
-
-st.markdown("<div style='text-align:center;font-size:35px;'>⬇️</div>", unsafe_allow_html=True)
-# ==========================================================
 # ALUR SISTEM
 # ==========================================================
 
@@ -517,6 +478,49 @@ for i in range(4):
 """, unsafe_allow_html=True)
 st.markdown("<br><br>", unsafe_allow_html=True)
 
+# ==========================================================
+# BARIS 2
+# ==========================================================
+
+cols = st.columns(3)
+
+for i in range(3,6):
+
+    no,icon,title,desc = flow_data[i]
+
+    with cols[i-3]:
+
+        st.markdown(f"""
+<div class="flow-card">
+
+<div class="flow-number">
+
+{no}
+
+</div>
+
+<div style="font-size:48px;margin-bottom:15px;">
+
+{icon}
+
+</div>
+
+<div class="flow-title">
+
+{title}
+
+</div>
+
+<div class="flow-desc">
+
+{desc}
+
+</div>
+
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown("<div style='text-align:center;font-size:35px;'>⬇️</div>", unsafe_allow_html=True)
 # ==========================================================
 # PENJELASAN
 # ==========================================================
