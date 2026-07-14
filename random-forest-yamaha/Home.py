@@ -494,7 +494,7 @@ for i in range(4,8):
                 <div class="flow-number">
                     {no}
                 </div>
-                <div style="font-size:48px;margin-bottom:15px;">
+                <div style="font-size:35px;margin-bottom:15px;">
                     {icon}
                 </div>
                 <div class="flow-title">
