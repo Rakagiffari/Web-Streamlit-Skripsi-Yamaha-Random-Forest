@@ -466,7 +466,7 @@ for i in range(7):
                 <div class="flow-number">
                     {no}
                 </div>
-                <div style="font-size:20px;margin-bottom:15px;">
+                <div style="font-size:30px;margin-bottom:15px;">
                     {icon}
                 </div>
 
