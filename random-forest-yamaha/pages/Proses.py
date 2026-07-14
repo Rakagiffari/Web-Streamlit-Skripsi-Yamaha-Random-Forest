@@ -10,6 +10,7 @@ from utils.preprocessing import preprocess_data
 from utils.training import train_model
 from utils.report import generate_pdf
 from sklearn.tree import plot_tree, export_text
+from graphviz import Digraph
 
 # =========================================
 # CONFIG
@@ -658,166 +659,85 @@ if uploaded_file is not None:
                 importance_grouped,
                 use_container_width=True
             )
-                                                # ==========================================================
-            # REPRESENTATIVE DECISION TREE
             # ==========================================================
+# REPRESENTATIVE DECISION TREE
+# ==========================================================
 
-            st.markdown("---")
-            st.markdown("## 🌳 Representative Decision Tree")
+st.markdown("---")
+st.markdown("## 🌳 Representative Decision Tree")
 
-            # Ambil Top 3 Feature
-            importance_sorted = (
-                importance_grouped
-                .sort_values(
-                    by="Importance",
-                    ascending=False
-                )
-                .reset_index(drop=True)
-            )
+importance_sorted = (
+    importance_grouped
+    .sort_values(by="Importance", ascending=False)
+    .reset_index(drop=True)
+)
 
-            top1 = importance_sorted.iloc[0]
-            top2 = importance_sorted.iloc[1]
-            top3 = importance_sorted.iloc[2]
+top1 = importance_sorted.iloc[0]
+top2 = importance_sorted.iloc[1]
+top3 = importance_sorted.iloc[2]
 
-            st.caption("""
-Visualisasi berikut merupakan representasi sederhana bagaimana
-Random Forest memanfaatkan fitur yang paling penting selama proses klasifikasi.
+tree = Digraph("RepresentativeTree")
 
-Diagram ini dibuat berdasarkan urutan Feature Importance sehingga
-akan berubah otomatis ketika dataset baru dilatih.
+tree.attr(
+    rankdir="TB",
+    bgcolor="transparent",
+    splines="polyline",
+    nodesep="0.5",
+    ranksep="0.7"
+)
+
+tree.attr("node",
+          shape="box",
+          style="rounded,filled",
+          color="#374151",
+          fillcolor="#1F2937",
+          fontcolor="white",
+          fontsize="12")
+
+tree.node(
+    "root",
+    f"🌳 {top1['Fitur']}\nImportance : {top1['Importance']:.2%}"
+)
+
+tree.node(
+    "left",
+    f"📊 {top2['Fitur']}\nImportance : {top2['Importance']:.2%}"
+)
+
+tree.node(
+    "right",
+    f"📈 {top3['Fitur']}\nImportance : {top3['Importance']:.2%}"
+)
+
+tree.node(
+    "vote",
+    "🗳 Majority Voting",
+    fillcolor="#DC2626"
+)
+
+tree.node(
+    "result",
+    "✅ Prediksi\nKategori Service",
+    fillcolor="#059669"
+)
+
+tree.edge("root", "left", label="Evaluasi")
+tree.edge("root", "right", label="Evaluasi")
+
+tree.edge("left", "vote")
+tree.edge("right", "vote")
+
+tree.edge("vote", "result")
+
+st.graphviz_chart(tree)
+
+st.caption("""
+Representative Decision Tree di atas merupakan visualisasi sederhana
+berdasarkan tiga fitur dengan nilai Feature Importance tertinggi.
+
+Diagram akan berubah secara otomatis ketika model dilatih
+menggunakan dataset yang berbeda.
 """)
-
-            st.markdown(f"""
-<div style="
-background:#111827;
-border:1px solid #374151;
-border-radius:18px;
-padding:30px;
-text-align:center;
-">
-
-<h2 style="color:#ffffff;">
-🌳 Representative Decision Tree
-</h2>
-
-<br>
-
-<div style="
-display:inline-block;
-background:#dc2626;
-padding:12px 35px;
-border-radius:12px;
-font-size:22px;
-font-weight:bold;
-color:white;
-">
-{top1["Fitur"]}
-</div>
-
-<br><br>
-
-<span style="font-size:32px;">↙️&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↘️</span>
-
-<br><br>
-
-<div style="
-display:flex;
-justify-content:space-around;
-">
-
-<div>
-
-<div style="
-background:#2563eb;
-padding:12px 30px;
-border-radius:12px;
-font-size:18px;
-font-weight:bold;
-color:white;
-">
-{top2["Fitur"]}
-</div>
-
-<br>
-
-⬇️
-
-<br>
-
-<div style="
-background:#22c55e;
-padding:10px 25px;
-border-radius:10px;
-font-weight:bold;
-color:white;
-">
-Prediksi Service
-</div>
-
-</div>
-
-<div>
-
-<div style="
-background:#f59e0b;
-padding:12px 30px;
-border-radius:12px;
-font-size:18px;
-font-weight:bold;
-color:white;
-">
-{top3["Fitur"]}
-</div>
-
-<br>
-
-⬇️
-
-<br>
-
-<div style="
-background:#22c55e;
-padding:10px 25px;
-border-radius:10px;
-font-weight:bold;
-color:white;
-">
-Prediksi Service
-</div>
-
-</div>
-
-</div>
-
-<br>
-
-<div style="
-background:#1f2937;
-padding:15px;
-border-radius:12px;
-color:#d1d5db;
-">
-
-<b>Interpretasi :</b><br><br>
-
-Model terlebih dahulu mengevaluasi
-<b>{top1["Fitur"]}</b>
-sebagai faktor utama.
-
-Selanjutnya model mempertimbangkan
-<b>{top2["Fitur"]}</b>
-dan
-<b>{top3["Fitur"]}</b>
-untuk meningkatkan ketepatan klasifikasi.
-
-Keputusan akhir Random Forest diperoleh melalui
-<b>Majority Voting</b>
-dari seluruh Decision Tree.
-
-</div>
-
-</div>
-""", unsafe_allow_html=True)
             
             # ==========================================================
             # STATISTIK DATASET
