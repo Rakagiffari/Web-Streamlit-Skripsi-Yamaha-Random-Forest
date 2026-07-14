@@ -658,17 +658,20 @@ if uploaded_file is not None:
                 importance_grouped,
                 use_container_width=True
             )
-                                    # ==========================================================
-            # REPRESENTATIVE DECISION PROCESS
+                                                # ==========================================================
+            # REPRESENTATIVE DECISION TREE
             # ==========================================================
 
             st.markdown("---")
-            st.markdown("## 🌳 Representative Decision Process")
+            st.markdown("## 🌳 Representative Decision Tree")
 
-            # Urutkan Feature Importance (hanya sekali)
+            # Ambil Top 3 Feature
             importance_sorted = (
                 importance_grouped
-                .sort_values(by="Importance", ascending=False)
+                .sort_values(
+                    by="Importance",
+                    ascending=False
+                )
                 .reset_index(drop=True)
             )
 
@@ -676,95 +679,145 @@ if uploaded_file is not None:
             top2 = importance_sorted.iloc[1]
             top3 = importance_sorted.iloc[2]
 
-            st.caption(
-                "Diagram berikut merupakan representasi sederhana bagaimana Random Forest "
-                "menggunakan fitur yang paling penting untuk melakukan klasifikasi."
-            )
+            st.caption("""
+Visualisasi berikut merupakan representasi sederhana bagaimana
+Random Forest memanfaatkan fitur yang paling penting selama proses klasifikasi.
+
+Diagram ini dibuat berdasarkan urutan Feature Importance sehingga
+akan berubah otomatis ketika dataset baru dilatih.
+""")
 
             st.markdown(f"""
 <div style="
 background:#111827;
 border:1px solid #374151;
-border-radius:15px;
-padding:25px;
+border-radius:18px;
+padding:30px;
 text-align:center;
 ">
 
-<h4>🚀 Mulai Proses Klasifikasi</h4>
-
-<p style="font-size:28px;">⬇️</p>
-
-<h3 style="color:#ef4444;">
-🥇 {top1['Fitur']}
-</h3>
-
-<p>Feature Importance : {(top1['Importance']*100):.2f}%</p>
-
-<p style="font-size:28px;">⬇️</p>
-
-<h3 style="color:#f59e0b;">
-🥈 {top2['Fitur']}
-</h3>
-
-<p>Feature Importance : {(top2['Importance']*100):.2f}%</p>
-
-<p style="font-size:28px;">⬇️</p>
-
-<h3 style="color:#3b82f6;">
-🥉 {top3['Fitur']}
-</h3>
-
-<p>Feature Importance : {(top3['Importance']*100):.2f}%</p>
-
-<p style="font-size:28px;">⬇️</p>
-
-<h3 style="color:#22c55e;">
-🌲 Majority Voting
-</h3>
-
-<p style="font-size:28px;">⬇️</p>
-
-<h2 style="color:white;">
-✅ Prediksi Service
+<h2 style="color:#ffffff;">
+🌳 Representative Decision Tree
 </h2>
+
+<br>
+
+<div style="
+display:inline-block;
+background:#dc2626;
+padding:12px 35px;
+border-radius:12px;
+font-size:22px;
+font-weight:bold;
+color:white;
+">
+{top1["Fitur"]}
+</div>
+
+<br><br>
+
+<span style="font-size:32px;">↙️&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↘️</span>
+
+<br><br>
+
+<div style="
+display:flex;
+justify-content:space-around;
+">
+
+<div>
+
+<div style="
+background:#2563eb;
+padding:12px 30px;
+border-radius:12px;
+font-size:18px;
+font-weight:bold;
+color:white;
+">
+{top2["Fitur"]}
+</div>
+
+<br>
+
+⬇️
+
+<br>
+
+<div style="
+background:#22c55e;
+padding:10px 25px;
+border-radius:10px;
+font-weight:bold;
+color:white;
+">
+Prediksi Service
+</div>
+
+</div>
+
+<div>
+
+<div style="
+background:#f59e0b;
+padding:12px 30px;
+border-radius:12px;
+font-size:18px;
+font-weight:bold;
+color:white;
+">
+{top3["Fitur"]}
+</div>
+
+<br>
+
+⬇️
+
+<br>
+
+<div style="
+background:#22c55e;
+padding:10px 25px;
+border-radius:10px;
+font-weight:bold;
+color:white;
+">
+Prediksi Service
+</div>
+
+</div>
+
+</div>
+
+<br>
+
+<div style="
+background:#1f2937;
+padding:15px;
+border-radius:12px;
+color:#d1d5db;
+">
+
+<b>Interpretasi :</b><br><br>
+
+Model terlebih dahulu mengevaluasi
+<b>{top1["Fitur"]}</b>
+sebagai faktor utama.
+
+Selanjutnya model mempertimbangkan
+<b>{top2["Fitur"]}</b>
+dan
+<b>{top3["Fitur"]}</b>
+untuk meningkatkan ketepatan klasifikasi.
+
+Keputusan akhir Random Forest diperoleh melalui
+<b>Majority Voting</b>
+dari seluruh Decision Tree.
+
+</div>
 
 </div>
 """, unsafe_allow_html=True)
-
-            # ==========================================================
-            # INSIGHT MODEL
-            # ==========================================================
-
-            st.markdown("---")
-            st.markdown("## 💡 Insight Model Random Forest")
-
-            st.info(f"""
-Model Random Forest memperoleh:
-
-• Accuracy : **{accuracy:.2%}**
-
-• Precision : **{precision:.2%}**
-
-• Recall : **{recall:.2%}**
-
-• F1 Score : **{f1:.2%}**
-
-Berdasarkan Feature Importance, model paling banyak
-memanfaatkan fitur:
-
-🥇 **{top1['Fitur']}** ({top1['Importance']:.2%})
-
-🥈 **{top2['Fitur']}** ({top2['Importance']:.2%})
-
-🥉 **{top3['Fitur']}** ({top3['Importance']:.2%})
-
-Artinya ketiga fitur tersebut memberikan kontribusi terbesar
-dalam proses klasifikasi layanan service.
-
-Jika dataset diganti kemudian dilakukan training ulang,
-urutan fitur dan isi insight ini akan berubah secara otomatis
-mengikuti hasil Feature Importance terbaru.
-""")
             
             # ==========================================================
             # STATISTIK DATASET
