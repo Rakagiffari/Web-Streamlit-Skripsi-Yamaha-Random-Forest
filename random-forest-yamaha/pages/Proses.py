@@ -260,64 +260,57 @@ if uploaded_file is not None:
         # =====================================
         # INFORMASI TIPE DATA
         # =====================================
-st.markdown(f"""
+st.markdown("""
 <div class="section-card">
 
 <div class="section-title">
 📝 Ringkasan Tipe Data
+total_missing = df.isnull().sum().sum()
+
+        total_duplicate = df.duplicated().sum()
+
+        numeric_cols = len(
+            df.select_dtypes(include="number").columns
+        )
+
+        categorical_cols = len(
+            df.select_dtypes(include=["object", "category"]).columns
+        )
+
+        c1, c2, c3, c4 = st.columns(4)
+
+        with c1:
+
+            st.metric(
+                "Jumlah Data",
+                len(df)
+            )
+        
+        with c2:
+
+            st.metric(
+                "Missing Value",
+                total_missing
+            )
+
+        with c3:
+
+            st.metric(
+                "Data Duplikat",
+                total_duplicate
+            )
+
+        with c4:
+
+            st.metric(
+                "Jumlah Kelas",
+                df["Service"].nunique()
+            )
 </div>
 
-<table style="width:100%;
-border-collapse:collapse;
-margin-top:15px;">
-
-<tr style="
-background:#f3f4f6;
-">
-
-<th style="
-padding:14px;
-text-align:left;
-border:1px solid #e5e7eb;
-">
-Informasi
-</th>
-
-<th style="
-padding:14px;
-text-align:center;
-border:1px solid #e5e7eb;
-">
-Jumlah
-</th>
-
-</tr>
-
-<tr>
-
-<td style="padding:14px;border:1px solid #e5e7eb;">
-Kolom Numerik
-</td>
-
-<td style="padding:14px;text-align:center;border:1px solid #e5e7eb;">
-{numeric_cols}
-</td>
-
-</tr>
-
-<tr>
-
-<td style="padding:14px;border:1px solid #e5e7eb;">
-Kolom Kategori
-</td>
-
-<td style="padding:14px;text-align:center;border:1px solid #e5e7eb;">
-{categorical_cols}
-</td>
-
-</tr>
-
-</table>
+<div class="section-subtitle">
+Informasi jumlah kolom numerik dan kategori pada dataset.
+</div>
 
 </div>
 """, unsafe_allow_html=True)
