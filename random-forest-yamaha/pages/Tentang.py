@@ -424,3 +424,128 @@ with col6:
 
     </div>
     """, unsafe_allow_html=True)
+
+# ==========================================================
+# PENGEMBANG & INFORMASI APLIKASI
+# ==========================================================
+
+st.markdown("<div class='divider'></div>", unsafe_allow_html=True)
+
+st.markdown("""
+<div class="section-title">
+    ℹ️ Informasi Tambahan
+</div>
+
+<div class="section-subtitle">
+Informasi mengenai pengembang dan aplikasi.
+</div>
+""", unsafe_allow_html=True)
+
+
+col1, col2 = st.columns(2, gap="large")
+
+
+# ==========================================================
+# CARD PENGEMBANG
+# ==========================================================
+
+with col1:
+
+    st.markdown("""
+    <div class="info-card">
+
+        <div class="card-icon">👨‍💻</div>
+
+        <div class="card-title">
+            Pengembang
+        </div>
+
+        <div class="card-list">
+
+        <b>Nama</b><br>
+        Giffari
+
+        <br><br>
+
+        <b>Program Studi</b><br>
+        Sistem Informasi
+
+        <br><br>
+
+        <b>Universitas</b><br>
+        Universitas Muhammadiyah Kalimantan Timur
+
+        <br><br>
+
+        <b>Tahun Pengembangan</b><br>
+        2026
+
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+
+# ==========================================================
+# CARD INFORMASI APLIKASI
+# ==========================================================
+
+with col2:
+
+    st.markdown("""
+    <div class="info-card">
+
+        <div class="card-icon">📘</div>
+
+        <div class="card-title">
+            Informasi Aplikasi
+        </div>
+
+        <div class="card-list">
+
+        <b>Nama Sistem</b><br>
+        Sistem Klasifikasi Layanan Servis Yamaha
+
+        <br><br>
+
+        <b>Versi</b><br>
+        Version 1.0
+
+        <br><br>
+
+        <b>Jenis Aplikasi</b><br>
+        Web Application
+
+        <br><br>
+
+        <b>Dibangun Menggunakan</b><br>
+        Python • Streamlit • Scikit-Learn
+
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+
+# ==========================================================
+# FOOTER
+# ==========================================================
+
+st.markdown("<div class='divider'></div>", unsafe_allow_html=True)
+
+st.markdown("""
+<div class="footer">
+
+<b>Sistem Klasifikasi Layanan Servis Yamaha</b>
+
+<br><br>
+
+Dikembangkan sebagai implementasi penelitian
+menggunakan algoritma Random Forest.
+
+<br><br>
+
+© 2026 • Version 1.0
+
+</div>
+""", unsafe_allow_html=True)
