@@ -199,43 +199,58 @@ yang nyaman dan mudah dipahami.
 """, unsafe_allow_html=True)
 
 # ==========================================================
-# BIODATA & TEKNOLOGI
+# PROFIL & TEKNOLOGI
 # ==========================================================
 
-st.markdown("<br>", unsafe_allow_html=True)
-
-# ---------- CSS ----------
 st.markdown("""
+
 <style>
 
+.about-wrapper{
+
+    display:flex;
+
+    gap:35px;
+
+    align-items:stretch;
+
+    margin-top:20px;
+
+}
+
 .profile-card{
+
+    flex:1.8;
+
     background:#3b3d4d;
-    border-radius:28px;
-    padding:25px 28px;
-    min-height:315px;
-    border:1px solid rgba(255,255,255,.05);
+
+    border-radius:30px;
+
+    padding:28px;
+
+    display:flex;
+
+    align-items:center;
+
     transition:.3s;
+
 }
 
 .profile-card:hover{
+
     transform:translateY(-5px);
-    box-shadow:0 15px 35px rgba(0,0,0,.25);
+
 }
 
-.profile-wrapper{
-    display:flex;
-    align-items:center;
-    gap:30px;
-}
-
-.profile-image{
+.profile-photo{
 
     width:160px;
+
     height:220px;
 
-    border-radius:22px;
-
     object-fit:cover;
+
+    border-radius:20px;
 
     border:4px solid white;
 
@@ -244,11 +259,14 @@ st.markdown("""
 .profile-divider{
 
     width:4px;
-    height:235px;
+
+    height:230px;
 
     background:white;
 
-    border-radius:10px;
+    margin:0px 28px;
+
+    border-radius:20px;
 
 }
 
@@ -258,27 +276,27 @@ st.markdown("""
 
     font-size:18px;
 
-    line-height:2.0;
+    line-height:2.2;
 
 }
 
 .profile-info b{
 
-    color:white;
+    display:inline-block;
+
+    width:170px;
 
 }
 
 .tech-card{
 
+    flex:1;
+
     background:#3b3d4d;
 
-    border-radius:28px;
+    border-radius:30px;
 
-    padding:25px;
-
-    min-height:315px;
-
-    border:1px solid rgba(255,255,255,.05);
+    padding:30px;
 
     transition:.3s;
 
@@ -288,21 +306,19 @@ st.markdown("""
 
     transform:translateY(-5px);
 
-    box-shadow:0 15px 35px rgba(0,0,0,.25);
-
 }
 
 .tech-title{
 
-    text-align:center;
-
     color:white;
+
+    text-align:center;
 
     font-size:18px;
 
-    font-weight:700;
+    font-weight:bold;
 
-    margin-bottom:25px;
+    margin-bottom:30px;
 
 }
 
@@ -312,7 +328,7 @@ st.markdown("""
 
     grid-template-columns:1fr 1fr;
 
-    gap:18px;
+    gap:20px;
 
 }
 
@@ -327,100 +343,61 @@ st.markdown("""
 }
 
 </style>
+
 """, unsafe_allow_html=True)
 
-# ==========================================================
-# LAYOUT
-# ==========================================================
+st.markdown(f"""
 
-col1, col2 = st.columns([1.8,1.1], gap="large")
+<div class="about-wrapper">
 
-# ==========================================================
-# CARD PROFIL
-# ==========================================================
+    <div class="profile-card">
 
-with col1:
+        <img class="profile-photo"
+        src="data:image/jpeg;base64,{foto_base64}">
 
-    st.markdown('<div class="profile-card">', unsafe_allow_html=True)
-
-    kiri, garis, kanan = st.columns([1,0.08,2])
-
-    with kiri:
-        st.image(
-            str(foto_path),
-            use_container_width=True
-        )
-
-    with garis:
-        st.markdown("""
         <div class="profile-divider"></div>
-        """, unsafe_allow_html=True)
 
-    with kanan:
+        <div class="profile-info">
 
-        st.markdown("""
+            <b>Nama</b> : Raka Giffari Ramadhan<br>
 
-<div class="profile-info">
+            <b>NIM</b> : 22101152620332<br>
 
-<b>Nama</b><br>
+            <b>Program Studi</b> : Teknik Informatika<br>
 
-<b>NIM</b><br>
+            <b>Universitas</b> : UPI "YPTK" Padang<br>
 
-<b>Program Studi</b><br>
+            <b>Email</b> : giffari@email.com
 
-<b>Universitas</b><br>
+        </div>
 
-<b>Email</b>
+    </div>
 
-</div>
+    <div class="tech-card">
 
-""", unsafe_allow_html=True)
+        <div class="tech-title">
 
-    st.markdown("</div>", unsafe_allow_html=True)
+            Teknologi yang Digunakan
 
-# ==========================================================
-# CARD TEKNOLOGI
-# ==========================================================
+        </div>
 
-with col2:
+        <div class="tech-grid">
 
-    st.markdown("""
+            <div class="tech-item">🐍 Python</div>
 
-<div class="tech-card">
+            <div class="tech-item">🌲 Random Forest</div>
 
-<div class="tech-title">
+            <div class="tech-item">📊 Pandas</div>
 
-Teknologi yang Digunakan
+            <div class="tech-item">📈 Scikit-Learn</div>
 
-</div>
+            <div class="tech-item">🎨 Streamlit</div>
 
-<div class="tech-grid">
+            <div class="tech-item">📄 ReportLab</div>
 
-<div class="tech-item">
-🐍 Python
-</div>
+        </div>
 
-<div class="tech-item">
-🌲 Random Forest
-</div>
-
-<div class="tech-item">
-📊 Pandas
-</div>
-
-<div class="tech-item">
-📈 Scikit-Learn
-</div>
-
-<div class="tech-item">
-🎨 Streamlit
-</div>
-
-<div class="tech-item">
-📄 ReportLab
-</div>
-
-</div>
+    </div>
 
 </div>
 
