@@ -1,319 +1,359 @@
 import streamlit as st
-from pathlib import Path
-from PIL import Image
 
-# ==========================================================
+# =====================================================
 # PAGE CONFIG
-# ==========================================================
-
-BASE_DIR = Path(__file__).resolve().parent
-
-foto_path = BASE_DIR.parent / "assets" / "foto.jpg"
-
-page_icon = Image.open(foto_path)
+# =====================================================
 
 st.set_page_config(
     page_title="Tentang Sistem",
-    page_icon=page_icon,
-    layout="wide",
-    initial_sidebar_state="expanded"
+    page_icon="ℹ️",
+    layout="wide"
 )
 
-# ==========================================================
+# =====================================================
 # CSS
-# ==========================================================
+# =====================================================
 
 st.markdown("""
 <style>
 
-/* ===================================================
-GLOBAL
-=================================================== */
-
-html,
-body,
-[class*="css"]{
-    font-family:"Segoe UI",sans-serif;
-}
-
 .stApp{
-    background:#020617;
+    background:#05081b;
 }
-
-/* ===================================================
-SIDEBAR
-=================================================== */
-
-section[data-testid="stSidebar"]{
-    background:#0f172a;
-    border-right:none;
-}
-
-section[data-testid="stSidebar"] *{
-    color:white;
-}
-
-/* ===================================================
-STREAMLIT
-=================================================== */
-
-header{
-    visibility:hidden;
-}
-
-footer{
-    visibility:hidden;
-}
-
-#MainMenu{
-    visibility:hidden;
-}
-
-/* ===================================================
-CONTAINER
-=================================================== */
 
 .block-container{
-
-    max-width:1400px;
-
-    padding-top:1rem;
-
-    padding-bottom:3rem;
-
+    max-width:1200px;
+    padding-top:2rem;
+    padding-bottom:2rem;
 }
 
-/* ===================================================
-TITLE
-=================================================== */
+/* =============================== */
 
-.main-title{
+.title{
 
     text-align:center;
-
-    font-size:42px;
-
-    font-weight:900;
-
     color:white;
-
-    letter-spacing:1px;
-
-    margin-top:10px;
-
-    margin-bottom:20px;
+    font-size:42px;
+    font-weight:700;
 
 }
 
-/* ===================================================
-DESCRIPTION
-=================================================== */
+.desc{
 
-.main-desc{
-
-    color:#e2e8f0;
+    color:#E5E7EB;
 
     text-align:justify;
 
-    font-size:15px;
+    font-size:20px;
 
     line-height:1.8;
 
-    max-width:1100px;
+    margin-top:15px;
 
-    margin:auto;
-
-    margin-bottom:40px;
+    margin-bottom:35px;
 
 }
 
-# ===================================================
-# PROFILE CARD
-# ===================================================
+/* =============================== */
 
-.profile-card{
+.card{
 
-    background:linear-gradient(145deg,#2d3142,#3b4255);
+    background:#3b3e4d;
 
-    border:1px solid rgba(255,255,255,.08);
+    border-radius:28px;
 
-    border-radius:22px;
+    padding:30px;
 
-    padding:28px;
+    box-shadow:0 8px 25px rgba(0,0,0,.25);
 
-    min-height:340px;
+    transition:.3s;
 
 }
 
-.tech-card{
+.card:hover{
 
-    background:linear-gradient(145deg,#2d3142,#3b4255);
-
-    border:1px solid rgba(255,255,255,.08);
-
-    border-radius:22px;
-
-    padding:28px;
-
-    min-height:340px;
+    transform:translateY(-4px);
 
 }
 
-.card-title{
+/* =============================== */
+
+.profile{
+
+    display:flex;
+
+    align-items:center;
+
+}
+
+.photo{
+
+    width:160px;
+
+    height:210px;
+
+    border-radius:25px;
+
+    background:white;
+
+}
+
+.line{
+
+    width:4px;
+
+    height:210px;
+
+    background:white;
+
+    margin-left:35px;
+
+    margin-right:35px;
+
+}
+
+.profile-text{
 
     color:white;
 
     font-size:22px;
 
+    line-height:2.1;
+
+}
+
+/* =============================== */
+
+.tech-title{
+
+    color:white;
+
+    text-align:center;
+
+    font-size:28px;
+
     font-weight:700;
 
-    margin-bottom:20px;
+    margin-bottom:25px;
 
 }
 
-.biodata{
+.tech{
+
+    text-align:center;
 
     color:white;
 
-    font-size:15px;
+    font-size:23px;
 
-    line-height:2.0;
+    line-height:2;
 
 }
 
-.tech-item{
+/* =============================== */
 
-    background:#1f2937;
+.section{
 
-    padding:12px;
+    margin-top:35px;
 
-    border-radius:12px;
+    background:#3b3e4d;
 
-    margin-bottom:12px;
+    border-radius:28px;
+
+    padding:35px;
+
+}
+
+.section h2{
 
     color:white;
 
-    font-size:15px;
-
-    border:1px solid rgba(255,255,255,.05);
+    text-align:center;
 
 }
+
+.section p{
+
+    color:#E5E7EB;
+
+    font-size:20px;
+
+    text-align:justify;
+
+    line-height:1.8;
+
+}
+
+/* =============================== */
+
+.footer{
+
+    text-align:center;
+
+    color:#d1d5db;
+
+    margin-top:35px;
+
+    font-size:18px;
+
+}
+
 </style>
 """, unsafe_allow_html=True)
 
-# ==========================================================
-# HEADER
-# ==========================================================
+# =====================================================
+# JUDUL
+# =====================================================
 
-st.markdown("<br>", unsafe_allow_html=True)
-
-st.markdown("""
-<div class="main-title">
-
-TENTANG SISTEM
-
-</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    "<div class='title'>TENTANG SISTEM</div>",
+    unsafe_allow_html=True
+)
 
 st.markdown("""
-<div class="main-desc">
+<div class='desc'>
 
 Halaman ini menyajikan informasi mengenai penelitian,
 tujuan pengembangan sistem, teknologi yang digunakan,
-serta profil pengembang aplikasi.
-Seluruh tampilan dirancang konsisten dengan halaman utama
-agar memberikan pengalaman penggunaan yang nyaman,
-modern, dan mudah dipahami.
+serta profil pengembang aplikasi. Seluruh desain halaman
+dibuat konsisten dengan halaman utama sehingga pengguna
+memperoleh pengalaman penggunaan yang nyaman dan mudah dipahami.
 
 </div>
 """, unsafe_allow_html=True)
 
-with left:
+# =====================================================
+# CARD
+# =====================================================
+
+col1, col2 = st.columns([2,1], gap="large")
+
+# =============================================
+
+with col1:
 
     st.markdown("""
-    <div class="profile-card">
-    """,unsafe_allow_html=True)
 
-    foto,bio = st.columns([1,2])
+    <div class="card">
 
-    with foto:
+        <div class="profile">
 
-        st.image(
-            foto_path,
-            use_container_width=True
-        )
+            <div class="photo"></div>
 
-    with bio:
+            <div class="line"></div>
 
-        st.markdown("""
-        <div class="card-title">
-        Profil Pengembang
-        </div>
-        """,unsafe_allow_html=True)
+            <div class="profile-text">
 
-        st.markdown("""
-        <div class="biodata">
+            <b>Nama</b><br>
+            Giffari
 
-        <b>Nama</b><br>
-        Raka Giffari Ramadhan
+            <br>
 
-        <br><br>
+            <b>NIM</b><br>
+            20xxxxxxxx
 
-        <b>NIM</b><br>
-        22101152620332
+            <br>
 
-        <br><br>
+            <b>Program Studi</b><br>
+            Sistem Informasi
 
-        <b>Program Studi</b><br>
-        Teknik Informatika
+            <br>
 
-        <br><br>
+            <b>Universitas</b><br>
+            Universitas Muhammadiyah Kalimantan Timur
 
-        <b>Universitas</b><br>
-        Universitas Putra Indonesia "YPTK" Padang
+            <br>
 
-        <br><br>
+            <b>Email</b><br>
+            giffari@email.com
 
-        <b>Email</b><br>
-        giffari@email.com
+            </div>
 
         </div>
-        """,unsafe_allow_html=True)
 
-    st.markdown("</div>",unsafe_allow_html=True)
+    </div>
 
-with right:
+    """, unsafe_allow_html=True)
+
+# =============================================
+
+with col2:
 
     st.markdown("""
-    <div class="tech-card">
 
-    <div class="card-title">
+    <div class="card">
+
+    <div class="tech-title">
+
     Teknologi yang Digunakan
+
     </div>
 
-    <div class="tech-item">
+    <div class="tech">
+
     🐍 Python
-    </div>
 
-    <div class="tech-item">
+    <br>
+
     🌲 Random Forest
-    </div>
 
-    <div class="tech-item">
+    <br>
+
     📊 Pandas
-    </div>
 
-    <div class="tech-item">
+    <br>
+
     📈 Scikit-Learn
-    </div>
 
-    <div class="tech-item">
+    <br>
+
     🎨 Streamlit
-    </div>
 
-    <div class="tech-item">
+    <br>
+
     📄 ReportLab
+
     </div>
 
     </div>
-    """,unsafe_allow_html=True)
+
+    """, unsafe_allow_html=True)
+
+# =====================================================
+# TENTANG PENELITIAN
+# =====================================================
+
+st.markdown("""
+
+<div class="section">
+
+<h2>TENTANG PENELITIAN</h2>
+
+<p>
+
+Penelitian ini bertujuan membangun sistem klasifikasi layanan
+servis sepeda motor Yamaha menggunakan algoritma Random Forest.
+Sistem mampu melakukan proses unggah dataset, preprocessing,
+pelatihan model, evaluasi performa, serta menghasilkan prediksi
+layanan secara otomatis melalui aplikasi berbasis web.
+
+</p>
+
+</div>
+
+""", unsafe_allow_html=True)
+
+# =====================================================
+# FOOTER
+# =====================================================
+
+st.markdown("""
+
+<div class="footer">
+
+© 2026 Giffari &nbsp;&nbsp; | &nbsp;&nbsp;
+Sistem Prediksi Layanan Servis Yamaha
+
+</div>
+
+""", unsafe_allow_html=True)
