@@ -213,7 +213,7 @@ FEATURE BOX
 }
 
 .feature-title{
-    font-size:20px;
+    font-size:45px;
     font-weight:700;
     color: white;
     margin-bottom:10px;
@@ -258,7 +258,7 @@ FLOW CARD
 }
 
 .flow-title{
-    font-size:20px;
+    font-size:14px;
     font-weight:700;
     color: white;
     margin-bottom:10px;
