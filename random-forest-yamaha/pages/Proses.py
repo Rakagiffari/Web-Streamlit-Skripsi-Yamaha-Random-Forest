@@ -320,104 +320,89 @@ if uploaded_file is not None:
         # =====================================
 
         st.markdown("## 📇 Feature Engineering")
+        
+feature_df = df.copy()
 
-        st.markdown("### Dataset Awal")
+from datetime import datetime
+tahun_sekarang = datetime.now().year
 
-        st.dataframe(
-            df.head(),
-            use_container_width=True,
-            hide_index=True
-        )
+        with st.expander("1️⃣ Dataset Awal", expanded=True):
 
-        feature_df = df.copy()
+    st.info(
+        "Dataset yang telah melalui preprocessing akan digunakan "
+        "untuk proses Feature Engineering."
+    )
+
+    st.dataframe(
+        feature_df.head(),
+        use_container_width=True,
+        hide_index=True
+    )
 
         # =====================================
         # Feature 1 : Usia Motor
         # =====================================
 
-        from datetime import datetime
+        with st.expander("2️⃣ Membuat Fitur Usia Motor"):
 
-        tahun_sekarang = datetime.now().year
+    feature_df["Usia Motor"] = (
+        tahun_sekarang - feature_df["Tahun"]
+    )
 
-        feature_df["Usia Motor"] = (
-            tahun_sekarang - feature_df["Tahun"]
-        )
+    st.success("Kolom Usia Motor berhasil dibuat.")
+
+    st.dataframe(
+        feature_df[
+            ["Tahun", "Usia Motor"]
+        ].head(),
+        use_container_width=True,
+        hide_index=True
+    )
 
         # =====================================
         # Feature 2 : Jenis Motor
         # =====================================
 
-        def get_jenis(model):
+        with st.expander("3️⃣ Klasifikasi Jenis Motor"):
 
-            model = str(model).upper()
+    feature_df["Jenis"] = feature_df["Model"].apply(get_jenis)
 
-            if any(x in model for x in [
-                "XMAX", "NMAX", "AEROX", "LEXI", "TMAX"
-            ]):
-                return "MAXi"
+    st.success("Jenis Motor berhasil diklasifikasikan.")
 
-            elif any(x in model for x in [
-                "FAZZIO", "FILANO"
-            ]):
-                return "Classy"
-
-            elif any(x in model for x in [
-                "MIO", "SOUL", "XEON", "FINO",
-                "GEAR", "FREEGO", "X-RIDE",
-                "XRIDE", "NOUVO", "LEXAM"
-            ]):
-                return "Matic"
-
-            elif any(x in model for x in [
-                "R15", "R25", "R6", "R1",
-                "VIXION", "BYSON",
-                "SCORPIO", "RX",
-                "XSR", "MT"
-            ]):
-                return "Sport"
-
-            elif any(x in model for x in [
-                "WR", "YZ"
-            ]):
-                return "Off-road"
-
-            elif any(x in model for x in [
-                "JUPITER", "VEGA",
-                "CRYPTON", "ALFA",
-                "SIGMA", "F1ZR",
-                "MX"
-            ]):
-                return "Moped"
-
-            return "Unknown"
-
-        feature_df["Jenis"] = feature_df["Model"].apply(get_jenis)
+    st.dataframe(
+        feature_df[
+            ["Model", "Jenis"]
+        ].head(),
+        use_container_width=True,
+        hide_index=True
+    )
 
         # =====================================
         # HASIL FEATURE ENGINEERING
         # =====================================
 
-        st.markdown("### Hasil Feature Engineering")
+        with st.expander("4️⃣ Dataset Setelah Feature Engineering", expanded=True):
 
-        st.dataframe(
-            feature_df[
-                [
-                    "Model",
-                    "Jenis",
-                    "Tahun",
-                    "Usia Motor",
-                    "Km",
-                    "Indikasi",
-                    "Service"
-                ]
-            ].head(5),
-            use_container_width=True,
-            hide_index=True
-        )
+    st.success(
+        "Seluruh fitur baru berhasil dibuat dan siap digunakan "
+        "untuk proses pelatihan Random Forest."
+    )
 
-        X, y = preprocess_data(df)
-
-        st.success("Feature Engineering berhasil")
+    st.dataframe(
+        feature_df[
+            [
+                "Model",
+                "Jenis",
+                "Tahun",
+                "Usia Motor",
+                "Km",
+                "Indikasi",
+                "Service"
+            ]
+        ].head(),
+        use_container_width=True,
+        hide_index=True
+    )
         # =====================================
         # DISTRIBUSI TARGET
         # =====================================
