@@ -529,7 +529,7 @@ analisis dapat disimpan dalam bentuk Laporan PDF.
 st.markdown("<br>", unsafe_allow_html=True)
 st.success("""
 
-Gunakan menu pada sidebar untuk memulai proses klasifikasi,
+ⓘ Gunakan menu pada sidebar untuk memulai proses klasifikasi,
 melatih model Random Forest, melihat visualisasi Decision Tree,
 mengevaluasi performa model, dan menghasilkan laporan PDF.
 
