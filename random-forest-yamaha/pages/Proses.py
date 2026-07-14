@@ -820,8 +820,7 @@ Artinya proses klasifikasi lebih banyak dipengaruhi oleh kombinasi ketiga fitur 
 
 Karena Random Forest terdiri dari banyak Decision Tree, keputusan akhir diperoleh melalui mekanisme Majority Voting sehingga hasil klasifikasi menjadi lebih stabil dan robust.
 """
-)
-                    
+)   
                 # =====================================
                 # PDF
                 # =====================================
