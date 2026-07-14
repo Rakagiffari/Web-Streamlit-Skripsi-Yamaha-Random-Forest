@@ -659,105 +659,75 @@ if uploaded_file is not None:
                 use_container_width=True
             )
                                     # ==========================================================
-            # REPRESENTATIVE DECISION TREE
-            # ==========================================================
+# REPRESENTATIVE DECISION TREE
+# ==========================================================
 
-            st.markdown("---")
-            st.markdown("## 🌳 Representative Decision Tree")
+from sklearn.tree import plot_tree
 
-            # Ambil Top 3 Feature Importance
-            importance_sorted = (
-                importance_grouped
-                .sort_values(by="Importance", ascending=False)
-                .reset_index(drop=True)
-            )
+st.markdown("---")
+st.markdown("## 🌳 Representative Decision Tree")
 
-            top1 = importance_sorted.iloc[0]["Fitur"]
-            top2 = importance_sorted.iloc[1]["Fitur"]
-            top3 = importance_sorted.iloc[2]["Fitur"]
+st.caption("""
+Visualisasi berikut merupakan salah satu Decision Tree
+yang membentuk Random Forest.
 
-            fig_tree, ax = plt.subplots(figsize=(8, 6))
+Tree ditampilkan dengan kedalaman maksimal 3 level
+agar pola keputusan lebih mudah dipahami.
+""")
 
-            ax.set_xlim(0, 1)
-            ax.set_ylim(0, 1)
-            ax.axis("off")
+fig_tree, ax = plt.subplots(figsize=(18,8))
 
-            # ---------- Root ----------
-            root = patches.FancyBboxPatch(
-                (0.37, 0.82), 0.26, 0.10,
-                boxstyle="round,pad=0.02",
-                linewidth=2
-            )
-            ax.add_patch(root)
+plot_tree(
 
-            ax.text(
-                0.50, 0.87,
-                top1,
-                ha="center",
-                va="center",
-                fontsize=14,
-                fontweight="bold"
-            )
+    model.estimators_[0],
 
-            # ---------- Left ----------
-            left = patches.FancyBboxPatch(
-                (0.12, 0.48), 0.24, 0.10,
-                boxstyle="round,pad=0.02",
-                linewidth=2
-            )
-            ax.add_patch(left)
+    feature_names=feature_names,
 
-            ax.text(
-                0.24, 0.53,
-                top2,
-                ha="center",
-                va="center",
-                fontsize=12,
-                fontweight="bold"
-            )
+    class_names=["Ringan","Berat"],
 
-            # ---------- Right ----------
-            right = patches.FancyBboxPatch(
-                (0.64, 0.48), 0.24, 0.10,
-                boxstyle="round,pad=0.02",
-                linewidth=2
-            )
-            ax.add_patch(right)
+    filled=True,
 
-            ax.text(
-                0.76, 0.53,
-                top3,
-                ha="center",
-                va="center",
-                fontsize=12,
-                fontweight="bold"
-            )
+    rounded=True,
 
-            # ---------- Garis ----------
-            ax.plot(
-                [0.50, 0.24],
-                [0.82, 0.58],
-                linewidth=2
-            )
+    fontsize=9,
 
-            ax.plot(
-                [0.50, 0.76],
-                [0.82, 0.58],
-                linewidth=2
-            )
+    impurity=False,
 
-            st.pyplot(fig_tree)
+    proportion=True,
 
-            st.caption(
-                f"""
-Representative Decision Tree di atas merupakan ilustrasi sederhana berdasarkan tiga fitur dengan
-nilai Feature Importance tertinggi, yaitu **{top1}**, **{top2}**, dan **{top3}**.
+    max_depth=3,
 
-Visualisasi ini digunakan untuk membantu memahami proses klasifikasi secara konseptual.
-Keputusan akhir Random Forest tetap diperoleh melalui kombinasi banyak Decision Tree.
-"""
-            )
-            
+    ax=ax
+
+)
+
+plt.tight_layout()
+
+st.pyplot(fig_tree)
+
+st.markdown("### 💡 Insight Decision Tree")
+root_feature = feature_names[0]
+
+st.info(f"""
+Representative Decision Tree di atas merupakan salah satu pohon
+yang membentuk Random Forest.
+
+Tree menunjukkan bagaimana model melakukan proses
+pemisahan data berdasarkan beberapa fitur.
+
+Berdasarkan hasil pelatihan,
+fitur yang paling dominan menurut Feature Importance adalah
+**{importance_grouped.iloc[0]['Fitur']}**.
+
+Decision Tree membantu menjelaskan bagaimana
+fitur-fitur tersebut digunakan untuk membedakan
+kategori **Service Ringan** dan **Service Berat**.
+
+Perlu diperhatikan bahwa prediksi akhir Random Forest
+tidak berasal dari satu Decision Tree saja,
+melainkan merupakan hasil Majority Voting
+dari seluruh Decision Tree.
+""")
             # ==========================================================
             # STATISTIK DATASET
             # ==========================================================
