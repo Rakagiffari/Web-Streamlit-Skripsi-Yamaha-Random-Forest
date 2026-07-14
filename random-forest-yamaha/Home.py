@@ -459,8 +459,8 @@ flow_data = [
 # ==========================================================
 # BARIS 1
 # ==========================================================
-cols = st.columns(8)
-for i in range(8):
+cols = st.columns(4)
+for i in range(4):
     no,icon,title = flow_data[i]
     with cols[i]:
         st.markdown(f"""
@@ -471,17 +471,13 @@ for i in range(8):
                 <div style="font-size:35px;margin-bottom:15px;">
                     {icon}
                 </div>
-
-<div class="flow-title">
-
-{title}
-
-</div>
-
-</div>
+                <div class="flow-title">
+                    {title}
+                </div>
+            </div>
 """, unsafe_allow_html=True)
-
 st.markdown("<br><br>", unsafe_allow_html=True)
+
 # ==========================================================
 # PENJELASAN
 # ==========================================================
