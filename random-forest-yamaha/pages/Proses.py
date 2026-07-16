@@ -453,9 +453,6 @@ if uploaded_file is not None:
         # FEATURE ENGINEERING
         # =====================================
 
-        st.markdown("## ⚙️ Feature Engineering")
-
-        # Dataset hasil seleksi fitur
         feature_df = df_selected.copy()
 
         # =====================================
@@ -528,7 +525,7 @@ if uploaded_file is not None:
         # TAMPILAN FEATURE ENGINEERING
         # =====================================
 
-        with st.expander("⚙️ Feature Engineering", expanded=False):
+        with st.expander("Feature Engineering", expanded=False):
 
             st.caption(
                 "Dataset hasil Feature Engineering yang siap digunakan untuk proses pelatihan model."
@@ -553,7 +550,7 @@ if uploaded_file is not None:
                 height=450
             )
 
-            st.markdown("---")
+            st.markdown("<br>", unsafe_allow_html=True)
 
             fitur_awal = len(df_selected.columns)
             fitur_baru = 2
