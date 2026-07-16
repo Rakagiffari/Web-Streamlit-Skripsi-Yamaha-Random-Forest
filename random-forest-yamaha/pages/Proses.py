@@ -359,8 +359,8 @@ if uploaded_file is not None:
         # HASIL PREPROCESSING
         # =====================================
         
-        st.markdown("<br>", unsafe_allow_html=True)
-
+        st.markdown("## 📊 Hasil Preprocessing")
+        
         col1, col2, col3 = st.columns(3)
 
         with col1:
@@ -402,6 +402,8 @@ if uploaded_file is not None:
         # =====================================
         # SELEKSI FITUR
         # =====================================
+
+        st.markdown("<br>", unsafe_allow_html=True)
 
         with st.expander("Seleksi Fitur", expanded=False):
             fitur_digunakan = [
