@@ -403,9 +403,6 @@ if uploaded_file is not None:
         # FEATURE ENGINEERING
         # =====================================
 
-        st.markdown("## ⚙️ Feature Engineering")
-
-        # Dataset hasil preprocessing
         feature_df = df.copy()
 
         from datetime import datetime
@@ -554,8 +551,6 @@ if uploaded_file is not None:
                 </div>
                 """, unsafe_allow_html=True)
 
-        st.success("✅ Feature Engineering berhasil dilakukan.")
-        
         # =====================================
         # SELEKSI FITUR
         # =====================================
