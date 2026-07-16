@@ -534,6 +534,12 @@ if uploaded_file is not None:
             )
 
         # =====================================
+        # PREPROCESS DATA UNTUK TRAINING
+        # =====================================
+
+        X, y = preprocess_data(df_selected)
+
+        # =====================================
         # DISTRIBUSI TARGET
         # =====================================
 
