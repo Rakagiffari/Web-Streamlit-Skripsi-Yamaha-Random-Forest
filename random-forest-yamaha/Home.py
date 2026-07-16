@@ -456,7 +456,7 @@ flow_data = [
     ("3","⚙️","Persiapan Data"),
     ("4","🌲","Random Forest"),
     ("5","📊","Evaluasi Model"),
-    ("6","💡","Insight"),
+    ("6","📈","Visualisasi & Insight"),
     ("7","📄","Laporan PDF"),
 ]
 # ==========================================================
