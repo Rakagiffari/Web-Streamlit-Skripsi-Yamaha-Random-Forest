@@ -203,13 +203,13 @@ if uploaded_file is not None:
 
         with st.expander("🔍 Preview Dataset", expanded=False):
 
-        st.caption("Menampilkan 5 data pertama dari dataset.")
+            st.caption("Menampilkan 5 data pertama dari dataset.")
 
-        st.dataframe(
-            df.head(),
-             use_container_width=True,
-            hide_index=True
-        )
+            st.dataframe(
+                df.head(),
+                use_container_width=True,
+                hide_index=True
+            )
 
         # =====================================
         # INFORMASI DATASET
