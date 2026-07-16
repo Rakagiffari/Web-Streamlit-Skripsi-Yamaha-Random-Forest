@@ -138,7 +138,7 @@ div[data-testid="stExpanderDetails"]{
 }
 .stAlert p{
     font-size: 14px !important;
-    font-weight: 500 !important;
+    font-weight: 300 !important;
 }
 
 </style>
