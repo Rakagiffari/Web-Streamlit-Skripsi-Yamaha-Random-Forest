@@ -130,6 +130,17 @@ div[data-testid="stExpanderDetails"]{
     padding:15px 18px 18px 18px;
 }
 
+/* ===================================================
+   SUCCESS BOX
+=================================================== */
+.stAlert{
+    border-radius: 15px;
+}
+.stAlert p{
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
