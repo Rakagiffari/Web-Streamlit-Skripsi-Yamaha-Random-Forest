@@ -403,80 +403,11 @@ if uploaded_file is not None:
 # FEATURE ENGINEERING
 # =====================================
 
-st.markdown("## ⚙️ Feature Engineering")
-
-# Dataset hasil preprocessing
-feature_df = df.copy()
-
-# =====================================
-# Feature 1 : Usia Motor
-# =====================================
-
-from datetime import datetime
-
-tahun_sekarang = datetime.now().year
-
-feature_df["Usia Motor"] = (
-    tahun_sekarang - feature_df["Tahun"]
-)
-
-# =====================================
-# Feature 2 : Jenis Motor
-# =====================================
-
-def get_jenis(model):
-
-    model = str(model).upper()
-
-    if any(x in model for x in [
-        "XMAX","NMAX","AEROX","LEXI","TMAX"
-    ]):
-        return "MAXi"
-
-    elif any(x in model for x in [
-        "FAZZIO","FILANO"
-    ]):
-        return "Classy"
-
-    elif any(x in model for x in [
-        "MIO","SOUL","XEON","FINO",
-        "GEAR","FREEGO","X-RIDE",
-        "XRIDE","NOUVO","LEXAM"
-    ]):
-        return "Matic"
-
-    elif any(x in model for x in [
-        "R15","R25","R6","R1",
-        "VIXION","BYSON",
-        "SCORPIO","RX",
-        "XSR","MT"
-    ]):
-        return "Sport"
-
-    elif any(x in model for x in [
-        "WR","YZ"
-    ]):
-        return "Off-road"
-
-    elif any(x in model for x in [
-        "JUPITER","VEGA",
-        "CRYPTON","ALFA",
-        "SIGMA","F1ZR","MX"
-    ]):
-        return "Moped"
-
-    return "Unknown"
-
-feature_df["Jenis"] = feature_df["Model"].apply(get_jenis)
-
-# =====================================
-# TAMPILAN FEATURE ENGINEERING
-# =====================================
-
 with st.expander("⚙️ Feature Engineering", expanded=False):
 
     st.caption(
-        "Dataset hasil Feature Engineering. Dataset asli telah ditambahkan dua fitur baru yaitu Jenis dan Usia Motor."
+        "Dataset setelah proses Feature Engineering. "
+        "Dua fitur baru yaitu Jenis dan Usia Motor berhasil ditambahkan."
     )
 
     st.dataframe(
@@ -499,12 +430,8 @@ with st.expander("⚙️ Feature Engineering", expanded=False):
         st.markdown(f"""
         <div class="upload-card">
             <div class="upload-icon">📥</div>
-            <div class="upload-title">
-                Fitur Awal
-            </div>
-            <div class="upload-value">
-                {fitur_awal}
-            </div>
+            <div class="upload-title">Fitur Awal</div>
+            <div class="upload-value">{fitur_awal}</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -513,12 +440,8 @@ with st.expander("⚙️ Feature Engineering", expanded=False):
         st.markdown(f"""
         <div class="upload-card">
             <div class="upload-icon">⚙️</div>
-            <div class="upload-title">
-                Feature Baru
-            </div>
-            <div class="upload-value">
-                {fitur_baru}
-            </div>
+            <div class="upload-title">Feature Baru</div>
+            <div class="upload-value">{fitur_baru}</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -527,12 +450,8 @@ with st.expander("⚙️ Feature Engineering", expanded=False):
         st.markdown(f"""
         <div class="upload-card">
             <div class="upload-icon">📤</div>
-            <div class="upload-title">
-                Fitur Akhir
-            </div>
-            <div class="upload-value">
-                {fitur_akhir}
-            </div>
+            <div class="upload-title">Fitur Akhir</div>
+            <div class="upload-value">{fitur_akhir}</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -544,7 +463,6 @@ st.success("✅ Feature Engineering berhasil dilakukan.")
 
 st.markdown("## 🗑️ Seleksi Fitur")
 
-# Daftar fitur yang digunakan
 fitur_digunakan = [
     "Jenis",
     "Usia Motor",
@@ -553,21 +471,29 @@ fitur_digunakan = [
     "Service"
 ]
 
-# Dataset hasil seleksi
 df_selected = feature_df[fitur_digunakan].copy()
 
-# Fitur yang dihapus
-fitur_dihapus = [
-    col
-    for col in feature_df.columns
-    if col not in fitur_digunakan
-]
+fitur_info = pd.DataFrame({
+
+    "Nama Fitur": fitur_digunakan
+
+})
 
 with st.expander("🗑️ Seleksi Fitur", expanded=False):
 
     st.caption(
-        "Pemilihan fitur yang digunakan sebagai masukan model Random Forest."
+        "Fitur yang dipilih untuk digunakan pada proses pelatihan model."
     )
+
+    st.markdown("#### Fitur yang Digunakan")
+
+    st.dataframe(
+        fitur_info,
+        use_container_width=True,
+        hide_index=True
+    )
+
+    st.markdown("#### Dataset Setelah Seleksi Fitur")
 
     st.dataframe(
         df_selected,
@@ -585,12 +511,8 @@ with st.expander("🗑️ Seleksi Fitur", expanded=False):
         st.markdown(f"""
         <div class="upload-card">
             <div class="upload-icon">📥</div>
-            <div class="upload-title">
-                Total Fitur
-            </div>
-            <div class="upload-value">
-                {len(feature_df.columns)}
-            </div>
+            <div class="upload-title">Total Fitur</div>
+            <div class="upload-value">{len(feature_df.columns)}</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -599,12 +521,8 @@ with st.expander("🗑️ Seleksi Fitur", expanded=False):
         st.markdown(f"""
         <div class="upload-card">
             <div class="upload-icon">✅</div>
-            <div class="upload-title">
-                Fitur Digunakan
-            </div>
-            <div class="upload-value">
-                {len(fitur_digunakan)}
-            </div>
+            <div class="upload-title">Fitur Digunakan</div>
+            <div class="upload-value">{len(fitur_digunakan)}</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -613,15 +531,11 @@ with st.expander("🗑️ Seleksi Fitur", expanded=False):
         st.markdown(f"""
         <div class="upload-card">
             <div class="upload-icon">🗑️</div>
-            <div class="upload-title">
-                Fitur Dihapus
-            </div>
-            <div class="upload-value">
-                {len(fitur_dihapus)}
-            </div>
+            <div class="upload-title">Fitur Dihapus</div>
+            <div class="upload-value">{len(feature_df.columns)-len(fitur_digunakan)}</div>
         </div>
         """, unsafe_allow_html=True)
-
+        
         # =====================================
         # SELEKSI FITUR
         # =====================================
