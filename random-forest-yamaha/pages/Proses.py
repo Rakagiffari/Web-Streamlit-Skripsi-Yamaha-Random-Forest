@@ -361,53 +361,47 @@ if uploaded_file is not None:
 
         st.markdown("## 📊 Hasil Preprocessing")
 
-        c1, c2, c3 = st.columns(3)
+        col1, col2, col3 = st.columns(3)
 
-        with c1:
+        with col1:
 
             st.markdown(f"""
             <div class="upload-card">
-
+                <div class="upload-icon">📄</div>
                 <div class="upload-title">
                     Missing Value
                 </div>
-
                 <div class="upload-value">
                     {total_missing}
                 </div>
-
             </div>
             """, unsafe_allow_html=True)
 
-        with c2:
+        with col2:
 
             st.markdown(f"""
             <div class="upload-card">
-
+                <div class="upload-icon">📑</div>
                 <div class="upload-title">
                     Data Duplikat
                 </div>
-
                 <div class="upload-value">
                     {total_duplicate}
                 </div>
-
             </div>
             """, unsafe_allow_html=True)
 
-        with c3:
+        with col3:
 
             st.markdown(f"""
             <div class="upload-card">
-
+                <div class="upload-icon">📋</div>
                 <div class="upload-title">
                     Jumlah Kolom
                 </div>
-
                 <div class="upload-value">
                     {len(df.columns)}
                 </div>
-
             </div>
             """, unsafe_allow_html=True)
             
