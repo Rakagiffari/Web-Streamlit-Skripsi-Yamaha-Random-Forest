@@ -449,14 +449,17 @@ if uploaded_file is not None:
                 height=350
             )
 
-        # =====================================
+                # =====================================
         # FEATURE ENGINEERING
         # =====================================
 
+        st.markdown("## ⚙️ Feature Engineering")
+
+        # Dataset hasil seleksi fitur
         feature_df = df_selected.copy()
 
         # =====================================
-        # FEATURE 1 : USIA MOTOR
+        # Feature 1 : Usia Motor
         # =====================================
 
         from datetime import datetime
@@ -464,14 +467,16 @@ if uploaded_file is not None:
         tahun_sekarang = datetime.now().year
 
         feature_df["Usia Motor"] = (
-            tahun_sekarang - feature_df["Tahun"]
+            tahun_sekarang -
+            feature_df["Tahun"]
         )
 
         # =====================================
-        # FEATURE 2 : JENIS MOTOR
+        # Feature 2 : Jenis Motor
         # =====================================
 
         def get_jenis(model):
+
             model = str(model).upper()
 
             if any(x in model for x in [
@@ -520,16 +525,13 @@ if uploaded_file is not None:
         feature_df["Jenis"] = feature_df["Model"].apply(get_jenis)
 
         # =====================================
-        # HASIL FEATURE ENGINEERING
+        # TAMPILAN FEATURE ENGINEERING
         # =====================================
 
-        with st.expander(
-            "⚙️ Hasil Feature Engineering",
-            expanded=False
-        ):
+        with st.expander("⚙️ Feature Engineering", expanded=False):
 
             st.caption(
-                "Dataset setelah proses Feature Engineering dan siap digunakan untuk proses pelatihan model."
+                "Dataset hasil Feature Engineering yang siap digunakan untuk proses pelatihan model."
             )
 
             hasil_feature = feature_df[
@@ -551,9 +553,11 @@ if uploaded_file is not None:
                 height=450
             )
 
-        fitur_awal = len(df_selected.columns)
+            st.markdown("---")
+
+            fitur_awal = len(df_selected.columns)
             fitur_baru = 2
-            fitur_akhir = len(feature_df.columns)
+            fitur_akhir = len(hasil_feature.columns)
 
             col1, col2, col3 = st.columns(3)
 
@@ -599,61 +603,13 @@ if uploaded_file is not None:
                 </div>
                 """, unsafe_allow_html=True)
 
-            st.markdown("---")
-
         # =====================================
-        # RINGKASAN FEATURE ENGINEERING
+        # PREPROCESS DATA
         # =====================================
 
-        st.markdown("## 📊 Hasil Feature Engineering")
+        X, y = preprocess_data(feature_df)
 
-        fitur_awal = len(df_selected.columns)
-        fitur_baru = 2
-        fitur_akhir = len(hasil_feature.columns)
-
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-
-            st.markdown(f"""
-            <div class="upload-card">
-                <div class="upload-icon">📥</div>
-                <div class="upload-title">
-                    Fitur Awal
-                </div>
-                <div class="upload-value">
-                    {fitur_awal}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col2:
-
-            st.markdown(f"""
-            <div class="upload-card">
-                <div class="upload-icon">⚙️</div>
-                <div class="upload-title">
-                    Feature Baru
-                </div>
-                <div class="upload-value">
-                    {fitur_baru}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col3:
-
-            st.markdown(f"""
-            <div class="upload-card">
-                <div class="upload-icon">📤</div>
-                <div class="upload-title">
-                    Fitur Akhir
-                </div>
-                <div class="upload-value">
-                    {fitur_akhir}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+        st.success("✅ Feature Engineering berhasil dilakukan.")
 
         # =====================================
         # PREPROCESS DATA
