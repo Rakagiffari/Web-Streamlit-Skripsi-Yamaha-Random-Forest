@@ -312,53 +312,69 @@ if uploaded_file is not None:
                 hide_index=True
             )
 
+                # =====================================
+        # HASIL PREPROCESSING
         # =====================================
-        # INFORMASI DATASET
-        # =====================================
 
-        st.markdown("## 📊 Hasil Prepocessing")
-
-        total_missing = df.isnull().sum().sum()
-
-        total_duplicate = df.duplicated().sum()
-
-        numeric_cols = len(
-            df.select_dtypes(include="number").columns
-        )
-
-        categorical_cols = len(
-            df.select_dtypes(include=["object", "category"]).columns
-        )
+        st.markdown("## 📊 Hasil Preprocessing")
 
         c1, c2, c3, c4 = st.columns(4)
 
         with c1:
 
-            st.metric(
-                "Jumlah Data",
-                len(df)
-            )
-        
+            st.markdown(f"""
+            <div class="upload-card">
+                <div class="upload-title">
+                    Missing Value
+                </div>
+
+                <div class="upload-value">
+                    {total_missing}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
         with c2:
 
-            st.metric(
-                "Missing Value",
-                total_missing
-            )
+            st.markdown(f"""
+            <div class="upload-card">
+                <div class="upload-title">
+                    Data Duplikat
+                </div>
+
+                <div class="upload-value">
+                    {total_duplicate}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 
         with c3:
 
-            st.metric(
-                "Data Duplikat",
-                total_duplicate
-            )
+            st.markdown(f"""
+            <div class="upload-card">
+                <div class="upload-title">
+                    Fitur Digunakan
+                </div>
+
+                <div class="upload-value">
+                    {len(fitur_digunakan)}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 
         with c4:
 
-            st.metric(
-                "Jumlah Kelas",
-                df["Service"].nunique()
-            )
+            st.markdown(f"""
+            <div class="upload-card">
+                <div class="upload-title">
+                    Fitur Dihapus
+                </div>
+
+                <div class="upload-value">
+                    {len(fitur_dihapus)}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 
         # =====================================
         # MISSING VALUE
