@@ -183,6 +183,8 @@ if uploaded_file is not None:
             st.error("Format file tidak didukung.")
             st.stop()
 
+        st.success("Upload Data berhasil")
+
         # =====================================
         # VALIDASI KOLOM
         # =====================================
@@ -212,7 +214,6 @@ if uploaded_file is not None:
             )
 
             st.stop()
-            st.success("Feature Engineering berhasil")
 
         # =====================================
         # INFORMASI DATASET
