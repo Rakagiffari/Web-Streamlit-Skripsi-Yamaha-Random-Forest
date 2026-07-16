@@ -393,7 +393,7 @@ if uploaded_file is not None:
                 missing_df,
                 use_container_width=True,
                 hide_index=True,
-                height=200
+                height=230
             )
 
         # =====================================
