@@ -329,14 +329,12 @@ if uploaded_file is not None:
                 "Kolom",
                 "Jumlah Missing"
             ]
-            
-            st.write(f"**Total Missing Value : {total_missing}**")
-            
+
             st.dataframe(
                 missing_df,
                 use_container_width=True,
                 hide_index=True,
-                height=400
+                height=300
             )
 
         # =====================================
