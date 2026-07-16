@@ -598,26 +598,9 @@ if uploaded_file is not None:
                         {fitur_akhir}
                     </div>
                 </div>
-
-                st.markdown("<br>", unsafe_allow_html=True)
                 
                 """, unsafe_allow_html=True)
 
-        # =====================================
-        # PREPROCESS DATA
-        # =====================================
-
-        X, y = preprocess_data(feature_df)
-
-        st.success("✅ Feature Engineering berhasil dilakukan.")
-
-        # =====================================
-        # PREPROCESS DATA
-        # =====================================
-
-        X, y = preprocess_data(feature_df)
-
-        st.success("✅ Feature Engineering berhasil dilakukan.")
         # =====================================
         # DISTRIBUSI TARGET
         # =====================================
