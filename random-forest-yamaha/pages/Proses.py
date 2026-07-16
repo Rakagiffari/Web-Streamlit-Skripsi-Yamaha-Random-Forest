@@ -282,6 +282,37 @@ if uploaded_file is not None:
             )
 
         # =====================================
+        # TIPE DATA
+        # =====================================
+        with st.expander("Tipe Data", expanded=False):
+            st.caption("Ringkasan tipe data pada dataset.")
+            numeric_cols = len(
+                df.select_dtypes(include=["number"]).columns
+            )
+
+            categorical_cols = len(
+                df.select_dtypes(include=["object", "category"]).columns
+            )
+
+            tipe_df = pd.DataFrame({
+                "Nama": [
+                    "Numerik",
+                    "Kategori"
+                ],
+
+                "Jumlah": [
+                    numeric_cols,
+                    categorical_cols
+                ]
+            })
+
+            st.dataframe(
+                tipe_df,
+                use_container_width=True,
+                hide_index=True
+            )
+
+        # =====================================
         # SELEKSI FITUR
         # =====================================
 
@@ -327,37 +358,6 @@ if uploaded_file is not None:
                 use_container_width=True,
                 hide_index=True,
                 height=350
-            )
-
-        # =====================================
-        # TIPE DATA
-        # =====================================
-        with st.expander("Tipe Data", expanded=False):
-            st.caption("Ringkasan tipe data pada dataset.")
-            numeric_cols = len(
-                df.select_dtypes(include=["number"]).columns
-            )
-
-            categorical_cols = len(
-                df.select_dtypes(include=["object", "category"]).columns
-            )
-
-            tipe_df = pd.DataFrame({
-                "Nama": [
-                    "Numerik",
-                    "Kategori"
-                ],
-
-                "Jumlah": [
-                    numeric_cols,
-                    categorical_cols
-                ]
-            })
-
-            st.dataframe(
-                tipe_df,
-                use_container_width=True,
-                hide_index=True
             )
             
         # =====================================
