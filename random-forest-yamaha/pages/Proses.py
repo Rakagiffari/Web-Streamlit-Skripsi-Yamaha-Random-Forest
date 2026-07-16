@@ -344,36 +344,52 @@ if uploaded_file is not None:
             hide_index=True
         )
 
-        # =====================================
+                # =====================================
         # MISSING VALUE
         # =====================================
 
-        st.markdown("### 🔍 Missing Value per Kolom")
+        with st.expander("🔍 Missing Value", expanded=False):
 
-        missing_df = (
+            st.caption("Pemeriksaan Missing Value pada dataset yang diunggah.")
 
-            df.isnull()
-            .sum()
-            .reset_index()
+            total_missing = df.isnull().sum().sum()
 
-        )
+            missing_df = (
+                df.isnull()
+                .sum()
+                .reset_index()
+            )
 
-        missing_df.columns = [
+            missing_df.columns = [
+                "Kolom",
+                "Jumlah Missing"
+            ]
 
-            "Kolom",
-            "Jumlah Missing"
+            st.write(f"**Total Missing Value : {total_missing}**")
 
-        ]
+            if total_missing == 0:
 
-        st.dataframe(
+                st.success("✅ Tidak ditemukan Missing Value pada dataset.")
 
-            missing_df,
+            else:
 
-            use_container_width=True,
+                st.dataframe(
+                    missing_df[
+                        missing_df["Jumlah Missing"] > 0
+                    ],
+                    use_container_width=True,
+                    hide_index=True,
+                    height=300
+                )
 
-            hide_index=True
+            st.markdown("### Seluruh Kolom")
 
-        )
+            st.dataframe(
+                missing_df,
+                use_container_width=True,
+                hide_index=True,
+                height=400
+            )
 
         # =====================================
         # DUPLIKAT
