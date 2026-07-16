@@ -408,82 +408,72 @@ if uploaded_file is not None:
                 hide_index=True
             )
 
+                # =====================================
+        # SELEKSI FITUR
         # =====================================
-# SELEKSI FITUR
-# =====================================
 
-with st.expander("🗑️ Seleksi Fitur", expanded=False):
+        with st.expander("🗑️ Seleksi Fitur", expanded=False):
 
-    st.caption(
-        "Menghapus fitur yang tidak digunakan pada proses klasifikasi."
-    )
+            st.caption(
+                "Menghapus fitur yang tidak digunakan sebelum proses Feature Engineering."
+            )
 
-    fitur_digunakan = [
+            fitur_digunakan = [
 
-        "Model",
-        "Tahun",
-        "Km",
-        "Indikasi",
-        "Service"
+                "Model",
+                "Tahun",
+                "Km",
+                "Indikasi",
+                "Service"
 
-    ]
+            ]
 
-    fitur_dihapus = [
+            fitur_dihapus = [
+                col
+                for col in df.columns
+                if col not in fitur_digunakan
+            ]
 
-        col
-        for col in df.columns
-        if col not in fitur_digunakan
+            feature_info = pd.DataFrame({
 
-    ]
+                "Nama":[
 
-    ringkasan_df = pd.DataFrame({
+                    "Total Fitur",
 
-        "Nama":[
+                    "Fitur Digunakan",
 
-            "Total Fitur Awal",
-            "Fitur Digunakan",
-            "Fitur Dihapus"
+                    "Fitur Dihapus"
 
-        ],
+                ],
 
-        "Jumlah":[
+                "Jumlah":[
 
-            len(df.columns),
-            len(fitur_digunakan),
-            len(fitur_dihapus)
+                    len(df.columns),
 
-        ]
+                    len(fitur_digunakan),
 
-    })
+                    len(fitur_dihapus)
 
-    st.dataframe(
-        ringkasan_df,
-        use_container_width=True,
-        hide_index=True
-    )
+                ]
 
-    st.markdown("#### Fitur yang Dihapus")
+            })
 
-    st.dataframe(
-        pd.DataFrame({
+            st.dataframe(
+                feature_info,
+                use_container_width=True,
+                hide_index=True
+            )
 
-            "Nama Fitur": fitur_dihapus
+            st.markdown("#### Dataset Setelah Seleksi Fitur")
 
-        }),
-        use_container_width=True,
-        hide_index=True
-    )
+            df_selected = df[fitur_digunakan].copy()
 
-    df_selected = df[fitur_digunakan].copy()
-
-    st.markdown("#### Dataset Setelah Seleksi Fitur")
-
-    st.dataframe(
-        df_selected,
-        use_container_width=True,
-        hide_index=True,
-        height=400
-    )
+            st.dataframe(
+                df_selected,
+                use_container_width=True,
+                hide_index=True,
+                height=350
+            )
         # =====================================
         # PREPROCESSING
         # =====================================
