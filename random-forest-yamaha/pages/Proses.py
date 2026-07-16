@@ -507,6 +507,32 @@ if uploaded_file is not None:
             )
 
         # =====================================
+        # SELEKSI FITUR
+        # =====================================
+        
+        fitur_digunakan = [
+            "Jenis",
+            "Usia Motor",
+            "Km",
+            "Indikasi",
+            "Service"
+        ]
+
+        with st.expander("Seleksi Fitur", expanded=False):
+
+            st.caption(
+                "Dataset hasil Seleksi Fitur yang digunakan sebagai input model Random Forest."
+            )
+
+            st.dataframe(
+                df_selected,
+                use_container_width=True,
+                hide_index=True,
+                height=450
+            )
+
+
+        # =====================================
         # DISTRIBUSI TARGET
         # =====================================
 
