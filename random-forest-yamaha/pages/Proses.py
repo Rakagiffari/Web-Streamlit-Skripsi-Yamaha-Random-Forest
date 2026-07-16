@@ -403,6 +403,8 @@ if uploaded_file is not None:
         # FEATURE ENGINEERING
         # =====================================
 
+        st.markdown("<br>", unsafe_allow_html=True)
+
         feature_df = df.copy()
 
         from datetime import datetime
