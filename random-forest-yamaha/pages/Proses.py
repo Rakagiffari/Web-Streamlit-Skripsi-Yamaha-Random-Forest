@@ -399,7 +399,7 @@ if uploaded_file is not None:
             </div>
             """, unsafe_allow_html=True)
 
-                # =====================================
+        # =====================================
         # FEATURE ENGINEERING
         # =====================================
 
@@ -408,20 +408,20 @@ if uploaded_file is not None:
         # Dataset hasil preprocessing
         feature_df = df.copy()
 
-        # =====================================
-        # Feature 1 : Usia Motor
-        # =====================================
-
         from datetime import datetime
 
         tahun_sekarang = datetime.now().year
+
+        # =====================================
+        # Feature Engineering : Usia Motor
+        # =====================================
 
         feature_df["Usia Motor"] = (
             tahun_sekarang - feature_df["Tahun"]
         )
 
         # =====================================
-        # Feature 2 : Jenis Motor
+        # Feature Engineering : Jenis
         # =====================================
 
         def get_jenis(model):
@@ -470,10 +470,31 @@ if uploaded_file is not None:
         feature_df["Jenis"] = feature_df["Model"].apply(get_jenis)
 
         # =====================================
+        # SUSUN ULANG POSISI KOLOM
+        # =====================================
+
+        kolom_akhir = []
+
+        for col in feature_df.columns:
+
+            kolom_akhir.append(col)
+
+            if col == "Model":
+                kolom_akhir.append("Jenis")
+
+            if col == "Tahun":
+                kolom_akhir.append("Usia Motor")
+
+        # Hilangkan duplikasi
+        kolom_akhir = list(dict.fromkeys(kolom_akhir))
+
+        feature_df = feature_df[kolom_akhir]
+
+        # =====================================
         # TAMPILAN FEATURE ENGINEERING
         # =====================================
 
-        with st.expander("Feature Engineering", expanded=False):
+        with st.expander("⚙️ Feature Engineering", expanded=False):
 
             st.caption(
                 "Dataset setelah proses Feature Engineering."
@@ -495,6 +516,7 @@ if uploaded_file is not None:
             c1, c2, c3 = st.columns(3)
 
             with c1:
+
                 st.markdown(f"""
                 <div class="upload-card">
                     <div class="upload-title">
@@ -507,6 +529,7 @@ if uploaded_file is not None:
                 """, unsafe_allow_html=True)
 
             with c2:
+
                 st.markdown(f"""
                 <div class="upload-card">
                     <div class="upload-title">
@@ -519,6 +542,7 @@ if uploaded_file is not None:
                 """, unsafe_allow_html=True)
 
             with c3:
+
                 st.markdown(f"""
                 <div class="upload-card">
                     <div class="upload-title">
