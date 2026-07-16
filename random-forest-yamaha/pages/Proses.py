@@ -538,6 +538,90 @@ with st.expander("⚙️ Feature Engineering", expanded=False):
 
 st.success("✅ Feature Engineering berhasil dilakukan.")
 
+# =====================================
+# SELEKSI FITUR
+# =====================================
+
+st.markdown("## 🗑️ Seleksi Fitur")
+
+# Daftar fitur yang digunakan
+fitur_digunakan = [
+    "Jenis",
+    "Usia Motor",
+    "Km",
+    "Indikasi",
+    "Service"
+]
+
+# Dataset hasil seleksi
+df_selected = feature_df[fitur_digunakan].copy()
+
+# Fitur yang dihapus
+fitur_dihapus = [
+    col
+    for col in feature_df.columns
+    if col not in fitur_digunakan
+]
+
+with st.expander("🗑️ Seleksi Fitur", expanded=False):
+
+    st.caption(
+        "Pemilihan fitur yang digunakan sebagai masukan model Random Forest."
+    )
+
+    st.dataframe(
+        df_selected,
+        use_container_width=True,
+        hide_index=True,
+        height=450
+    )
+
+    st.markdown("---")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+
+        st.markdown(f"""
+        <div class="upload-card">
+            <div class="upload-icon">📥</div>
+            <div class="upload-title">
+                Total Fitur
+            </div>
+            <div class="upload-value">
+                {len(feature_df.columns)}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+
+        st.markdown(f"""
+        <div class="upload-card">
+            <div class="upload-icon">✅</div>
+            <div class="upload-title">
+                Fitur Digunakan
+            </div>
+            <div class="upload-value">
+                {len(fitur_digunakan)}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col3:
+
+        st.markdown(f"""
+        <div class="upload-card">
+            <div class="upload-icon">🗑️</div>
+            <div class="upload-title">
+                Fitur Dihapus
+            </div>
+            <div class="upload-value">
+                {len(fitur_dihapus)}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
         # =====================================
         # SELEKSI FITUR
         # =====================================
