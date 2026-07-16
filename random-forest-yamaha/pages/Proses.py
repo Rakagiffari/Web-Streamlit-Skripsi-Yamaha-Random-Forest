@@ -395,27 +395,40 @@ if uploaded_file is not None:
         # =====================================
         # DATA DUPLIKAT
         # =====================================
+                # =====================================
+        # DATA DUPLIKAT
+        # =====================================
+
         with st.expander("📑 Data Duplikat", expanded=False):
-            st.caption("Pemeriksaan data duplikat pada dataset hasil seleksi fitur.")
-            duplicate_df = pd.DataFrame({
-                "Nama":[
-                    "Jumlah Data",
-                    "Jumlah Kolom",
-                    "Data Duplikat"
-                    ],
-                
-                "Jumlah":[
-                    len(df_selected),
-                    len(df_selected.columns),
-                    df_selected.duplicated().sum()
-                    ]
-                })
-            
-            st.dataframe(
-                duplicate_df,
-                use_container_width=True,
-                hide_index=True
-        )
+
+            st.caption(
+                "Pemeriksaan data duplikat pada dataset hasil seleksi fitur."
+            )
+
+            duplicate_df = df_selected[
+                df_selected.duplicated(keep=False)
+            ]
+
+            total_duplicate = df_selected.duplicated().sum()
+
+            st.write(
+                f"**Total Data Duplikat : {total_duplicate}**"
+            )
+
+            if duplicate_df.empty:
+
+                st.success(
+                    "✅ Tidak ditemukan data duplikat pada dataset."
+                )
+
+            else:
+
+                st.dataframe(
+                    duplicate_df,
+                    use_container_width=True,
+                    hide_index=True,
+                    height=350
+                )
 
         # =====================================
         # HASIL PREPROCESSING
