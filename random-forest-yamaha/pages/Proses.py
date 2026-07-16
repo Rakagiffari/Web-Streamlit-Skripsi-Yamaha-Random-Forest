@@ -553,55 +553,83 @@ if uploaded_file is not None:
                 </div>
                 """, unsafe_allow_html=True)
 
-        # =====================================
+                # =====================================
         # SELEKSI FITUR
         # =====================================
 
-        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown("## Seleksi Fitur")
 
-        with st.expander("Seleksi Fitur", expanded=False):
-            fitur_digunakan = [
-                "Jenis",
-                "Usia Motor",
-                "Km",
-                "Indikasi",
-                "Service"
-            ]
+        # Daftar fitur yang digunakan
+        fitur_digunakan = [
+            "Jenis",
+            "Usia Motor",
+            "Km",
+            "Indikasi",
+            "Service"
+        ]
 
-            fitur_dihapus = [
-                col
-                for col in df.columns
-                if col not in fitur_digunakan
-            ]
+        # Dataset hasil seleksi fitur
+        df_selected = feature_df[fitur_digunakan].copy()
 
-            feature_info = pd.DataFrame({
-                "Nama":[
-                    "Fitur Digunakan",
-                    "Fitur Dihapus"
-                ],
+        with st.expander("🗂️ Seleksi Fitur", expanded=False):
 
-                "Jumlah":[
-                    len(fitur_digunakan),
-                    len(fitur_dihapus),
-                ]
-            })
-
-            st.dataframe(
-                feature_info,
-                use_container_width=True,
-                hide_index=True
+            st.caption(
+                "Dataset hasil Seleksi Fitur yang digunakan sebagai input model Random Forest."
             )
-
-            st.caption("Dataset setelah seleksi fitur.")
-
-            df_selected = df[fitur_digunakan].copy()
 
             st.dataframe(
                 df_selected,
                 use_container_width=True,
                 hide_index=True,
-                height=350
+                height=450
             )
+
+            st.markdown("---")
+
+            total_fitur = len(feature_df.columns)
+            fitur_terpilih = len(df_selected.columns)
+            fitur_dihapus = total_fitur - fitur_terpilih
+
+            c1, c2, c3 = st.columns(3)
+
+            with c1:
+
+                st.markdown(f"""
+                <div class="upload-card">
+                    <div class="upload-title">
+                        Total Fitur
+                    </div>
+                    <div class="upload-value">
+                        {total_fitur}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with c2:
+
+                st.markdown(f"""
+                <div class="upload-card">
+                    <div class="upload-title">
+                        Fitur Digunakan
+                    </div>
+                    <div class="upload-value">
+                        {fitur_terpilih}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with c3:
+
+                st.markdown(f"""
+                <div class="upload-card">
+                    <div class="upload-title">
+                        Fitur Dihapus
+                    </div>
+                    <div class="upload-value">
+                        {fitur_dihapus}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
 
         # =====================================
         # DISTRIBUSI TARGET
