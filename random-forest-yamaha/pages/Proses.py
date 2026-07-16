@@ -315,33 +315,36 @@ if uploaded_file is not None:
         # =====================================
         # MISSING VALUE
         # =====================================
-
+        
         with st.expander("Missing Value", expanded=False):
-            st.caption(
-                "Pemeriksaan Missing Value pada dataset hasil seleksi fitur."
-            )
+            st.caption("Pemeriksaan Missing Value pada dataset yang diunggah.")
             
-            total_missing = df_selected.isnull().sum().sum()
+            total_missing = df.isnull().sum().sum()
             
             missing_df = (
-                df_selected
-                .isnull()
+                df.isnull()
                 .sum()
                 .reset_index()
             )
-            
+
             missing_df.columns = [
                 "Kolom",
                 "Jumlah Missing"
-
             ]
 
-            st.dataframe(
-                missing_df,
-                use_container_width=True,
-                hide_index=True,
-                height=210
-            )
+            st.write(f"**Total Missing Value : {total_missing}**")
+
+            if total_missing == 0:
+                st.success("✅ Tidak ditemukan Missing Value pada dataset.")
+            else:
+                st.dataframe(
+                    missing_df[
+                        missing_df["Jumlah Missing"] > 0
+                    ],
+                    use_container_width=True,
+                    hide_index=True,
+                    height=300
+                )
 
         # =====================================
         # DATA DUPLIKAT
