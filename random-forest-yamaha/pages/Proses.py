@@ -481,18 +481,6 @@ if uploaded_file is not None:
                 "Dataset hasil Feature Engineering yang siap digunakan untuk proses pelatihan model."
             )
 
-            hasil_feature = feature_df[
-                [
-                    "Model",
-                    "Jenis",
-                    "Tahun",
-                    "Usia Motor",
-                    "Km",
-                    "Indikasi",
-                    "Service"
-                ]
-            ]
-
             st.dataframe(
                 hasil_feature,
                 use_container_width=True,
