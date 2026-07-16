@@ -65,7 +65,7 @@ st.markdown("""
 div[data-testid="stExpander"]{
     border:1px solid #E5E7EB;
     border-radius:12px;
-    background:#1f2937;
+    background:#020617;
     box-shadow:0 2px 8px rgba(0,0,0,.05);
     margin-bottom:18px;
 }
