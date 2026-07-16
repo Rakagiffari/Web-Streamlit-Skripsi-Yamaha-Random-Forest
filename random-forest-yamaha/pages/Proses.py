@@ -60,6 +60,49 @@ st.markdown("""
     font-weight:bold;
 }
 
+/* =========================================
+UPLOAD INFORMATION CARD
+========================================= */
+
+.upload-card{
+    background:linear-gradient(145deg,#111827,#1e293b);
+    border:1px solid #334155;
+    border-radius:18px;
+    padding:22px;
+    text-align:center;
+    transition:.3s;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    min-height:120px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.upload-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 18px rgba(239,68,68,.25);
+}
+
+.upload-icon{
+    font-size:30px;
+    margin-bottom:8px;
+}
+
+.upload-title{
+    font-size:14px;
+    color:#94a3b8;
+    font-weight:600;
+    margin-bottom:8px;
+}
+
+.upload-value{
+    font-size:22px;
+    color:white;
+    font-weight:800;
+    word-break:break-word;
+}
+
 /* EXPANDER */
 
 div[data-testid="stExpander"]{
@@ -168,34 +211,53 @@ if uploaded_file is not None:
 
             st.stop()
 
+                # =====================================
+        # INFORMASI DATASET
         # =====================================
-        # DATASET BERHASIL
-        # =====================================
 
-        st.success("Dataset berhasil diupload")
+        c1, c2, c3 = st.columns(3)
 
-        col1, col2, col3 = st.columns(3)
+        with c1:
 
-        with col1:
+            st.markdown(f"""
+            <div class="upload-card">
+                <div class="upload-icon">📄</div>
+                <div class="upload-title">
+                    Nama File
+                </div>
+                <div class="upload-value">
+                    {uploaded_file.name}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 
-            st.metric(
-                "Nama File",
-                uploaded_file.name
-            )
+        with c2:
 
-        with col2:
+            st.markdown(f"""
+            <div class="upload-card">
+                <div class="upload-icon">📊</div>
+                <div class="upload-title">
+                    Jumlah Data
+                </div>
+                <div class="upload-value">
+                    {len(df):,}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 
-            st.metric(
-                "Jumlah Data",
-                len(df)
-            )
+        with c3:
 
-        with col3:
-
-            st.metric(
-                "Jumlah Kolom",
-                len(df.columns)
-            )
+            st.markdown(f"""
+            <div class="upload-card">
+                <div class="upload-icon">📋</div>
+                <div class="upload-title">
+                    Jumlah Kolom
+                </div>
+                <div class="upload-value">
+                    {len(df.columns)}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 
         # =====================================
         # PREVIEW DATASET
