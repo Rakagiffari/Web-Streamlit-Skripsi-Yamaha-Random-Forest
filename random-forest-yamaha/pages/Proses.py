@@ -400,13 +400,83 @@ if uploaded_file is not None:
             """, unsafe_allow_html=True)
 
         # =====================================
+# FEATURE ENGINEERING
+# =====================================
+
+st.markdown("## ⚙️ Feature Engineering")
+
+# Dataset hasil preprocessing
+feature_df = df.copy()
+
+# =====================================
+# Feature 1 : Usia Motor
+# =====================================
+
+from datetime import datetime
+
+tahun_sekarang = datetime.now().year
+
+feature_df["Usia Motor"] = (
+    tahun_sekarang - feature_df["Tahun"]
+)
+
+# =====================================
+# Feature 2 : Jenis Motor
+# =====================================
+
+def get_jenis(model):
+
+    model = str(model).upper()
+
+    if any(x in model for x in [
+        "XMAX","NMAX","AEROX","LEXI","TMAX"
+    ]):
+        return "MAXi"
+
+    elif any(x in model for x in [
+        "FAZZIO","FILANO"
+    ]):
+        return "Classy"
+
+    elif any(x in model for x in [
+        "MIO","SOUL","XEON","FINO",
+        "GEAR","FREEGO","X-RIDE",
+        "XRIDE","NOUVO","LEXAM"
+    ]):
+        return "Matic"
+
+    elif any(x in model for x in [
+        "R15","R25","R6","R1",
+        "VIXION","BYSON",
+        "SCORPIO","RX",
+        "XSR","MT"
+    ]):
+        return "Sport"
+
+    elif any(x in model for x in [
+        "WR","YZ"
+    ]):
+        return "Off-road"
+
+    elif any(x in model for x in [
+        "JUPITER","VEGA",
+        "CRYPTON","ALFA",
+        "SIGMA","F1ZR","MX"
+    ]):
+        return "Moped"
+
+    return "Unknown"
+
+feature_df["Jenis"] = feature_df["Model"].apply(get_jenis)
+
+# =====================================
 # TAMPILAN FEATURE ENGINEERING
 # =====================================
 
 with st.expander("⚙️ Feature Engineering", expanded=False):
 
     st.caption(
-        "Dataset setelah proses Feature Engineering. Dataset berikut merupakan dataset asli yang telah ditambahkan fitur baru yaitu Jenis dan Usia Motor."
+        "Dataset hasil Feature Engineering. Dataset asli telah ditambahkan dua fitur baru yaitu Jenis dan Usia Motor."
     )
 
     st.dataframe(
@@ -465,6 +535,8 @@ with st.expander("⚙️ Feature Engineering", expanded=False):
             </div>
         </div>
         """, unsafe_allow_html=True)
+
+st.success("✅ Feature Engineering berhasil dilakukan.")
 
         # =====================================
         # SELEKSI FITUR
