@@ -349,26 +349,22 @@ if uploaded_file is not None:
         # =====================================
 
         with st.expander("🔍 Missing Value", expanded=False):
-
             st.caption("Pemeriksaan Missing Value pada dataset yang diunggah.")
-
             total_missing = df.isnull().sum().sum()
-
             missing_df = (
                 df.isnull()
                 .sum()
                 .reset_index()
             )
-
+            
             missing_df.columns = [
                 "Kolom",
                 "Jumlah Missing"
             ]
-
+            
             st.write(f"**Total Missing Value : {total_missing}**")
-
+            
             st.markdown("### Seluruh Kolom")
-
             st.dataframe(
                 missing_df,
                 use_container_width=True,
