@@ -493,7 +493,7 @@ if uploaded_file is not None:
         # TAMPILAN FEATURE ENGINEERING
         # =====================================
 
-        with st.expander("⚙️ Feature Engineering", expanded=False):
+        with st.expander("Feature Engineering", expanded=False):
 
             st.caption(
                 "Dataset setelah proses Feature Engineering."
@@ -505,53 +505,6 @@ if uploaded_file is not None:
                 hide_index=True,
                 height=450
             )
-
-            st.markdown("---")
-
-            fitur_awal = len(df.columns)
-            fitur_baru = 2
-            fitur_akhir = len(feature_df.columns)
-
-            c1, c2, c3 = st.columns(3)
-
-            with c1:
-
-                st.markdown(f"""
-                <div class="upload-card">
-                    <div class="upload-title">
-                        Fitur Awal
-                    </div>
-                    <div class="upload-value">
-                        {fitur_awal}
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-
-            with c2:
-
-                st.markdown(f"""
-                <div class="upload-card">
-                    <div class="upload-title">
-                        Feature Baru
-                    </div>
-                    <div class="upload-value">
-                        {fitur_baru}
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-
-            with c3:
-
-                st.markdown(f"""
-                <div class="upload-card">
-                    <div class="upload-title">
-                        Fitur Akhir
-                    </div>
-                    <div class="upload-value">
-                        {fitur_akhir}
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
 
         # =====================================
         # SELEKSI FITUR
@@ -567,7 +520,7 @@ if uploaded_file is not None:
 
         df_selected = feature_df[fitur_digunakan].copy()
 
-        with st.expander("🗂️ Seleksi Fitur", expanded=False):
+        with st.expander("Seleksi Fitur", expanded=False):
 
             st.caption(
                 "Dataset hasil Seleksi Fitur yang digunakan sebagai input model Random Forest."
@@ -579,53 +532,6 @@ if uploaded_file is not None:
                 hide_index=True,
                 height=450
             )
-
-            st.markdown("---")
-
-            total_fitur = len(feature_df.columns)
-            fitur_terpilih = len(df_selected.columns)
-            fitur_dihapus = total_fitur - fitur_terpilih
-
-            c1, c2, c3 = st.columns(3)
-
-            with c1:
-
-                st.markdown(f"""
-                <div class="upload-card">
-                    <div class="upload-title">
-                        Total Fitur
-                    </div>
-                    <div class="upload-value">
-                        {total_fitur}
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-
-            with c2:
-
-                st.markdown(f"""
-                <div class="upload-card">
-                    <div class="upload-title">
-                        Fitur Digunakan
-                    </div>
-                    <div class="upload-value">
-                        {fitur_terpilih}
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-
-            with c3:
-
-                st.markdown(f"""
-                <div class="upload-card">
-                    <div class="upload-title">
-                        Fitur Dihapus
-                    </div>
-                    <div class="upload-value">
-                        {fitur_dihapus}
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
 
         # =====================================
         # DISTRIBUSI TARGET
