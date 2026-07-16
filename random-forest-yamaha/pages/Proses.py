@@ -449,7 +449,7 @@ if uploaded_file is not None:
                 height=350
             )
 
-                # =====================================
+        # =====================================
         # FEATURE ENGINEERING
         # =====================================
 
@@ -550,7 +550,7 @@ if uploaded_file is not None:
                 height=450
             )
 
-            st.markdown("<br>", unsafe_allow_html=True)
+            st.markdown("---")
 
             fitur_awal = len(df_selected.columns)
             fitur_baru = 2
@@ -599,6 +599,8 @@ if uploaded_file is not None:
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
+
+         st.markdown("<br>", unsafe_allow_html=True)
 
         # =====================================
         # PREPROCESS DATA
