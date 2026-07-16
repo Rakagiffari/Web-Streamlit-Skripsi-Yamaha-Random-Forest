@@ -346,18 +346,17 @@ if uploaded_file is not None:
                     height=300
                 )
 
-        # =====================================
+                # =====================================
         # DATA DUPLIKAT
         # =====================================
 
         with st.expander("📑 Data Duplikat", expanded=False):
 
             st.caption(
-                "Pemeriksaan data duplikat pada dataset hasil seleksi fitur."
+                "Pemeriksaan data duplikat pada dataset yang diunggah."
             )
 
-            # Hitung jumlah data duplikat
-            total_duplicate = df_selected.duplicated().sum()
+            total_duplicate = df.duplicated().sum()
 
             st.write(f"**Total Data Duplikat : {total_duplicate}**")
 
@@ -369,11 +368,10 @@ if uploaded_file is not None:
 
             else:
 
-                # Tampilkan seluruh pasangan data yang duplikat
-                duplicate_df = df_selected[
-                    df_selected.duplicated(keep=False)
+                duplicate_df = df[
+                    df.duplicated(keep=False)
                 ].sort_values(
-                    by=list(df_selected.columns)
+                    by=list(df.columns)
                 )
 
                 st.dataframe(
@@ -382,7 +380,7 @@ if uploaded_file is not None:
                     hide_index=True,
                     height=350
                 )
-
+                
         # =====================================
         # HASIL PREPROCESSING
         # =====================================
