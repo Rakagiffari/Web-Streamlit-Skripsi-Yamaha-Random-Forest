@@ -360,52 +360,26 @@ if uploaded_file is not None:
                 height=350
             )
             
+        
         # =====================================
         # MISSING VALUE
         # =====================================
 
         with st.expander("Missing Value", expanded=False):
-            st.caption("Pemeriksaan Missing Value pada dataset yang diunggah.")
-            total_missing = df_selected.isnull().sum().sum()
-            missing_df = (
-                df.isnull()
-                .sum()
-                .reset_index()
-            )
-            
-            missing_df.columns = [
-                "Kolom",
-                "Jumlah Missing"
-            ]
-
-            st.dataframe(
-                missing_df,
-                use_container_width=True,
-                hide_index=True,
-                height=300
-            )
-
-                # =====================================
-        # MISSING VALUE
-        # =====================================
-
-        with st.expander("🔍 Missing Value", expanded=False):
-
             st.caption(
                 "Pemeriksaan Missing Value pada dataset hasil seleksi fitur."
             )
-
+            
             total_missing = df_selected.isnull().sum().sum()
-
+            
             missing_df = (
                 df_selected
                 .isnull()
                 .sum()
                 .reset_index()
             )
-
+            
             missing_df.columns = [
-
                 "Kolom",
                 "Jumlah Missing"
 
@@ -416,15 +390,10 @@ if uploaded_file is not None:
             )
 
             st.dataframe(
-
                 missing_df,
-
                 use_container_width=True,
-
                 hide_index=True,
-
                 height=300
-
             )
 
         # =====================================
