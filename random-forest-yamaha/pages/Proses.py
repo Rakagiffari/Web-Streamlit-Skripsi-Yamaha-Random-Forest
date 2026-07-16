@@ -134,11 +134,11 @@ div[data-testid="stExpanderDetails"]{
    SUCCESS BOX
 =================================================== */
 .stAlert{
-    border-radius: 10px;
+    border-radius: 8px;
 }
 .stAlert p{
-    font-size: 14px !important;
-    font-weight: 300 !important;
+    font-size: 12px !important;
+    font-weight: 450 !important;
 }
 
 </style>
