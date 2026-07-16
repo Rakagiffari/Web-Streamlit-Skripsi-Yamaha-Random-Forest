@@ -449,11 +449,11 @@ if uploaded_file is not None:
                 height=350
             )
 
-                # =====================================
+        # =====================================
         # FEATURE ENGINEERING
         # =====================================
 
-        st.markdown("## ⚙️ Feature Engineering")
+        st.markdown("## Feature Engineering")
 
         # Dataset hasil seleksi fitur
         feature_df = df_selected.copy()
