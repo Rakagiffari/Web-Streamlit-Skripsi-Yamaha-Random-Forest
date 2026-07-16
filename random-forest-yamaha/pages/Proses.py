@@ -214,9 +214,6 @@ if uploaded_file is not None:
         # =====================================
         # INFORMASI DATASET
         # =====================================
-
-        st.markdown("<br>", unsafe_allow_html=True)
-
         c1, c2, c3 = st.columns(3)
         with c1:
             st.markdown(f"""
@@ -253,6 +250,9 @@ if uploaded_file is not None:
                 </div>
             </div>
             """, unsafe_allow_html=True)
+            
+            st.markdown("<br>", unsafe_allow_html=True)
+
 
         # =====================================
         # PREVIEW DATASET
