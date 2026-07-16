@@ -553,13 +553,10 @@ if uploaded_file is not None:
                 </div>
                 """, unsafe_allow_html=True)
 
-                # =====================================
+        # =====================================
         # SELEKSI FITUR
         # =====================================
-
-        st.markdown("## Seleksi Fitur")
-
-        # Daftar fitur yang digunakan
+        
         fitur_digunakan = [
             "Jenis",
             "Usia Motor",
@@ -568,7 +565,6 @@ if uploaded_file is not None:
             "Service"
         ]
 
-        # Dataset hasil seleksi fitur
         df_selected = feature_df[fitur_digunakan].copy()
 
         with st.expander("🗂️ Seleksi Fitur", expanded=False):
