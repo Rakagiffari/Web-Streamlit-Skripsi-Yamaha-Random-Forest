@@ -355,19 +355,16 @@ if uploaded_file is not None:
                 hide_index=True
             )
                 
-                # =====================================
+        # =====================================
         # HASIL PREPROCESSING
         # =====================================
 
-        st.markdown("## 📊 Hasil Preprocessing")
-
+        st.markdown("## Hasil Preprocessing")
         col1, col2, col3 = st.columns(3)
 
         with col1:
-
             st.markdown(f"""
             <div class="upload-card">
-                <div class="upload-icon">📄</div>
                 <div class="upload-title">
                     Missing Value
                 </div>
@@ -378,10 +375,8 @@ if uploaded_file is not None:
             """, unsafe_allow_html=True)
 
         with col2:
-
             st.markdown(f"""
             <div class="upload-card">
-                <div class="upload-icon">📑</div>
                 <div class="upload-title">
                     Data Duplikat
                 </div>
@@ -392,10 +387,8 @@ if uploaded_file is not None:
             """, unsafe_allow_html=True)
 
         with col3:
-
             st.markdown(f"""
             <div class="upload-card">
-                <div class="upload-icon">📋</div>
                 <div class="upload-title">
                     Jumlah Kolom
                 </div>
