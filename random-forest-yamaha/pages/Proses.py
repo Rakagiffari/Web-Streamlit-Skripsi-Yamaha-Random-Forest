@@ -399,10 +399,14 @@ if uploaded_file is not None:
             st.caption("Pemeriksaan data duplikat pada dataset hasil seleksi fitur.")
             duplicate_df = pd.DataFrame({
                 "Nama":[
+                    "Jumlah Data",
+                    "Jumlah Kolom",
                     "Data Duplikat"
                     ],
                 
                 "Jumlah":[
+                    len(df_selected),
+                    len(df_selected.columns),
                     df_selected.duplicated().sum()
                     ]
                 })
