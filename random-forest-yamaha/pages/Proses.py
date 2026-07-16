@@ -77,7 +77,7 @@ div[data-testid="stExpander"] details summary{
 }
 
 div[data-testid="stExpander"] details summary:hover{
-    background:#F9FAFB;
+    background:#1f2937;
     border-radius:12px;
 }
 
