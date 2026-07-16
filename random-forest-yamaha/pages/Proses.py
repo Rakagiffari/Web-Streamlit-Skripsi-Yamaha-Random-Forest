@@ -342,13 +342,6 @@ if uploaded_file is not None:
                 height=400
             )
 
-            if total_missing == 0:
-                st.success("✅ Seluruh kolom tidak memiliki Missing Value.")
-            else:
-                st.warning(
-                    f"⚠️ Ditemukan {total_missing} Missing Value pada dataset."
-                )
-
         # =====================================
         # DATA DUPLIKAT
         # =====================================
@@ -363,26 +356,12 @@ if uploaded_file is not None:
 
             st.write(f"**Total Data Duplikat : {total_duplicate}**")
 
-            if total_duplicate == 0:
-
-                st.success(
-                    "✅ Tidak ditemukan data duplikat pada dataset."
-                )
-
-            else:
-
-                duplicate_df = df[
-                    df.duplicated(keep=False)
-                ].sort_values(
-                    by=list(df.columns)
-                )
-
-                st.dataframe(
-                    duplicate_df,
-                    use_container_width=True,
-                    hide_index=True,
-                    height=350
-                )
+            st.dataframe(
+                duplicate_df,
+                use_container_width=True,
+                hide_index=True,
+                height=350
+            )
                 
         # =====================================
         # HASIL PREPROCESSING
