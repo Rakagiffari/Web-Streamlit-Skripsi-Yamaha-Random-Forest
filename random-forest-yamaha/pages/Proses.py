@@ -312,7 +312,7 @@ if uploaded_file is not None:
                 hide_index=True
             )
 
-                # =====================================
+        # =====================================
         # HASIL PREPROCESSING
         # =====================================
 
@@ -382,7 +382,7 @@ if uploaded_file is not None:
 
         with st.expander("🔍 Missing Value", expanded=False):
             st.caption("Pemeriksaan Missing Value pada dataset yang diunggah.")
-            total_missing = df.isnull().sum().sum()
+            total_missing = df_selected.isnull().sum().sum()
             missing_df = (
                 df.isnull()
                 .sum()
