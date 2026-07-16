@@ -398,56 +398,6 @@ if uploaded_file is not None:
                 </div>
             </div>
             """, unsafe_allow_html=True)
-        
-        # =====================================
-        # SELEKSI FITUR
-        # =====================================
-
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        with st.expander("Seleksi Fitur", expanded=False):
-            fitur_digunakan = [
-                "Model",
-                "Tahun",
-                "Km",
-                "Indikasi",
-                "Service"
-            ]
-
-            fitur_dihapus = [
-                col
-                for col in df.columns
-                if col not in fitur_digunakan
-            ]
-
-            feature_info = pd.DataFrame({
-                "Nama":[
-                    "Fitur Digunakan",
-                    "Fitur Dihapus"
-                ],
-
-                "Jumlah":[
-                    len(fitur_digunakan),
-                    len(fitur_dihapus),
-                ]
-            })
-
-            st.dataframe(
-                feature_info,
-                use_container_width=True,
-                hide_index=True
-            )
-
-            st.caption("Dataset setelah seleksi fitur.")
-
-            df_selected = df[fitur_digunakan].copy()
-
-            st.dataframe(
-                df_selected,
-                use_container_width=True,
-                hide_index=True,
-                height=350
-            )
 
         # =====================================
         # FEATURE ENGINEERING
@@ -594,6 +544,56 @@ if uploaded_file is not None:
                 </div>
                 
                 """, unsafe_allow_html=True)
+        
+        # =====================================
+        # SELEKSI FITUR
+        # =====================================
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        with st.expander("Seleksi Fitur", expanded=False):
+            fitur_digunakan = [
+                "Jenis",
+                "Usia Motor",
+                "Km",
+                "Indikasi",
+                "Service"
+            ]
+
+            fitur_dihapus = [
+                col
+                for col in df.columns
+                if col not in fitur_digunakan
+            ]
+
+            feature_info = pd.DataFrame({
+                "Nama":[
+                    "Fitur Digunakan",
+                    "Fitur Dihapus"
+                ],
+
+                "Jumlah":[
+                    len(fitur_digunakan),
+                    len(fitur_dihapus),
+                ]
+            })
+
+            st.dataframe(
+                feature_info,
+                use_container_width=True,
+                hide_index=True
+            )
+
+            st.caption("Dataset setelah seleksi fitur.")
+
+            df_selected = df[fitur_digunakan].copy()
+
+            st.dataframe(
+                df_selected,
+                use_container_width=True,
+                hide_index=True,
+                height=350
+            )
 
         # =====================================
         # DISTRIBUSI TARGET
