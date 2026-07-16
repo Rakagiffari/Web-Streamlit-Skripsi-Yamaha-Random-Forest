@@ -203,12 +203,13 @@ if uploaded_file is not None:
 
         with st.expander("🔍 Preview Dataset", expanded=False):
 
-            st.caption("Menampilkan 5 data pertama dari dataset.")
+            st.caption(f"Menampilkan seluruh dataset ({len(df)} baris).")
 
             st.dataframe(
-                df.head(),
+                df,
                 use_container_width=True,
-                hide_index=True
+                hide_index=True,
+                height=500
             )
 
         # =====================================
