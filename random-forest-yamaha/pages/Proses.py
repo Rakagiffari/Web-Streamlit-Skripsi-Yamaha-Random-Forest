@@ -103,10 +103,12 @@ UPLOAD INFORMATION CARD
     word-break:break-word;
 }
 
-/* EXPANDER */
+/* =========================================
+EXPANDER
+========================================= */
 
 div[data-testid="stExpander"]{
-    border:1px solid #E5E7EB;
+    border:1px solid #334155;
     border-radius:12px;
     background:#020617;
     box-shadow:0 2px 8px rgba(0,0,0,.05);
