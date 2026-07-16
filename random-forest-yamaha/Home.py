@@ -457,7 +457,7 @@ flow_data = [
     ("4","🌲","Random Forest"),
     ("5","📊","Evaluasi Model"),
     ("6","📈","Visualisasi & Insight"),
-    ("7","📄","Laporan PDF"),
+    ("7","📥","Laporan PDF"),
 ]
 # ==========================================================
 # BARIS 1
