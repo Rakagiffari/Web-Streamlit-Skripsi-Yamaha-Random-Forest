@@ -110,7 +110,7 @@ div[data-testid="stExpander"]{
     border-radius:12px;
     background:#020617;
     box-shadow:0 2px 8px rgba(0,0,0,.05);
-    margin-bottom:18px;
+    margin-bottom:10px;
 }
 
 div[data-testid="stExpander"] details summary{
