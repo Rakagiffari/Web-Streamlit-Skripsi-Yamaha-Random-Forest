@@ -408,24 +408,17 @@ if uploaded_file is not None:
                 hide_index=True
             )
 
-                # =====================================
+        # =====================================
         # SELEKSI FITUR
         # =====================================
 
         with st.expander("🗑️ Seleksi Fitur", expanded=False):
-
-            st.caption(
-                "Menghapus fitur yang tidak digunakan sebelum proses Feature Engineering."
-            )
-
             fitur_digunakan = [
-
                 "Model",
                 "Tahun",
                 "Km",
                 "Indikasi",
                 "Service"
-
             ]
 
             fitur_dihapus = [
@@ -435,27 +428,15 @@ if uploaded_file is not None:
             ]
 
             feature_info = pd.DataFrame({
-
                 "Nama":[
-
-                    "Total Fitur",
-
                     "Fitur Digunakan",
-
                     "Fitur Dihapus"
-
                 ],
 
                 "Jumlah":[
-
-                    len(df.columns),
-
                     len(fitur_digunakan),
-
-                    len(fitur_dihapus)
-
+                    len(fitur_dihapus),
                 ]
-
             })
 
             st.dataframe(
@@ -464,7 +445,7 @@ if uploaded_file is not None:
                 hide_index=True
             )
 
-            st.markdown("#### Dataset Setelah Seleksi Fitur")
+            st.caption("Dataset setelah seleksi fitur.")
 
             df_selected = df[fitur_digunakan].copy()
 
