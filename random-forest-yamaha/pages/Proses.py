@@ -269,11 +269,8 @@ if uploaded_file is not None:
         # =====================================
         # INFORMASI TIPE DATA
         # =====================================
-
         with st.expander("📝 Informasi Tipe Data", expanded=False):
-
             st.caption("Ringkasan tipe data pada dataset.")
-
             numeric_cols = len(
                 df.select_dtypes(include=["number"]).columns
             )
@@ -283,21 +280,15 @@ if uploaded_file is not None:
             )
 
             tipe_df = pd.DataFrame({
-
                 "Nama": [
-
-                    "🔢 Kolom Numerik",
-                    "📝 Kolom Kategori"
-
+                    "Numerik",
+                    "Kategori"
                 ],
 
                 "Jumlah": [
-
                     numeric_cols,
                     categorical_cols
-
                 ]
-
             })
 
             st.dataframe(
