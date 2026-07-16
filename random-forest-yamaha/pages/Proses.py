@@ -400,138 +400,140 @@ if uploaded_file is not None:
             """, unsafe_allow_html=True)
 
         # =====================================
-        # FEATURE ENGINEERING
-        # =====================================
+# FEATURE ENGINEERING
+# =====================================
 
-        feature_df = df_selected.copy()
+st.markdown("## ⚙️ Feature Engineering")
 
-        # =====================================
-        # Feature 1 : Usia Motor
-        # =====================================
+# Dataset hasil preprocessing
+feature_df = df.copy()
 
-        from datetime import datetime
+# =====================================
+# Feature 1 : Usia Motor
+# =====================================
 
-        tahun_sekarang = datetime.now().year
+from datetime import datetime
 
-        feature_df["Usia Motor"] = (
-            tahun_sekarang -
-            feature_df["Tahun"]
-        )
+tahun_sekarang = datetime.now().year
 
-        # =====================================
-        # Feature 2 : Jenis Motor
-        # =====================================
+feature_df["Usia Motor"] = tahun_sekarang - feature_df["Tahun"]
 
-        def get_jenis(model):
+# =====================================
+# Feature 2 : Jenis Motor
+# =====================================
 
-            model = str(model).upper()
+def get_jenis(model):
 
-            if any(x in model for x in [
-                "XMAX", "NMAX", "AEROX",
-                "LEXI", "TMAX"
-            ]):
-                return "MAXi"
+    model = str(model).upper()
 
-            elif any(x in model for x in [
-                "FAZZIO", "FILANO"
-            ]):
-                return "Classy"
+    if any(x in model for x in [
+        "XMAX","NMAX","AEROX","LEXI","TMAX"
+    ]):
+        return "MAXi"
 
-            elif any(x in model for x in [
-                "MIO", "SOUL", "XEON",
-                "FINO", "GEAR",
-                "FREEGO", "X-RIDE",
-                "XRIDE", "NOUVO",
-                "LEXAM"
-            ]):
-                return "Matic"
+    elif any(x in model for x in [
+        "FAZZIO","FILANO"
+    ]):
+        return "Classy"
 
-            elif any(x in model for x in [
-                "R15", "R25", "R6",
-                "R1", "VIXION",
-                "BYSON", "SCORPIO",
-                "RX", "XSR", "MT"
-            ]):
-                return "Sport"
+    elif any(x in model for x in [
+        "MIO","SOUL","XEON","FINO",
+        "GEAR","FREEGO","X-RIDE",
+        "XRIDE","NOUVO","LEXAM"
+    ]):
+        return "Matic"
 
-            elif any(x in model for x in [
-                "WR", "YZ"
-            ]):
-                return "Off-road"
+    elif any(x in model for x in [
+        "R15","R25","R6","R1",
+        "VIXION","BYSON",
+        "SCORPIO","RX",
+        "XSR","MT"
+    ]):
+        return "Sport"
 
-            elif any(x in model for x in [
-                "JUPITER", "VEGA",
-                "CRYPTON", "ALFA",
-                "SIGMA", "F1ZR",
-                "MX"
-            ]):
-                return "Moped"
+    elif any(x in model for x in [
+        "WR","YZ"
+    ]):
+        return "Off-road"
 
-            return "Unknown"
+    elif any(x in model for x in [
+        "JUPITER","VEGA",
+        "CRYPTON","ALFA",
+        "SIGMA","F1ZR","MX"
+    ]):
+        return "Moped"
 
-        feature_df["Jenis"] = feature_df["Model"].apply(get_jenis)
+    return "Unknown"
 
-        # =====================================
-        # TAMPILAN FEATURE ENGINEERING
-        # =====================================
+feature_df["Jenis"] = feature_df["Model"].apply(get_jenis)
 
-        with st.expander("Feature Engineering", expanded=False):
+# =====================================
+# TAMPILAN FEATURE ENGINEERING
+# =====================================
 
-            st.caption(
-                "Dataset hasil Feature Engineering yang siap digunakan untuk proses pelatihan model."
-            )
+with st.expander("Feature Engineering", expanded=False):
 
-            st.dataframe(
-                hasil_feature,
-                use_container_width=True,
-                hide_index=True,
-                height=450
-            )
+    st.caption(
+        "Dataset setelah proses Feature Engineering. "
+        "Dataset asli telah ditambahkan dua fitur baru yaitu "
+        "Usia Motor dan Jenis."
+    )
 
-            st.markdown("---")
+    st.dataframe(
+        feature_df,
+        use_container_width=True,
+        hide_index=True,
+        height=450
+    )
 
-            fitur_awal = len(df_selected.columns)
-            fitur_baru = 2
-            fitur_akhir = len(hasil_feature.columns)
+    st.markdown("---")
 
-            col1, col2, col3 = st.columns(3)
+    fitur_awal = len(df.columns)
+    fitur_baru = 2
+    fitur_akhir = len(feature_df.columns)
 
-            with col1:
-                st.markdown(f"""
-                <div class="upload-card">
-                    <div class="upload-title">
-                        Fitur Awal
-                    </div>
-                    <div class="upload-value">
-                        {fitur_awal}
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
+    col1, col2, col3 = st.columns(3)
 
-            with col2:
-                st.markdown(f"""
-                <div class="upload-card">
-                    <div class="upload-title">
-                        Feature Baru
-                    </div>
-                    <div class="upload-value">
-                        {fitur_baru}
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
+    with col1:
 
-            with col3:
-                st.markdown(f"""
-                <div class="upload-card">
-                    <div class="upload-title">
-                        Fitur Akhir
-                    </div>
-                    <div class="upload-value">
-                        {fitur_akhir}
-                    </div>
-                </div>
-                
-                """, unsafe_allow_html=True)
+        st.markdown(f"""
+        <div class="upload-card">
+            <div class="upload-title">
+                Fitur Awal
+            </div>
+            <div class="upload-value">
+                {fitur_awal}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+
+        st.markdown(f"""
+        <div class="upload-card">
+            <div class="upload-title">
+                Feature Baru
+            </div>
+            <div class="upload-value">
+                {fitur_baru}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col3:
+
+        st.markdown(f"""
+        <div class="upload-card">
+            <div class="upload-title">
+                Fitur Akhir
+            </div>
+            <div class="upload-value">
+                {fitur_akhir}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+st.success("✅ Feature Engineering berhasil dilakukan.")
         
         # =====================================
         # SELEKSI FITUR
