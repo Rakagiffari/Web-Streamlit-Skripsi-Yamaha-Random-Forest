@@ -257,7 +257,7 @@ if uploaded_file is not None:
 
         st.markdown("<br>", unsafe_allow_html=True)
         
-        with st.expander("🔍 Preview Dataset", expanded=False):
+        with st.expander("Preview Dataset", expanded=False):
             st.caption(f"Menampilkan seluruh dataset ({len(df)} baris).")
             st.dataframe(
                 df,
@@ -267,9 +267,9 @@ if uploaded_file is not None:
             )
 
         # =====================================
-        # INFORMASI TIPE DATA
+        # TIPE DATA
         # =====================================
-        with st.expander("📝 Informasi Tipe Data", expanded=False):
+        with st.expander("Tipe Data", expanded=False):
             st.caption("Ringkasan tipe data pada dataset.")
             numeric_cols = len(
                 df.select_dtypes(include=["number"]).columns
