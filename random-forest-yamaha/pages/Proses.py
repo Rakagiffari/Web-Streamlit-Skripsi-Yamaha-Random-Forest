@@ -60,6 +60,31 @@ st.markdown("""
     font-weight:bold;
 }
 
+/* EXPANDER */
+
+div[data-testid="stExpander"]{
+    border:1px solid #E5E7EB;
+    border-radius:12px;
+    background:white;
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
+    margin-bottom:18px;
+}
+
+div[data-testid="stExpander"] details summary{
+    font-size:16px;
+    font-weight:600;
+    padding:12px 18px;
+}
+
+div[data-testid="stExpander"] details summary:hover{
+    background:#F9FAFB;
+    border-radius:12px;
+}
+
+div[data-testid="stExpanderDetails"]{
+    padding:15px 18px 18px 18px;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -176,11 +201,13 @@ if uploaded_file is not None:
         # PREVIEW DATASET
         # =====================================
 
-        st.markdown("## 🗃️ Preview Dataset")
+        with st.expander("🔍 Preview Dataset", expanded=False):
+
+        st.caption("Menampilkan 5 data pertama dari dataset.")
 
         st.dataframe(
             df.head(),
-            use_container_width=True,
+             use_container_width=True,
             hide_index=True
         )
 
