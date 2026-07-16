@@ -385,10 +385,6 @@ if uploaded_file is not None:
 
             ]
 
-            st.write(
-                f"**Total Missing Value : {total_missing}**"
-            )
-
             st.dataframe(
                 missing_df,
                 use_container_width=True,
@@ -417,7 +413,7 @@ if uploaded_file is not None:
                 hide_index=True
             )
 
-                # =====================================
+        # =====================================
         # DATA DUPLIKAT
         # =====================================
 
