@@ -316,7 +316,7 @@ if uploaded_file is not None:
         # MISSING VALUE
         # =====================================
 
-        with st.expander("🔍 Missing Value", expanded=False):
+        with st.expander("Missing Value", expanded=False):
 
             st.caption("Pemeriksaan Missing Value pada seluruh dataset.")
 
@@ -340,11 +340,11 @@ if uploaded_file is not None:
                 height=400
             )
 
-                # =====================================
+        # =====================================
         # DATA DUPLIKAT
         # =====================================
 
-        with st.expander("📑 Data Duplikat", expanded=False):
+        with st.expander("Data Duplikat", expanded=False):
             st.caption("Ringkasan pemeriksaan data duplikat pada dataset.")
             
             total_duplicate = df.duplicated().sum()
