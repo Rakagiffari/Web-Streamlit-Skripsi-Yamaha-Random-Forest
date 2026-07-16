@@ -311,71 +311,7 @@ if uploaded_file is not None:
                 use_container_width=True,
                 hide_index=True
             )
-
-        # =====================================
-        # HASIL PREPROCESSING
-        # =====================================
-
-        st.markdown("## 📊 Hasil Preprocessing")
-
-        c1, c2, c3, c4 = st.columns(4)
-
-        with c1:
-
-            st.markdown(f"""
-            <div class="upload-card">
-                <div class="upload-title">
-                    Missing Value
-                </div>
-
-                <div class="upload-value">
-                    {total_missing}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with c2:
-
-            st.markdown(f"""
-            <div class="upload-card">
-                <div class="upload-title">
-                    Data Duplikat
-                </div>
-
-                <div class="upload-value">
-                    {total_duplicate}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with c3:
-
-            st.markdown(f"""
-            <div class="upload-card">
-                <div class="upload-title">
-                    Fitur Digunakan
-                </div>
-
-                <div class="upload-value">
-                    {len(fitur_digunakan)}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with c4:
-
-            st.markdown(f"""
-            <div class="upload-card">
-                <div class="upload-title">
-                    Fitur Dihapus
-                </div>
-
-                <div class="upload-value">
-                    {len(fitur_dihapus)}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
+            
         # =====================================
         # MISSING VALUE
         # =====================================
@@ -471,6 +407,71 @@ if uploaded_file is not None:
                 hide_index=True,
                 height=350
             )
+
+         # =====================================
+        # HASIL PREPROCESSING
+        # =====================================
+
+        st.markdown("## 📊 Hasil Preprocessing")
+
+        c1, c2, c3, c4 = st.columns(4)
+
+        with c1:
+
+            st.markdown(f"""
+            <div class="upload-card">
+                <div class="upload-title">
+                    Missing Value
+                </div>
+
+                <div class="upload-value">
+                    {total_missing}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with c2:
+
+            st.markdown(f"""
+            <div class="upload-card">
+                <div class="upload-title">
+                    Data Duplikat
+                </div>
+
+                <div class="upload-value">
+                    {total_duplicate}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with c3:
+
+            st.markdown(f"""
+            <div class="upload-card">
+                <div class="upload-title">
+                    Fitur Digunakan
+                </div>
+
+                <div class="upload-value">
+                    {len(fitur_digunakan)}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with c4:
+
+            st.markdown(f"""
+            <div class="upload-card">
+                <div class="upload-title">
+                    Fitur Dihapus
+                </div>
+
+                <div class="upload-value">
+                    {len(fitur_dihapus)}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
         # =====================================
         # PREPROCESSING
         # =====================================
