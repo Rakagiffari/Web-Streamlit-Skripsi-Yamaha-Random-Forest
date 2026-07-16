@@ -355,18 +355,19 @@ if uploaded_file is not None:
                 hide_index=True
             )
                 
-        # =====================================
+                # =====================================
         # HASIL PREPROCESSING
         # =====================================
 
         st.markdown("## 📊 Hasil Preprocessing")
 
-        c1, c2, c3, c4 = st.columns(4)
+        c1, c2, c3 = st.columns(3)
 
         with c1:
 
             st.markdown(f"""
             <div class="upload-card">
+
                 <div class="upload-title">
                     Missing Value
                 </div>
@@ -374,6 +375,7 @@ if uploaded_file is not None:
                 <div class="upload-value">
                     {total_missing}
                 </div>
+
             </div>
             """, unsafe_allow_html=True)
 
@@ -381,6 +383,7 @@ if uploaded_file is not None:
 
             st.markdown(f"""
             <div class="upload-card">
+
                 <div class="upload-title">
                     Data Duplikat
                 </div>
@@ -388,6 +391,7 @@ if uploaded_file is not None:
                 <div class="upload-value">
                     {total_duplicate}
                 </div>
+
             </div>
             """, unsafe_allow_html=True)
 
@@ -395,30 +399,18 @@ if uploaded_file is not None:
 
             st.markdown(f"""
             <div class="upload-card">
+
                 <div class="upload-title">
-                    Fitur Digunakan
+                    Jumlah Kolom
                 </div>
 
                 <div class="upload-value">
-                    {len(fitur_digunakan)}
+                    {len(df.columns)}
                 </div>
+
             </div>
             """, unsafe_allow_html=True)
-
-        with c4:
-
-            st.markdown(f"""
-            <div class="upload-card">
-                <div class="upload-title">
-                    Fitur Dihapus
-                </div>
-
-                <div class="upload-value">
-                    {len(fitur_dihapus)}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
+            
         # =====================================
         # SELEKSI FITUR
         # =====================================
