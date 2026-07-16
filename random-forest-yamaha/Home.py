@@ -487,7 +487,7 @@ st.markdown("<br>", unsafe_allow_html=True)
 cols = st.columns(3)
 for i in range(4,7):
     no,icon,title = flow_data[i]
-    with cols[i-3]:
+    with cols[i-4]:
         st.markdown(f"""
             <div class="flow-card">
                 <div class="flow-number">
