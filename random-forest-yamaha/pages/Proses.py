@@ -137,7 +137,7 @@ div[data-testid="stExpanderDetails"]{
     border-radius: 10px;
 }
 .stAlert p{
-    font-size: 10px !important;
+    font-size: 14px !important;
     font-weight: 500 !important;
 }
 
