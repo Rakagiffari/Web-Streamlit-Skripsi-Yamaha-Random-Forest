@@ -453,9 +453,6 @@ if uploaded_file is not None:
         # FEATURE ENGINEERING
         # =====================================
 
-        st.markdown("## Feature Engineering")
-
-        # Dataset hasil seleksi fitur
         feature_df = df_selected.copy()
 
         # =====================================
@@ -475,7 +472,6 @@ if uploaded_file is not None:
         # =====================================
 
         def get_jenis(model):
-
             model = str(model).upper()
 
             if any(x in model for x in [
@@ -554,6 +550,56 @@ if uploaded_file is not None:
                 hide_index=True,
                 height=450
             )
+
+        fitur_awal = len(df_selected.columns)
+            fitur_baru = 2
+            fitur_akhir = len(feature_df.columns)
+
+            col1, col2, col3 = st.columns(3)
+
+            with col1:
+
+                st.markdown(f"""
+                <div class="upload-card">
+                    <div class="upload-icon">📥</div>
+                    <div class="upload-title">
+                        Fitur Awal
+                    </div>
+                    <div class="upload-value">
+                        {fitur_awal}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with col2:
+
+                st.markdown(f"""
+                <div class="upload-card">
+                    <div class="upload-icon">⚙️</div>
+                    <div class="upload-title">
+                        Feature Baru
+                    </div>
+                    <div class="upload-value">
+                        {fitur_baru}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with col3:
+
+                st.markdown(f"""
+                <div class="upload-card">
+                    <div class="upload-icon">📤</div>
+                    <div class="upload-title">
+                        Fitur Akhir
+                    </div>
+                    <div class="upload-value">
+                        {fitur_akhir}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            st.markdown("---")
 
         # =====================================
         # RINGKASAN FEATURE ENGINEERING
