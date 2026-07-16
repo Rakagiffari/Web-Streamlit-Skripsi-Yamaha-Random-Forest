@@ -314,37 +314,35 @@ if uploaded_file is not None:
                 df["Service"].nunique()
             )
 
-                # =====================================
+        # =====================================
         # INFORMASI TIPE DATA
         # =====================================
 
         with st.expander("📝 Informasi Tipe Data", expanded=False):
 
-            st.caption("Pengelompokan fitur berdasarkan tipe data.")
+            st.caption("Ringkasan tipe data pada dataset.")
 
-            numeric_columns = list(
+            numeric_cols = len(
                 df.select_dtypes(include=["number"]).columns
             )
 
-            categorical_columns = list(
+            categorical_cols = len(
                 df.select_dtypes(include=["object", "category"]).columns
             )
 
             tipe_df = pd.DataFrame({
 
-                "Tipe Data": [
+                "Nama": [
 
-                    f"🔢 Numerik ({len(numeric_columns)} Kolom)",
-
-                    f"📝 Kategori ({len(categorical_columns)} Kolom)"
+                    "🔢 Kolom Numerik",
+                    "📝 Kolom Kategori"
 
                 ],
 
-                "Daftar Kolom": [
+                "Jumlah": [
 
-                    ", ".join(numeric_columns),
-
-                    ", ".join(categorical_columns)
+                    numeric_cols,
+                    categorical_cols
 
                 ]
 
