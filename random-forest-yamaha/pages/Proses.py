@@ -316,7 +316,7 @@ if uploaded_file is not None:
         # SELEKSI FITUR
         # =====================================
 
-        with st.expander("🗑️ Seleksi Fitur", expanded=False):
+        with st.expander("Seleksi Fitur", expanded=False):
             fitur_digunakan = [
                 "Model",
                 "Tahun",
@@ -364,7 +364,7 @@ if uploaded_file is not None:
         # MISSING VALUE
         # =====================================
 
-        with st.expander("🔍 Missing Value", expanded=False):
+        with st.expander("Missing Value", expanded=False):
             st.caption("Pemeriksaan Missing Value pada dataset yang diunggah.")
             total_missing = df_selected.isnull().sum().sum()
             missing_df = (
@@ -388,7 +388,7 @@ if uploaded_file is not None:
         # =====================================
         # DATA DUPLIKAT
         # =====================================
-        with st.expander("📑 Data Duplikat", expanded=False):
+        with st.expander("Data Duplikat", expanded=False):
             st.caption("Ringkasan pemeriksaan data duplikat pada dataset.")
             duplicate_df = pd.DataFrame({
                 "Nama": [
