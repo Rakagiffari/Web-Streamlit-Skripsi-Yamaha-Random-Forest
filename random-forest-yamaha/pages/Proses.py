@@ -392,9 +392,6 @@ if uploaded_file is not None:
                 height=210
             )
 
-        # =====================================
-        # DATA DUPLIKAT
-        # =====================================
                 # =====================================
         # DATA DUPLIKAT
         # =====================================
@@ -405,23 +402,25 @@ if uploaded_file is not None:
                 "Pemeriksaan data duplikat pada dataset hasil seleksi fitur."
             )
 
-            duplicate_df = df_selected[
-                df_selected.duplicated(keep=False)
-            ]
-
+            # Hitung jumlah data duplikat
             total_duplicate = df_selected.duplicated().sum()
 
-            st.write(
-                f"**Total Data Duplikat : {total_duplicate}**"
-            )
+            st.write(f"**Total Data Duplikat : {total_duplicate}**")
 
-            if duplicate_df.empty:
+            if total_duplicate == 0:
 
                 st.success(
                     "✅ Tidak ditemukan data duplikat pada dataset."
                 )
 
             else:
+
+                # Tampilkan seluruh pasangan data yang duplikat
+                duplicate_df = df_selected[
+                    df_selected.duplicated(keep=False)
+                ].sort_values(
+                    by=list(df_selected.columns)
+                )
 
                 st.dataframe(
                     duplicate_df,
