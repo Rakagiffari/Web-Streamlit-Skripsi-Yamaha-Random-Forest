@@ -229,7 +229,7 @@ if uploaded_file is not None:
         # =====================================
         # INFORMASI DATASET
         # =====================================
-        c1, c2, c3 = st.columns(3)
+        c1, c2 = st.columns(2)
         with c1:
             st.markdown(f"""
             <div class="upload-card">
@@ -250,18 +250,6 @@ if uploaded_file is not None:
                 </div>
                 <div class="upload-value">
                     {len(df):,}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with c3:
-            st.markdown(f"""
-            <div class="upload-card">
-                <div class="upload-title">
-                    Jumlah Kolom
-                </div>
-                <div class="upload-value">
-                    {len(df.columns)}
                 </div>
             </div>
             """, unsafe_allow_html=True)
