@@ -484,7 +484,7 @@ st.markdown("<br>", unsafe_allow_html=True)
 # ==========================================================
 # BARIS 2
 # ==========================================================
-cols = st.columns(3)
+cols = st.columns(4)
 for i in range(4,7):
     no,icon,title = flow_data[i]
     with cols[i-4]:
