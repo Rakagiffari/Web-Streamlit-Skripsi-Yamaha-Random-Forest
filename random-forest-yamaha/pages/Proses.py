@@ -318,32 +318,42 @@ if uploaded_file is not None:
         # INFORMASI TIPE DATA
         # =====================================
 
-        st.markdown("### 📝 Ringkasan Tipe Data")
+        with st.expander("📝 Informasi Tipe Data", expanded=False):
 
-        info_df = pd.DataFrame({
+            st.caption("Ringkasan tipe data pada dataset yang diunggah.")
 
-            "Informasi": [
+            # Ringkasan tipe data
+            numeric_cols = len(
+                df.select_dtypes(include=["number"]).columns
+            )
 
-                "Kolom Numerik",
-                "Kolom Kategori"
+            categorical_cols = len(
+                df.select_dtypes(include=["object", "category"]).columns
+            )
 
-            ],
+            datetime_cols = len(
+                df.select_dtypes(include=["datetime"]).columns
+            )
 
-            "Jumlah": [
+            st.write(f"**Kolom Numerik :** {numeric_cols}")
+            st.write(f"**Kolom Kategori :** {categorical_cols}")
+            st.write(f"**Kolom Tanggal/Waktu :** {datetime_cols}")
 
-                numeric_cols,
-                categorical_cols
+            st.markdown("### Detail Tipe Data")
 
-            ]
+            dtype_df = pd.DataFrame({
 
-        })
+                "Kolom": df.columns,
+                "Tipe Data": df.dtypes.astype(str)
 
-        st.dataframe(
-            info_df,
-            use_container_width=True,
-            hide_index=True
-        )
+            })
 
+            st.dataframe(
+                dtype_df,
+                use_container_width=True,
+                hide_index=True,
+                height=400
+            )
         # =====================================
         # MISSING VALUE
         # =====================================
