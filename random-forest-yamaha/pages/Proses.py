@@ -314,46 +314,48 @@ if uploaded_file is not None:
                 df["Service"].nunique()
             )
 
-        # =====================================
+                # =====================================
         # INFORMASI TIPE DATA
         # =====================================
 
         with st.expander("📝 Informasi Tipe Data", expanded=False):
 
-            st.caption("Ringkasan tipe data pada dataset yang diunggah.")
+            st.caption("Pengelompokan fitur berdasarkan tipe data.")
 
-            # Ringkasan tipe data
-            numeric_cols = len(
+            numeric_columns = list(
                 df.select_dtypes(include=["number"]).columns
             )
 
-            categorical_cols = len(
+            categorical_columns = list(
                 df.select_dtypes(include=["object", "category"]).columns
             )
 
-            datetime_cols = len(
-                df.select_dtypes(include=["datetime"]).columns
-            )
+            tipe_df = pd.DataFrame({
 
-            st.write(f"**Kolom Numerik :** {numeric_cols}")
-            st.write(f"**Kolom Kategori :** {categorical_cols}")
-            st.write(f"**Kolom Tanggal/Waktu :** {datetime_cols}")
+                "Tipe Data": [
 
-            st.markdown("### Detail Tipe Data")
+                    f"🔢 Numerik ({len(numeric_columns)} Kolom)",
 
-            dtype_df = pd.DataFrame({
+                    f"📝 Kategori ({len(categorical_columns)} Kolom)"
 
-                "Kolom": df.columns,
-                "Tipe Data": df.dtypes.astype(str)
+                ],
+
+                "Daftar Kolom": [
+
+                    ", ".join(numeric_columns),
+
+                    ", ".join(categorical_columns)
+
+                ]
 
             })
 
             st.dataframe(
-                dtype_df,
+                tipe_df,
                 use_container_width=True,
-                hide_index=True,
-                height=400
+                hide_index=True
             )
+            
         # =====================================
         # MISSING VALUE
         # =====================================
