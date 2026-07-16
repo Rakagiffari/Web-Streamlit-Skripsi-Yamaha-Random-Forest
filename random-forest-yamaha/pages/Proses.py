@@ -251,17 +251,14 @@ if uploaded_file is not None:
             </div>
             """, unsafe_allow_html=True)
             
-            st.markdown("<br>", unsafe_allow_html=True)
-
-
         # =====================================
         # PREVIEW DATASET
         # =====================================
 
+        st.markdown("<br>", unsafe_allow_html=True)
+        
         with st.expander("🔍 Preview Dataset", expanded=False):
-
             st.caption(f"Menampilkan seluruh dataset ({len(df)} baris).")
-
             st.dataframe(
                 df,
                 use_container_width=True,
