@@ -344,7 +344,7 @@ if uploaded_file is not None:
             hide_index=True
         )
 
-                # =====================================
+        # =====================================
         # MISSING VALUE
         # =====================================
 
@@ -366,21 +366,6 @@ if uploaded_file is not None:
             ]
 
             st.write(f"**Total Missing Value : {total_missing}**")
-
-            if total_missing == 0:
-
-                st.success("✅ Tidak ditemukan Missing Value pada dataset.")
-
-            else:
-
-                st.dataframe(
-                    missing_df[
-                        missing_df["Jumlah Missing"] > 0
-                    ],
-                    use_container_width=True,
-                    hide_index=True,
-                    height=300
-                )
 
             st.markdown("### Seluruh Kolom")
 
