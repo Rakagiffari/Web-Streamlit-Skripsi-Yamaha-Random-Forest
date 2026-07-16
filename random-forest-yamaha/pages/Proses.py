@@ -400,6 +400,73 @@ if uploaded_file is not None:
             """, unsafe_allow_html=True)
 
         # =====================================
+# TAMPILAN FEATURE ENGINEERING
+# =====================================
+
+with st.expander("⚙️ Feature Engineering", expanded=False):
+
+    st.caption(
+        "Dataset setelah proses Feature Engineering. Dataset berikut merupakan dataset asli yang telah ditambahkan fitur baru yaitu Jenis dan Usia Motor."
+    )
+
+    st.dataframe(
+        feature_df,
+        use_container_width=True,
+        hide_index=True,
+        height=450
+    )
+
+    st.markdown("---")
+
+    fitur_awal = len(df.columns)
+    fitur_baru = 2
+    fitur_akhir = len(feature_df.columns)
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+
+        st.markdown(f"""
+        <div class="upload-card">
+            <div class="upload-icon">📥</div>
+            <div class="upload-title">
+                Fitur Awal
+            </div>
+            <div class="upload-value">
+                {fitur_awal}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+
+        st.markdown(f"""
+        <div class="upload-card">
+            <div class="upload-icon">⚙️</div>
+            <div class="upload-title">
+                Feature Baru
+            </div>
+            <div class="upload-value">
+                {fitur_baru}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col3:
+
+        st.markdown(f"""
+        <div class="upload-card">
+            <div class="upload-icon">📤</div>
+            <div class="upload-title">
+                Fitur Akhir
+            </div>
+            <div class="upload-value">
+                {fitur_akhir}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # =====================================
         # SELEKSI FITUR
         # =====================================
 
