@@ -358,8 +358,9 @@ if uploaded_file is not None:
         # =====================================
         # HASIL PREPROCESSING
         # =====================================
+        
+        st.markdown("<br>", unsafe_allow_html=True)
 
-        st.markdown("## Hasil Preprocessing")
         col1, col2, col3 = st.columns(3)
 
         with col1:
