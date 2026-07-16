@@ -212,6 +212,7 @@ if uploaded_file is not None:
             )
 
             st.stop()
+            st.success("Feature Engineering berhasil")
 
         # =====================================
         # INFORMASI DATASET
