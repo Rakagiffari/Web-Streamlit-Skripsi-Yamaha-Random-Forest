@@ -618,10 +618,6 @@ if uploaded_file is not None:
                     "Hasil evaluasi model Random Forest berdasarkan Precision, Recall, F1-Score, dan Support."
                 )
 
-                st.code(report)
-
-                st.markdown("---")
-
                 c1, c2, c3, c4 = st.columns(4)
 
                 with c1:
@@ -673,10 +669,13 @@ if uploaded_file is not None:
                         <div class="upload-value">
                             {f1:.2%}
                         </div>
-                    </div>
-                    """, unsafe_allow_html=True)
+                        """, unsafe_allow_html=True)
 
-            st.markdown("<br>", unsafe_allow_html=True)
+                st.code(report)
+
+                st.markdown("---")
+
+                st.code(report)
             
             st.success("✅ Classification Report berhasil dibuat.")
 
