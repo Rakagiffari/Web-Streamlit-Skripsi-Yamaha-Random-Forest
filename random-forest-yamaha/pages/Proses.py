@@ -9,7 +9,6 @@ from pathlib import Path
 
 from utils.preprocessing import preprocess_data
 from utils.training import train_model
-from matplotlib.patches import FancyBboxPatch
 from sklearn.tree import plot_tree
 from utils.report import generate_pdf
 
