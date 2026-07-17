@@ -854,7 +854,7 @@ if uploaded_file is not None:
                     Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
                 """)
 
-                        # ==========================================================
+            # ==========================================================
             # VISUALISASI DECISION TREE
             # ==========================================================
 
@@ -873,19 +873,26 @@ if uploaded_file is not None:
 
             f1, f2, f3, f4 = top_features
 
-            # Membuat diagram menggunakan Graphviz
+                        # ==========================================================
+            # MEMBUAT DIAGRAM DECISION TREE
+            # ==========================================================
+
             dot = graphviz.Digraph("DecisionTree")
 
             dot.attr(
                 rankdir="TB",
                 bgcolor="white",
-                pad="0.4",
-                nodesep="0.6",
-                ranksep="0.9",
-                splines="ortho"
+                dpi="200",
+                nodesep="0.55",
+                ranksep="0.70",
+                splines="line",
+                fontname="Helvetica"
             )
 
-            # Style node fitur
+            # ==========================================================
+            # STYLE NODE FITUR
+            # ==========================================================
+
             dot.attr(
                 "node",
                 shape="box",
@@ -903,50 +910,107 @@ if uploaded_file is not None:
             dot.node("C", f3)
             dot.node("D", f4)
 
-            # Style node hasil klasifikasi
-            dot.node(
-                "SR1",
-                "Service\nRingan",
-                shape="ellipse",
-                fillcolor="#2e7d32",
-                color="#1b5e20"
-            )
+            # ==========================================================
+            # STYLE NODE HASIL
+            # ==========================================================
 
-            dot.node(
-                "SR2",
-                "Service\nRingan",
+            dot.attr(
+                "node",
                 shape="ellipse",
-                fillcolor="#2e7d32",
-                color="#1b5e20"
+                style="filled",
+                fontsize="12",
+                fontname="Helvetica"
             )
 
             dot.node(
                 "SB1",
                 "Service\nBerat",
-                shape="ellipse",
                 fillcolor="#1565c0",
-                color="#0d47a1"
+                color="#0d47a1",
+                fontcolor="white"
+            )
+
+            dot.node(
+                "SR1",
+                "Service\nRingan",
+                fillcolor="#2e7d32",
+                color="#1b5e20",
+                fontcolor="white"
+            )
+
+            dot.node(
+                "SR2",
+                "Service\nRingan",
+                fillcolor="#2e7d32",
+                color="#1b5e20",
+                fontcolor="white"
             )
 
             dot.node(
                 "SB2",
                 "Service\nBerat",
-                shape="ellipse",
                 fillcolor="#1565c0",
-                color="#0d47a1"
+                color="#0d47a1",
+                fontcolor="white"
             )
 
-            # Hubungan antar node
-            dot.edge("A", "B", label="Ya")
-            dot.edge("A", "SB1", label="Tidak")
+            # ==========================================================
+            # HUBUNGAN ANTAR NODE
+            # ==========================================================
 
-            dot.edge("B", "C", label="Ya")
-            dot.edge("B", "SR1", label="Tidak")
+            dot.edge(
+                "A",
+                "B",
+                label="Ya"
+            )
 
-            dot.edge("C", "D", label="Ya")
-            dot.edge("C", "SR2", label="Tidak")
+            dot.edge(
+                "A",
+                "SB1",
+                label="Tidak"
+            )
 
-            dot.edge("D", "SB2", label="Ya")
+            dot.edge(
+                "B",
+                "C",
+                label="Ya"
+            )
+
+            dot.edge(
+                "B",
+                "SR1",
+                label="Tidak"
+            )
+
+            dot.edge(
+                "C",
+                "D",
+                label="Ya"
+            )
+
+            dot.edge(
+                "C",
+                "SR2",
+                label="Tidak"
+            )
+
+            dot.edge(
+                "D",
+                "SB2"
+            )
+
+            # ==========================================================
+            # TAMPILKAN DIAGRAM
+            # ==========================================================
+
+            col_left, col_center, col_right = st.columns([1, 5, 1])
+
+            with col_center:
+
+                st.graphviz_chart(
+                    dot,
+                    use_container_width=True
+                )
 
             # Menampilkan diagram di tengah halaman
             col_left, col_center, col_right = st.columns([1, 5, 1])
