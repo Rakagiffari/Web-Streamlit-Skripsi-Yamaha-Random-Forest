@@ -853,22 +853,29 @@ if uploaded_file is not None:
                 """)
 
                         # ==========================================================
-            # DECISION TREE (VISUALISASI)
+            # VISUALISASI DECISION TREE
             # ==========================================================
 
             st.markdown("---")
             st.markdown("## 🌳 Visualisasi Decision Tree")
 
+            from sklearn.tree import DecisionTreeClassifier
+
             # --------------------------------------------
-            # Membuat Decision Tree hanya untuk visualisasi
+            # Training Decision Tree untuk visualisasi
             # --------------------------------------------
 
             dt_model = DecisionTreeClassifier(
+                criterion="gini",
                 max_depth=3,
                 random_state=42
             )
 
             dt_model.fit(X, y)
+
+            # --------------------------------------------
+            # Membuat visualisasi
+            # --------------------------------------------
 
             fig_tree, ax = plt.subplots(
                 figsize=(14, 7),
@@ -881,21 +888,22 @@ if uploaded_file is not None:
                 class_names=["Ringan", "Berat"],
                 filled=True,
                 rounded=True,
-                fontsize=8,
                 impurity=False,
                 proportion=True,
+                precision=2,
+                fontsize=8,
                 ax=ax
             )
 
             plt.tight_layout()
 
             # --------------------------------------------
-            # Menampilkan di tengah halaman
+            # Tampilkan di tengah
             # --------------------------------------------
 
-            left, center, right = st.columns([1, 5, 1])
+            kiri, tengah, kanan = st.columns([1, 5, 1])
 
-            with center:
+            with tengah:
 
                 st.pyplot(
                     fig_tree,
@@ -904,46 +912,39 @@ if uploaded_file is not None:
 
             plt.close(fig_tree)
 
-            # --------------------------------------------
-            # Top Feature
-            # --------------------------------------------
+            # ==========================================================
+            # PENJELASAN DECISION TREE
+            # ==========================================================
 
             top1 = importance_grouped.iloc[0]["Fitur"]
             top2 = importance_grouped.iloc[1]["Fitur"]
             top3 = importance_grouped.iloc[2]["Fitur"]
 
-            # ==========================================================
-            # PENJELASAN
-            # ==========================================================
-
-            with st.expander("Visualisasi Decision Tree", expanded=False):
+            with st.expander("Decision Tree", expanded=False):
 
                 st.markdown("### 📍 Interpretasi")
 
                 st.markdown(f"""
-Visualisasi Decision Tree digunakan untuk memberikan gambaran proses klasifikasi data berdasarkan aturan keputusan yang dipelajari dari dataset.
+Decision Tree merupakan algoritma klasifikasi yang bekerja dengan membagi data ke dalam beberapa node berdasarkan aturan keputusan yang dipelajari dari data latih.
 
-Pada setiap node, data dipisahkan berdasarkan nilai suatu fitur hingga menghasilkan prediksi kategori **Service Ringan** atau **Service Berat**.
+Node paling atas (root node) menunjukkan fitur yang pertama kali digunakan untuk memisahkan data. Selanjutnya proses klasifikasi dilakukan secara bertahap hingga menghasilkan prediksi kategori **Service Ringan** atau **Service Berat**.
 
-Berbeda dengan proses prediksi utama yang menggunakan algoritma **Random Forest**, visualisasi ini hanya menampilkan **satu Decision Tree** agar proses pengambilan keputusan lebih mudah dipahami.
+Visualisasi ini digunakan untuk membantu memahami proses pengambilan keputusan model. Adapun proses prediksi utama pada sistem tetap menggunakan algoritma **Random Forest**, sedangkan Decision Tree hanya ditampilkan sebagai media interpretasi.
 """)
 
                 st.markdown("---")
 
-                st.markdown("### 📋 Fitur yang Paling Berpengaruh")
+                st.markdown("### 📋 Peringkat Feature Importance")
 
                 ranking = importance_grouped.copy()
 
                 ranking.insert(
                     0,
                     "No",
-                    range(1, len(ranking)+1)
+                    range(1, len(ranking) + 1)
                 )
 
-                ranking["Importance"] = (
-                    ranking["Importance"]
-                    .round(4)
-                )
+                ranking["Importance"] = ranking["Importance"].round(4)
 
                 st.dataframe(
                     ranking,
@@ -951,16 +952,20 @@ Berbeda dengan proses prediksi utama yang menggunakan algoritma **Random Forest*
                     use_container_width=True
                 )
 
+                st.caption(
+                    "Semakin besar nilai Feature Importance, semakin besar kontribusi fitur terhadap proses klasifikasi."
+                )
+
                 st.markdown("---")
 
                 st.markdown("### 💡 Kesimpulan")
 
                 st.success(f"""
-Visualisasi Decision Tree memperlihatkan bagaimana proses klasifikasi dilakukan secara bertahap melalui serangkaian aturan keputusan.
+Visualisasi Decision Tree memperlihatkan bagaimana proses klasifikasi dilakukan melalui serangkaian aturan keputusan berdasarkan fitur yang dimiliki setiap data.
 
-Berdasarkan hasil Feature Importance, fitur **{top1}**, **{top2}**, dan **{top3}** merupakan fitur yang paling berpengaruh dalam proses klasifikasi.
+Berdasarkan hasil Feature Importance, fitur **{top1}**, **{top2}**, dan **{top3}** merupakan fitur yang memberikan kontribusi terbesar terhadap proses klasifikasi.
 
-Perlu diperhatikan bahwa hasil prediksi pada sistem tetap menggunakan algoritma **Random Forest**, sedangkan Decision Tree pada halaman ini hanya digunakan sebagai media interpretasi agar proses klasifikasi lebih mudah dipahami.
+Meskipun visualisasi di atas hanya menampilkan satu Decision Tree, hasil prediksi pada sistem tetap diperoleh menggunakan algoritma **Random Forest** yang menggabungkan banyak Decision Tree melalui mekanisme **Majority Voting**.
 """)
             
             # ==========================================================
