@@ -149,7 +149,7 @@ div[data-testid="stExpanderDetails"]{
 # =========================================
 
 st.markdown(
-    '<p class="main-title">⚙️ Training Random Forest</p>',
+    '<p class="main-title">⚙️ Pengolahan Data</p>',
     unsafe_allow_html=True
 )
 
