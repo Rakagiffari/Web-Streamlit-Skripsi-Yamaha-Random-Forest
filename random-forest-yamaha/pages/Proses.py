@@ -480,7 +480,7 @@ if uploaded_file is not None:
 
         st.markdown("---")
 
-        st.sub-title(
+        st.caption(
             "Tekan tombol berikut untuk melatih model Random Forest menggunakan dataset yang telah diproses."
         )
 
