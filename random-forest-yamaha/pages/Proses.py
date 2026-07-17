@@ -229,7 +229,7 @@ if uploaded_file is not None:
         # =====================================
         # INFORMASI DATASET
         # =====================================
-        c1, c2 = st.columns(2)
+        c1, c2, c3 = st.columns(3)
         with c1:
             st.markdown(f"""
             <div class="upload-card">
@@ -253,6 +253,19 @@ if uploaded_file is not None:
                 </div>
             </div>
             """, unsafe_allow_html=True)
+
+        with c3:
+            st.markdown(f"""
+            <div class="upload-card">
+                <div class="upload-title">
+                    Jumlah Kolom
+                </div>
+                <div class="upload-value">
+                    {len(df.columns)}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
             
         # =====================================
         # PREVIEW DATASET
@@ -501,11 +514,6 @@ if uploaded_file is not None:
                 height=350
             )
 
-        # =====================================
-        # PREPROCESS DATA
-        # =====================================
-
-        X, y = preprocess_data(df)
         # =====================================
         # DISTRIBUSI TARGET
         # =====================================
