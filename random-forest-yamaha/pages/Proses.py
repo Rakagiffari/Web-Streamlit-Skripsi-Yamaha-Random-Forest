@@ -664,11 +664,7 @@ if uploaded_file is not None:
 
             st.markdown("## 📉 Confusion Matrix")
 
-            # Membuat visualisasi confusion matrix
-            fig2, ax2 = plt.subplots(
-                figsize=(3.8, 3.2),
-                dpi=120
-            )
+            fig2, ax2 = plt.subplots(figsize=(5, 4))
 
             sns.heatmap(
                 matrix,
@@ -678,49 +674,15 @@ if uploaded_file is not None:
                 cbar=False,
                 xticklabels=["Ringan", "Berat"],
                 yticklabels=["Ringan", "Berat"],
-                annot_kws={
-                    "size": 12,
-                    "weight": "bold"
-                },
-                linewidths=0.5,
-                linecolor="white",
-                square=True,
                 ax=ax2
             )
 
-            ax2.set_title(
-                "Confusion Matrix",
-                fontsize=12,
-                fontweight="bold"
-            )
+            ax2.set_xlabel("Prediksi")
+            ax2.set_ylabel("Aktual")
+            ax2.set_title("Confusion Matrix")
 
-            ax2.set_xlabel(
-                "Prediksi",
-                fontsize=10
-            )
+            st.pyplot(fig2)
 
-            ax2.set_ylabel(
-                "Aktual",
-                fontsize=10
-            )
-
-            ax2.tick_params(
-                axis="both",
-                labelsize=9
-            )
-
-            plt.tight_layout()
-
-            # Tampilkan di tengah halaman
-            kiri, tengah, kanan = st.columns([2, 3, 2])
-
-            with tengah:
-                st.pyplot(
-                    fig2,
-                    use_container_width=False
-                )
-
-            # Simpan untuk PDF
             cm_path = (
                 BASE_DIR /
                 "confusion_matrix.png"
@@ -728,7 +690,9 @@ if uploaded_file is not None:
 
             fig2.savefig(
                 cm_path,
-               
+                bbox_inches="tight"
+            )
+
             # =====================================
             # INTERPRETASI CONFUSION MATRIX
             # =====================================
@@ -772,6 +736,7 @@ Berdasarkan hasil tersebut, model Random Forest memiliki kemampuan klasifikasi *
 """)
 
             st.success("✅ Confusion Matrix berhasil dibuat.")
+            
             # =====================================
             # FEATURE IMPORTANCE
             # =====================================
