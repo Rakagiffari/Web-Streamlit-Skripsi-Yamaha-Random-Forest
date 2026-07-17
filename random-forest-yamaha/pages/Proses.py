@@ -479,6 +479,16 @@ if uploaded_file is not None:
         # =====================================
 
         st.markdown("---")
+        
+        col1, col2, col3 = st.columns([1, 2, 1])
+
+        with col2:
+
+            train_button = st.button(
+                "🚀 Mulai Training Model",
+                use_container_width=True
+            )
+
         st.markdown("""
             <div style="
                 text-align:center;
@@ -490,15 +500,6 @@ if uploaded_file is not None:
                 Tekan tombol berikut untuk melatih model Random Forest menggunakan dataset yang telah diproses.
             </div>
         """, unsafe_allow_html=True)
-
-        col1, col2, col3 = st.columns([1, 2, 1])
-
-        with col2:
-
-            train_button = st.button(
-                "🚀 Mulai Training Model",
-                use_container_width=True
-            )
 
         if train_button:
 
