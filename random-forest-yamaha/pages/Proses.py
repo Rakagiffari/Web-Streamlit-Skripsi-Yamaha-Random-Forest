@@ -474,35 +474,50 @@ if uploaded_file is not None:
 
         X, y = preprocess_data(df)
         
+                # =====================================
+        # TRAINING MODEL
         # =====================================
-        # TRAINING
-        # =====================================
 
-        if st.button(
-            "🚀 Training Model"
-        ):
+        st.markdown("---")
+        st.markdown("## 🚀 Training Model")
 
-            (
-                model,
-                accuracy,
-                precision,
-                recall,
-                f1,
-                report,
-                matrix,
-                importance_grouped,
-                train_size,
-                test_size,
-                feature_names 
-            ) = train_model(X, y)
+        st.caption(
+            "Tekan tombol berikut untuk melatih model Random Forest menggunakan dataset yang telah diproses."
+        )
 
-            BASE_DIR = Path(
-                __file__
-            ).parent.parent
+        # Tombol berada di tengah
+        col_left, col_center, col_right = st.columns([1, 2, 1])
 
-            model_dir = (
-                BASE_DIR / "model"
+        with col_center:
+
+            train_button = st.button(
+                "🚀 Mulai Training Model",
+                use_container_width=True
             )
+
+        if train_button:
+
+            with st.spinner("⏳ Melatih model Random Forest..."):
+
+                (
+                    model,
+                    accuracy,
+                    precision,
+                    recall,
+                    f1,
+                    report,
+                    matrix,
+                    importance_grouped,
+                    train_size,
+                    test_size,
+                    feature_names
+                ) = train_model(X, y)
+
+            st.success("✅ Training Model berhasil dilakukan.")
+
+            BASE_DIR = Path(__file__).parent.parent
+
+            model_dir = BASE_DIR / "model"
 
             model_dir.mkdir(
                 parents=True,
@@ -511,8 +526,7 @@ if uploaded_file is not None:
 
             joblib.dump(
                 model,
-                model_dir /
-                "random_forest_model.pkl"
+                model_dir / "random_forest_model.pkl"
             )
 
             # =====================================
