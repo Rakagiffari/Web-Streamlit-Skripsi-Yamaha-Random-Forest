@@ -687,17 +687,19 @@ if uploaded_file is not None:
 
             ax2.set_xlabel(
                 "Prediksi",
-                fontsize=5
+                fontsize=8
+                fontweight="bold"
             )
 
             ax2.set_ylabel(
                 "Aktual",
-                fontsize=5
+                fontsize=8
+                fontweight="bold"
             )
 
             ax2.tick_params(
                 axis="both",
-                labelsize=5
+                labelsize=8
             )
 
             plt.tight_layout()
