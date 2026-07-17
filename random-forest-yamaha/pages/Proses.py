@@ -664,7 +664,7 @@ if uploaded_file is not None:
 
             st.markdown("## 📉 Confusion Matrix")
 
-            fig2, ax2 = plt.subplots(figsize=(3.8, 3.2))
+            fig2, ax2 = plt.subplots(figsize=(3.5, 3), dpi=120)
 
             sns.heatmap(
                 matrix,
@@ -681,8 +681,7 @@ if uploaded_file is not None:
             ax2.set_ylabel("Aktual")
             ax2.set_title("Confusion Matrix")
 
-            st.pyplot(fig2)
-
+            fig2, ax2 = plt.subplots(figsize=(3.5, 3), dpi=120)
             cm_path = (
                 BASE_DIR /
                 "confusion_matrix.png"
