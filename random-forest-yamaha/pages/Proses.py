@@ -474,14 +474,13 @@ if uploaded_file is not None:
 
         X, y = preprocess_data(df)
         
-                # =====================================
+        # =====================================
         # TRAINING MODEL
         # =====================================
 
         st.markdown("---")
-        st.markdown("## 🚀 Training Model")
 
-        st.caption(
+        st.sub-title(
             "Tekan tombol berikut untuk melatih model Random Forest menggunakan dataset yang telah diproses."
         )
 
