@@ -752,11 +752,9 @@ if uploaded_file is not None:
                     Sebanyak **{fn}** data **Service Berat** diprediksi sebagai **Service Ringan** sehingga termasuk kesalahan klasifikasi (*False Negative*).
                     """)
 
-                        # =====================================
+            # =====================================
             # FEATURE IMPORTANCE
             # =====================================
-
-            st.markdown("## ⭐ Feature Importance")
 
             # -------------------------------------
             # Membuat Grafik
@@ -832,19 +830,11 @@ if uploaded_file is not None:
 
             with st.expander("Feature Importance", expanded=False):
 
-                st.markdown("### 📍 Interpretasi")
-
                 st.markdown(f"""
-Feature Importance menunjukkan tingkat kontribusi masing-masing fitur terhadap proses klasifikasi yang dilakukan oleh algoritma **Random Forest**.
-
-Semakin besar nilai Feature Importance, semakin besar pula pengaruh suatu fitur dalam membantu model membedakan kategori **Service Ringan** dan **Service Berat**.
-
-Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
-""")
-
-                st.markdown("---")
-
-                st.markdown("### 📋 Peringkat Feature Importance")
+                    Feature Importance menunjukkan tingkat kontribusi masing-masing fitur terhadap proses klasifikasi yang dilakukan oleh algoritma **Random Forest**.
+                    Semakin besar nilai Feature Importance, semakin besar pula pengaruh suatu fitur dalam membantu model membedakan kategori **Service Ringan** dan **Service Berat**.
+                    Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
+                """)
 
                 ranking = importance_grouped.copy()
 
