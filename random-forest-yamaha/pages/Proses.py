@@ -789,28 +789,24 @@ if uploaded_file is not None:
                 use_container_width=True
             )
             
-            # ==========================================================
+           # ==========================================================
+# REPRESENT==========
 # REPRESENTATIVE DECISION TREE
 # ==========================================================
 
 st.markdown("---")
 st.markdown("## 🌳 Representative Decision Tree")
 
-left, right = st.columns([1.45, 1])
+col_tree, col_desc = st.columns([1.6, 1])
 
-# ==========================================================
-# GAMBAR TREE
-# ==========================================================
+with col_tree:
 
-with left:
-
-    fig_tree, ax = plt.subplots(
-        figsize=(9, 5),
-        dpi=140
+    fig_tree, ax_tree = plt.subplots(
+        figsize=(12, 6)
     )
 
     plot_tree(
-        model.estimators_[0],
+        decision_tree=model.estimators_[0],
         feature_names=feature_names,
         class_names=["Ringan", "Berat"],
         filled=True,
@@ -819,33 +815,26 @@ with left:
         proportion=True,
         max_depth=3,
         fontsize=8,
-        ax=ax
+        ax=ax_tree
     )
 
     plt.tight_layout()
 
-    st.pyplot(
-        fig_tree,
-        use_container_width=True
-    )
+    st.pyplot(fig_tree)
 
     tree_path = BASE_DIR / "representative_tree.png"
 
     fig_tree.savefig(
         tree_path,
-        dpi=300,
+        dpi=250,
         bbox_inches="tight"
     )
 
     plt.close(fig_tree)
 
-# ==========================================================
-# PENJELASAN
-# ==========================================================
+with col_desc:
 
-with right:
-
-    st.markdown("### 📍 Alur Representative Tree")
+    st.markdown("### 📍 Alur Keputusan")
 
     st.success("""
 **1. Root Node**
@@ -858,15 +847,15 @@ Decision Tree memulai proses klasifikasi dari node paling atas sebagai titik awa
     st.info("""
 **2. Pemisahan Data**
 
-Setiap node membagi data berdasarkan nilai fitur tertentu, misalnya Kilometer, Indikasi, atau Usia Motor.
+Setiap node memisahkan data berdasarkan nilai suatu fitur seperti Kilometer, Indikasi, Jenis, maupun Usia Motor.
 """)
 
     st.markdown("⬇️")
 
     st.info("""
-**3. Cabang Keputusan**
+**3. Percabangan**
 
-Setiap percabangan menunjukkan hasil pengujian suatu kondisi hingga data bergerak ke node berikutnya.
+Data akan mengikuti cabang kiri atau kanan sesuai hasil pengujian pada setiap node.
 """)
 
     st.markdown("⬇️")
@@ -874,7 +863,7 @@ Setiap percabangan menunjukkan hasil pengujian suatu kondisi hingga data bergera
     st.info("""
 **4. Leaf Node**
 
-Node terakhir merupakan hasil klasifikasi sementara yang dihasilkan oleh satu Decision Tree.
+Node terakhir menghasilkan prediksi Service Ringan atau Service Berat dari satu Decision Tree.
 """)
 
     st.markdown("⬇️")
@@ -882,9 +871,7 @@ Node terakhir merupakan hasil klasifikasi sementara yang dihasilkan oleh satu De
     st.success("""
 **5. Majority Voting**
 
-Random Forest tidak menggunakan satu pohon saja.
-
-Prediksi akhir diperoleh dari hasil voting seluruh Decision Tree sehingga menghasilkan klasifikasi yang lebih stabil dan akurat.
+Prediksi akhir Random Forest diperoleh dari hasil voting seluruh Decision Tree sehingga hasil klasifikasi menjadi lebih stabil.
 """)
 
             # ==========================================================
