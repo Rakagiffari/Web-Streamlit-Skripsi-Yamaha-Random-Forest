@@ -658,39 +658,58 @@ if uploaded_file is not None:
 
                 st.code(report)
             
-                        # =====================================
+            # =====================================
             # CONFUSION MATRIX
             # =====================================
 
             st.markdown("## 📉 Confusion Matrix")
 
-            fig2, ax2 = plt.subplots(figsize=(3.5, 3), dpi=120)
+# Membuat figure dengan ukuran lebih kecil
+fig2, ax2 = plt.subplots(figsize=(4, 3.5), dpi=120)
 
-            sns.heatmap(
-                matrix,
-                annot=True,
-                fmt="d",
-                cmap="Reds",
-                cbar=False,
-                xticklabels=["Ringan", "Berat"],
-                yticklabels=["Ringan", "Berat"],
-                ax=ax2
-            )
+sns.heatmap(
+    matrix,
+    annot=True,
+    fmt="d",
+    cmap="Reds",
+    cbar=False,
+    xticklabels=["Ringan", "Berat"],
+    yticklabels=["Ringan", "Berat"],
+    annot_kws={
+        "size": 12,
+        "weight": "bold"
+    },
+    linewidths=0.5,
+    linecolor="white",
+    ax=ax2
+)
 
-            ax2.set_xlabel("Prediksi")
-            ax2.set_ylabel("Aktual")
-            ax2.set_title("Confusion Matrix")
+ax2.set_xlabel("Prediksi", fontsize=10)
+ax2.set_ylabel("Aktual", fontsize=10)
+ax2.set_title("Confusion Matrix", fontsize=13, fontweight="bold")
+ax2.tick_params(axis="both", labelsize=9)
 
-            fig2, ax2 = plt.subplots(figsize=(3.5, 3), dpi=120)
-            cm_path = (
-                BASE_DIR /
-                "confusion_matrix.png"
-            )
+plt.tight_layout()
 
-            fig2.savefig(
-                cm_path,
-                bbox_inches="tight"
-            )
+# ===============================
+# TAMPILKAN DI TENGAH
+# ===============================
+
+col_left, col_center, col_right = st.columns([1.5, 2, 1.5])
+
+with col_center:
+    st.pyplot(fig2, use_container_width=False)
+
+# Simpan gambar untuk PDF
+cm_path = BASE_DIR / "confusion_matrix.png"
+
+fig2.savefig(
+    cm_path,
+    dpi=300,
+    bbox_inches="tight"
+)
+
+plt.close(fig2)
 
             # =====================================
             # INTERPRETASI CONFUSION MATRIX
