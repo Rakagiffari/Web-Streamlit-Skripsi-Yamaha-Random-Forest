@@ -38,7 +38,7 @@ st.markdown("""
 
 .sub-title{
     color:#9ca3af;
-    font-size:16px;
+    font-size:14px;
     margin-top:-10px;
 }
 
