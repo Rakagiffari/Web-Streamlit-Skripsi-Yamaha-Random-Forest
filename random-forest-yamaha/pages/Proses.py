@@ -658,59 +658,77 @@ if uploaded_file is not None:
 
                 st.code(report)
             
-            # =====================================
+                        # =====================================
             # CONFUSION MATRIX
             # =====================================
 
             st.markdown("## 📉 Confusion Matrix")
 
-# Membuat figure dengan ukuran lebih kecil
-fig2, ax2 = plt.subplots(figsize=(4, 3.5), dpi=120)
+            # Membuat visualisasi confusion matrix
+            fig2, ax2 = plt.subplots(
+                figsize=(3.8, 3.2),
+                dpi=120
+            )
 
-sns.heatmap(
-    matrix,
-    annot=True,
-    fmt="d",
-    cmap="Reds",
-    cbar=False,
-    xticklabels=["Ringan", "Berat"],
-    yticklabels=["Ringan", "Berat"],
-    annot_kws={
-        "size": 12,
-        "weight": "bold"
-    },
-    linewidths=0.5,
-    linecolor="white",
-    ax=ax2
-)
+            sns.heatmap(
+                matrix,
+                annot=True,
+                fmt="d",
+                cmap="Reds",
+                cbar=False,
+                xticklabels=["Ringan", "Berat"],
+                yticklabels=["Ringan", "Berat"],
+                annot_kws={
+                    "size": 12,
+                    "weight": "bold"
+                },
+                linewidths=0.5,
+                linecolor="white",
+                square=True,
+                ax=ax2
+            )
 
-ax2.set_xlabel("Prediksi", fontsize=10)
-ax2.set_ylabel("Aktual", fontsize=10)
-ax2.set_title("Confusion Matrix", fontsize=13, fontweight="bold")
-ax2.tick_params(axis="both", labelsize=9)
+            ax2.set_title(
+                "Confusion Matrix",
+                fontsize=12,
+                fontweight="bold"
+            )
 
-plt.tight_layout()
+            ax2.set_xlabel(
+                "Prediksi",
+                fontsize=10
+            )
 
-# ===============================
-# TAMPILKAN DI TENGAH
-# ===============================
+            ax2.set_ylabel(
+                "Aktual",
+                fontsize=10
+            )
 
-col_left, col_center, col_right = st.columns([1.5, 2, 1.5])
+            ax2.tick_params(
+                axis="both",
+                labelsize=9
+            )
 
-with col_center:
-    st.pyplot(fig2, use_container_width=False)
+            plt.tight_layout()
 
-# Simpan gambar untuk PDF
-cm_path = BASE_DIR / "confusion_matrix.png"
+            # Tampilkan di tengah halaman
+            kiri, tengah, kanan = st.columns([2, 3, 2])
 
-fig2.savefig(
-    cm_path,
-    dpi=300,
-    bbox_inches="tight"
-)
+            with tengah:
+                st.pyplot(
+                    fig2,
+                    use_container_width=False
+                )
 
-plt.close(fig2)
+            # Simpan untuk PDF
+            cm_path = (
+                BASE_DIR /
+                "confusion_matrix.png"
+            )
 
+            fig2.savefig(
+                cm_path,
+               
             # =====================================
             # INTERPRETASI CONFUSION MATRIX
             # =====================================
