@@ -815,62 +815,62 @@ if uploaded_file is not None:
 
             plt.close(fig3)
 
-# ==========================================================
-# PENJELASAN FEATURE IMPORTANCE
-# ==========================================================
+            # ==========================================================
+            # PENJELASAN FEATURE IMPORTANCE
+            # ==========================================================
 
-top1 = importance_grouped.iloc[0]["Fitur"]
-top2 = importance_grouped.iloc[1]["Fitur"]
-top3 = importance_grouped.iloc[2]["Fitur"]
+            top1 = importance_grouped.iloc[0]["Fitur"]
+            top2 = importance_grouped.iloc[1]["Fitur"]
+            top3 = importance_grouped.iloc[2]["Fitur"]
 
-with st.expander("Feature Importance", expanded=False):
+            with st.expander("Feature Importance", expanded=False):
 
-    st.markdown("### 📍 Interpretasi")
+            st.markdown("### 📍 Interpretasi")
 
-    st.markdown(f"""
-Feature Importance menunjukkan tingkat kontribusi masing-masing fitur terhadap proses klasifikasi yang dilakukan oleh algoritma **Random Forest**.
+            st.markdown(f"""
+                Feature Importance menunjukkan tingkat kontribusi masing-masing fitur terhadap proses klasifikasi yang dilakukan oleh algoritma **Random Forest**.
 
-Semakin besar nilai Feature Importance, semakin besar pula pengaruh suatu fitur dalam membantu model membedakan kategori **Service Ringan** dan **Service Berat**.
+                Semakin besar nilai Feature Importance, semakin besar pula pengaruh suatu fitur dalam membantu model membedakan kategori **Service Ringan** dan **Service Berat**.
 
-Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
-""")
+                Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
+            """)
 
-    st.markdown("---")
+            st.markdown("---")
 
-    st.markdown("### 📋 Peringkat Feature Importance")
+            st.markdown("### 📋 Peringkat Feature Importance")
 
-    ranking = importance_grouped.copy()
+                ranking = importance_grouped.copy()
 
-    ranking.insert(
-        0,
-        "No",
-        range(1, len(ranking)+1)
-    )
+                ranking.insert(
+                    0,
+                    "No",
+                    range(1, len(ranking)+1)
+                )
 
-    ranking["Importance"] = (
-        ranking["Importance"]
-        .round(4)
-    )
+                ranking["Importance"] = (
+                    ranking["Importance"]
+                    .round(4)
+                )
 
-    st.dataframe(
-        ranking,
-        hide_index=True,
-        use_container_width=True
-    )
+        st.dataframe(
+            ranking,
+            hide_index=True,
+            use_container_width=True
+        )
 
-    st.caption(
-        "Nilai Feature Importance menunjukkan tingkat kontribusi masing-masing fitur terhadap proses klasifikasi."
-    )
+        st.caption(
+            "Nilai Feature Importance menunjukkan tingkat kontribusi masing-masing fitur terhadap proses klasifikasi."
+        )
 
-    st.markdown("---")
+        st.markdown("---")
 
-    st.markdown("### 💡 Kesimpulan")
+        st.markdown("### 💡 Kesimpulan")
 
-    st.success(f"""
-Berdasarkan hasil Feature Importance, fitur **{top1}**, **{top2}**, dan **{top3}** merupakan tiga fitur yang memberikan kontribusi terbesar dalam proses klasifikasi menggunakan algoritma Random Forest.
+        st.success(f"""
+            Berdasarkan hasil Feature Importance, fitur **{top1}**, **{top2}**, dan **{top3}** merupakan tiga fitur yang memberikan kontribusi terbesar dalam proses klasifikasi menggunakan algoritma Random Forest.
 
-Hal ini menunjukkan bahwa ketiga fitur tersebut menjadi faktor utama yang digunakan model dalam membedakan kategori **Service Ringan** dan **Service Berat**.
-""")
+            Hal ini menunjukkan bahwa ketiga fitur tersebut menjadi faktor utama yang digunakan model dalam membedakan kategori **Service Ringan** dan **Service Berat**.
+        """)
             
             # ==========================================================
             # REPRESENTATIVE DECISION TREE
