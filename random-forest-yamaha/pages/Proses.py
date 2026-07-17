@@ -912,7 +912,7 @@ if uploaded_file is not None:
                     Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
                 """)
 
-                        # ==========================================================
+            # ==========================================================
             # REPRESENTATIVE DECISION TREE
             # ==========================================================
 
@@ -1041,38 +1041,37 @@ terhadap proses klasifikasi.
 
             pola_data = []
 
-            max_pattern = min(5, len(tree_patterns))
+            for i, pattern in enumerate(tree_patterns, start=1):
 
-            for i in range(max_pattern):
-
-                pattern = tree_patterns[i]
-
-                kondisi = " dan ".join(pattern["path"])
+                kondisi = " → ".join(pattern["path"])
 
                 keterangan = (
-                    f"Model cenderung mengklasifikasikan data sebagai "
-                    f"**{pattern['prediction']}** apabila memenuhi kondisi "
-                    f"{kondisi}."
+                    f"Jika {kondisi}, maka model cenderung "
+                    f"mengklasifikasikan sebagai "
+                    f"{pattern['prediction']} "
+                    f"(Support: {pattern['samples']} data)."
                 )
 
                 pola_data.append({
-
-                    "Pola Keputusan": f"Pola {i+1}",
-
+                    "Pola Keputusan": f"Pola {i}",
                     "Keterangan": keterangan
-
                 })
 
             pola_df = pd.DataFrame(pola_data)
 
             st.dataframe(
                 pola_df,
-                use_container_width=True,
-                hide_index=True
+                hide_index=True,
+                use_container_width=False,
+                width=1100,
+                height=420
             )
 
             st.caption(
-                "Pola keputusan di atas diperoleh secara otomatis dari Representative Decision Tree yang digunakan sebagai representasi proses klasifikasi pada Random Forest."
+                "Pola keputusan diperoleh secara otomatis dari "
+                "Representative Decision Tree. "
+                "Setiap pola menunjukkan jalur keputusan dari root "
+                "hingga leaf pada pohon representatif."
             )
             
             # ==========================================================
