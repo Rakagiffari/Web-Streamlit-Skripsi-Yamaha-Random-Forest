@@ -485,9 +485,9 @@ if uploaded_file is not None:
             "Tekan tombol berikut untuk melatih model Random Forest menggunakan dataset yang telah diproses."
         )
 
-        col_left, col_center, col_right = st.columns([1, 2, 1])
+        col1, col2, col3 = st.columns([1, 2, 1])
 
-        with col_center:
+        with col2:
 
             train_button = st.button(
                 "🚀 Mulai Training Model",
@@ -498,53 +498,77 @@ if uploaded_file is not None:
 
             import time
 
-            with st.status(
-                "🚀 Training Model...",
-                expanded=True
-            ) as status:
+            progress = st.empty()
 
-                st.write("⏳ Melakukan encoding...")
-                time.sleep(0.6)
-                st.write("✅ Encoding selesai")
+            # =====================================
+            # ENCODING
+            # =====================================
 
-                st.write("⏳ Membagi data train dan test...")
-                time.sleep(0.6)
-                st.write("✅ Train-test split selesai")
+            progress.info("⏳ Melakukan encoding...")
+            time.sleep(0.5)
 
-                st.write("⏳ Melatih Random Forest...")
+            progress.success("✔ Encoding selesai")
+            time.sleep(0.3)
 
-                (
-                    model,
-                    accuracy,
-                    precision,
-                    recall,
-                    f1,
-                    report,
-                    matrix,
-                    importance_grouped,
-                    train_size,
-                    test_size,
-                    feature_names
-                ) = train_model(X, y)
+            # =====================================
+            # TRAIN TEST SPLIT
+            # =====================================
 
-                st.write("✅ Model berhasil dilatih")
+            progress.info("⏳ Membagi data train dan test...")
+            time.sleep(0.5)
 
-                st.write("⏳ Menghitung evaluasi...")
-                time.sleep(0.5)
-                st.write("✅ Evaluasi selesai")
+            progress.success("✔ Train-test split selesai")
+            time.sleep(0.3)
 
-                st.write("⏳ Menyusun insight...")
-                time.sleep(0.5)
-                st.write("✅ Insight berhasil dibuat")
+            # =====================================
+            # TRAIN RANDOM FOREST
+            # =====================================
 
-                status.update(
-                    label="🎉 Training Random Forest selesai",
-                    state="complete"
-                )
+            progress.info("⏳ Melatih Random Forest...")
 
-            st.success(
-                "Model Random Forest berhasil dilatih."
-            )
+            (
+                model,
+                accuracy,
+                precision,
+                recall,
+                f1,
+                report,
+                matrix,
+                importance_grouped,
+                train_size,
+                test_size,
+                feature_names
+            ) = train_model(X, y)
+
+            progress.success("✔ Model berhasil dilatih")
+            time.sleep(0.5)
+
+            # =====================================
+            # EVALUASI
+            # =====================================
+
+            progress.info("⏳ Menghitung evaluasi...")
+            time.sleep(0.5)
+
+            progress.success("✔ Evaluasi selesai")
+            time.sleep(0.3)
+
+            # =====================================
+            # INSIGHT
+            # =====================================
+
+            progress.info("⏳ Menyusun insight...")
+            time.sleep(0.5)
+
+            progress.success("✔ Insight berhasil dibuat")
+            time.sleep(0.7)
+
+            # Hilangkan animasi
+            progress.empty()
+
+            # =====================================
+            # SIMPAN MODEL
+            # =====================================
 
             BASE_DIR = Path(__file__).parent.parent
 
