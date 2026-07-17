@@ -636,15 +636,77 @@ if uploaded_file is not None:
                 f"{f1:.2%}"
             )
 
-            # =====================================
+                        # =====================================
             # CLASSIFICATION REPORT
             # =====================================
 
-            st.markdown(
-                "## 📋 Classification Report"
-            )
+            st.markdown("## 📋 Classification Report")
 
-            st.code(report)
+            with st.expander("📋 Classification Report", expanded=False):
+
+                st.caption(
+                    "Hasil evaluasi model Random Forest berdasarkan Precision, Recall, F1-Score, dan Support."
+                )
+
+                st.code(report)
+
+                st.markdown("---")
+
+                c1, c2, c3, c4 = st.columns(4)
+
+                with c1:
+
+                    st.markdown(f"""
+                    <div class="upload-card">
+                        <div class="upload-title">
+                            Accuracy
+                        </div>
+                        <div class="upload-value">
+                            {accuracy:.2%}
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+                with c2:
+
+                    st.markdown(f"""
+                    <div class="upload-card">
+                        <div class="upload-title">
+                            Precision
+                        </div>
+                        <div class="upload-value">
+                            {precision:.2%}
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+                with c3:
+
+                    st.markdown(f"""
+                    <div class="upload-card">
+                        <div class="upload-title">
+                            Recall
+                        </div>
+                        <div class="upload-value">
+                            {recall:.2%}
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+                with c4:
+
+                    st.markdown(f"""
+                    <div class="upload-card">
+                        <div class="upload-title">
+                            F1-Score
+                        </div>
+                        <div class="upload-value">
+                            {f1:.2%}
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+            st.success("✅ Classification Report berhasil dibuat.")
 
             # =====================================
             # CONFUSION MATRIX
