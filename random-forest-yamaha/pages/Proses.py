@@ -854,7 +854,7 @@ if uploaded_file is not None:
                     Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
                 """)
 
-                        # ==========================================================
+            # ==========================================================
             # VISUALISASI DECISION TREE
             # ==========================================================
 
@@ -876,38 +876,46 @@ if uploaded_file is not None:
 
             f1, f2, f3, f4 = top_features
 
-            # ----------------------------------------------------------
-            # Membuat Diagram Decision Tree
-            # ----------------------------------------------------------
+                        # ==========================================================
+            # MEMBUAT DIAGRAM DECISION TREE
+            # ==========================================================
 
             dot = graphviz.Digraph(
                 "DecisionTree",
-                engine="dot",
-                format="svg"
+                engine="dot"
             )
+
+            # ----------------------------------------------------------
+            # Pengaturan Layout
+            # ----------------------------------------------------------
 
             dot.attr(
                 rankdir="TB",
                 bgcolor="white",
-                dpi="200",
-                nodesep="0.55",
-                ranksep="0.75",
-                splines="polyline",
-                fontname="Helvetica"
+                size="4,5!",
+                ratio="compress",
+                pad="0.05",
+                margin="0.05",
+                nodesep="0.20",
+                ranksep="0.35",
+                splines="polyline"
             )
+
+            # ----------------------------------------------------------
+            # Style Panah
+            # ----------------------------------------------------------
 
             dot.attr(
                 "edge",
-                arrowhead="normal",
-                arrowsize="0.8",
                 color="#555555",
-                penwidth="1.2",
-                fontsize="10",
+                penwidth="1.5",
+                arrowsize="0.7",
+                fontsize="9",
                 fontname="Helvetica"
             )
 
             # ----------------------------------------------------------
-            # Node Fitur
+            # Style Node Feature
             # ----------------------------------------------------------
 
             dot.attr(
@@ -917,8 +925,11 @@ if uploaded_file is not None:
                 fillcolor="#d32f2f",
                 color="#b71c1c",
                 fontcolor="white",
-                fontsize="13",
-                fontname="Helvetica"
+                fontsize="10",
+                fontname="Helvetica",
+                width="1.05",
+                height="0.45",
+                margin="0.06"
             )
 
             dot.node("A", f1)
@@ -927,20 +938,15 @@ if uploaded_file is not None:
             dot.node("D", f4)
 
             # ----------------------------------------------------------
-            # Node Hasil
+            # Style Node Service
             # ----------------------------------------------------------
-
-            dot.attr(
-                "node",
-                shape="ellipse",
-                style="filled",
-                fontsize="12",
-                fontname="Helvetica"
-            )
 
             dot.node(
                 "SB1",
                 "Service\nBerat",
+                shape="ellipse",
+                width="1.05",
+                height="0.45",
                 fillcolor="#1565c0",
                 color="#0d47a1",
                 fontcolor="white"
@@ -949,6 +955,9 @@ if uploaded_file is not None:
             dot.node(
                 "SR1",
                 "Service\nRingan",
+                shape="ellipse",
+                width="1.05",
+                height="0.45",
                 fillcolor="#2e7d32",
                 color="#1b5e20",
                 fontcolor="white"
@@ -957,6 +966,9 @@ if uploaded_file is not None:
             dot.node(
                 "SR2",
                 "Service\nRingan",
+                shape="ellipse",
+                width="1.05",
+                height="0.45",
                 fillcolor="#2e7d32",
                 color="#1b5e20",
                 fontcolor="white"
@@ -965,13 +977,16 @@ if uploaded_file is not None:
             dot.node(
                 "SB2",
                 "Service\nBerat",
+                shape="ellipse",
+                width="1.05",
+                height="0.45",
                 fillcolor="#1565c0",
                 color="#0d47a1",
                 fontcolor="white"
             )
 
             # ----------------------------------------------------------
-            # Hubungan Antar Node
+            # Hubungan Node
             # ----------------------------------------------------------
 
             dot.edge("A", "B", label="Ya")
@@ -986,16 +1001,16 @@ if uploaded_file is not None:
             dot.edge("D", "SB2")
 
             # ----------------------------------------------------------
-            # Menampilkan Diagram
+            # Tampilkan Diagram
             # ----------------------------------------------------------
 
-            col_left, col_center, col_right = st.columns([1, 5, 1])
+            col_left, col_center, col_right = st.columns([2, 3, 2])
 
             with col_center:
 
                 st.graphviz_chart(
                     dot,
-                    use_container_width=True
+                    use_container_width=False
                 )
 
             # ==========================================================
