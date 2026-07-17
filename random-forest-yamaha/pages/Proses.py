@@ -403,24 +403,32 @@ if uploaded_file is not None:
         # FEATURE ENGINEERING
         # =====================================
 
-        st.markdown("<br>", unsafe_allow_html=True)
+                st.markdown("## 📇 Feature Engineering")
+
+        st.markdown("### Dataset Awal")
+
+        st.dataframe(
+            df.head(),
+            use_container_width=True,
+            hide_index=True
+        )
 
         feature_df = df.copy()
+
+        # =====================================
+        # Feature 1 : Usia Motor
+        # =====================================
 
         from datetime import datetime
 
         tahun_sekarang = datetime.now().year
-
-        # =====================================
-        # Feature Engineering : Usia Motor
-        # =====================================
 
         feature_df["Usia Motor"] = (
             tahun_sekarang - feature_df["Tahun"]
         )
 
         # =====================================
-        # Feature Engineering : Jenis
+        # Feature 2 : Jenis Motor
         # =====================================
 
         def get_jenis(model):
@@ -428,39 +436,40 @@ if uploaded_file is not None:
             model = str(model).upper()
 
             if any(x in model for x in [
-                "XMAX","NMAX","AEROX","LEXI","TMAX"
+                "XMAX", "NMAX", "AEROX", "LEXI", "TMAX"
             ]):
                 return "MAXi"
 
             elif any(x in model for x in [
-                "FAZZIO","FILANO"
+                "FAZZIO", "FILANO"
             ]):
                 return "Classy"
 
             elif any(x in model for x in [
-                "MIO","SOUL","XEON","FINO",
-                "GEAR","FREEGO","X-RIDE",
-                "XRIDE","NOUVO","LEXAM"
+                "MIO", "SOUL", "XEON", "FINO",
+                "GEAR", "FREEGO", "X-RIDE",
+                "XRIDE", "NOUVO", "LEXAM"
             ]):
                 return "Matic"
 
             elif any(x in model for x in [
-                "R15","R25","R6","R1",
-                "VIXION","BYSON",
-                "SCORPIO","RX",
-                "XSR","MT"
+                "R15", "R25", "R6", "R1",
+                "VIXION", "BYSON",
+                "SCORPIO", "RX",
+                "XSR", "MT"
             ]):
                 return "Sport"
 
             elif any(x in model for x in [
-                "WR","YZ"
+                "WR", "YZ"
             ]):
                 return "Off-road"
 
             elif any(x in model for x in [
-                "JUPITER","VEGA",
-                "CRYPTON","ALFA",
-                "SIGMA","F1ZR","MX"
+                "JUPITER", "VEGA",
+                "CRYPTON", "ALFA",
+                "SIGMA", "F1ZR",
+                "MX"
             ]):
                 return "Moped"
 
@@ -469,68 +478,30 @@ if uploaded_file is not None:
         feature_df["Jenis"] = feature_df["Model"].apply(get_jenis)
 
         # =====================================
-        # SUSUN ULANG POSISI KOLOM
+        # HASIL FEATURE ENGINEERING
         # =====================================
 
-        kolom_akhir = []
+        st.markdown("### Hasil Feature Engineering")
 
-        for col in feature_df.columns:
+        st.dataframe(
+            feature_df[
+                [
+                    "Model",
+                    "Jenis",
+                    "Tahun",
+                    "Usia Motor",
+                    "Km",
+                    "Indikasi",
+                    "Service"
+                ]
+            ].head(5),
+            use_container_width=True,
+            hide_index=True
+        )
 
-            kolom_akhir.append(col)
+        X, y = preprocess_data(df)
 
-            if col == "Model":
-                kolom_akhir.append("Jenis")
-
-            if col == "Tahun":
-                kolom_akhir.append("Usia Motor")
-
-        # Hilangkan duplikasi
-        kolom_akhir = list(dict.fromkeys(kolom_akhir))
-
-        feature_df = feature_df[kolom_akhir]
-
-        # =====================================
-        # TAMPILAN FEATURE ENGINEERING
-        # =====================================
-
-        with st.expander("Feature Engineering", expanded=False):
-
-            st.caption(
-                "Dataset setelah proses Feature Engineering."
-            )
-
-            st.dataframe(
-                feature_df,
-                use_container_width=True,
-                hide_index=True,
-                height=450
-            )
-
-        # =====================================
-        # SELEKSI FITUR
-        # =====================================
-        
-        fitur_digunakan = [
-            "Jenis",
-            "Usia Motor",
-            "Km",
-            "Indikasi",
-            "Service"
-        ]
-
-        with st.expander("Seleksi Fitur", expanded=False):
-
-            st.caption(
-                "Dataset hasil Seleksi Fitur yang digunakan sebagai input model Random Forest."
-            )
-
-            st.dataframe(
-                df_selected,
-                use_container_width=True,
-                hide_index=True,
-                height=450
-            )
-
+        st.success("Feature Engineering berhasil")
 
         # =====================================
         # DISTRIBUSI TARGET
