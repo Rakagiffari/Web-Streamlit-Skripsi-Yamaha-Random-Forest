@@ -830,12 +830,6 @@ if uploaded_file is not None:
 
             with st.expander("Feature Importance", expanded=False):
 
-                st.markdown(f"""
-                    Feature Importance menunjukkan tingkat kontribusi masing-masing fitur terhadap proses klasifikasi yang dilakukan oleh algoritma **Random Forest**.
-                    Semakin besar nilai Feature Importance, semakin besar pula pengaruh suatu fitur dalam membantu model membedakan kategori **Service Ringan** dan **Service Berat**.
-                    Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
-                """)
-
                 ranking = importance_grouped.copy()
 
                 ranking.insert(
@@ -854,14 +848,12 @@ if uploaded_file is not None:
 
                 st.markdown("---")
 
-                st.markdown("### 💡 Kesimpulan")
+                st.markdown(f"""
+                    Feature Importance menunjukkan tingkat kontribusi masing-masing fitur terhadap proses klasifikasi yang dilakukan oleh algoritma **Random Forest**.
+                    Semakin besar nilai Feature Importance, semakin besar pula pengaruh suatu fitur dalam membantu model membedakan kategori **Service Ringan** dan **Service Berat**.
+                    Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
+                """)
 
-                st.success(f"""
-Berdasarkan hasil Feature Importance, fitur **{top1}**, **{top2}**, dan **{top3}** merupakan tiga fitur yang memiliki kontribusi terbesar terhadap proses klasifikasi menggunakan algoritma Random Forest.
-
-Hal tersebut menunjukkan bahwa ketiga fitur tersebut menjadi faktor utama yang dimanfaatkan model dalam membedakan kategori **Service Ringan** dan **Service Berat**.
-""")
-            
             # ==========================================================
             # REPRESENTATIVE DECISION TREE
             # ==========================================================
