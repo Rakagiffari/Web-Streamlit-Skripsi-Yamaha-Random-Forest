@@ -677,7 +677,7 @@ if uploaded_file is not None:
                 xticklabels=["Ringan", "Berat"],
                 yticklabels=["Ringan", "Berat"],
                 annot_kws={
-                    "size": 12,
+                    "size": 10,
                 },
                 linewidths=0.5,
                 linecolor="white",
@@ -688,13 +688,11 @@ if uploaded_file is not None:
             ax2.set_xlabel(
                 "Prediksi",
                 fontsize=8
-                fontweight="bold"
             )
 
             ax2.set_ylabel(
                 "Aktual",
                 fontsize=8
-                fontweight="bold"
             )
 
             ax2.tick_params(
@@ -721,7 +719,7 @@ if uploaded_file is not None:
 
             fig2.savefig(
                 cm_path,
-                dpi=300,
+                dpi=200,
                 bbox_inches="tight"
             )
 
