@@ -367,50 +367,6 @@ if uploaded_file is not None:
                 use_container_width=True,
                 hide_index=True
             )
-                
-        # =====================================
-        # HASIL PREPROCESSING
-        # =====================================
-        
-        st.markdown("## Hasil Preprocessing")
-        
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-            st.markdown(f"""
-            <div class="upload-card">
-                <div class="upload-title">
-                    Missing Value
-                </div>
-                <div class="upload-value">
-                    {total_missing}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col2:
-            st.markdown(f"""
-            <div class="upload-card">
-                <div class="upload-title">
-                    Data Duplikat
-                </div>
-                <div class="upload-value">
-                    {total_duplicate}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col3:
-            st.markdown(f"""
-            <div class="upload-card">
-                <div class="upload-title">
-                    Jumlah Kolom
-                </div>
-                <div class="upload-value">
-                    {len(df.columns)}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
 
         # =====================================
         # FEATURE ENGINEERING
