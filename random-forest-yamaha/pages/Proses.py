@@ -756,22 +756,51 @@ if uploaded_file is not None:
             # FEATURE IMPORTANCE
             # =====================================
 
-            st.markdown(
-                "## ⭐ Feature Importance"
-            )
+            # -------------------------------------
+            # Membuat Grafik
+            # -------------------------------------
 
             fig3, ax3 = plt.subplots(
-                figsize=(6,4)
+                figsize=(4.8, 3.2),
+                dpi=140
             )
 
             sns.barplot(
                 data=importance_grouped,
                 x="Importance",
                 y="Fitur",
+                palette="Reds_r",
                 ax=ax3
             )
 
-            st.pyplot(fig3)
+            ax3.set_xlabel(
+                "Nilai Importance",
+                fontsize=8
+            )    
+
+            ax3.set_ylabel("")
+
+            ax3.tick_params(
+                labelsize=8
+            )
+
+            plt.tight_layout()
+    
+            # -------------------------------------
+            # Tampilkan grafik di tengah
+            # -------------------------------------
+
+            left, center, right = st.columns([2,3,2])
+
+            with center:
+                st.pyplot(
+                    fig3,
+                    use_container_width=False
+            )
+
+            # -------------------------------------
+            # Simpan untuk PDF
+            # -------------------------------------
 
             fi_path = (
                 BASE_DIR /
@@ -780,13 +809,68 @@ if uploaded_file is not None:
 
             fig3.savefig(
                 fi_path,
+                dpi=250,
                 bbox_inches="tight"
             )
 
-            st.dataframe(
-                importance_grouped,
-                use_container_width=True
-            )
+            plt.close(fig3)
+
+# ==========================================================
+# PENJELASAN FEATURE IMPORTANCE
+# ==========================================================
+
+top1 = importance_grouped.iloc[0]["Fitur"]
+top2 = importance_grouped.iloc[1]["Fitur"]
+top3 = importance_grouped.iloc[2]["Fitur"]
+
+with st.expander("Feature Importance", expanded=False):
+
+    st.markdown("### 📍 Interpretasi")
+
+    st.markdown(f"""
+Feature Importance menunjukkan tingkat kontribusi masing-masing fitur terhadap proses klasifikasi yang dilakukan oleh algoritma **Random Forest**.
+
+Semakin besar nilai Feature Importance, semakin besar pula pengaruh suatu fitur dalam membantu model membedakan kategori **Service Ringan** dan **Service Berat**.
+
+Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
+""")
+
+    st.markdown("---")
+
+    st.markdown("### 📋 Peringkat Feature Importance")
+
+    ranking = importance_grouped.copy()
+
+    ranking.insert(
+        0,
+        "No",
+        range(1, len(ranking)+1)
+    )
+
+    ranking["Importance"] = (
+        ranking["Importance"]
+        .round(4)
+    )
+
+    st.dataframe(
+        ranking,
+        hide_index=True,
+        use_container_width=True
+    )
+
+    st.caption(
+        "Nilai Feature Importance menunjukkan tingkat kontribusi masing-masing fitur terhadap proses klasifikasi."
+    )
+
+    st.markdown("---")
+
+    st.markdown("### 💡 Kesimpulan")
+
+    st.success(f"""
+Berdasarkan hasil Feature Importance, fitur **{top1}**, **{top2}**, dan **{top3}** merupakan tiga fitur yang memberikan kontribusi terbesar dalam proses klasifikasi menggunakan algoritma Random Forest.
+
+Hal ini menunjukkan bahwa ketiga fitur tersebut menjadi faktor utama yang digunakan model dalam membedakan kategori **Service Ringan** dan **Service Berat**.
+""")
             
             # ==========================================================
             # REPRESENTATIVE DECISION TREE
