@@ -671,14 +671,10 @@ if uploaded_file is not None:
                         </div>
                         """, unsafe_allow_html=True)
 
-                st.code(report)
-
                 st.markdown("---")
 
                 st.code(report)
             
-            st.success("✅ Classification Report berhasil dibuat.")
-
             # =====================================
             # CONFUSION MATRIX
             # =====================================
