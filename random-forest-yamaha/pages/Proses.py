@@ -746,16 +746,10 @@ if uploaded_file is not None:
             with st.expander("📖 Interpretasi Confusion Matrix", expanded=False):
 
                 st.markdown(f"""
-
-Berdasarkan hasil **Confusion Matrix**, model Random Forest menghasilkan performa klasifikasi sebagai berikut.
-
-- ✅ Sebanyak **{tn}** data **Service Ringan** berhasil diprediksi dengan benar sebagai **Service Ringan**.
-
-- ❌ Sebanyak **{fp}** data **Service Ringan** diprediksi sebagai **Service Berat** sehingga termasuk kesalahan klasifikasi (*False Positive*).
-
-- ✅ Sebanyak **{tp}** data **Service Berat** berhasil diprediksi dengan benar sebagai **Service Berat**.
-
-- ❌ Sebanyak **{fn}** data **Service Berat** diprediksi sebagai **Service Ringan** sehingga termasuk kesalahan klasifikasi (*False Negative*).
+                    Sebanyak **{tn}** data **Service Ringan** berhasil diprediksi dengan benar sebagai **Service Ringan**.
+                    Sebanyak **{fp}** data **Service Ringan** diprediksi sebagai **Service Berat** sehingga termasuk kesalahan klasifikasi (*False Positive*).
+                    Sebanyak **{tp}** data **Service Berat** berhasil diprediksi dengan benar sebagai **Service Berat**.
+                    Sebanyak **{fn}** data **Service Berat** diprediksi sebagai **Service Ringan** sehingga termasuk kesalahan klasifikasi (*False Negative*).
 
 ---
 
