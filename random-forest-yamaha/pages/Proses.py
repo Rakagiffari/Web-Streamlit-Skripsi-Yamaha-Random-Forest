@@ -480,10 +480,6 @@ if uploaded_file is not None:
 
         st.markdown("---")
 
-        st.caption(
-            "Tekan tombol berikut untuk melatih model Random Forest menggunakan dataset yang telah diproses."
-        )
-
         col1, col2, col3 = st.columns([1, 2, 1])
 
         with col2:
