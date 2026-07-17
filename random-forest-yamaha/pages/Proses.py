@@ -399,11 +399,9 @@ if uploaded_file is not None:
             </div>
             """, unsafe_allow_html=True)
 
-                # =====================================
+        # =====================================
         # FEATURE ENGINEERING
         # =====================================
-
-        st.markdown("## 📇 Feature Engineering")
 
         # Salinan dataset hanya untuk visualisasi
         feature_df = df.copy()
@@ -488,24 +486,11 @@ if uploaded_file is not None:
         # TAMPILAN
         # -------------------------------------
 
-        with st.expander("📇 Feature Engineering", expanded=False):
+        with st.expander("Feature Engineering", expanded=False):
 
             st.caption(
                 "Proses penambahan fitur Usia Motor dan Jenis Motor."
             )
-
-            st.markdown("### Dataset Awal")
-
-            st.dataframe(
-                df,
-                use_container_width=True,
-                hide_index=True,
-                height=250
-            )
-
-            st.markdown("---")
-
-            st.markdown("### Dataset Setelah Feature Engineering")
 
             st.dataframe(
                 feature_df,
@@ -513,48 +498,6 @@ if uploaded_file is not None:
                 hide_index=True,
                 height=350
             )
-
-            st.markdown("---")
-
-            c1, c2, c3 = st.columns(3)
-
-            with c1:
-                st.markdown(f"""
-                <div class="upload-card">
-                    <div class="upload-title">
-                        Fitur Awal
-                    </div>
-                    <div class="upload-value">
-                        {len(df.columns)}
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-
-            with c2:
-                st.markdown(f"""
-                <div class="upload-card">
-                    <div class="upload-title">
-                        Feature Baru
-                    </div>
-                    <div class="upload-value">
-                        2
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-
-            with c3:
-                st.markdown(f"""
-                <div class="upload-card">
-                    <div class="upload-title">
-                        Total Fitur
-                    </div>
-                    <div class="upload-value">
-                        {len(feature_df.columns)}
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-
-        st.success("✅ Feature Engineering berhasil dilakukan.")
 
         # =====================================
         # PREPROCESS DATA
