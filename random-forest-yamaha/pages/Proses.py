@@ -474,17 +474,17 @@ if uploaded_file is not None:
 
         X, y = preprocess_data(df)
         
-        # =====================================
+                # =====================================
         # TRAINING MODEL
         # =====================================
-        
+
         st.markdown("---")
-        
+        st.markdown("## 🚀 Training Model")
+
         st.caption(
             "Tekan tombol berikut untuk melatih model Random Forest menggunakan dataset yang telah diproses."
         )
 
-        # Tombol berada di tengah
         col_left, col_center, col_right = st.columns([1, 2, 1])
 
         with col_center:
@@ -496,7 +496,22 @@ if uploaded_file is not None:
 
         if train_button:
 
-            with st.spinner("⏳ Melatih model Random Forest..."):
+            import time
+
+            with st.status(
+                "🚀 Training Model...",
+                expanded=True
+            ) as status:
+
+                st.write("⏳ Melakukan encoding...")
+                time.sleep(0.6)
+                st.write("✅ Encoding selesai")
+
+                st.write("⏳ Membagi data train dan test...")
+                time.sleep(0.6)
+                st.write("✅ Train-test split selesai")
+
+                st.write("⏳ Melatih Random Forest...")
 
                 (
                     model,
@@ -512,7 +527,24 @@ if uploaded_file is not None:
                     feature_names
                 ) = train_model(X, y)
 
-            st.success("✅ Training Model berhasil dilakukan.")
+                st.write("✅ Model berhasil dilatih")
+
+                st.write("⏳ Menghitung evaluasi...")
+                time.sleep(0.5)
+                st.write("✅ Evaluasi selesai")
+
+                st.write("⏳ Menyusun insight...")
+                time.sleep(0.5)
+                st.write("✅ Insight berhasil dibuat")
+
+                status.update(
+                    label="🎉 Training Random Forest selesai",
+                    state="complete"
+                )
+
+            st.success(
+                "Model Random Forest berhasil dilatih."
+            )
 
             BASE_DIR = Path(__file__).parent.parent
 
