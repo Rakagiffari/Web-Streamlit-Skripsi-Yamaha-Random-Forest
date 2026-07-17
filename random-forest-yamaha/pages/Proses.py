@@ -9,7 +9,7 @@ from pathlib import Path
 
 from utils.preprocessing import preprocess_data
 from utils.training import train_model
-from sklearn.tree import plot_tree
+from sklearn.tree import DecisionTreeClassifier, plot_tree
 from utils.report import generate_pdf
 
 # =========================================
@@ -852,176 +852,115 @@ if uploaded_file is not None:
                     Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
                 """)
 
+                        # ==========================================================
+            # DECISION TREE (VISUALISASI)
             # ==========================================================
-            # REPRESENTATIVE DECISION TREE
-            # ==========================================================
+
             st.markdown("---")
-            st.markdown("## 🌳 Representative Decision Tree")
+            st.markdown("## 🌳 Visualisasi Decision Tree")
 
-            st.info("""
-Visualisasi berikut merupakan salah satu Decision Tree
-yang membentuk Random Forest.
+            # --------------------------------------------
+            # Membuat Decision Tree hanya untuk visualisasi
+            # --------------------------------------------
 
-Tree ditampilkan hingga kedalaman 3 level agar pola
-pengambilan keputusan lebih mudah dipahami.
+            dt_model = DecisionTreeClassifier(
+                max_depth=3,
+                random_state=42
+            )
 
-Decision Tree ini digunakan sebagai representasi proses
-klasifikasi, sedangkan keputusan akhir Random Forest
-tetap berasal dari gabungan seluruh Decision Tree.
-""")
+            dt_model.fit(X, y)
 
-            fig_tree, ax = plt.subplots(figsize=(20,8))
+            fig_tree, ax = plt.subplots(
+                figsize=(14, 7),
+                dpi=150
+            )
 
             plot_tree(
-
-                model.estimators_[0],
-
+                dt_model,
                 feature_names=feature_names,
-
-                class_names=["Ringan","Berat"],
-
+                class_names=["Ringan", "Berat"],
                 filled=True,
-
                 rounded=True,
-
-                fontsize=9,
-
+                fontsize=8,
                 impurity=False,
-
                 proportion=True,
-
-                max_depth=3,
-
                 ax=ax
-
             )
 
             plt.tight_layout()
 
-            st.pyplot(fig_tree)
+            # --------------------------------------------
+            # Menampilkan di tengah halaman
+            # --------------------------------------------
 
-            # ==========================================================
-            # TREE ANALYSIS
-            # ==========================================================
+            left, center, right = st.columns([1, 5, 1])
 
-            st.markdown("### 📍 Tree Analysis")
+            with center:
+
+                st.pyplot(
+                    fig_tree,
+                    use_container_width=True
+                )
+
+            plt.close(fig_tree)
+
+            # --------------------------------------------
+            # Top Feature
+            # --------------------------------------------
 
             top1 = importance_grouped.iloc[0]["Fitur"]
             top2 = importance_grouped.iloc[1]["Fitur"]
             top3 = importance_grouped.iloc[2]["Fitur"]
 
-            col1, col2 = st.columns([1.2,1])
+            # ==========================================================
+            # PENJELASAN
+            # ==========================================================
 
-            with col1:
+            with st.expander("Visualisasi Decision Tree", expanded=False):
+
+                st.markdown("### 📍 Interpretasi")
+
+                st.markdown(f"""
+Visualisasi Decision Tree digunakan untuk memberikan gambaran proses klasifikasi data berdasarkan aturan keputusan yang dipelajari dari dataset.
+
+Pada setiap node, data dipisahkan berdasarkan nilai suatu fitur hingga menghasilkan prediksi kategori **Service Ringan** atau **Service Berat**.
+
+Berbeda dengan proses prediksi utama yang menggunakan algoritma **Random Forest**, visualisasi ini hanya menampilkan **satu Decision Tree** agar proses pengambilan keputusan lebih mudah dipahami.
+""")
+
+                st.markdown("---")
+
+                st.markdown("### 📋 Fitur yang Paling Berpengaruh")
+
+                ranking = importance_grouped.copy()
+
+                ranking.insert(
+                    0,
+                    "No",
+                    range(1, len(ranking)+1)
+                )
+
+                ranking["Importance"] = (
+                    ranking["Importance"]
+                    .round(4)
+                )
+
+                st.dataframe(
+                    ranking,
+                    hide_index=True,
+                    use_container_width=True
+                )
+
+                st.markdown("---")
+
+                st.markdown("### 💡 Kesimpulan")
 
                 st.success(f"""
-### 🌲 Representative Tree
+Visualisasi Decision Tree memperlihatkan bagaimana proses klasifikasi dilakukan secara bertahap melalui serangkaian aturan keputusan.
 
-Tree di atas merupakan salah satu Decision Tree
-yang dipelajari oleh algoritma Random Forest.
+Berdasarkan hasil Feature Importance, fitur **{top1}**, **{top2}**, dan **{top3}** merupakan fitur yang paling berpengaruh dalam proses klasifikasi.
 
-Node pada bagian paling atas (root node)
-menunjukkan fitur pertama yang digunakan
-untuk memisahkan data.
-
-Selanjutnya Decision Tree melakukan
-pemisahan data secara bertahap
-hingga menghasilkan prediksi kategori service.
-""")
-
-            with col2:
-
-                st.info(f"""
-### ⭐ Feature Dominan
-
-🥇 **{top1}**
-
-🥈 **{top2}**
-
-🥉 **{top3}**
-
-Ketiga fitur tersebut merupakan
-fitur yang paling sering dimanfaatkan
-oleh Random Forest.
-""")
-
-            # ==========================================================
-            # INSIGHT
-            # ==========================================================
-
-            st.markdown("### 💡 Insight Decision Tree")
-
-            st.markdown(f"""
-<div style="
-background:#111827;
-padding:20px;
-border-radius:15px;
-border-left:6px solid #ef4444;
-">
-
-<b>Interpretasi Decision Tree</b>
-
-<br><br>
-
-Representative Decision Tree menunjukkan bahwa proses
-klasifikasi dilakukan secara bertahap dengan memisahkan
-data berdasarkan nilai pada setiap node.
-
-Berdasarkan hasil Feature Importance,
-Random Forest lebih banyak memanfaatkan fitur
-<b>{top1}</b>,
-kemudian
-<b>{top2}</b>,
-serta
-<b>{top3}</b>
-untuk membedakan kategori
-<b>Service Ringan</b>
-dan
-<b>Service Berat</b>.
-
-Decision Tree di atas memberikan gambaran bagaimana
-salah satu pohon melakukan proses klasifikasi.
-
-Namun prediksi akhir Random Forest
-tetap diperoleh melalui proses
-<b>Majority Voting</b>
-dari seluruh Decision Tree.
-
-</div>
-""", unsafe_allow_html=True)
-            
-            # ==========================================================
-            # TREE INSIGHT
-            # ==========================================================
-
-            st.markdown("### 💡 Insight Decision Tree")
-
-            top1 = importance_grouped.iloc[0]["Fitur"]
-            top2 = importance_grouped.iloc[1]["Fitur"]
-            top3 = importance_grouped.iloc[2]["Fitur"]
-
-            st.info(f"""
-Representative Decision Tree di atas merupakan salah satu pohon
-yang membentuk algoritma Random Forest.
-
-Pada proses klasifikasi, Decision Tree melakukan pemisahan data
-berdasarkan beberapa fitur hingga menghasilkan prediksi.
-
-Berdasarkan hasil Feature Importance,
-fitur yang paling dominan adalah **{top1}**.
-
-Selanjutnya model juga banyak memanfaatkan
-**{top2}** dan **{top3}**
-untuk meningkatkan ketepatan klasifikasi.
-
-Artinya ketiga fitur tersebut memiliki kontribusi terbesar
-dalam membedakan kategori **Service Ringan**
-dan **Service Berat**.
-
-Perlu diperhatikan bahwa prediksi akhir Random Forest
-tidak berasal dari satu Decision Tree saja,
-melainkan dari gabungan seluruh Decision Tree
-melalui proses Majority Voting.
+Perlu diperhatikan bahwa hasil prediksi pada sistem tetap menggunakan algoritma **Random Forest**, sedangkan Decision Tree pada halaman ini hanya digunakan sebagai media interpretasi agar proses klasifikasi lebih mudah dipahami.
 """)
             
             # ==========================================================
