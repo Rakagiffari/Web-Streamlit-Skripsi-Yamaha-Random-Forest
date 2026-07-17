@@ -595,6 +595,8 @@ if uploaded_file is not None:
             # CLASSIFICATION REPORT
             # =====================================
 
+            st.markdown("---")
+
             with st.expander("Classification Report", expanded=False):
 
                 st.caption(
