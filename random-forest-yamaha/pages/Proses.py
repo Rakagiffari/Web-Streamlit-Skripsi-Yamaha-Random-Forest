@@ -595,8 +595,6 @@ if uploaded_file is not None:
             # CLASSIFICATION REPORT
             # =====================================
 
-            st.markdown("---")
-
             with st.expander("Classification Report", expanded=False):
 
                 st.caption(
@@ -687,24 +685,19 @@ if uploaded_file is not None:
                 ax=ax2
             )
 
-            ax2.set_title(
-                "Confusion Matrix",
-                fontsize=12,
-            )
-
             ax2.set_xlabel(
                 "Prediksi",
-                fontsize=10
+                fontsize=5
             )
 
             ax2.set_ylabel(
                 "Aktual",
-                fontsize=10
+                fontsize=5
             )
 
             ax2.tick_params(
                 axis="both",
-                labelsize=9
+                labelsize=5
             )
 
             plt.tight_layout()
