@@ -846,8 +846,6 @@ if uploaded_file is not None:
                     use_container_width=True
                 )
 
-                st.markdown("---")
-
                 st.markdown(f"""
                     Feature Importance menunjukkan tingkat kontribusi masing-masing fitur terhadap proses klasifikasi yang dilakukan oleh algoritma **Random Forest**.
                     Semakin besar nilai Feature Importance, semakin besar pula pengaruh suatu fitur dalam membantu model membedakan kategori **Service Ringan** dan **Service Berat**.
