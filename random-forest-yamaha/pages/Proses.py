@@ -861,49 +861,90 @@ if uploaded_file is not None:
             st.markdown("---")
             st.markdown("## 🌳 Visualisasi Decision Tree")
 
-            dt_model = DecisionTreeClassifier(
-                max_depth=3,
-                random_state=42
+            # -------------------------------------
+            # Mengambil 4 fitur paling penting
+            # -------------------------------------
+
+            top_features = (
+                importance_grouped["Fitur"]
+                .head(4)
+                .tolist()
             )
 
-            dt_model.fit(X, y)
+            while len(top_features) < 4:
+                top_features.append("-")
 
-            dot_data = export_graphviz(
+            f1, f2, f3, f4 = top_features
 
-                dt_model,
+            # -------------------------------------
+            # Diagram Decision Tree
+            # -------------------------------------
 
-                out_file=None,
+            dot = graphviz.Digraph()
 
-                feature_names=feature_names,
-
-                class_names=["Ringan", "Berat"],
-
-                filled=True,
-
-                rounded=True,
-
-                special_characters=True,
-
-                impurity=False,
-
-                proportion=True
-
+            dot.attr(
+                rankdir="TB",
+                bgcolor="transparent",
+                pad="0.3",
+                nodesep="0.5",
+                ranksep="0.6"
             )
 
-            graph = graphviz.Source(dot_data)
+            dot.attr(
+                "node",
+                shape="box",
+                style="rounded,filled",
+                fillcolor="#ef4444",
+                fontcolor="white",
+                color="#ef4444",
+                fontsize="12",
+                fontname="Helvetica"
+            )
 
-            left, center, right = st.columns([1,5,1])
+            dot.attr(
+                "edge",
+                fontsize="10",
+                fontname="Helvetica"
+            )
 
-            with center:
+            # Node
+
+            dot.node("A", f1)
+            dot.node("B", f2)
+            dot.node("C", f3)
+            dot.node("D", f4)
+
+            dot.node(
+                "E",
+                "Service\nRingan / Berat",
+                fillcolor="#1f2937"
+            )
+
+            # Edge
+
+            dot.edge("A", "B", label="Ya")
+            dot.edge("A", "E", label="Tidak")
+
+            dot.edge("B", "C", label="Ya")
+            dot.edge("B", "E", label="Tidak")
+
+            dot.edge("C", "D", label="Ya")
+            dot.edge("C", "E", label="Tidak")
+
+            dot.edge("D", "E")
+
+            kiri, tengah, kanan = st.columns([1,5,1])
+
+            with tengah:
 
                 st.graphviz_chart(
-                    graph,
+                    dot,
                     use_container_width=True
                 )
 
-            top1 = importance_grouped.iloc[0]["Fitur"]
-            top2 = importance_grouped.iloc[1]["Fitur"]
-            top3 = importance_grouped.iloc[2]["Fitur"]
+            # ==========================================================
+            # PENJELASAN
+            # ==========================================================
 
             with st.expander(
                 "Visualisasi Decision Tree",
@@ -913,23 +954,23 @@ if uploaded_file is not None:
                 st.markdown("### 📍 Interpretasi")
 
                 st.markdown(f"""
-Visualisasi Decision Tree digunakan untuk memberikan gambaran proses klasifikasi berdasarkan aturan keputusan yang dipelajari dari data.
+Visualisasi Decision Tree di atas merupakan ilustrasi alur pengambilan keputusan berdasarkan **empat fitur dengan nilai Feature Importance tertinggi**.
 
-Setiap node menunjukkan fitur yang digunakan untuk membagi data hingga menghasilkan prediksi kategori **Service Ringan** atau **Service Berat**.
+Proses klasifikasi dimulai dari fitur **{f1}** sebagai faktor utama. Apabila informasi pada fitur tersebut belum cukup untuk menentukan kategori layanan, maka proses dilanjutkan menggunakan fitur **{f2}**, kemudian **{f3}**, dan terakhir **{f4}**.
 
-Visualisasi ini hanya menampilkan satu Decision Tree sebagai media interpretasi, sedangkan proses prediksi pada sistem tetap menggunakan algoritma **Random Forest**.
+Diagram ini digunakan untuk membantu memahami proses klasifikasi secara sederhana, sedangkan proses prediksi pada sistem tetap dilakukan menggunakan algoritma **Random Forest**.
 """)
 
                 st.markdown("---")
 
-                st.markdown("### 📋 Peringkat Feature Importance")
+                st.markdown("### 📋 Urutan Fitur Dominan")
 
                 ranking = importance_grouped.copy()
 
                 ranking.insert(
                     0,
                     "No",
-                    range(1, len(ranking)+1)
+                    range(1, len(ranking) + 1)
                 )
 
                 ranking["Importance"] = (
@@ -948,11 +989,9 @@ Visualisasi ini hanya menampilkan satu Decision Tree sebagai media interpretasi,
                 st.markdown("### 💡 Kesimpulan")
 
                 st.success(f"""
-Visualisasi Decision Tree memperlihatkan bagaimana proses klasifikasi dilakukan melalui serangkaian aturan keputusan.
+Berdasarkan hasil pelatihan model Random Forest, proses klasifikasi lebih banyak dipengaruhi oleh fitur **{f1}**, kemudian **{f2}**, **{f3}**, dan **{f4}**.
 
-Berdasarkan hasil pelatihan model, fitur **{top1}**, **{top2}**, dan **{top3}** merupakan fitur yang paling berpengaruh terhadap proses klasifikasi.
-
-Keputusan akhir sistem tetap dihasilkan oleh algoritma **Random Forest**, sedangkan Decision Tree pada halaman ini digunakan sebagai media interpretasi proses klasifikasi.
+Visualisasi ini disusun berdasarkan urutan Feature Importance sehingga memberikan gambaran sederhana mengenai alur keputusan yang digunakan model dalam membedakan kategori **Service Ringan** dan **Service Berat**.
 """)
             
             # ==========================================================
