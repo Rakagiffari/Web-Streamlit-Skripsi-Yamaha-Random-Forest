@@ -743,15 +743,15 @@ if uploaded_file is not None:
             else:
                 kualitas = "masih perlu ditingkatkan"
 
-            with st.expander("📖 Interpretasi Confusion Matrix", expanded=False):
+            with st.expander("Confusion Matrix", expanded=False):
 
                 st.markdown(f"""
-                    Sebanyak **{tn}** data **Service Ringan** berhasil diprediksi dengan benar sebagai **Service Ringan**.
-                    Sebanyak **{fp}** data **Service Ringan** diprediksi sebagai **Service Berat** sehingga termasuk kesalahan klasifikasi (*False Positive*).
-                    Sebanyak **{tp}** data **Service Berat** berhasil diprediksi dengan benar sebagai **Service Berat**.
+                    Sebanyak **{tn}** data **Service Ringan** berhasil diprediksi dengan benar sebagai **Service Ringan**, 
+                    Sebanyak **{fp}** data **Service Ringan** diprediksi sebagai **Service Berat** sehingga termasuk kesalahan klasifikasi (*False Positive*), 
+                    Sebanyak **{tp}** data **Service Berat** berhasil diprediksi dengan benar sebagai **Service Berat**, 
                     Sebanyak **{fn}** data **Service Berat** diprediksi sebagai **Service Ringan** sehingga termasuk kesalahan klasifikasi (*False Negative*).
 
----
+                    ---
 
 ### Kesimpulan
 
@@ -760,8 +760,6 @@ Nilai pada diagonal utama (**{tn}** dan **{tp}**) menunjukkan jumlah data yang b
 Berdasarkan hasil tersebut, model Random Forest memiliki kemampuan klasifikasi **{kualitas}** dengan nilai **Accuracy sebesar {accuracy:.2%}**. Hal ini menunjukkan bahwa sebagian besar data berhasil diklasifikasikan sesuai dengan kelas sebenarnya, meskipun masih terdapat sejumlah kecil kesalahan prediksi.
 
 """)
-
-            st.success("✅ Confusion Matrix berhasil dibuat.")
             
             # =====================================
             # FEATURE IMPORTANCE
