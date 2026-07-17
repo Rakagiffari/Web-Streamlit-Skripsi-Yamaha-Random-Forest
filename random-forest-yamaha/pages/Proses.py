@@ -792,84 +792,95 @@ if uploaded_file is not None:
             # ==========================================================
             # REPRESENTATIVE DECISION TREE
             # ==========================================================
-
             st.markdown("---")
             st.markdown("## 🌳 Representative Decision Tree")
 
-            col_tree, col_desc = st.columns([1.6, 1])
+            st.info("""
+Visualisasi berikut merupakan salah satu Decision Tree
+yang membentuk Random Forest.
 
-            with col_tree:
+Tree ditampilkan hingga kedalaman 3 level agar pola
+pengambilan keputusan lebih mudah dipahami.
 
-                fig_tree, ax_tree = plt.subplots(
-                    figsize=(12, 6)
-            )
+Decision Tree ini digunakan sebagai representasi proses
+klasifikasi, sedangkan keputusan akhir Random Forest
+tetap berasal dari gabungan seluruh Decision Tree.
+""")
+
+            fig_tree, ax = plt.subplots(figsize=(20,8))
 
             plot_tree(
-                decision_tree=model.estimators_[0],
+
+                model.estimators_[0],
+
                 feature_names=feature_names,
-                class_names=["Ringan", "Berat"],
+
+                class_names=["Ringan","Berat"],
+
                 filled=True,
+
                 rounded=True,
+
+                fontsize=9,
+
                 impurity=False,
+
                 proportion=True,
+
                 max_depth=3,
-                fontsize=8,
-                ax=ax_tree
+
+                ax=ax
+
             )
 
             plt.tight_layout()
 
             st.pyplot(fig_tree)
 
-            tree_path = BASE_DIR / "representative_tree.png"
+            # ==========================================================
+            # TREE ANALYSIS
+            # ==========================================================
 
-            fig_tree.savefig(
-                tree_path,
-                dpi=250,
-                bbox_inches="tight"
-            )
+            st.markdown("### 📍 Tree Analysis")
 
-            plt.close(fig_tree)
+            top1 = importance_grouped.iloc[0]["Fitur"]
+            top2 = importance_grouped.iloc[1]["Fitur"]
+            top3 = importance_grouped.iloc[2]["Fitur"]
 
-            with col_desc:
+            col1, col2 = st.columns([1.2,1])
 
-            st.markdown("### 📍 Alur Keputusan")
+            with col1:
 
-            st.success("""
-                **1. Root Node**
-                Decision Tree memulai proses klasifikasi dari node paling atas sebagai titik awal pengambilan keputusan.
-            """)
+                st.success(f"""
+### 🌲 Representative Tree
 
-            st.markdown("⬇️")
+Tree di atas merupakan salah satu Decision Tree
+yang dipelajari oleh algoritma Random Forest.
 
-            st.info("""
-                **2. Pemisahan Data**
-                Setiap node memisahkan data berdasarkan nilai suatu fitur seperti Kilometer, Indikasi, Jenis, maupun Usia Motor.
-            """)
+Node pada bagian paling atas (root node)
+menunjukkan fitur pertama yang digunakan
+untuk memisahkan data.
 
-            st.markdown("⬇️")
+Selanjutnya Decision Tree melakukan
+pemisahan data secara bertahap
+hingga menghasilkan prediksi kategori service.
+""")
 
-            st.info("""
-                **3. Percabangan**
+            with col2:
 
-                Data akan mengikuti cabang kiri atau kanan sesuai hasil pengujian pada setiap node.
-            """)
+                st.info(f"""
+### ⭐ Feature Dominan
 
-            st.markdown("⬇️")
+🥇 **{top1}**
 
-            st.info("""
-                **4. Leaf Node**
+🥈 **{top2}**
 
-                Node terakhir menghasilkan prediksi Service Ringan atau Service Berat dari satu Decision Tree.
-            """)
+🥉 **{top3}**
 
-            st.markdown("⬇️")
-
-            st.success("""
-                **5. Majority Voting**
-
-                Prediksi akhir Random Forest diperoleh dari hasil voting seluruh Decision Tree sehingga hasil klasifikasi menjadi lebih stabil.
-            """)
+Ketiga fitur tersebut merupakan
+fitur yang paling sering dimanfaatkan
+oleh Random Forest.
+""")
 
             # ==========================================================
             # INSIGHT
