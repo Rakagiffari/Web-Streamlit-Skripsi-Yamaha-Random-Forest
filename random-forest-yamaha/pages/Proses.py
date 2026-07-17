@@ -750,16 +750,13 @@ if uploaded_file is not None:
                     Sebanyak **{fp}** data **Service Ringan** diprediksi sebagai **Service Berat** sehingga termasuk kesalahan klasifikasi (*False Positive*), 
                     Sebanyak **{tp}** data **Service Berat** berhasil diprediksi dengan benar sebagai **Service Berat**, 
                     Sebanyak **{fn}** data **Service Berat** diprediksi sebagai **Service Ringan** sehingga termasuk kesalahan klasifikasi (*False Negative*).
-
-                    ---
-
-### Kesimpulan
-
-Nilai pada diagonal utama (**{tn}** dan **{tp}**) menunjukkan jumlah data yang berhasil diklasifikasikan dengan benar, sedangkan nilai di luar diagonal (**{fp}** dan **{fn}**) menunjukkan jumlah kesalahan prediksi yang dilakukan oleh model.
-
-Berdasarkan hasil tersebut, model Random Forest memiliki kemampuan klasifikasi **{kualitas}** dengan nilai **Accuracy sebesar {accuracy:.2%}**. Hal ini menunjukkan bahwa sebagian besar data berhasil diklasifikasikan sesuai dengan kelas sebenarnya, meskipun masih terdapat sejumlah kecil kesalahan prediksi.
-
-""")
+                    """)
+                st.markdown("---")              
+                st.markdown(f"""
+                    ### Kesimpulan
+                    Nilai pada diagonal utama (**{tn}** dan **{tp}**) menunjukkan jumlah data yang berhasil diklasifikasikan dengan benar, sedangkan nilai di luar diagonal (**{fp}** dan **{fn}**) menunjukkan jumlah kesalahan prediksi yang dilakukan oleh model.
+                    Berdasarkan hasil tersebut, model Random Forest memiliki kemampuan klasifikasi **{kualitas}** dengan nilai **Accuracy sebesar {accuracy:.2%}**. Hal ini menunjukkan bahwa sebagian besar data berhasil diklasifikasikan sesuai dengan kelas sebenarnya, meskipun masih terdapat sejumlah kecil kesalahan prediksi.
+                """)
             
             # =====================================
             # FEATURE IMPORTANCE
