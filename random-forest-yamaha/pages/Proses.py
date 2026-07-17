@@ -607,36 +607,6 @@ if uploaded_file is not None:
             )
 
             # =====================================
-            # METRICS
-            # =====================================
-
-            st.markdown(
-                "## 📈 Hasil Evaluasi"
-            )
-
-            c1, c2, c3, c4 = st.columns(4)
-
-            c1.metric(
-                "Accuracy",
-                f"{accuracy:.2%}"
-            )
-
-            c2.metric(
-                "Precision",
-                f"{precision:.2%}"
-            )
-
-            c3.metric(
-                "Recall",
-                f"{recall:.2%}"
-            )
-
-            c4.metric(
-                "F1 Score",
-                f"{f1:.2%}"
-            )
-
-                        # =====================================
             # CLASSIFICATION REPORT
             # =====================================
 
