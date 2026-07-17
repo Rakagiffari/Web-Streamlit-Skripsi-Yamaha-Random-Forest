@@ -658,11 +658,9 @@ if uploaded_file is not None:
 
                 st.code(report)
             
-                        # =====================================
+            # =====================================
             # CONFUSION MATRIX
             # =====================================
-
-            st.markdown("## 📉 Confusion Matrix")
 
             # Membuat visualisasi confusion matrix
             fig2, ax2 = plt.subplots(
@@ -680,7 +678,6 @@ if uploaded_file is not None:
                 yticklabels=["Ringan", "Berat"],
                 annot_kws={
                     "size": 12,
-                    "weight": "bold"
                 },
                 linewidths=0.5,
                 linecolor="white",
@@ -691,7 +688,6 @@ if uploaded_file is not None:
             ax2.set_title(
                 "Confusion Matrix",
                 fontsize=12,
-                fontweight="bold"
             )
 
             ax2.set_xlabel(
