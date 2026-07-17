@@ -789,90 +789,87 @@ if uploaded_file is not None:
                 use_container_width=True
             )
             
-           # ==========================================================
-# REPRESENT==========
-# REPRESENTATIVE DECISION TREE
-# ==========================================================
+            # ==========================================================
+            # REPRESENTATIVE DECISION TREE
+            # ==========================================================
 
-st.markdown("---")
-st.markdown("## 🌳 Representative Decision Tree")
+            st.markdown("---")
+            st.markdown("## 🌳 Representative Decision Tree")
 
-col_tree, col_desc = st.columns([1.6, 1])
+            col_tree, col_desc = st.columns([1.6, 1])
 
-with col_tree:
+            with col_tree:
 
-    fig_tree, ax_tree = plt.subplots(
-        figsize=(12, 6)
-    )
+                fig_tree, ax_tree = plt.subplots(
+                    figsize=(12, 6)
+            )
 
-    plot_tree(
-        decision_tree=model.estimators_[0],
-        feature_names=feature_names,
-        class_names=["Ringan", "Berat"],
-        filled=True,
-        rounded=True,
-        impurity=False,
-        proportion=True,
-        max_depth=3,
-        fontsize=8,
-        ax=ax_tree
-    )
+            plot_tree(
+                decision_tree=model.estimators_[0],
+                feature_names=feature_names,
+                class_names=["Ringan", "Berat"],
+                filled=True,
+                rounded=True,
+                impurity=False,
+                proportion=True,
+                max_depth=3,
+                fontsize=8,
+                ax=ax_tree
+            )
 
-    plt.tight_layout()
+            plt.tight_layout()
 
-    st.pyplot(fig_tree)
+            st.pyplot(fig_tree)
 
-    tree_path = BASE_DIR / "representative_tree.png"
+            tree_path = BASE_DIR / "representative_tree.png"
 
-    fig_tree.savefig(
-        tree_path,
-        dpi=250,
-        bbox_inches="tight"
-    )
+            fig_tree.savefig(
+                tree_path,
+                dpi=250,
+                bbox_inches="tight"
+            )
 
-    plt.close(fig_tree)
+            plt.close(fig_tree)
 
-with col_desc:
+            with col_desc:
 
-    st.markdown("### 📍 Alur Keputusan")
+            st.markdown("### 📍 Alur Keputusan")
 
-    st.success("""
-**1. Root Node**
+            st.success("""
+                **1. Root Node**
+                Decision Tree memulai proses klasifikasi dari node paling atas sebagai titik awal pengambilan keputusan.
+            """)
 
-Decision Tree memulai proses klasifikasi dari node paling atas sebagai titik awal pengambilan keputusan.
-""")
+            st.markdown("⬇️")
 
-    st.markdown("⬇️")
+            st.info("""
+                **2. Pemisahan Data**
+                Setiap node memisahkan data berdasarkan nilai suatu fitur seperti Kilometer, Indikasi, Jenis, maupun Usia Motor.
+            """)
 
-    st.info("""
-**2. Pemisahan Data**
+            st.markdown("⬇️")
 
-Setiap node memisahkan data berdasarkan nilai suatu fitur seperti Kilometer, Indikasi, Jenis, maupun Usia Motor.
-""")
+            st.info("""
+                **3. Percabangan**
 
-    st.markdown("⬇️")
+                Data akan mengikuti cabang kiri atau kanan sesuai hasil pengujian pada setiap node.
+            """)
 
-    st.info("""
-**3. Percabangan**
+            st.markdown("⬇️")
 
-Data akan mengikuti cabang kiri atau kanan sesuai hasil pengujian pada setiap node.
-""")
+            st.info("""
+                **4. Leaf Node**
 
-    st.markdown("⬇️")
+                Node terakhir menghasilkan prediksi Service Ringan atau Service Berat dari satu Decision Tree.
+            """)
 
-    st.info("""
-**4. Leaf Node**
+            st.markdown("⬇️")
 
-Node terakhir menghasilkan prediksi Service Ringan atau Service Berat dari satu Decision Tree.
-""")
+            st.success("""
+                **5. Majority Voting**
 
-    st.markdown("⬇️")
-
-    st.success("""
-**5. Majority Voting**
-
-Prediksi akhir Random Forest diperoleh dari hasil voting seluruh Decision Tree sehingga hasil klasifikasi menjadi lebih stabil.
-""")
+                Prediksi akhir Random Forest diperoleh dari hasil voting seluruh Decision Tree sehingga hasil klasifikasi menjadi lebih stabil.
+            """)
 
             # ==========================================================
             # INSIGHT
