@@ -753,188 +753,6 @@ if uploaded_file is not None:
                     Sebanyak **{fn}** data **Service Berat** diprediksi sebagai **Service Ringan** sehingga termasuk kesalahan klasifikasi (*False Negative*).
                     """)
 
-            # ==========================================================
-# REPRESENTATIVE DECISION TREE
-# ==========================================================
-
-st.markdown("---")
-st.markdown("## 🌳 Representative Decision Tree")
-
-col_tree, col_info = st.columns([1.35, 1])
-
-with col_tree:
-
-    fig, ax = plt.subplots(figsize=(7, 8))
-    ax.set_xlim(0, 10)
-    ax.set_ylim(0, 12)
-    ax.axis("off")
-
-    def draw_box(x, y, text,
-                 color="#FFFFFF",
-                 edge="#1f2937"):
-
-        box = FancyBboxPatch(
-            (x-1.2, y-0.35),
-            2.4,
-            0.7,
-            boxstyle="round,pad=0.05",
-            linewidth=2,
-            edgecolor=edge,
-            facecolor=color
-        )
-
-        ax.add_patch(box)
-
-        ax.text(
-            x,
-            y,
-            text,
-            ha="center",
-            va="center",
-            fontsize=10,
-            weight="bold"
-        )
-
-
-    # ================= ROOT =================
-
-    draw_box(
-        5,
-        11,
-        "Mulai",
-        "#E3F2FD"
-    )
-
-    ax.annotate(
-        "",
-        (5,10.4),
-        (5,10.8),
-        arrowprops=dict(arrowstyle="->",lw=2)
-    )
-
-    # ================= NODE 1 =================
-
-    draw_box(
-        5,
-        9.8,
-        "Indikasi\nMesin ?",
-        "#FFF3CD"
-    )
-
-    ax.plot([5,3],[9.45,8.2],lw=2)
-    ax.plot([5,7],[9.45,8.2],lw=2)
-
-    ax.text(3.4,8.8,"Ya",fontsize=9)
-    ax.text(6.2,8.8,"Tidak",fontsize=9)
-
-    # ================= NODE 2 =================
-
-    draw_box(
-        3,
-        7.5,
-        "Kilometer\n>20.000",
-        "#FFF3CD"
-    )
-
-    draw_box(
-        7,
-        7.5,
-        "Service\nRingan",
-        "#D4EDDA",
-        "#28A745"
-    )
-
-    ax.plot([3,2],[7.1,5.7],lw=2)
-    ax.plot([3,4],[7.1,5.7],lw=2)
-
-    ax.text(2.2,6.4,"Ya",fontsize=9)
-    ax.text(3.7,6.4,"Tidak",fontsize=9)
-
-    # ================= NODE 3 =================
-
-    draw_box(
-        2,
-        5,
-        "Service\nBerat",
-        "#F8D7DA",
-        "#DC3545"
-    )
-
-    draw_box(
-        4,
-        5,
-        "Usia Motor\n>5 Tahun",
-        "#FFF3CD"
-    )
-
-    ax.plot([4,3],[4.65,3.3],lw=2)
-    ax.plot([4,5],[4.65,3.3],lw=2)
-
-    ax.text(3.2,4.0,"Ya",fontsize=9)
-    ax.text(4.6,4.0,"Tidak",fontsize=9)
-
-    draw_box(
-        3,
-        2.5,
-        "Service\nBerat",
-        "#F8D7DA",
-        "#DC3545"
-    )
-
-    draw_box(
-        5,
-        2.5,
-        "Service\nRingan",
-        "#D4EDDA",
-        "#28A745"
-    )
-
-    plt.tight_layout()
-
-    st.pyplot(fig)
-
-    plt.close(fig)
-
-# ==========================================================
-# PENJELASAN
-# ==========================================================
-
-with col_info:
-
-    st.markdown("### 📍 Alur Keputusan")
-
-    st.write("**1. Mulai**")
-    st.write(
-        "Model menerima data kendaraan yang akan diproses."
-    )
-
-    st.markdown("⬇️")
-
-    st.write("**2. Indikasi Kerusakan**")
-    st.write(
-        "Model terlebih dahulu memeriksa apakah indikasi kerusakan berada pada bagian mesin."
-    )
-
-    st.markdown("⬇️")
-
-    st.write("**3. Kilometer**")
-    st.write(
-        "Jika kondisi sebelumnya terpenuhi, model mengevaluasi jumlah kilometer kendaraan."
-    )
-
-    st.markdown("⬇️")
-
-    st.write("**4. Usia Motor**")
-    st.write(
-        "Selanjutnya model mempertimbangkan usia kendaraan untuk memperkuat keputusan."
-    )
-
-    st.markdown("⬇️")
-
-    st.success(
-        "Berdasarkan seluruh proses tersebut, model menghasilkan prediksi Service Ringan atau Service Berat."
-    )
-                
             # =====================================
             # FEATURE IMPORTANCE
             # =====================================
@@ -972,96 +790,101 @@ with col_info:
             )
             
             # ==========================================================
-            # REPRESENTATIVE DECISION TREE
-            # ==========================================================
-            st.markdown("---")
-            st.markdown("## 🌳 Representative Decision Tree")
+# REPRESENTATIVE DECISION TREE
+# ==========================================================
 
-            st.info("""
-Visualisasi berikut merupakan salah satu Decision Tree
-yang membentuk Random Forest.
+st.markdown("---")
+st.markdown("## 🌳 Representative Decision Tree")
 
-Tree ditampilkan hingga kedalaman 3 level agar pola
-pengambilan keputusan lebih mudah dipahami.
+left, right = st.columns([1.45, 1])
 
-Decision Tree ini digunakan sebagai representasi proses
-klasifikasi, sedangkan keputusan akhir Random Forest
-tetap berasal dari gabungan seluruh Decision Tree.
+# ==========================================================
+# GAMBAR TREE
+# ==========================================================
+
+with left:
+
+    fig_tree, ax = plt.subplots(
+        figsize=(9, 5),
+        dpi=140
+    )
+
+    plot_tree(
+        model.estimators_[0],
+        feature_names=feature_names,
+        class_names=["Ringan", "Berat"],
+        filled=True,
+        rounded=True,
+        impurity=False,
+        proportion=True,
+        max_depth=3,
+        fontsize=8,
+        ax=ax
+    )
+
+    plt.tight_layout()
+
+    st.pyplot(
+        fig_tree,
+        use_container_width=True
+    )
+
+    tree_path = BASE_DIR / "representative_tree.png"
+
+    fig_tree.savefig(
+        tree_path,
+        dpi=300,
+        bbox_inches="tight"
+    )
+
+    plt.close(fig_tree)
+
+# ==========================================================
+# PENJELASAN
+# ==========================================================
+
+with right:
+
+    st.markdown("### 📍 Alur Representative Tree")
+
+    st.success("""
+**1. Root Node**
+
+Decision Tree memulai proses klasifikasi dari node paling atas sebagai titik awal pengambilan keputusan.
 """)
 
-            fig_tree, ax = plt.subplots(figsize=(20,8))
+    st.markdown("⬇️")
 
-            plot_tree(
+    st.info("""
+**2. Pemisahan Data**
 
-                model.estimators_[0],
-
-                feature_names=feature_names,
-
-                class_names=["Ringan","Berat"],
-
-                filled=True,
-
-                rounded=True,
-
-                fontsize=9,
-
-                impurity=False,
-
-                proportion=True,
-
-                max_depth=3,
-
-                ax=ax
-
-            )
-
-            plt.tight_layout()
-
-            st.pyplot(fig_tree)
-
-            # ==========================================================
-            # TREE ANALYSIS
-            # ==========================================================
-
-            st.markdown("### 📍 Tree Analysis")
-
-            top1 = importance_grouped.iloc[0]["Fitur"]
-            top2 = importance_grouped.iloc[1]["Fitur"]
-            top3 = importance_grouped.iloc[2]["Fitur"]
-
-            col1, col2 = st.columns([1.2,1])
-
-            with col1:
-
-                st.success(f"""
-### 🌲 Representative Tree
-
-Tree di atas merupakan salah satu Decision Tree
-yang dipelajari oleh algoritma Random Forest.
-
-Node pada bagian paling atas (root node)
-menunjukkan fitur pertama yang digunakan
-untuk memisahkan data.
-
-Selanjutnya Decision Tree melakukan
-pemisahan data secara bertahap
-hingga menghasilkan prediksi kategori service.
+Setiap node membagi data berdasarkan nilai fitur tertentu, misalnya Kilometer, Indikasi, atau Usia Motor.
 """)
 
-            with col2:
+    st.markdown("⬇️")
 
-                st.info(f"""
-### ⭐ Feature Dominan
+    st.info("""
+**3. Cabang Keputusan**
 
-🥇 **{top1}**
+Setiap percabangan menunjukkan hasil pengujian suatu kondisi hingga data bergerak ke node berikutnya.
+""")
 
-🥈 **{top2}**
+    st.markdown("⬇️")
 
-🥉 **{top3}**
+    st.info("""
+**4. Leaf Node**
 
-Ketiga fitur tersebut merupakan
-fitur yang paling sering dimanfaatkan
-oleh Random Forest.
+Node terakhir merupakan hasil klasifikasi sementara yang dihasilkan oleh satu Decision Tree.
+""")
+
+    st.markdown("⬇️")
+
+    st.success("""
+**5. Majority Voting**
+
+Random Forest tidak menggunakan satu pohon saja.
+
+Prediksi akhir diperoleh dari hasil voting seluruh Decision Tree sehingga menghasilkan klasifikasi yang lebih stabil dan akurat.
 """)
 
             # ==========================================================
