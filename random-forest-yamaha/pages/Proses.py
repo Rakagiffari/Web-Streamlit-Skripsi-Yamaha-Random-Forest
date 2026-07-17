@@ -372,8 +372,6 @@ if uploaded_file is not None:
         # FEATURE ENGINEERING
         # =====================================
 
-        st.markdown("<br>", unsafe_allow_html=True)
-        
         # Salinan dataset hanya untuk visualisasi
         feature_df = df.copy()
 
