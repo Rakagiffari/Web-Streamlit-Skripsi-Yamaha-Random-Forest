@@ -658,25 +658,28 @@ if uploaded_file is not None:
 
                 st.code(report)
             
-            # =====================================
+                        # =====================================
             # CONFUSION MATRIX
             # =====================================
 
-            st.markdown(
-                "## 📉 Confusion Matrix"
-            )
+            st.markdown("## 📉 Confusion Matrix")
 
-            fig2, ax2 = plt.subplots(
-                figsize=(5,4)
-            )
+            fig2, ax2 = plt.subplots(figsize=(5, 4))
 
             sns.heatmap(
                 matrix,
                 annot=True,
                 fmt="d",
                 cmap="Reds",
+                cbar=False,
+                xticklabels=["Ringan", "Berat"],
+                yticklabels=["Ringan", "Berat"],
                 ax=ax2
             )
+
+            ax2.set_xlabel("Prediksi")
+            ax2.set_ylabel("Aktual")
+            ax2.set_title("Confusion Matrix")
 
             st.pyplot(fig2)
 
@@ -690,6 +693,49 @@ if uploaded_file is not None:
                 bbox_inches="tight"
             )
 
+            # =====================================
+            # INTERPRETASI CONFUSION MATRIX
+            # =====================================
+
+            tn, fp, fn, tp = matrix.ravel()
+
+            if accuracy >= 0.90:
+                kualitas = "sangat baik"
+
+            elif accuracy >= 0.80:
+                kualitas = "baik"
+
+            elif accuracy >= 0.70:
+                kualitas = "cukup baik"
+
+            else:
+                kualitas = "masih perlu ditingkatkan"
+
+            with st.expander("📖 Interpretasi Confusion Matrix", expanded=False):
+
+                st.markdown(f"""
+
+Berdasarkan hasil **Confusion Matrix**, model Random Forest menghasilkan performa klasifikasi sebagai berikut.
+
+- ✅ Sebanyak **{tn}** data **Service Ringan** berhasil diprediksi dengan benar sebagai **Service Ringan**.
+
+- ❌ Sebanyak **{fp}** data **Service Ringan** diprediksi sebagai **Service Berat** sehingga termasuk kesalahan klasifikasi (*False Positive*).
+
+- ✅ Sebanyak **{tp}** data **Service Berat** berhasil diprediksi dengan benar sebagai **Service Berat**.
+
+- ❌ Sebanyak **{fn}** data **Service Berat** diprediksi sebagai **Service Ringan** sehingga termasuk kesalahan klasifikasi (*False Negative*).
+
+---
+
+### Kesimpulan
+
+Nilai pada diagonal utama (**{tn}** dan **{tp}**) menunjukkan jumlah data yang berhasil diklasifikasikan dengan benar, sedangkan nilai di luar diagonal (**{fp}** dan **{fn}**) menunjukkan jumlah kesalahan prediksi yang dilakukan oleh model.
+
+Berdasarkan hasil tersebut, model Random Forest memiliki kemampuan klasifikasi **{kualitas}** dengan nilai **Accuracy sebesar {accuracy:.2%}**. Hal ini menunjukkan bahwa sebagian besar data berhasil diklasifikasikan sesuai dengan kelas sebenarnya, meskipun masih terdapat sejumlah kecil kesalahan prediksi.
+
+""")
+
+            st.success("✅ Confusion Matrix berhasil dibuat.")
             # =====================================
             # FEATURE IMPORTANCE
             # =====================================
