@@ -479,6 +479,11 @@ if uploaded_file is not None:
         # =====================================
 
         st.markdown("---")
+        st.markdown("""
+            <div class="training-caption">
+                Tekan tombol berikut untuk melatih model Random Forest menggunakan dataset yang telah diproses.
+            </div>
+        """, unsafe_allow_html=True)
 
         col1, col2, col3 = st.columns([1, 2, 1])
 
