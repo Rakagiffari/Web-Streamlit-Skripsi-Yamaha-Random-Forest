@@ -480,7 +480,13 @@ if uploaded_file is not None:
 
         st.markdown("---")
         st.markdown("""
-            <div class="training-caption">
+            <div style="
+                text-align:center;
+                color:#9ca3af;
+                font-size:14px;
+                margin-top:-8px;
+                margin-bottom:20px;
+            ">
                 Tekan tombol berikut untuk melatih model Random Forest menggunakan dataset yang telah diproses.
             </div>
         """, unsafe_allow_html=True)
