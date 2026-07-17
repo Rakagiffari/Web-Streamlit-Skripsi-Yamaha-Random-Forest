@@ -916,22 +916,6 @@ if uploaded_file is not None:
             # REPRESENTATIVE DECISION TREE
             # ==========================================================
 
-            st.markdown("---")
-            st.markdown("## 🌳 Representative Decision Tree")
-
-            st.info("""
-Visualisasi berikut merupakan salah satu Decision Tree
-yang membentuk algoritma Random Forest.
-
-Tree ditampilkan hingga kedalaman 3 level agar pola
-pengambilan keputusan lebih mudah dipahami.
-
-Representative Decision Tree digunakan sebagai
-gambaran proses klasifikasi, sedangkan keputusan akhir
-tetap berasal dari gabungan seluruh Decision Tree
-melalui mekanisme Majority Voting.
-            """)
-
             representative_tree = model.estimators_[0]
 
             fig_tree, ax_tree = plt.subplots(
