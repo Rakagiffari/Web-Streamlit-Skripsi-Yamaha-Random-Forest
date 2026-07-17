@@ -664,7 +664,7 @@ if uploaded_file is not None:
 
             st.markdown("## 📉 Confusion Matrix")
 
-            fig2, ax2 = plt.subplots(figsize=(5, 4))
+            fig2, ax2 = plt.subplots(figsize=(3.8, 3.2))
 
             sns.heatmap(
                 matrix,
