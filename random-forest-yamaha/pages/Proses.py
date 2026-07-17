@@ -751,6 +751,188 @@ if uploaded_file is not None:
                     Sebanyak **{tp}** data **Service Berat** berhasil diprediksi dengan benar sebagai **Service Berat**, 
                     Sebanyak **{fn}** data **Service Berat** diprediksi sebagai **Service Ringan** sehingga termasuk kesalahan klasifikasi (*False Negative*).
                     """)
+
+            # ==========================================================
+# REPRESENTATIVE DECISION TREE
+# ==========================================================
+
+st.markdown("---")
+st.markdown("## 🌳 Representative Decision Tree")
+
+col_tree, col_info = st.columns([1.2, 1])
+
+# ==========================================================
+# GAMBAR TREE
+# ==========================================================
+
+with col_tree:
+
+    fig, ax = plt.subplots(figsize=(6, 7))
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 12)
+    ax.axis("off")
+
+    box = dict(
+        boxstyle="round,pad=0.5",
+        fc="#f8fafc",
+        ec="#1f2937",
+        lw=2
+    )
+
+    yes_box = dict(
+        boxstyle="round,pad=0.5",
+        fc="#dcfce7",
+        ec="#16a34a",
+        lw=2
+    )
+
+    no_box = dict(
+        boxstyle="round,pad=0.5",
+        fc="#fee2e2",
+        ec="#dc2626",
+        lw=2
+    )
+
+    # Root
+    ax.text(
+        5,11,
+        "🚗 Mulai",
+        ha="center",
+        bbox=box
+    )
+
+    ax.annotate(
+        "",
+        xy=(5,10.4),
+        xytext=(5,10.8),
+        arrowprops=dict(arrowstyle="->",lw=2)
+    )
+
+    # Node 1
+    ax.text(
+        5,9.8,
+        "Indikasi\n= Mesin ?",
+        ha="center",
+        bbox=box
+    )
+
+    # Cabang
+    ax.plot([5,3],[9.3,8],lw=2)
+    ax.plot([5,7],[9.3,8],lw=2)
+
+    ax.text(3.4,8.8,"Ya",fontsize=10)
+    ax.text(6.3,8.8,"Tidak",fontsize=10)
+
+    # Node kiri
+    ax.text(
+        3,
+        7.4,
+        "Km > 20.000 ?",
+        ha="center",
+        bbox=box
+    )
+
+    # Node kanan
+    ax.text(
+        7,
+        7.4,
+        "Service\nRingan",
+        ha="center",
+        bbox=yes_box
+    )
+
+    # Cabang kiri
+    ax.plot([3,2],[7,5.6],lw=2)
+    ax.plot([3,4],[7,5.6],lw=2)
+
+    ax.text(2.2,6.4,"Ya",fontsize=9)
+    ax.text(3.6,6.4,"Tidak",fontsize=9)
+
+    ax.text(
+        2,
+        5,
+        "Service\nBerat",
+        ha="center",
+        bbox=no_box
+    )
+
+    ax.text(
+        4,
+        5,
+        "Usia Motor\n> 5 Tahun ?",
+        ha="center",
+        bbox=box
+    )
+
+    ax.plot([4,3],[4.6,3.2],lw=2)
+    ax.plot([4,5],[4.6,3.2],lw=2)
+
+    ax.text(3.1,4.0,"Ya",fontsize=9)
+    ax.text(4.6,4.0,"Tidak",fontsize=9)
+
+    ax.text(
+        3,
+        2.4,
+        "Service\nBerat",
+        ha="center",
+        bbox=no_box
+    )
+
+    ax.text(
+        5,
+        2.4,
+        "Service\nRingan",
+        ha="center",
+        bbox=yes_box
+    )
+
+    st.pyplot(fig)
+
+# ==========================================================
+# PENJELASAN
+# ==========================================================
+
+with col_info:
+
+    st.markdown("### 📍 Alur Keputusan")
+
+    st.info("""
+🚗 **Mulai**
+
+Model mulai melakukan proses klasifikasi dari root node.
+""")
+
+    st.markdown("⬇️")
+
+    st.info("""
+🔧 **Indikasi Kerusakan**
+
+Model terlebih dahulu memeriksa apakah indikasi kerusakan berada pada bagian mesin.
+""")
+
+    st.markdown("⬇️")
+
+    st.info("""
+📏 **Kilometer**
+
+Apabila kondisi sebelumnya terpenuhi, model kemudian mengevaluasi total kilometer kendaraan.
+""")
+
+    st.markdown("⬇️")
+
+    st.info("""
+📅 **Usia Motor**
+
+Selanjutnya model mempertimbangkan usia kendaraan sebagai faktor tambahan.
+""")
+
+    st.markdown("⬇️")
+
+    st.success("""
+✅ **Prediksi**
+
+Berdasarkan seluruh keputusan tersebut, model menghasilkan prediksi **Service Ringan** atau **Service Berat**.
+""")
                 
             # =====================================
             # FEATURE IMPORTANCE
