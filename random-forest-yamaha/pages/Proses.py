@@ -9,6 +9,7 @@ from pathlib import Path
 
 from utils.preprocessing import preprocess_data
 from utils.training import train_model
+from matplotlib.patches import FancyBboxPatch
 from sklearn.tree import plot_tree
 from utils.report import generate_pdf
 
@@ -759,134 +760,140 @@ if uploaded_file is not None:
 st.markdown("---")
 st.markdown("## 🌳 Representative Decision Tree")
 
-col_tree, col_info = st.columns([1.2, 1])
-
-# ==========================================================
-# GAMBAR TREE
-# ==========================================================
+col_tree, col_info = st.columns([1.35, 1])
 
 with col_tree:
 
-    fig, ax = plt.subplots(figsize=(6, 7))
+    fig, ax = plt.subplots(figsize=(7, 8))
     ax.set_xlim(0, 10)
     ax.set_ylim(0, 12)
     ax.axis("off")
 
-    box = dict(
-        boxstyle="round,pad=0.5",
-        fc="#f8fafc",
-        ec="#1f2937",
-        lw=2
-    )
+    def draw_box(x, y, text,
+                 color="#FFFFFF",
+                 edge="#1f2937"):
 
-    yes_box = dict(
-        boxstyle="round,pad=0.5",
-        fc="#dcfce7",
-        ec="#16a34a",
-        lw=2
-    )
+        box = FancyBboxPatch(
+            (x-1.2, y-0.35),
+            2.4,
+            0.7,
+            boxstyle="round,pad=0.05",
+            linewidth=2,
+            edgecolor=edge,
+            facecolor=color
+        )
 
-    no_box = dict(
-        boxstyle="round,pad=0.5",
-        fc="#fee2e2",
-        ec="#dc2626",
-        lw=2
-    )
+        ax.add_patch(box)
 
-    # Root
-    ax.text(
-        5,11,
-        "🚗 Mulai",
-        ha="center",
-        bbox=box
+        ax.text(
+            x,
+            y,
+            text,
+            ha="center",
+            va="center",
+            fontsize=10,
+            weight="bold"
+        )
+
+
+    # ================= ROOT =================
+
+    draw_box(
+        5,
+        11,
+        "Mulai",
+        "#E3F2FD"
     )
 
     ax.annotate(
         "",
-        xy=(5,10.4),
-        xytext=(5,10.8),
+        (5,10.4),
+        (5,10.8),
         arrowprops=dict(arrowstyle="->",lw=2)
     )
 
-    # Node 1
-    ax.text(
-        5,9.8,
-        "Indikasi\n= Mesin ?",
-        ha="center",
-        bbox=box
+    # ================= NODE 1 =================
+
+    draw_box(
+        5,
+        9.8,
+        "Indikasi\nMesin ?",
+        "#FFF3CD"
     )
 
-    # Cabang
-    ax.plot([5,3],[9.3,8],lw=2)
-    ax.plot([5,7],[9.3,8],lw=2)
+    ax.plot([5,3],[9.45,8.2],lw=2)
+    ax.plot([5,7],[9.45,8.2],lw=2)
 
-    ax.text(3.4,8.8,"Ya",fontsize=10)
-    ax.text(6.3,8.8,"Tidak",fontsize=10)
+    ax.text(3.4,8.8,"Ya",fontsize=9)
+    ax.text(6.2,8.8,"Tidak",fontsize=9)
 
-    # Node kiri
-    ax.text(
+    # ================= NODE 2 =================
+
+    draw_box(
         3,
-        7.4,
-        "Km > 20.000 ?",
-        ha="center",
-        bbox=box
+        7.5,
+        "Kilometer\n>20.000",
+        "#FFF3CD"
     )
 
-    # Node kanan
-    ax.text(
+    draw_box(
         7,
-        7.4,
+        7.5,
         "Service\nRingan",
-        ha="center",
-        bbox=yes_box
+        "#D4EDDA",
+        "#28A745"
     )
 
-    # Cabang kiri
-    ax.plot([3,2],[7,5.6],lw=2)
-    ax.plot([3,4],[7,5.6],lw=2)
+    ax.plot([3,2],[7.1,5.7],lw=2)
+    ax.plot([3,4],[7.1,5.7],lw=2)
 
     ax.text(2.2,6.4,"Ya",fontsize=9)
-    ax.text(3.6,6.4,"Tidak",fontsize=9)
+    ax.text(3.7,6.4,"Tidak",fontsize=9)
 
-    ax.text(
+    # ================= NODE 3 =================
+
+    draw_box(
         2,
         5,
         "Service\nBerat",
-        ha="center",
-        bbox=no_box
+        "#F8D7DA",
+        "#DC3545"
     )
 
-    ax.text(
+    draw_box(
         4,
         5,
-        "Usia Motor\n> 5 Tahun ?",
-        ha="center",
-        bbox=box
+        "Usia Motor\n>5 Tahun",
+        "#FFF3CD"
     )
 
-    ax.plot([4,3],[4.6,3.2],lw=2)
-    ax.plot([4,5],[4.6,3.2],lw=2)
+    ax.plot([4,3],[4.65,3.3],lw=2)
+    ax.plot([4,5],[4.65,3.3],lw=2)
 
-    ax.text(3.1,4.0,"Ya",fontsize=9)
+    ax.text(3.2,4.0,"Ya",fontsize=9)
     ax.text(4.6,4.0,"Tidak",fontsize=9)
 
-    ax.text(
+    draw_box(
         3,
-        2.4,
+        2.5,
         "Service\nBerat",
-        ha="center",
-        bbox=no_box
+        "#F8D7DA",
+        "#DC3545"
     )
 
-    ax.text(
+    draw_box(
         5,
-        2.4,
+        2.5,
         "Service\nRingan",
-        ha="center",
-        bbox=yes_box
+        "#D4EDDA",
+        "#28A745"
     )
+
+    plt.tight_layout()
 
     st.pyplot(fig)
+
+    plt.close(fig)
 
 # ==========================================================
 # PENJELASAN
@@ -896,43 +903,37 @@ with col_info:
 
     st.markdown("### 📍 Alur Keputusan")
 
-    st.info("""
-🚗 **Mulai**
-
-Model mulai melakukan proses klasifikasi dari root node.
-""")
-
-    st.markdown("⬇️")
-
-    st.info("""
-🔧 **Indikasi Kerusakan**
-
-Model terlebih dahulu memeriksa apakah indikasi kerusakan berada pada bagian mesin.
-""")
+    st.write("**1. Mulai**")
+    st.write(
+        "Model menerima data kendaraan yang akan diproses."
+    )
 
     st.markdown("⬇️")
 
-    st.info("""
-📏 **Kilometer**
-
-Apabila kondisi sebelumnya terpenuhi, model kemudian mengevaluasi total kilometer kendaraan.
-""")
-
-    st.markdown("⬇️")
-
-    st.info("""
-📅 **Usia Motor**
-
-Selanjutnya model mempertimbangkan usia kendaraan sebagai faktor tambahan.
-""")
+    st.write("**2. Indikasi Kerusakan**")
+    st.write(
+        "Model terlebih dahulu memeriksa apakah indikasi kerusakan berada pada bagian mesin."
+    )
 
     st.markdown("⬇️")
 
-    st.success("""
-✅ **Prediksi**
+    st.write("**3. Kilometer**")
+    st.write(
+        "Jika kondisi sebelumnya terpenuhi, model mengevaluasi jumlah kilometer kendaraan."
+    )
 
-Berdasarkan seluruh keputusan tersebut, model menghasilkan prediksi **Service Ringan** atau **Service Berat**.
-""")
+    st.markdown("⬇️")
+
+    st.write("**4. Usia Motor**")
+    st.write(
+        "Selanjutnya model mempertimbangkan usia kendaraan untuk memperkuat keputusan."
+    )
+
+    st.markdown("⬇️")
+
+    st.success(
+        "Berdasarkan seluruh proses tersebut, model menghasilkan prediksi Service Ringan atau Service Berat."
+    )
                 
             # =====================================
             # FEATURE IMPORTANCE
