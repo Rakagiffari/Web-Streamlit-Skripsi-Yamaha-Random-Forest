@@ -983,52 +983,6 @@ melalui mekanisme Majority Voting.
             plt.close(fig_tree)
 
             # ==========================================================
-            # TREE ANALYSIS
-            # ==========================================================
-
-            st.markdown("### 📍 Tree Analysis")
-
-            top1 = importance_grouped.iloc[0]["Fitur"]
-            top2 = importance_grouped.iloc[1]["Fitur"]
-            top3 = importance_grouped.iloc[2]["Fitur"]
-
-            col_left, col_right = st.columns([1.4, 1])
-
-            with col_left:
-
-                st.success(f"""
-### 🌲 Representative Tree
-
-Representative Decision Tree di atas merupakan
-salah satu pohon yang dipelajari oleh algoritma
-Random Forest.
-
-Node paling atas (root node) merupakan fitur
-pertama yang digunakan untuk memisahkan data.
-
-Selanjutnya setiap node melakukan proses
-pemisahan secara bertahap hingga menghasilkan
-prediksi **Service Ringan** atau
-**Service Berat**.
-                """)
-
-            with col_right:
-
-                st.info(f"""
-### ⭐ Feature Dominan
-
-🥇 **{top1}**
-
-🥈 **{top2}**
-
-🥉 **{top3}**
-
-Ketiga fitur tersebut merupakan fitur
-yang memiliki kontribusi terbesar
-terhadap proses klasifikasi.
-                """)
-
-                        # ==========================================================
             # POLA KEPUTUSAN MODEL
             # ==========================================================
 
