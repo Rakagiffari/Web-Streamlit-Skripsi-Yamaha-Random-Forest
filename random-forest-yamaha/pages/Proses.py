@@ -861,10 +861,7 @@ if uploaded_file is not None:
             st.markdown("---")
             st.markdown("## 🌳 Visualisasi Decision Tree")
 
-            # -------------------------------------
-            # Mengambil 4 fitur paling penting
-            # -------------------------------------
-
+            # Ambil 4 fitur dengan nilai importance tertinggi
             top_features = (
                 importance_grouped["Fitur"]
                 .head(4)
@@ -876,67 +873,85 @@ if uploaded_file is not None:
 
             f1, f2, f3, f4 = top_features
 
-            # -------------------------------------
-            # Diagram Decision Tree
-            # -------------------------------------
-
-            dot = graphviz.Digraph()
+            # Membuat diagram menggunakan Graphviz
+            dot = graphviz.Digraph("DecisionTree")
 
             dot.attr(
                 rankdir="TB",
-                bgcolor="transparent",
-                pad="0.3",
-                nodesep="0.5",
-                ranksep="0.6"
+                bgcolor="white",
+                pad="0.4",
+                nodesep="0.6",
+                ranksep="0.9",
+                splines="ortho"
             )
 
+            # Style node fitur
             dot.attr(
                 "node",
                 shape="box",
                 style="rounded,filled",
-                fillcolor="#ef4444",
+                fillcolor="#d32f2f",
+                color="#b71c1c",
                 fontcolor="white",
-                color="#ef4444",
-                fontsize="12",
+                fontsize="13",
                 fontname="Helvetica"
             )
 
-            dot.attr(
-                "edge",
-                fontsize="10",
-                fontname="Helvetica"
-            )
-
-            # Node
-
+            # Node fitur
             dot.node("A", f1)
             dot.node("B", f2)
             dot.node("C", f3)
             dot.node("D", f4)
 
+            # Style node hasil klasifikasi
             dot.node(
-                "E",
-                "Service\nRingan / Berat",
-                fillcolor="#1f2937"
+                "SR1",
+                "Service\nRingan",
+                shape="ellipse",
+                fillcolor="#2e7d32",
+                color="#1b5e20"
             )
 
-            # Edge
+            dot.node(
+                "SR2",
+                "Service\nRingan",
+                shape="ellipse",
+                fillcolor="#2e7d32",
+                color="#1b5e20"
+            )
 
+            dot.node(
+                "SB1",
+                "Service\nBerat",
+                shape="ellipse",
+                fillcolor="#1565c0",
+                color="#0d47a1"
+            )
+
+            dot.node(
+                "SB2",
+                "Service\nBerat",
+                shape="ellipse",
+                fillcolor="#1565c0",
+                color="#0d47a1"
+            )
+
+            # Hubungan antar node
             dot.edge("A", "B", label="Ya")
-            dot.edge("A", "E", label="Tidak")
+            dot.edge("A", "SB1", label="Tidak")
 
             dot.edge("B", "C", label="Ya")
-            dot.edge("B", "E", label="Tidak")
+            dot.edge("B", "SR1", label="Tidak")
 
             dot.edge("C", "D", label="Ya")
-            dot.edge("C", "E", label="Tidak")
+            dot.edge("C", "SR2", label="Tidak")
 
-            dot.edge("D", "E")
+            dot.edge("D", "SB2", label="Ya")
 
-            kiri, tengah, kanan = st.columns([1,5,1])
+            # Menampilkan diagram di tengah halaman
+            col_left, col_center, col_right = st.columns([1, 5, 1])
 
-            with tengah:
-
+            with col_center:
                 st.graphviz_chart(
                     dot,
                     use_container_width=True
@@ -953,17 +968,17 @@ if uploaded_file is not None:
 
                 st.markdown("### 📍 Interpretasi")
 
-                st.markdown(f"""
-Visualisasi Decision Tree di atas merupakan ilustrasi alur pengambilan keputusan berdasarkan **empat fitur dengan nilai Feature Importance tertinggi**.
+                st.write(f"""
+Visualisasi di atas merupakan ilustrasi proses pengambilan keputusan berdasarkan empat fitur dengan nilai Feature Importance tertinggi.
 
-Proses klasifikasi dimulai dari fitur **{f1}** sebagai faktor utama. Apabila informasi pada fitur tersebut belum cukup untuk menentukan kategori layanan, maka proses dilanjutkan menggunakan fitur **{f2}**, kemudian **{f3}**, dan terakhir **{f4}**.
+Urutan proses dimulai dari **{f1}**, kemudian dilanjutkan ke **{f2}**, **{f3}**, dan **{f4}** hingga menghasilkan klasifikasi **Service Ringan** atau **Service Berat**.
 
-Diagram ini digunakan untuk membantu memahami proses klasifikasi secara sederhana, sedangkan proses prediksi pada sistem tetap dilakukan menggunakan algoritma **Random Forest**.
-""")
+Diagram ini digunakan sebagai media interpretasi untuk mempermudah pemahaman proses klasifikasi, sedangkan proses prediksi pada sistem tetap dilakukan menggunakan algoritma **Random Forest**.
+                """)
 
                 st.markdown("---")
 
-                st.markdown("### 📋 Urutan Fitur Dominan")
+                st.markdown("### 📋 Urutan Feature Importance")
 
                 ranking = importance_grouped.copy()
 
@@ -973,10 +988,7 @@ Diagram ini digunakan untuk membantu memahami proses klasifikasi secara sederhan
                     range(1, len(ranking) + 1)
                 )
 
-                ranking["Importance"] = (
-                    ranking["Importance"]
-                    .round(4)
-                )
+                ranking["Importance"] = ranking["Importance"].round(4)
 
                 st.dataframe(
                     ranking,
@@ -988,11 +1000,13 @@ Diagram ini digunakan untuk membantu memahami proses klasifikasi secara sederhan
 
                 st.markdown("### 💡 Kesimpulan")
 
-                st.success(f"""
+                st.success(
+                    f"""
 Berdasarkan hasil pelatihan model Random Forest, proses klasifikasi lebih banyak dipengaruhi oleh fitur **{f1}**, kemudian **{f2}**, **{f3}**, dan **{f4}**.
 
-Visualisasi ini disusun berdasarkan urutan Feature Importance sehingga memberikan gambaran sederhana mengenai alur keputusan yang digunakan model dalam membedakan kategori **Service Ringan** dan **Service Berat**.
-""")
+Visualisasi ini merupakan representasi sederhana dari urutan fitur yang paling berpengaruh dalam proses klasifikasi berdasarkan nilai Feature Importance.
+                    """
+                )
             
             # ==========================================================
             # STATISTIK DATASET
