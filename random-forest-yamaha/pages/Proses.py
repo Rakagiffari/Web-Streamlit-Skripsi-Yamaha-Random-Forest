@@ -610,9 +610,7 @@ if uploaded_file is not None:
             # CLASSIFICATION REPORT
             # =====================================
 
-            st.markdown("## 📋 Classification Report")
-
-            with st.expander("📋 Classification Report", expanded=False):
+            with st.expander("Classification Report", expanded=False):
 
                 st.caption(
                     "Hasil evaluasi model Random Forest berdasarkan Precision, Recall, F1-Score, dan Support."
