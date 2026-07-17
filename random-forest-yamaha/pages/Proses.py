@@ -854,14 +854,17 @@ if uploaded_file is not None:
                     Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
                 """)
 
-            # ==========================================================
+                        # ==========================================================
             # VISUALISASI DECISION TREE
             # ==========================================================
 
             st.markdown("---")
             st.markdown("## 🌳 Visualisasi Decision Tree")
 
-            # Ambil 4 fitur dengan nilai importance tertinggi
+            # ----------------------------------------------------------
+            # Mengambil 4 fitur dengan nilai importance tertinggi
+            # ----------------------------------------------------------
+
             top_features = (
                 importance_grouped["Fitur"]
                 .head(4)
@@ -873,25 +876,39 @@ if uploaded_file is not None:
 
             f1, f2, f3, f4 = top_features
 
-                        # ==========================================================
-            # MEMBUAT DIAGRAM DECISION TREE
-            # ==========================================================
+            # ----------------------------------------------------------
+            # Membuat Diagram Decision Tree
+            # ----------------------------------------------------------
 
-            dot = graphviz.Digraph("DecisionTree")
+            dot = graphviz.Digraph(
+                "DecisionTree",
+                engine="dot",
+                format="svg"
+            )
 
             dot.attr(
                 rankdir="TB",
                 bgcolor="white",
                 dpi="200",
                 nodesep="0.55",
-                ranksep="0.70",
-                splines="line",
+                ranksep="0.75",
+                splines="polyline",
                 fontname="Helvetica"
             )
 
-            # ==========================================================
-            # STYLE NODE FITUR
-            # ==========================================================
+            dot.attr(
+                "edge",
+                arrowhead="normal",
+                arrowsize="0.8",
+                color="#555555",
+                penwidth="1.2",
+                fontsize="10",
+                fontname="Helvetica"
+            )
+
+            # ----------------------------------------------------------
+            # Node Fitur
+            # ----------------------------------------------------------
 
             dot.attr(
                 "node",
@@ -904,15 +921,14 @@ if uploaded_file is not None:
                 fontname="Helvetica"
             )
 
-            # Node fitur
             dot.node("A", f1)
             dot.node("B", f2)
             dot.node("C", f3)
             dot.node("D", f4)
 
-            # ==========================================================
-            # STYLE NODE HASIL
-            # ==========================================================
+            # ----------------------------------------------------------
+            # Node Hasil
+            # ----------------------------------------------------------
 
             dot.attr(
                 "node",
@@ -954,68 +970,29 @@ if uploaded_file is not None:
                 fontcolor="white"
             )
 
-            # ==========================================================
-            # HUBUNGAN ANTAR NODE
-            # ==========================================================
+            # ----------------------------------------------------------
+            # Hubungan Antar Node
+            # ----------------------------------------------------------
 
-            dot.edge(
-                "A",
-                "B",
-                label="Ya"
-            )
+            dot.edge("A", "B", label="Ya")
+            dot.edge("A", "SB1", label="Tidak")
 
-            dot.edge(
-                "A",
-                "SB1",
-                label="Tidak"
-            )
+            dot.edge("B", "C", label="Ya")
+            dot.edge("B", "SR1", label="Tidak")
 
-            dot.edge(
-                "B",
-                "C",
-                label="Ya"
-            )
+            dot.edge("C", "D", label="Ya")
+            dot.edge("C", "SR2", label="Tidak")
 
-            dot.edge(
-                "B",
-                "SR1",
-                label="Tidak"
-            )
+            dot.edge("D", "SB2")
 
-            dot.edge(
-                "C",
-                "D",
-                label="Ya"
-            )
-
-            dot.edge(
-                "C",
-                "SR2",
-                label="Tidak"
-            )
-
-            dot.edge(
-                "D",
-                "SB2"
-            )
-
-            # ==========================================================
-            # TAMPILKAN DIAGRAM
-            # ==========================================================
+            # ----------------------------------------------------------
+            # Menampilkan Diagram
+            # ----------------------------------------------------------
 
             col_left, col_center, col_right = st.columns([1, 5, 1])
 
             with col_center:
 
-                st.graphviz_chart(
-                    dot,
-                    use_container_width=True
-                )
-
-            # Menampilkan diagram di tengah halaman
-            col_left, col_center, col_right = st.columns([1, 5, 1])
-
-            with col_center:
                 st.graphviz_chart(
                     dot,
                     use_container_width=True
@@ -1033,11 +1010,11 @@ if uploaded_file is not None:
                 st.markdown("### 📍 Interpretasi")
 
                 st.write(f"""
-Visualisasi di atas merupakan ilustrasi proses pengambilan keputusan berdasarkan empat fitur dengan nilai Feature Importance tertinggi.
+Visualisasi Decision Tree di atas merupakan ilustrasi sederhana berdasarkan empat fitur dengan nilai Feature Importance tertinggi.
 
-Urutan proses dimulai dari **{f1}**, kemudian dilanjutkan ke **{f2}**, **{f3}**, dan **{f4}** hingga menghasilkan klasifikasi **Service Ringan** atau **Service Berat**.
+Proses klasifikasi dimulai dari **{f1}**, kemudian dilanjutkan ke **{f2}**, **{f3}**, dan **{f4}** hingga menghasilkan keputusan **Service Ringan** atau **Service Berat**.
 
-Diagram ini digunakan sebagai media interpretasi untuk mempermudah pemahaman proses klasifikasi, sedangkan proses prediksi pada sistem tetap dilakukan menggunakan algoritma **Random Forest**.
+Visualisasi ini digunakan untuk membantu memahami alur keputusan model, sedangkan proses prediksi pada sistem tetap menggunakan algoritma **Random Forest**.
                 """)
 
                 st.markdown("---")
@@ -1052,7 +1029,10 @@ Diagram ini digunakan sebagai media interpretasi untuk mempermudah pemahaman pro
                     range(1, len(ranking) + 1)
                 )
 
-                ranking["Importance"] = ranking["Importance"].round(4)
+                ranking["Importance"] = (
+                    ranking["Importance"]
+                    .round(4)
+                )
 
                 st.dataframe(
                     ranking,
@@ -1064,13 +1044,11 @@ Diagram ini digunakan sebagai media interpretasi untuk mempermudah pemahaman pro
 
                 st.markdown("### 💡 Kesimpulan")
 
-                st.success(
-                    f"""
-Berdasarkan hasil pelatihan model Random Forest, proses klasifikasi lebih banyak dipengaruhi oleh fitur **{f1}**, kemudian **{f2}**, **{f3}**, dan **{f4}**.
+                st.success(f"""
+Berdasarkan hasil pelatihan model Random Forest, fitur **{f1}** memiliki kontribusi terbesar dalam proses klasifikasi, diikuti oleh **{f2}**, **{f3}**, dan **{f4}**.
 
-Visualisasi ini merupakan representasi sederhana dari urutan fitur yang paling berpengaruh dalam proses klasifikasi berdasarkan nilai Feature Importance.
-                    """
-                )
+Diagram ini merupakan representasi sederhana berdasarkan urutan Feature Importance sehingga mempermudah interpretasi proses klasifikasi.
+                """)
             
             # ==========================================================
             # STATISTIK DATASET
