@@ -674,6 +674,9 @@ if uploaded_file is not None:
                             {f1:.2%}
                         </div>
                     </div>
+
+                    st.markdown("<br>", unsafe_allow_html=True)
+                    
                     """, unsafe_allow_html=True)
 
             st.success("✅ Classification Report berhasil dibuat.")
