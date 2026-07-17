@@ -458,7 +458,7 @@ if uploaded_file is not None:
         with st.expander("Feature Engineering", expanded=False):
 
             st.caption(
-                "Proses penambahan fitur Usia Motor dan Jenis Motor."
+                "Proses penambahan fitur."
             )
 
             st.dataframe(
