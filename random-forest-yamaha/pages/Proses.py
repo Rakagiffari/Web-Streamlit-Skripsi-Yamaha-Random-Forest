@@ -859,49 +859,92 @@ if uploaded_file is not None:
             st.markdown("---")
             st.markdown("## 🌳 Visualisasi Decision Tree")
 
-            from sklearn.tree import DecisionTreeClassifier
+            top1 = importance_grouped.iloc[0]["Fitur"]
+            top2 = importance_grouped.iloc[1]["Fitur"]
+            top3 = importance_grouped.iloc[2]["Fitur"]
 
-            # --------------------------------------------
-            # Training Decision Tree untuk visualisasi
-            # --------------------------------------------
+            fig_tree, ax = plt.subplots(figsize=(8,6))
+            ax.set_xlim(0,1)
+            ax.set_ylim(0,1)
+            ax.axis("off")
 
-            dt_model = DecisionTreeClassifier(
-                criterion="gini",
-                max_depth=3,
-                random_state=42
-            )
+            import matplotlib.patches as patches
 
-            dt_model.fit(X, y)
+            def node(x, y, text, color="#f8fafc"):
 
-            # --------------------------------------------
-            # Membuat visualisasi
-            # --------------------------------------------
+                box = patches.FancyBboxPatch(
+                    (x-0.10, y-0.035),
+                    0.20,
+                    0.07,
+                    boxstyle="round,pad=0.02",
+                    linewidth=1.5,
+                    edgecolor="#444",
+                    facecolor=color
+                )
 
-            fig_tree, ax = plt.subplots(
-                figsize=(14, 7),
-                dpi=150
-            )
+                ax.add_patch(box)
 
-            plot_tree(
-                dt_model,
-                feature_names=feature_names,
-                class_names=["Ringan", "Berat"],
-                filled=True,
-                rounded=True,
-                impurity=False,
-                proportion=True,
-                precision=2,
-                fontsize=8,
-                ax=ax
-            )
+                ax.text(
+                    x,
+                    y,
+                    text,
+                    ha="center",
+                    va="center",
+                    fontsize=10,
+                    weight="bold"
+                )
 
-            plt.tight_layout()
+            # -------------------------
+            # NODE
+            # -------------------------
 
-            # --------------------------------------------
-            # Tampilkan di tengah
-            # --------------------------------------------
+            node(0.50,0.90,top1,"#fca5a5")
 
-            kiri, tengah, kanan = st.columns([1, 5, 1])
+            node(0.25,0.65,top2,"#fecaca")
+            node(0.75,0.65,top2,"#fecaca")
+
+            node(0.18,0.40,top3)
+            node(0.38,0.40,top3)
+            node(0.62,0.40,top3)
+            node(0.82,0.40,top3)
+
+            node(0.18,0.15,"Ringan","#bbf7d0")
+            node(0.38,0.15,"Berat","#fecaca")
+            node(0.62,0.15,"Ringan","#bbf7d0")
+            node(0.82,0.15,"Berat","#fecaca")
+
+            # -------------------------
+            # GARIS
+            # -------------------------
+
+            def line(x1,y1,x2,y2):
+
+                ax.plot(
+                    [x1,x2],
+                    [y1,y2],
+                    color="black",
+                    linewidth=1.2
+                )
+
+            line(0.50,0.86,0.25,0.69)
+            line(0.50,0.86,0.75,0.69)
+
+            line(0.25,0.61,0.18,0.44)
+            line(0.25,0.61,0.38,0.44)
+
+            line(0.75,0.61,0.62,0.44)
+            line(0.75,0.61,0.82,0.44)
+
+            line(0.18,0.36,0.18,0.19)
+            line(0.38,0.36,0.38,0.19)
+            line(0.62,0.36,0.62,0.19)
+            line(0.82,0.36,0.82,0.19)
+
+            # -------------------------
+            # TAMPILKAN
+            # -------------------------
+
+            kiri,tengah,kanan = st.columns([1,3,1])
 
             with tengah:
 
@@ -913,35 +956,31 @@ if uploaded_file is not None:
             plt.close(fig_tree)
 
             # ==========================================================
-            # PENJELASAN DECISION TREE
+            # PENJELASAN
             # ==========================================================
 
-            top1 = importance_grouped.iloc[0]["Fitur"]
-            top2 = importance_grouped.iloc[1]["Fitur"]
-            top3 = importance_grouped.iloc[2]["Fitur"]
-
-            with st.expander("Decision Tree", expanded=False):
+            with st.expander("Visualisasi Decision Tree", expanded=False):
 
                 st.markdown("### 📍 Interpretasi")
 
                 st.markdown(f"""
-Decision Tree merupakan algoritma klasifikasi yang bekerja dengan membagi data ke dalam beberapa node berdasarkan aturan keputusan yang dipelajari dari data latih.
+Diagram di atas merupakan ilustrasi sederhana proses klasifikasi yang dilakukan berdasarkan fitur-fitur yang memiliki kontribusi terbesar terhadap model Random Forest.
 
-Node paling atas (root node) menunjukkan fitur yang pertama kali digunakan untuk memisahkan data. Selanjutnya proses klasifikasi dilakukan secara bertahap hingga menghasilkan prediksi kategori **Service Ringan** atau **Service Berat**.
+Alur keputusan dimulai dari fitur **{top1}**, kemudian dilanjutkan ke fitur **{top2}**, dan selanjutnya mempertimbangkan fitur **{top3}** sebelum menghasilkan prediksi kategori layanan service.
 
-Visualisasi ini digunakan untuk membantu memahami proses pengambilan keputusan model. Adapun proses prediksi utama pada sistem tetap menggunakan algoritma **Random Forest**, sedangkan Decision Tree hanya ditampilkan sebagai media interpretasi.
+Visualisasi ini dibuat untuk mempermudah pemahaman terhadap proses klasifikasi, sedangkan proses prediksi pada sistem tetap menggunakan algoritma **Random Forest**.
 """)
 
                 st.markdown("---")
 
-                st.markdown("### 📋 Peringkat Feature Importance")
+                st.markdown("### 📋 Fitur Dominan")
 
                 ranking = importance_grouped.copy()
 
                 ranking.insert(
                     0,
                     "No",
-                    range(1, len(ranking) + 1)
+                    range(1,len(ranking)+1)
                 )
 
                 ranking["Importance"] = ranking["Importance"].round(4)
@@ -952,20 +991,14 @@ Visualisasi ini digunakan untuk membantu memahami proses pengambilan keputusan m
                     use_container_width=True
                 )
 
-                st.caption(
-                    "Semakin besar nilai Feature Importance, semakin besar kontribusi fitur terhadap proses klasifikasi."
-                )
-
                 st.markdown("---")
 
                 st.markdown("### 💡 Kesimpulan")
 
                 st.success(f"""
-Visualisasi Decision Tree memperlihatkan bagaimana proses klasifikasi dilakukan melalui serangkaian aturan keputusan berdasarkan fitur yang dimiliki setiap data.
+Visualisasi Decision Tree menunjukkan bahwa proses klasifikasi dilakukan secara bertahap menggunakan fitur **{top1}**, **{top2}**, dan **{top3}** sebagai dasar pengambilan keputusan.
 
-Berdasarkan hasil Feature Importance, fitur **{top1}**, **{top2}**, dan **{top3}** merupakan fitur yang memberikan kontribusi terbesar terhadap proses klasifikasi.
-
-Meskipun visualisasi di atas hanya menampilkan satu Decision Tree, hasil prediksi pada sistem tetap diperoleh menggunakan algoritma **Random Forest** yang menggabungkan banyak Decision Tree melalui mekanisme **Majority Voting**.
+Diagram ini merupakan ilustrasi untuk membantu memahami alur klasifikasi, sedangkan prediksi akhir sistem tetap diperoleh dari algoritma Random Forest melalui proses Majority Voting.
 """)
             
             # ==========================================================
