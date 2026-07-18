@@ -678,7 +678,7 @@ if uploaded_file is not None:
             summary_df = generate_vehicle_characteristics(
                 model,
                 X,
-                df
+                feature_df
             )
 
             progress.success("✔ Model berhasil dilatih")
@@ -1048,7 +1048,7 @@ if uploaded_file is not None:
 
             plt.close(fig_tree)
 
-                        # =====================================
+            # =====================================
             # REPRESENTATIVE DECISION PATH
             # =====================================
 
