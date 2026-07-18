@@ -215,6 +215,107 @@ def extract_tree_paths(tree_model, feature_names):
 
     return paths
 
+                # =====================================
+                # KARAKTERISTIK KENDARAAN
+                # =====================================
+
+                characteristics = []
+
+                for rule in best_pattern["path"]:
+
+                    # -----------------------------
+                    # Jenis Motor
+                    # -----------------------------
+                    if rule.startswith("Jenis_"):
+
+                        nama = rule.split("_")[1].split()[0]
+
+                        if "> 0.50" in rule:
+
+                            characteristics.append(
+                                f"Jenis motor **{nama}**"
+                            )
+
+                    # -----------------------------
+                    # Indikasi
+                    # -----------------------------
+                    elif rule.startswith("Indikasi_"):
+
+                        nama = rule.split("_")[1].split()[0]
+
+                        if "> 0.50" in rule:
+
+                            characteristics.append(
+                                f"Indikasi kerusakan pada **{nama}**"
+                            )
+
+                    # -----------------------------
+                    # Kilometer
+                    # -----------------------------
+                    elif rule.startswith("Km"):
+
+                        if ">" in rule:
+
+                            nilai = float(rule.split(">")[1])
+
+                            characteristics.append(
+                                f"Kilometer kendaraan **lebih dari {nilai:,.0f} km**".replace(",", ".")
+                            )
+
+                        elif "≤" in rule:
+
+                            nilai = float(rule.split("≤")[1])
+
+                            characteristics.append(
+                                f"Kilometer kendaraan **maksimal {nilai:,.0f} km**".replace(",", ".")
+                            )
+
+                    # -----------------------------
+                    # Usia Motor
+                    # -----------------------------
+                    elif rule.startswith("Usia Motor"):
+
+                        if ">" in rule:
+
+                            nilai = float(rule.split(">")[1])
+
+                            characteristics.append(
+                                f"Usia motor **lebih dari {nilai:.0f} tahun**"
+                            )
+
+                        elif "≤" in rule:
+
+                            nilai = float(rule.split("≤")[1])
+
+                            characteristics.append(
+                                f"Usia motor **maksimal {nilai:.0f} tahun**"
+                            )
+
+                # Hilangkan karakteristik yang sama
+                characteristics = list(dict.fromkeys(characteristics))
+
+                st.markdown("#### Insight Hasil Analisis")
+
+                st.write(
+                    f"""
+Berdasarkan hasil pelatihan model, **{root_feature}** menjadi faktor yang paling awal digunakan dalam membedakan jenis layanan service kendaraan.
+
+Karakteristik kendaraan yang paling sering ditemukan adalah:
+"""
+                )
+
+                for item in characteristics:
+
+                    st.markdown(f"- {item}")
+
+                st.success(
+                    f"""
+Berdasarkan karakteristik tersebut, model memprediksi kendaraan termasuk kategori **{best_pattern['prediction']}**.
+
+Pola tersebut ditemukan pada **{best_pattern['samples']}** data pelatihan sehingga dapat dijadikan gambaran karakteristik kendaraan yang paling sering muncul pada data riwayat service Yamaha.
+"""
+                )
+
 # =========================================
 # HEADER
 # =========================================
@@ -1045,94 +1146,139 @@ if uploaded_file is not None:
                 """)
 
                         # =====================================
-            # INSIGHT REPRESENTATIVE DECISION TREE
+            # REPRESENTATIVE DECISION PATH
             # =====================================
 
             with st.expander(
-                "Insight Representative Decision Tree",
+                "Representative Decision Path",
                 expanded=False
             ):
 
-                # -----------------------------
-                # Informasi Representative Tree
-                # -----------------------------
-
-                root_index = representative_tree.tree_.feature[0]
-
-                if root_index != -2:
-                    root_feature = feature_names[root_index]
-                else:
-                    root_feature = "-"
-
-                total_nodes = representative_tree.tree_.node_count
-
-                children_left = representative_tree.tree_.children_left
-                children_right = representative_tree.tree_.children_right
-
-                total_leaf = sum(
-                    children_left[i] == children_right[i]
-                    for i in range(total_nodes)
+                st.caption(
+                    "Lima pola keputusan yang paling sering ditemukan pada Representative Decision Tree."
                 )
 
-                tree_depth = representative_tree.tree_.max_depth
+                decision_df = pd.DataFrame([
+                    {
+                        "Karakteristik Kendaraan": " → ".join(p["path"]),
+                        "Prediksi": p["prediction"],
+                        "Jumlah Data": p["samples"]
+                    }
+                    for p in top_patterns
+                ])
 
-                # -----------------------------
-                # Pola keputusan utama
-                # -----------------------------
+                st.dataframe(
+                    decision_df,
+                    use_container_width=True,
+                    hide_index=True
+                )
+
+                # =====================================
+                # INSIGHT REPRESENTATIVE DECISION PATH
+                # =====================================
 
                 best_pattern = top_patterns[0]
 
-                # -----------------------------
-                # Ringkasan Tree
-                # -----------------------------
+                characteristics = []
 
-                st.markdown("#### Ringkasan Representative Decision Tree")
+                for rule in best_pattern["path"]:
 
-                summary_df = pd.DataFrame({
+                    # -----------------------------
+                    # Jenis Motor
+                    # -----------------------------
+                    if rule.startswith("Jenis_"):
 
-                    "Informasi": [
+                        nama = rule.split("_")[1].split()[0]
 
-                        "Faktor yang Pertama Diperhatikan",
-                        "Jumlah Tahapan Keputusan",
-                        "Jumlah Keputusan Akhir",
-                        "Tingkat Kerumitan Pohon"
+                        if "> 0.50" in rule:
 
-                    ],
+                            characteristics.append(
+                                f"Jenis motor **{nama}**"
+                            )
 
-                    "Hasil": [
+                    # -----------------------------
+                    # Indikasi
+                    # -----------------------------
+                    elif rule.startswith("Indikasi_"):
 
-                        root_feature,
-                        total_nodes,
-                        total_leaf,
-                        tree_depth
+                        nama = rule.split("_")[1].split()[0]
 
-                    ]
+                        if "> 0.50" in rule:
 
-                })
+                            characteristics.append(
+                                f"Indikasi kerusakan pada **{nama}**"
+                            )
 
-                st.dataframe(
-                    summary_df,
-                    hide_index=True,
-                    use_container_width=True
+                    # -----------------------------
+                    # Kilometer
+                    # -----------------------------
+                    elif rule.startswith("Km"):
+
+                        if ">" in rule:
+
+                            nilai = float(rule.split(">")[1])
+
+                            characteristics.append(
+                                f"Kilometer kendaraan **lebih dari {nilai:,.0f} km**".replace(",", ".")
+                            )
+
+                        elif "≤" in rule:
+
+                            nilai = float(rule.split("≤")[1])
+
+                            characteristics.append(
+                                f"Kilometer kendaraan **maksimal {nilai:,.0f} km**".replace(",", ".")
+                            )
+
+                    # -----------------------------
+                    # Usia Motor
+                    # -----------------------------
+                    elif rule.startswith("Usia Motor"):
+
+                        if ">" in rule:
+
+                            nilai = float(rule.split(">")[1])
+
+                            characteristics.append(
+                                f"Usia motor **lebih dari {nilai:.0f} tahun**"
+                            )
+
+                        elif "≤" in rule:
+
+                            nilai = float(rule.split("≤")[1])
+
+                            characteristics.append(
+                                f"Usia motor **maksimal {nilai:.0f} tahun**"
+                            )
+
+                # Menghapus karakteristik yang sama
+                characteristics = list(dict.fromkeys(characteristics))
+
+                st.markdown("#### Insight Representative Decision Path")
+
+                st.write(
+                    """
+Representative Decision Path menunjukkan salah satu pola keputusan yang paling sering ditemukan pada data pelatihan. Pola ini dapat digunakan sebagai gambaran karakteristik kendaraan yang sering muncul pada data riwayat service Yamaha.
+"""
                 )
 
-                st.markdown("---")
+                st.markdown(
+                    "**Karakteristik kendaraan yang paling sering ditemukan:**"
+                )
 
-                st.markdown("#### Insight Hasil Analisis")
+                for item in characteristics:
 
-                st.info(f"""
-Berdasarkan hasil pelatihan model Random Forest, **{root_feature}** merupakan faktor yang pertama kali digunakan dalam proses menentukan jenis layanan service. Hal ini menunjukkan bahwa informasi tersebut memiliki pengaruh yang besar dalam membedakan kendaraan yang memerlukan **Service Ringan** maupun **Service Berat**.
+                    st.markdown(f"- {item}")
 
-Salah satu pola yang paling sering ditemukan pada data riwayat service adalah:
+                st.success(
+                    f"""
+Berdasarkan karakteristik tersebut, model memprediksi kendaraan termasuk kategori **{best_pattern['prediction']}**.
 
-➡️ **{" → ".join(best_pattern["path"])}**
+Pola tersebut ditemukan pada **{best_pattern['samples']}** data pelatihan sehingga dapat dijadikan gambaran karakteristik kendaraan yang paling sering memperoleh layanan **{best_pattern['prediction']}**.
 
-Kendaraan yang memiliki karakteristik tersebut diprediksi termasuk kategori **{best_pattern["prediction"]}**.
-
-Pola ini ditemukan pada **{best_pattern["samples"]}** data pelatihan sehingga dapat dijadikan gambaran karakteristik layanan yang paling sering muncul pada data riwayat service kendaraan Yamaha.
-
-Representative Decision Tree hanya digunakan untuk membantu menjelaskan bagaimana model melakukan proses klasifikasi. Hasil prediksi akhir tetap ditentukan oleh keseluruhan pohon keputusan yang terdapat pada model Random Forest sehingga hasil klasifikasi menjadi lebih stabil dan akurat.
-""")
+Informasi ini dapat membantu pihak Yamaha memahami pola kendaraan yang sering datang ke bengkel, sehingga dapat menjadi referensi dalam meningkatkan kualitas layanan maupun penyusunan strategi pelayanan.
+"""
+                )
             
             # ==========================================================
             # STATISTIK DATASET
