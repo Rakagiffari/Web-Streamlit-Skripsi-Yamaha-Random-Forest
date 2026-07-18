@@ -1219,34 +1219,6 @@ Pola ini muncul pada **{best_pattern['samples']}** data pelatihan dengan tingkat
 Representative Decision Path memberikan gambaran mengenai pola kendaraan yang paling sering ditemukan pada data riwayat service sehingga dapat digunakan sebagai referensi dalam memahami karakteristik kendaraan yang cenderung memperoleh jenis layanan tertentu.
                     """
                 )
-                
-            # =====================================
-            # REPRESENTATIVE DECISION PATH
-            # =====================================
-
-            with st.expander(
-                "Representative Decision Path",
-                expanded=False
-            ):
-
-                st.caption(
-                    "Lima pola keputusan yang paling sering ditemukan pada Representative Decision Tree."
-                )
-
-                decision_df = pd.DataFrame([
-                    {
-                        "Karakteristik Kendaraan": " → ".join(p["path"]),
-                        "Prediksi": p["prediction"],
-                        "Jumlah Data": p["samples"]
-                    }
-                    for p in top_patterns
-                ])
-
-                st.dataframe(
-                    decision_df,
-                    use_container_width=True,
-                    hide_index=True
-                )
 
                 # =====================================
                 # INSIGHT REPRESENTATIVE DECISION PATH
