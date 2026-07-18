@@ -986,6 +986,100 @@ if uploaded_file is not None:
                     Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
                 """)
 
+            # =====================================
+# KARAKTERISTIK HASIL KLASIFIKASI
+# =====================================
+
+with st.expander(
+    "Karakteristik Hasil Klasifikasi",
+    expanded=False
+):
+
+    st.caption(
+        "Ringkasan karakteristik kendaraan berdasarkan hasil prediksi Random Forest."
+    )
+
+    urutan_jenis = [
+        "MAXi",
+        "Classy",
+        "Matic",
+        "Moped",
+        "Sport",
+        "Off-road",
+        "Unknown"
+    ]
+
+    for jenis in urutan_jenis:
+
+        data = summary_df[
+            summary_df["Jenis"] == jenis
+        ]
+
+        if data.empty:
+            continue
+
+        st.markdown(f"### 🏍️ {jenis}")
+
+        cols = st.columns(len(data))
+
+        for i, (_, row) in enumerate(data.iterrows()):
+
+            with cols[i]:
+
+                warna = "#16a34a"
+
+                if row["Service"] == "Berat":
+                    warna = "#dc2626"
+
+                st.markdown(f"""
+                <div style="
+                    border:1px solid #334155;
+                    border-radius:14px;
+                    padding:18px;
+                    background:#0f172a;
+                    margin-bottom:12px;
+                    min-height:240px;
+                ">
+
+                <div style="
+                    font-size:18px;
+                    font-weight:700;
+                    color:{warna};
+                    margin-bottom:10px;
+                ">
+                {row["Service"]}
+                </div>
+
+                <hr style="margin-top:6px;margin-bottom:10px;">
+
+                <b>Indikasi Dominan</b><br>
+                {row["Indikasi Dominan"]}
+
+                <br><br>
+
+                <b>Rata-rata Kilometer</b><br>
+                {row["Rata-rata KM"]:,.0f} km
+
+                <br><br>
+
+                <b>Rata-rata Usia</b><br>
+                {row["Rata-rata Usia"]:.1f} Tahun
+
+                <br><br>
+
+                <b>Jumlah Data</b><br>
+                {int(row["Jumlah Data"])} Data
+
+                </div>
+                """, unsafe_allow_html=True)
+
+        st.markdown("---")
+
+    st.success("""
+Karakteristik hasil klasifikasi diperoleh berdasarkan prediksi Random Forest terhadap seluruh data kendaraan.
+Setiap kelompok menampilkan jenis layanan yang diprediksi, indikasi kerusakan yang paling dominan, rata-rata kilometer, rata-rata usia motor, serta jumlah data pada masing-masing kelompok kendaraan.
+""")
+
             
             # =====================================
             # REPRESENTATIVE DECISION TREE
