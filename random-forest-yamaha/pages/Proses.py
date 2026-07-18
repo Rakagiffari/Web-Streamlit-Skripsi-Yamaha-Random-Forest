@@ -276,6 +276,34 @@ def generate_rf_insight(model, feature_names):
 
     return berat_patterns, ringan_patterns
 
+# ==========================================================
+# FUNGSI MEMBANGUN TABEL INSIGHT RANDOM FOREST
+# ==========================================================
+
+def build_pattern_table(patterns):
+
+    tabel = []
+
+    for i, pattern in enumerate(patterns, start=1):
+
+        rule = ", ".join(pattern["path"])
+
+        tabel.append({
+
+            "No": i,
+
+            "Pola Keputusan": rule,
+
+            "Prediksi": pattern["prediction"],
+
+            "Support": pattern["samples"],
+
+            "Kemurnian": f"{pattern['purity']:.1f}%"
+
+        })
+
+    return pd.DataFrame(tabel)
+
 # =========================================
 # HEADER
 # =========================================
@@ -677,6 +705,10 @@ if uploaded_file is not None:
                 train_size,
                 test_size,
                 feature_names
+                berat_patterns, ringan_patterns = generate_rf_insight(
+                    model,
+                    feature_names
+                )
             ) = train_model(X, y)
 
             progress.success("✔ Model berhasil dilatih")
