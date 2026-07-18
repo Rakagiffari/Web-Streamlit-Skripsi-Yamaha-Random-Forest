@@ -203,11 +203,9 @@ def train_model(X, y):
         drop=True
     )
 
-        # =====================================
+    # =====================================
     # RETURN
     # =====================================
-
-    feature_names = X.columns.tolist()
 
     return (
 
@@ -224,8 +222,6 @@ def train_model(X, y):
         importance_grouped,
 
         len(X_train),
-        len(X_test),
-
-        feature_names
+        len(X_test)
 
     )
