@@ -10,7 +10,11 @@ from pathlib import Path
 
 from utils.preprocessing import preprocess_data
 from utils.training import train_model
-from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.tree import (
+    DecisionTreeClassifier,
+    plot_tree,
+    _tree
+)
 from sklearn.tree import export_graphviz
 from utils.report import generate_pdf
 
@@ -145,6 +149,60 @@ div[data-testid="stExpanderDetails"]{
 
 </style>
 """, unsafe_allow_html=True)
+
+# ==========================================================
+# FUNGSI REPRESENTATIVE DECISION TREE
+# ==========================================================
+
+def extract_tree_paths(tree_model, feature_names):
+    tree = tree_model.tree_
+    paths = []
+    def recurse(node, current_path):
+        if tree.feature[node] != _tree.TREE_UNDEFINED:
+            feature = feature_names[tree.feature[node]]
+            threshold = tree.threshold[node]
+            
+            recurse(
+                tree.children_left[node],
+                current_path + [
+                    f"{feature} ≤ {threshold:.2f}"
+                ]
+            )
+
+            recurse(
+                tree.children_right[node],
+                current_path + [
+                    f"{feature} > {threshold:.2f}"
+                ]
+            )
+
+        else:
+
+            samples = tree.n_node_samples[node]
+            prediction = tree.value[node][0]
+            label = prediction.argmax()
+            
+            service = (
+                "Service Ringan"
+                if label == 0
+                else "Service Berat"
+            )
+
+            paths.append({
+                "path": current_path,
+                "samples": samples,
+                "prediction": service
+            })
+            
+    recurse(0, [])
+    
+    paths = sorted(
+        paths,
+        key=lambda x: x["samples"],
+        reverse=True
+    )
+
+    return paths
 
 # =========================================
 # HEADER
@@ -855,215 +913,104 @@ if uploaded_file is not None:
                 """)
 
             # ==========================================================
-            # VISUALISASI DECISION TREE
+            # REPRESENTATIVE DECISION TREE
             # ==========================================================
 
-            st.markdown("---")
-            st.markdown("## 🌳 Visualisasi Decision Tree")
+            representative_tree = model.estimators_[0]
 
-            # ----------------------------------------------------------
-            # Mengambil 4 fitur dengan nilai importance tertinggi
-            # ----------------------------------------------------------
-
-            top_features = (
-                importance_grouped["Fitur"]
-                .head(4)
-                .tolist()
+            fig_tree, ax_tree = plt.subplots(
+                figsize=(20, 8)
             )
 
-            while len(top_features) < 4:
-                top_features.append("-")
+            plot_tree(
 
-            f1, f2, f3, f4 = top_features
+                representative_tree,
 
-                        # ==========================================================
-            # MEMBUAT DIAGRAM DECISION TREE
-            # ==========================================================
+                feature_names=feature_names,
 
-            dot = graphviz.Digraph(
-                "DecisionTree",
-                engine="dot"
+                class_names=[
+                    "Ringan",
+                    "Berat"
+                ],
+
+                filled=True,
+
+                rounded=True,
+
+                fontsize=9,
+
+                impurity=False,
+
+                proportion=True,
+
+                max_depth=3,
+
+                ax=ax_tree
+
             )
 
-            # ----------------------------------------------------------
-            # Pengaturan Layout
-            # ----------------------------------------------------------
+            plt.tight_layout()
 
-            dot.attr(
-                rankdir="TB",
-                bgcolor="white",
-                size="4,5!",
-                ratio="compress",
-                pad="0.05",
-                margin="0.05",
-                nodesep="0.20",
-                ranksep="0.35",
-                splines="polyline"
+            st.pyplot(fig_tree)
+
+            tree_path = (
+                BASE_DIR /
+                "representative_tree.png"
             )
 
-            # ----------------------------------------------------------
-            # Style Panah
-            # ----------------------------------------------------------
-
-            dot.attr(
-                "edge",
-                color="#555555",
-                penwidth="1.5",
-                arrowsize="0.7",
-                fontsize="9",
-                fontname="Helvetica"
+            fig_tree.savefig(
+                tree_path,
+                dpi=250,
+                bbox_inches="tight"
             )
 
-            # ----------------------------------------------------------
-            # Style Node Feature
-            # ----------------------------------------------------------
-
-            dot.attr(
-                "node",
-                shape="box",
-                style="rounded,filled",
-                fillcolor="#d32f2f",
-                color="#b71c1c",
-                fontcolor="white",
-                fontsize="10",
-                fontname="Helvetica",
-                width="1.05",
-                height="0.45",
-                margin="0.06"
-            )
-
-            dot.node("A", f1)
-            dot.node("B", f2)
-            dot.node("C", f3)
-            dot.node("D", f4)
-
-            # ----------------------------------------------------------
-            # Style Node Service
-            # ----------------------------------------------------------
-
-            dot.node(
-                "SB1",
-                "Service\nBerat",
-                shape="ellipse",
-                width="1.05",
-                height="0.45",
-                fillcolor="#1565c0",
-                color="#0d47a1",
-                fontcolor="white"
-            )
-
-            dot.node(
-                "SR1",
-                "Service\nRingan",
-                shape="ellipse",
-                width="1.05",
-                height="0.45",
-                fillcolor="#2e7d32",
-                color="#1b5e20",
-                fontcolor="white"
-            )
-
-            dot.node(
-                "SR2",
-                "Service\nRingan",
-                shape="ellipse",
-                width="1.05",
-                height="0.45",
-                fillcolor="#2e7d32",
-                color="#1b5e20",
-                fontcolor="white"
-            )
-
-            dot.node(
-                "SB2",
-                "Service\nBerat",
-                shape="ellipse",
-                width="1.05",
-                height="0.45",
-                fillcolor="#1565c0",
-                color="#0d47a1",
-                fontcolor="white"
-            )
-
-            # ----------------------------------------------------------
-            # Hubungan Node
-            # ----------------------------------------------------------
-
-            dot.edge("A", "B", label="Ya")
-            dot.edge("A", "SB1", label="Tidak")
-
-            dot.edge("B", "C", label="Ya")
-            dot.edge("B", "SR1", label="Tidak")
-
-            dot.edge("C", "D", label="Ya")
-            dot.edge("C", "SR2", label="Tidak")
-
-            dot.edge("D", "SB2")
-
-            # ----------------------------------------------------------
-            # Tampilkan Diagram
-            # ----------------------------------------------------------
-
-            col_left, col_center, col_right = st.columns([2, 3, 2])
-
-            with col_center:
-
-                st.graphviz_chart(
-                    dot,
-                    use_container_width=False
-                )
+            plt.close(fig_tree)
 
             # ==========================================================
-            # PENJELASAN
+            # POLA KEPUTUSAN MODEL
             # ==========================================================
 
-            with st.expander(
-                "Visualisasi Decision Tree",
-                expanded=False
-            ):
+            st.markdown("### 📋 Pola Keputusan Model")
 
-                st.markdown("### 📍 Interpretasi")
+            tree_patterns = extract_tree_paths(
+                representative_tree,
+                feature_names
+            )
 
-                st.write(f"""
-Visualisasi Decision Tree di atas merupakan ilustrasi sederhana berdasarkan empat fitur dengan nilai Feature Importance tertinggi.
+            pola_data = []
 
-Proses klasifikasi dimulai dari **{f1}**, kemudian dilanjutkan ke **{f2}**, **{f3}**, dan **{f4}** hingga menghasilkan keputusan **Service Ringan** atau **Service Berat**.
+            for i, pattern in enumerate(tree_patterns, start=1):
 
-Visualisasi ini digunakan untuk membantu memahami alur keputusan model, sedangkan proses prediksi pada sistem tetap menggunakan algoritma **Random Forest**.
-                """)
+                kondisi = " → ".join(pattern["path"])
 
-                st.markdown("---")
-
-                st.markdown("### 📋 Urutan Feature Importance")
-
-                ranking = importance_grouped.copy()
-
-                ranking.insert(
-                    0,
-                    "No",
-                    range(1, len(ranking) + 1)
+                keterangan = (
+                    f"Jika {kondisi}, maka model cenderung "
+                    f"mengklasifikasikan sebagai "
+                    f"{pattern['prediction']} "
+                    f"(Support: {pattern['samples']} data)."
                 )
 
-                ranking["Importance"] = (
-                    ranking["Importance"]
-                    .round(4)
-                )
+                pola_data.append({
+                    "Pola Keputusan": f"Pola {i}",
+                    "Keterangan": keterangan
+                })
 
-                st.dataframe(
-                    ranking,
-                    hide_index=True,
-                    use_container_width=True
-                )
+            pola_df = pd.DataFrame(pola_data)
 
-                st.markdown("---")
+            st.dataframe(
+                pola_df,
+                hide_index=True,
+                use_container_width=False,
+                width=1100,
+                height=420
+            )
 
-                st.markdown("### 💡 Kesimpulan")
-
-                st.success(f"""
-Berdasarkan hasil pelatihan model Random Forest, fitur **{f1}** memiliki kontribusi terbesar dalam proses klasifikasi, diikuti oleh **{f2}**, **{f3}**, dan **{f4}**.
-
-Diagram ini merupakan representasi sederhana berdasarkan urutan Feature Importance sehingga mempermudah interpretasi proses klasifikasi.
-                """)
+            st.caption(
+                "Pola keputusan diperoleh secara otomatis dari "
+                "Representative Decision Tree. "
+                "Setiap pola menunjukkan jalur keputusan dari root "
+                "hingga leaf pada pohon representatif."
+            )
             
             # ==========================================================
             # STATISTIK DATASET
