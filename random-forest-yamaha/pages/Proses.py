@@ -157,11 +157,12 @@ div[data-testid="stExpanderDetails"]{
 def extract_tree_paths(tree_model, feature_names):
     tree = tree_model.tree_
     paths = []
-    def recurse(node, current_path):
+    
+    def recurse(node, current_path)
         if tree.feature[node] != _tree.TREE_UNDEFINED:
             feature = feature_names[tree.feature[node]]
             threshold = tree.threshold[node]
-            
+
             recurse(
                 tree.children_left[node],
                 current_path + [
@@ -177,12 +178,18 @@ def extract_tree_paths(tree_model, feature_names):
             )
 
         else:
-
             samples = tree.n_node_samples[node]
-            prediction = tree.value[node][0]
-            label = prediction.argmax()
+            values = tree.value[node][0]
+            label = values.argmax()
+            total = values.sum()
             
-            service = (
+            purity = (
+                values[label] / total * 100
+                if total > 0
+                else 0
+            )
+
+            prediction = (
                 "Service Ringan"
                 if label == 0
                 else "Service Berat"
@@ -190,15 +197,19 @@ def extract_tree_paths(tree_model, feature_names):
 
             paths.append({
                 "path": current_path,
+                "prediction": prediction,
                 "samples": samples,
-                "prediction": service
+                "purity": purity
             })
-            
+
     recurse(0, [])
-    
+
     paths = sorted(
         paths,
-        key=lambda x: x["samples"],
+        key=lambda x: (
+            x["samples"],
+            x["purity"]
+        ),
         reverse=True
     )
 
@@ -916,10 +927,6 @@ if uploaded_file is not None:
             # REPRESENTATIVE DECISION TREE
             # =====================================
 
-            # -------------------------------------
-            # Membuat Visualisasi Tree
-            # -------------------------------------
-
             representative_tree = model.estimators_[0]
 
             fig_tree, ax_tree = plt.subplots(
@@ -928,25 +935,35 @@ if uploaded_file is not None:
             )
 
             plot_tree(
+
                 representative_tree,
+
                 feature_names=feature_names,
-                class_names=["Ringan", "Berat"],
+
+                class_names=[
+                    "Ringan",
+                    "Berat"
+                ],
+
                 filled=True,
+
                 rounded=True,
+
                 fontsize=8,
+
                 impurity=False,
+
                 proportion=True,
+
                 max_depth=3,
+
                 ax=ax_tree
+
             )
 
             plt.tight_layout()
 
-            # -------------------------------------
-            # Tree di tengah
-            # -------------------------------------
-
-            kiri, tengah, kanan = st.columns([2, 3, 2])
+            kiri, tengah, kanan = st.columns([2,3,2])
 
             with tengah:
 
@@ -954,10 +971,6 @@ if uploaded_file is not None:
                     fig_tree,
                     use_container_width=False
                 )
-
-            # -------------------------------------
-            # Simpan untuk PDF
-            # -------------------------------------
 
             tree_path = (
                 BASE_DIR /
@@ -973,57 +986,63 @@ if uploaded_file is not None:
             plt.close(fig_tree)
 
             # =====================================
-            # REPRESENTATIVE DECISION TREE
+            # DECISION PATH
             # =====================================
 
-            with st.expander("Representative Decision Tree", expanded=False):
+            with st.expander(
+                "Representative Decision Path",
+                expanded=False
+            ):
 
                 st.caption(
-                    "Visualisasi salah satu Decision Tree yang dipilih sebagai representasi dari keseluruhan Random Forest."
+                    "Lima pola keputusan dengan nilai support terbesar yang diperoleh dari Representative Decision Tree."
                 )
-
-                st.markdown("""
-Representative Decision Tree merupakan salah satu pohon keputusan yang dipilih dari kumpulan Decision Tree pada algoritma Random Forest. Pohon ini digunakan untuk memberikan gambaran proses pengambilan keputusan model. Prediksi akhir Random Forest tetap ditentukan oleh seluruh Decision Tree melalui mekanisme Majority Voting.
-""")
-
-                st.markdown("---")
 
                 tree_patterns = extract_tree_paths(
                     representative_tree,
                     feature_names
                 )
 
-                pola_data = []
+                top_patterns = tree_patterns[:5]
 
-                for i, pattern in enumerate(tree_patterns, start=1):
+                tabel = []
 
-                    kondisi = " → ".join(pattern["path"])
+                for i, pattern in enumerate(top_patterns, start=1):
 
-                    pola_data.append({
+                    rule = ", ".join(pattern["path"])
 
-                        "Pola Keputusan": f"Pola {i}",
+                    tabel.append({
 
-                        "Keterangan": (
-                            f"Jika {kondisi}, maka model cenderung "
-                            f"mengklasifikasikan sebagai "
-                            f"{pattern['prediction']} "
-                            f"(Support: {pattern['samples']} data)."
-                        )
+                        "No":
+                            i,
+
+                        "Pola Keputusan":
+                            rule,
+
+                        "Prediksi":
+                            pattern["prediction"],
+
+                        "Support":
+                            pattern["samples"],
+
+                        "Kemurnian":
+                            f"{pattern['purity']:.1f}%"
 
                     })
 
-                pola_df = pd.DataFrame(pola_data)
-
                 st.dataframe(
-                    pola_df,
+
+                    pd.DataFrame(tabel),
+
                     hide_index=True,
-                    use_container_width=True,
-                    height=420
+
+                    use_container_width=True
+
                 )
 
-                st.caption(
-                    "Pola keputusan diperoleh secara otomatis dari Representative Decision Tree."
-                )
+                st.markdown("""
+Decision Path di atas menampilkan pola keputusan utama yang dipelajari oleh Random Forest melalui Representative Decision Tree. Pola dipilih berdasarkan nilai **Support** terbesar sehingga mewakili karakteristik data historis yang paling dominan. Informasi ini digunakan sebagai **insight** untuk membantu memahami karakteristik layanan yang sering muncul pada data riwayat service kendaraan Yamaha.
+""")
             
             # ==========================================================
             # STATISTIK DATASET
