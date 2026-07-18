@@ -248,15 +248,11 @@ def extract_tree_paths(tree_model, feature_names):
 # MEMILIH POLA TERBAIK
 # ==========================================================
 
-def get_best_patterns(paths, top_n=5):
+def get_best_patterns(paths):
 
     unique_patterns = {}
 
     for item in paths:
-
-        # ==========================
-        # Ambil informasi rule
-        # ==========================
 
         indikasi = None
         jenis = None
@@ -285,10 +281,6 @@ def get_best_patterns(paths, top_n=5):
                     round(kondisi["threshold"], 0)
                 )
 
-        # ==========================
-        # Key kombinasi
-        # ==========================
-
         key = (
             item["prediction"],
             indikasi,
@@ -297,34 +289,43 @@ def get_best_patterns(paths, top_n=5):
             usia
         )
 
-        # ==========================
-        # Simpan rule dengan sample terbesar
-        # ==========================
-
         if (
             key not in unique_patterns
-            or
-            item["samples"] >
-            unique_patterns[key]["samples"]
+            or item["samples"] > unique_patterns[key]["samples"]
         ):
-
             unique_patterns[key] = item
+
+    # ==========================
+    # Pisahkan berdasarkan kelas
+    # ==========================
+
+    service_berat = [
+        x for x in unique_patterns.values()
+        if x["prediction"] == "Service Berat"
+    ]
+
+    service_ringan = [
+        x for x in unique_patterns.values()
+        if x["prediction"] == "Service Ringan"
+    ]
 
     # ==========================
     # Urutkan berdasarkan samples
     # ==========================
 
-    hasil = sorted(
-
-        unique_patterns.values(),
-
+    service_berat = sorted(
+        service_berat,
         key=lambda x: x["samples"],
-
         reverse=True
-
     )
 
-    return hasil[:top_n]
+    service_ringan = sorted(
+        service_ringan,
+        key=lambda x: x["samples"],
+        reverse=True
+    )
+
+    return service_berat, service_ringan
 
 # ==========================================================
 # MEMBUAT KETERANGAN
