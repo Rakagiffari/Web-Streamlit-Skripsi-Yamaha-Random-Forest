@@ -150,311 +150,441 @@ div[data-testid="stExpanderDetails"]{
 </style>
 """, unsafe_allow_html=True)
 
+# ========================================================== 
+# MENGAMBIL SEMUA DECISION RULE DARI DECISION TREE 
 # ==========================================================
-# REPRESENTATIVE DECISION TREE
-# ==========================================================
+def normalize_tree_rules(rules):
 
-from sklearn.tree import _tree
+    normalized_rules = []
 
+    for rule in rules:
 
-# ==========================================================
-# MENGAMBIL SEMUA PATH DARI DECISION TREE
-# ==========================================================
+        km_min = None
+        km_max = None
 
-def extract_tree_paths(tree_model, feature_names):
+        usia_min = None
+        usia_max = None
 
-    tree = tree_model.tree_
-
-    paths = []
-
-    def recurse(node, current_path):
-
-        if tree.feature[node] != _tree.TREE_UNDEFINED:
-
-            feature = feature_names[
-                tree.feature[node]
-            ]
-
-            threshold = tree.threshold[node]
-
-            recurse(
-
-                tree.children_left[node],
-
-                current_path + [{
-
-                    "feature": feature,
-
-                    "operator": "<=",
-
-                    "threshold": threshold
-
-                }]
-
-            )
-
-            recurse(
-
-                tree.children_right[node],
-
-                current_path + [{
-
-                    "feature": feature,
-
-                    "operator": ">",
-
-                    "threshold": threshold
-
-                }]
-
-            )
-
-        else:
-
-            label = tree.value[node][0].argmax()
-
-            prediction = (
-
-                "Service Ringan"
-
-                if label == 0
-
-                else "Service Berat"
-
-            )
-
-            paths.append({
-
-                "prediction": prediction,
-
-                "samples": int(
-                    tree.n_node_samples[node]
-                ),
-
-                "conditions": current_path
-
-            })
-
-    recurse(0, [])
-
-    return paths
-
-
-# ==========================================================
-# MENGAMBIL POLA TERBAIK
-# ==========================================================
-
-def get_best_patterns(paths):
-
-    hasil = {}
-
-    for item in paths:
-
-        indikasi = None
         jenis = None
-        km = None
-        usia = None
+        indikasi = None
 
-        for kondisi in item["conditions"]:
+        other_conditions = []
 
-            fitur = kondisi["feature"]
+        for cond in rule["conditions"]:
 
-            if fitur.startswith("Indikasi_"):
+            feature = cond["feature"]
+            operator = cond["operator"]
+            threshold = cond["threshold"]
 
-                indikasi = fitur.replace(
-                    "Indikasi_",
-                    ""
-                )
+            # =====================================
+            # Kilometer
+            # =====================================
 
-            elif fitur.startswith("Jenis_"):
+            if feature.lower() == "kilometer":
 
-                jenis = fitur.replace(
-                    "Jenis_",
-                    ""
-                )
+                if operator == ">":
 
-            elif fitur == "Km":
+                    if km_min is None or threshold > km_min:
+                        km_min = threshold
 
-                km = (
+                else:
 
-                    kondisi["operator"],
+                    if km_max is None or threshold < km_max:
+                        km_max = threshold
 
-                    int(kondisi["threshold"])
+            # =====================================
+            # Usia Motor
+            # =====================================
 
-                )
+            elif feature.lower() == "usia motor":
 
-            elif fitur == "Usia Motor":
+                if operator == ">":
 
-                usia = (
+                    if usia_min is None or threshold > usia_min:
+                        usia_min = threshold
 
-                    kondisi["operator"],
+                else:
 
-                    int(kondisi["threshold"])
+                    if usia_max is None or threshold < usia_max:
+                        usia_max = threshold
 
-                )
+            # =====================================
+            # Jenis Motor
+            # =====================================
 
-        key = (
+            elif feature.startswith("Jenis_"):
 
-            item["prediction"],
+                if operator == ">":
 
-            indikasi,
+                    jenis = feature.replace("Jenis_", "")
 
-            jenis,
+            # =====================================
+            # Indikasi
+            # =====================================
 
-            km,
+            elif feature.startswith("Indikasi_"):
 
-            usia
+                if operator == ">":
 
-        )
+                    indikasi = feature.replace("Indikasi_", "")
 
-        if (
+            # =====================================
+            # Feature lain
+            # =====================================
 
-            key not in hasil
+            else:
 
-            or
+                other_conditions.append(cond)
 
-            item["samples"] >
+        # ==========================================
+        # FORMAT RANGE KILOMETER
+        # ==========================================
 
-            hasil[key]["samples"]
+        if km_min is not None and km_max is not None:
 
-        ):
+            km_text = f"{int(km_min):,} < Km ≤ {int(km_max):,}".replace(",", ".")
 
-            hasil[key] = {
+        elif km_min is not None:
 
-                "prediction": item["prediction"],
+            km_text = f"Km > {int(km_min):,}".replace(",", ".")
 
-                "indikasi": indikasi,
+        elif km_max is not None:
 
-                "jenis": jenis,
-
-                "km": km,
-
-                "usia": usia,
-
-                "samples": item["samples"]
-
-            }
-
-    service_berat = sorted(
-
-        [
-
-            x for x in hasil.values()
-
-            if x["prediction"] == "Service Berat"
-
-        ],
-
-        key=lambda x: x["samples"],
-
-        reverse=True
-
-    )
-
-    service_ringan = sorted(
-
-        [
-
-            x for x in hasil.values()
-
-            if x["prediction"] == "Service Ringan"
-
-        ],
-
-        key=lambda x: x["samples"],
-
-        reverse=True
-
-    )
-
-    return service_berat, service_ringan
-
-
-# ==========================================================
-# MEMBUAT KETERANGAN
-# ==========================================================
-
-def build_description(pattern):
-
-    bagian = []
-
-    if pattern["indikasi"]:
-
-        bagian.append(
-
-            f"Indikasi {pattern['indikasi']}"
-
-        )
-
-    if pattern["jenis"]:
-
-        bagian.append(
-
-            f"jenis motor {pattern['jenis']}"
-
-        )
-
-    if pattern["km"]:
-
-        op, nilai = pattern["km"]
-
-        if op == "<=":
-
-            bagian.append(
-
-                f"kilometer ≤ {nilai:,} km".replace(",", ".")
-
-            )
+            km_text = f"Km ≤ {int(km_max):,}".replace(",", ".")
 
         else:
 
-            bagian.append(
+            km_text = "-"
 
-                f"kilometer lebih dari {nilai:,} km".replace(",", ".")
+        # ==========================================
+        # FORMAT RANGE USIA
+        # ==========================================
 
-            )
+        if usia_min is not None and usia_max is not None:
 
-    if pattern["usia"]:
+            usia_text = f"{usia_min:.0f} < Usia ≤ {usia_max:.0f} Tahun"
 
-        op, nilai = pattern["usia"]
+        elif usia_min is not None:
 
-        if op == "<=":
+            usia_text = f"Usia > {usia_min:.0f} Tahun"
 
-            bagian.append(
+        elif usia_max is not None:
 
-                f"usia motor ≤ {nilai} tahun"
-
-            )
+            usia_text = f"Usia ≤ {usia_max:.0f} Tahun"
 
         else:
 
-            bagian.append(
+            usia_text = "-"
 
-                f"usia motor lebih dari {nilai} tahun"
+        normalized_rules.append({
 
+            "prediction": rule["prediction"],
+
+            "support": rule["support"],
+
+            "purity": rule["purity"],
+
+            "gini": rule["gini"],
+
+            "distribution": rule["distribution"],
+
+            "indikasi": indikasi,
+
+            "jenis": jenis,
+
+            "kilometer": km_text,
+
+            "usia": usia_text,
+
+            "other_conditions": other_conditions
+
+        })
+
+    return normalized_rules
+
+# ==========================================================
+# MEMBUAT TABEL DECISION RULE
+# ==========================================================
+
+import pandas as pd
+
+
+def create_rule_table(normalized_rules, top_n=10):
+
+    rows = []
+
+    for i, rule in enumerate(normalized_rules[:top_n], start=1):
+
+        pola = []
+
+        # -----------------------------------------
+        # Indikasi
+        # -----------------------------------------
+
+        if rule["indikasi"]:
+
+            pola.append(
+                f"Indikasi {rule['indikasi']}"
             )
 
-    if len(bagian) == 0:
+        # -----------------------------------------
+        # Jenis Motor
+        # -----------------------------------------
 
-        return (
+        if rule["jenis"]:
 
-            f"Kendaraan cenderung diklasifikasikan sebagai "
+            pola.append(
+                f"Jenis {rule['jenis']}"
+            )
 
-            f"{pattern['prediction']}."
+        # -----------------------------------------
+        # Kilometer
+        # -----------------------------------------
+
+        if rule["kilometer"] != "-":
+
+            pola.append(
+                rule["kilometer"]
+            )
+
+        # -----------------------------------------
+        # Usia Motor
+        # -----------------------------------------
+
+        if rule["usia"] != "-":
+
+            pola.append(
+                rule["usia"]
+            )
+
+        # -----------------------------------------
+        # Feature lain
+        # -----------------------------------------
+
+        for cond in rule["other_conditions"]:
+
+            feature = cond["feature"]
+            operator = cond["operator"]
+            threshold = round(cond["threshold"], 2)
+
+            pola.append(
+                f"{feature} {operator} {threshold}"
+            )
+
+        rows.append({
+
+            "No": i,
+
+            "Pola Keputusan": ", ".join(pola),
+
+            "Prediksi": rule["prediction"],
+
+            "Support": rule["support"],
+
+            "Kemurnian (%)": rule["purity"],
+
+            "Gini": rule["gini"]
+
+        })
+
+    df = pd.DataFrame(rows)
+
+    return df
+
+# ==========================================================
+# MEMBUAT TABEL DECISION RULE
+# ==========================================================
+
+from collections import Counter
+
+def generate_rule_insight(normalized_rules, top_n=10):
+
+    rules = normalized_rules[:top_n]
+
+    insights = []
+
+    # ==========================================
+    # Dominasi Prediksi
+    # ==========================================
+
+    prediction_counter = Counter(
+        r["prediction"] for r in rules
+    )
+
+    if prediction_counter:
+
+        pred = prediction_counter.most_common(1)[0]
+
+        insights.append(
+
+            f"• Sebagian besar decision rule "
+            f"mengarah pada prediksi "
+            f"**{pred[0]}** "
+            f"sebanyak **{pred[1]}** rule."
 
         )
 
-    return (
+    # ==========================================
+    # Indikasi yang paling sering muncul
+    # ==========================================
 
-        f"Kendaraan dengan "
+    indikasi = [
 
-        f"{', '.join(bagian)} "
+        r["indikasi"]
 
-        f"cenderung diklasifikasikan sebagai "
+        for r in rules
 
-        f"{pattern['prediction']}."
+        if r["indikasi"]
+
+    ]
+
+    if indikasi:
+
+        top = Counter(indikasi).most_common(1)[0]
+
+        insights.append(
+
+            f"• Indikasi yang paling sering muncul "
+            f"adalah **{top[0]}** "
+            f"sebanyak **{top[1]}** rule."
+
+        )
+
+    # ==========================================
+    # Jenis Motor
+    # ==========================================
+
+    jenis = [
+
+        r["jenis"]
+
+        for r in rules
+
+        if r["jenis"]
+
+    ]
+
+    if jenis:
+
+        top = Counter(jenis).most_common(1)[0]
+
+        insights.append(
+
+            f"• Jenis motor yang paling sering "
+            f"muncul adalah **{top[0]}** "
+            f"sebanyak **{top[1]}** rule."
+
+        )
+
+    # ==========================================
+    # Kilometer
+    # ==========================================
+
+    km = [
+
+        r["kilometer"]
+
+        for r in rules
+
+        if r["kilometer"] != "-"
+
+    ]
+
+    if km:
+
+        insights.append(
+
+            f"• Sebagian besar rule memanfaatkan "
+            f"informasi **Kilometer** sebagai "
+            f"faktor penentu keputusan."
+
+        )
+
+    # ==========================================
+    # Usia Motor
+    # ==========================================
+
+    usia = [
+
+        r["usia"]
+
+        for r in rules
+
+        if r["usia"] != "-"
+
+    ]
+
+    if usia:
+
+        insights.append(
+
+            f"• Usia motor juga menjadi "
+            f"salah satu variabel penting "
+            f"dalam membedakan "
+            f"Service Ringan dan Service Berat."
+
+        )
+
+    # ==========================================
+    # Support Terbesar
+    # ==========================================
+
+    strongest = max(
+
+        rules,
+
+        key=lambda x: x["support"]
 
     )
+
+    pola = []
+
+    if strongest["indikasi"]:
+
+        pola.append(
+
+            f"Indikasi {strongest['indikasi']}"
+
+        )
+
+    if strongest["jenis"]:
+
+        pola.append(
+
+            f"Jenis {strongest['jenis']}"
+
+        )
+
+    if strongest["kilometer"] != "-":
+
+        pola.append(
+
+            strongest["kilometer"]
+
+        )
+
+    if strongest["usia"] != "-":
+
+        pola.append(
+
+            strongest["usia"]
+
+        )
+
+    insights.append(
+
+        f"• Rule dengan support terbesar "
+        f"menggambarkan kendaraan dengan "
+        f"{', '.join(pola)} "
+        f"yang diprediksi sebagai "
+        f"**{strongest['prediction']}** "
+        f"dengan tingkat kemurnian "
+        f"**{strongest['purity']}%**."
+
+    )
+
+    return insights
+
 # =========================================
 # HEADER
 # =========================================
@@ -1166,153 +1296,85 @@ if uploaded_file is not None:
             
 
             # ==========================================================
-            # REPRESENTATIVE DECISION TREE
-            # ==========================================================
+# REPRESENTATIVE DECISION TREE
+# ==========================================================
 
-            st.markdown("---")
-            st.markdown("## 🌳 Representative Decision Tree")
+st.markdown("---")
+st.subheader("🌳 Representative Decision Tree")
 
-            representative_tree = model.estimators_[0]
+# Mengambil salah satu tree dari Random Forest
+tree_model = model.estimators_[0]
 
-            fig_tree, ax_tree = plt.subplots(
-                figsize=(18, 8)
-            )
+# ================================
+# Visualisasi Tree
+# ================================
 
-            plot_tree(
+fig, ax = plt.subplots(figsize=(20, 10))
 
-                representative_tree,
+plot_tree(
+    tree_model,
+    feature_names=X.columns,
+    class_names=["Service Ringan", "Service Berat"],
+    filled=True,
+    rounded=True,
+    fontsize=8,
+    max_depth=3
+)
 
-                feature_names=feature_names,
+st.pyplot(fig)
 
-                class_names=[
-                    "Ringan",
-                    "Berat"
-                ],
+# ================================
+# Decision Rules
+# ================================
 
-                filled=True,
+st.markdown("### 📋 Decision Rules")
 
-                rounded=True,
+rules = extract_tree_rules(
+    tree_model,
+    list(X.columns)
+)
 
-                fontsize=9,
+rules = filter_tree_rules(
+    rules,
+    min_support=10,
+    min_purity=90,
+    max_gini=0.15
+)
 
-                impurity=False,
+rules = normalize_tree_rules(
+    rules
+)
 
-                proportion=True,
+rule_table = create_rule_table(
+    rules,
+    top_n=10
+)
 
-                max_depth=3,
+if len(rule_table) > 0:
 
-                ax=ax_tree
+    st.dataframe(
+        rule_table,
+        use_container_width=True,
+        hide_index=True
+    )
 
-            )
+else:
 
-            plt.tight_layout()
+    st.info("Tidak ditemukan rule yang memenuhi kriteria.")
 
-            st.pyplot(fig_tree)
+# ================================
+# Insight
+# ================================
 
-            tree_path = (
-                BASE_DIR /
-                "representative_tree.png"
-            )
+st.markdown("### 💡 Insight Model")
 
-            fig_tree.savefig(
-                tree_path,
-                dpi=250,
-                bbox_inches="tight"
-            )
+insights = generate_rule_insight(
+    rules
+)
 
-            plt.close(fig_tree)
+for insight in insights:
 
-            st.caption(
-                "Representative Decision Tree merupakan salah satu pohon keputusan yang dipilih dari Random Forest untuk membantu memahami proses klasifikasi."
-            )
-
-            # ==========================================================
-            # POLA KEPUTUSAN MODEL
-            # ==========================================================
-
-            paths = extract_tree_paths(
-                representative_tree,
-                feature_names
-            )
-
-            best_patterns = get_best_patterns(paths)
-
-            service_berat = []
-            service_ringan = []
-
-            for pattern in best_patterns:
-
-                row = {
-                    "Keterangan": build_description(pattern)
-                }
-
-                if pattern["prediction"] == "Service Berat":
-
-                    service_berat.append(row)
-
-                else:
-
-                    service_ringan.append(row)
-
-            # ==========================================================
-            # SERVICE BERAT
-            # ==========================================================
-
-            st.markdown("### 🔴 Pola Keputusan Service Berat")
-
-            if len(service_berat) > 0:
-
-                df_berat = pd.DataFrame(service_berat)
-
-                df_berat.insert(
-                    0,
-                    "No",
-                    range(1, len(df_berat) + 1)
-                )
-
-                st.dataframe(
-                    df_berat,
-                    use_container_width=True,
-                    hide_index=True
-                )
-
-            else:
-
-                st.info(
-                    "Tidak ditemukan pola Service Berat pada Representative Decision Tree."
-                )
-
-            # ==========================================================
-            # SERVICE RINGAN
-            # ==========================================================
-
-            st.markdown("### 🟢 Pola Keputusan Service Ringan")
-
-            if len(service_ringan) > 0:
-
-                df_ringan = pd.DataFrame(service_ringan)
-
-                df_ringan.insert(
-                    0,
-                    "No",
-                    range(1, len(df_ringan) + 1)
-                )
-
-                st.dataframe(
-                    df_ringan,
-                    use_container_width=True,
-                    hide_index=True
-                )
-
-            else:
-
-                st.info(
-                    "Tidak ditemukan pola Service Ringan pada Representative Decision Tree."
-                )
-
-            st.caption(
-                "Setiap tabel hanya menampilkan satu pola keputusan dengan jumlah data (support) terbesar untuk setiap indikasi yang ditemukan pada Representative Decision Tree."
-            )
+    st.markdown(insight)
             
             # ==========================================================
             # STATISTIK DATASET
