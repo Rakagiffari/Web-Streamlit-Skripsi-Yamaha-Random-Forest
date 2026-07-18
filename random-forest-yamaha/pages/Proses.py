@@ -283,35 +283,81 @@ def build_description(pattern):
 
     for item in pattern["conditions"]:
 
-        if item["feature"] == "Indikasi":
+        fitur = item["feature"]
+        operator = item["operator"]
+        nilai = item["threshold"]
+
+        # Skip fitur indikasi
+        if fitur.startswith("Indikasi_"):
             continue
 
-        kondisi.append(
+        # Kilometer
+        if fitur == "Km":
 
-            f'{item["feature"]} '
-            f'{item["operator"]} '
-            f'{item["threshold"]}'
+            if operator == "<=":
 
-        )
+                kondisi.append(
+                    f"kilometer ≤ {int(nilai):,} km".replace(",", ".")
+                )
+
+            else:
+
+                kondisi.append(
+                    f"kilometer lebih dari {int(nilai):,} km".replace(",", ".")
+                )
+
+        # Usia Motor
+        elif fitur == "Usia Motor":
+
+            if operator == "<=":
+
+                kondisi.append(
+                    f"usia motor ≤ {int(nilai)} tahun"
+                )
+
+            else:
+
+                kondisi.append(
+                    f"usia motor lebih dari {int(nilai)} tahun"
+                )
+
+        # Jenis Motor
+        elif fitur.startswith("Jenis_"):
+
+            jenis = fitur.replace("Jenis_", "")
+
+            kondisi.append(
+                f"jenis motor {jenis}"
+            )
+
+    # ------------------------------
+    # Susun kalimat
+    # ------------------------------
 
     if len(kondisi) == 0:
 
         return (
-            f"Model lebih sering memprediksi "
+            f"Kendaraan cenderung diklasifikasikan sebagai "
             f"{pattern['prediction']}."
         )
 
+    if len(kondisi) == 1:
+
+        syarat = kondisi[0]
+
+    elif len(kondisi) == 2:
+
+        syarat = f"{kondisi[0]} dan {kondisi[1]}"
+
+    else:
+
+        syarat = ", ".join(kondisi[:-1]) + " dan " + kondisi[-1]
+
     return (
 
-        f"Model lebih sering memprediksi "
-
-        f"{pattern['prediction']} "
-
-        f"apabila "
-
-        + ", ".join(kondisi)
-
-        + "."
+        f"Kendaraan dengan {syarat} "
+        f"cenderung diklasifikasikan sebagai "
+        f"{pattern['prediction']}."
 
     )
 
