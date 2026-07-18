@@ -219,102 +219,92 @@ def extract_tree_paths(tree_model, feature_names):
                 # KARAKTERISTIK KENDARAAN
                 # =====================================
 
+                best_pattern = top_patterns[0]
+
                 characteristics = []
 
                 for rule in best_pattern["path"]:
 
-                    # -----------------------------
+                    # -------------------------
                     # Jenis Motor
-                    # -----------------------------
-                    if rule.startswith("Jenis_"):
+                    # -------------------------
+                    if "Jenis_" in rule and "> 0.50" in rule:
 
-                        nama = rule.split("_")[1].split()[0]
+                        jenis = (
+                            rule.split("Jenis_")[1]
+                            .split()[0]
+                        )
 
-                        if "> 0.50" in rule:
+                        characteristics.append(
+                            f"Jenis motor **{jenis}**"
+                        )
 
-                            characteristics.append(
-                                f"Jenis motor **{nama}**"
-                            )
-
-                    # -----------------------------
+                    # -------------------------
                     # Indikasi
-                    # -----------------------------
-                    elif rule.startswith("Indikasi_"):
+                    # -------------------------
+                    elif "Indikasi_" in rule and "> 0.50" in rule:
 
-                        nama = rule.split("_")[1].split()[0]
+                        indikasi = (
+                            rule.split("Indikasi_")[1]
+                            .split()[0]
+                        )
 
-                        if "> 0.50" in rule:
+                        characteristics.append(
+                            f"Indikasi **{indikasi}**"
+                        )
 
-                            characteristics.append(
-                                f"Indikasi kerusakan pada **{nama}**"
-                            )
-
-                    # -----------------------------
+                    # -------------------------
                     # Kilometer
-                    # -----------------------------
+                    # -------------------------
                     elif rule.startswith("Km"):
 
                         if ">" in rule:
 
-                            nilai = float(rule.split(">")[1])
+                            nilai = float(
+                                rule.split(">")[1]
+                            )
 
                             characteristics.append(
-                                f"Kilometer kendaraan **lebih dari {nilai:,.0f} km**".replace(",", ".")
+                                f"Kilometer lebih dari **{nilai:,.0f} km**".replace(",", ".")
                             )
 
                         elif "≤" in rule:
 
-                            nilai = float(rule.split("≤")[1])
-
-                            characteristics.append(
-                                f"Kilometer kendaraan **maksimal {nilai:,.0f} km**".replace(",", ".")
+                            nilai = float(
+                                rule.split("≤")[1]
                             )
 
-                    # -----------------------------
+                            characteristics.append(
+                                f"Kilometer maksimal **{nilai:,.0f} km**".replace(",", ".")
+                            )
+
+                    # -------------------------
                     # Usia Motor
-                    # -----------------------------
+                    # -------------------------
                     elif rule.startswith("Usia Motor"):
 
                         if ">" in rule:
 
-                            nilai = float(rule.split(">")[1])
+                            nilai = float(
+                                rule.split(">")[1]
+                            )
 
                             characteristics.append(
-                                f"Usia motor **lebih dari {nilai:.0f} tahun**"
+                                f"Usia motor lebih dari **{nilai:.0f} tahun**"
                             )
 
                         elif "≤" in rule:
 
-                            nilai = float(rule.split("≤")[1])
-
-                            characteristics.append(
-                                f"Usia motor **maksimal {nilai:.0f} tahun**"
+                            nilai = float(
+                                rule.split("≤")[1]
                             )
 
-                # Hilangkan karakteristik yang sama
+                            characteristics.append(
+                                f"Usia motor maksimal **{nilai:.0f} tahun**"
+                            )
+
+                # Menghapus data yang sama
                 characteristics = list(dict.fromkeys(characteristics))
-
-                st.markdown("#### Insight Hasil Analisis")
-
-                st.write(
-                    f"""
-Berdasarkan hasil pelatihan model, **{root_feature}** menjadi faktor yang paling awal digunakan dalam membedakan jenis layanan service kendaraan.
-
-Karakteristik kendaraan yang paling sering ditemukan adalah:
-"""
-                )
-
-                for item in characteristics:
-
-                    st.markdown(f"- {item}")
-
-                st.success(
-                    f"""
-Berdasarkan karakteristik tersebut, model memprediksi kendaraan termasuk kategori **{best_pattern['prediction']}**.
-
-Pola tersebut ditemukan pada **{best_pattern['samples']}** data pelatihan sehingga dapat dijadikan gambaran karakteristik kendaraan yang paling sering muncul pada data riwayat service Yamaha.
-"""
-                )
 
 # =========================================
 # HEADER
