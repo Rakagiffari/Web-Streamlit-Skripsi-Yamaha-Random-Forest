@@ -150,6 +150,133 @@ div[data-testid="stExpanderDetails"]{
 </style>
 """, unsafe_allow_html=True)
 
+# ==========================================================
+# MENGAMBIL DECISION RULE DARI DECISION TREE
+# ==========================================================
+
+def extract_tree_rules(tree_model, feature_names):
+
+    tree = tree_model.tree_
+
+    rules = []
+
+    def traverse(node, conditions):
+
+        # Leaf
+        if tree.feature[node] == _tree.TREE_UNDEFINED:
+
+            values = tree.value[node][0]
+
+            support = int(values.sum())
+
+            prediction = tree_model.classes_[values.argmax()]
+
+            purity = (
+                values.max() / support * 100
+                if support > 0 else 0
+            )
+
+            rules.append({
+
+                "prediction": prediction,
+
+                "support": support,
+
+                "purity": round(purity, 2),
+
+                "gini": round(tree.impurity[node], 3),
+
+                "distribution": values.astype(int).tolist(),
+
+                "conditions": conditions.copy()
+
+            })
+
+            return
+
+        feature = feature_names[tree.feature[node]]
+
+        threshold = round(tree.threshold[node], 2)
+
+        # Cabang kiri (<=)
+        traverse(
+
+            tree.children_left[node],
+
+            conditions + [{
+
+                "feature": feature,
+
+                "operator": "<=",
+
+                "threshold": threshold
+
+            }]
+
+        )
+
+        # Cabang kanan (>)
+        traverse(
+
+            tree.children_right[node],
+
+            conditions + [{
+
+                "feature": feature,
+
+                "operator": ">",
+
+                "threshold": threshold
+
+            }]
+
+        )
+
+    traverse(0, [])
+
+    return rules
+
+# ==========================================================
+# MENYELEKSI DECISION RULE TERBAIK
+# ==========================================================
+
+def filter_tree_rules(
+    rules,
+    min_support=10,
+    min_purity=90,
+    max_gini=0.15
+):
+
+    filtered = [
+
+        rule
+
+        for rule in rules
+
+        if (
+            rule["support"] >= min_support
+            and rule["purity"] >= min_purity
+            and rule["gini"] <= max_gini
+        )
+
+    ]
+
+    filtered.sort(
+
+        key=lambda x: (
+
+            x["support"],
+
+            x["purity"]
+
+        ),
+
+        reverse=True
+
+    )
+
+    return filtered
+
 # ========================================================== 
 # MENGAMBIL SEMUA DECISION RULE DARI DECISION TREE 
 # ==========================================================
