@@ -279,7 +279,10 @@ def get_best_patterns(paths):
 
 def build_description(pattern):
 
-    kondisi = []
+    indikasi = None
+    jenis = None
+    km = None
+    usia = None
 
     for item in pattern["conditions"]:
 
@@ -287,75 +290,74 @@ def build_description(pattern):
         operator = item["operator"]
         nilai = item["threshold"]
 
-        # Skip fitur indikasi
+        # ==========================
+        # INDIKASI
+        # ==========================
         if fitur.startswith("Indikasi_"):
-            continue
 
-        # Kilometer
-        if fitur == "Km":
+            indikasi = fitur.replace("Indikasi_", "")
 
-            if operator == "<=":
-
-                kondisi.append(
-                    f"kilometer ≤ {int(nilai):,} km".replace(",", ".")
-                )
-
-            else:
-
-                kondisi.append(
-                    f"kilometer lebih dari {int(nilai):,} km".replace(",", ".")
-                )
-
-        # Usia Motor
-        elif fitur == "Usia Motor":
-
-            if operator == "<=":
-
-                kondisi.append(
-                    f"usia motor ≤ {int(nilai)} tahun"
-                )
-
-            else:
-
-                kondisi.append(
-                    f"usia motor lebih dari {int(nilai)} tahun"
-                )
-
-        # Jenis Motor
+        # ==========================
+        # JENIS MOTOR
+        # ==========================
         elif fitur.startswith("Jenis_"):
 
             jenis = fitur.replace("Jenis_", "")
 
-            kondisi.append(
-                f"jenis motor {jenis}"
-            )
+        # ==========================
+        # KILOMETER
+        # ==========================
+        elif fitur == "Km":
 
-    # ------------------------------
-    # Susun kalimat
-    # ------------------------------
+            if operator == "<=":
 
-    if len(kondisi) == 0:
+                km = f"kilometer ≤ {int(nilai):,} km".replace(",", ".")
+
+            else:
+
+                km = f"kilometer lebih dari {int(nilai):,} km".replace(",", ".")
+
+        # ==========================
+        # USIA MOTOR
+        # ==========================
+        elif fitur == "Usia Motor":
+
+            if operator == "<=":
+
+                usia = f"usia motor ≤ {int(nilai)} tahun"
+
+            else:
+
+                usia = f"usia motor lebih dari {int(nilai)} tahun"
+
+    # ==========================
+    # SUSUN KALIMAT
+    # ==========================
+
+    bagian = []
+
+    if indikasi:
+        bagian.append(f"Indikasi {indikasi}")
+
+    if jenis:
+        bagian.append(f"jenis motor {jenis}")
+
+    if km:
+        bagian.append(km)
+
+    if usia:
+        bagian.append(usia)
+
+    if len(bagian) == 0:
 
         return (
             f"Kendaraan cenderung diklasifikasikan sebagai "
             f"{pattern['prediction']}."
         )
 
-    if len(kondisi) == 1:
-
-        syarat = kondisi[0]
-
-    elif len(kondisi) == 2:
-
-        syarat = f"{kondisi[0]} dan {kondisi[1]}"
-
-    else:
-
-        syarat = ", ".join(kondisi[:-1]) + " dan " + kondisi[-1]
-
     return (
 
-        f"Kendaraan dengan {syarat} "
+        f"Kendaraan dengan {', '.join(bagian)} "
         f"cenderung diklasifikasikan sebagai "
         f"{pattern['prediction']}."
 
@@ -1149,15 +1151,7 @@ if uploaded_file is not None:
             for pattern in best_patterns:
 
                 row = {
-
-                    "Indikasi": (
-                        pattern["indikasi"]
-                        if pattern["indikasi"] is not None
-                        else "-"
-                    ),
-
                     "Keterangan": build_description(pattern)
-
                 }
 
                 if pattern["prediction"] == "Service Berat":
@@ -1176,8 +1170,10 @@ if uploaded_file is not None:
 
             if len(service_berat) > 0:
 
-                df_berat = pd.DataFrame(
-                    service_berat
+                df_berat.insert(
+                    0,
+                    "No",
+                    range(1, len(df_berat) + 1)
                 )
 
                 st.dataframe(
@@ -1200,8 +1196,10 @@ if uploaded_file is not None:
 
             if len(service_ringan) > 0:
 
-                df_ringan = pd.DataFrame(
-                    service_ringan
+                df_ringan.insert(
+                    0,
+                    "No",
+                    range(1, len(df_ringan) + 1)
                 )
 
                 st.dataframe(
