@@ -234,47 +234,25 @@ def train_model(X, y):
 # KARAKTERISTIK HASIL KLASIFIKASI
 # ==========================================================
 
-def generate_vehicle_characteristics(model, X, df):
-
+def generate_vehicle_characteristics(model, X, feature_df):
     """
-    Membuat ringkasan karakteristik hasil klasifikasi
-    berdasarkan hasil prediksi Random Forest.
-
-    Parameter
-    ---------
-    model : RandomForestClassifier
-    X     : Data fitur yang digunakan saat training
-    df    : Dataset sebelum encoding
+    Membuat ringkasan karakteristik kendaraan berdasarkan
+    hasil prediksi Random Forest.
     """
 
-    # -----------------------------------------
-    # Prediksi seluruh data
-    # -----------------------------------------
+    hasil = feature_df.copy()
 
-    prediksi = model.predict(X)
+    hasil["Prediksi"] = model.predict(X)
 
-    hasil = df.copy()
-
-    hasil["Prediksi"] = prediksi
-
-    # Ubah angka menjadi label jika masih numerik
+    # Jika hasil prediksi berupa angka
     if hasil["Prediksi"].dtype != object:
 
         hasil["Prediksi"] = hasil["Prediksi"].map({
-
             0: "Ringan",
             1: "Berat"
-
         })
 
-    # -----------------------------------------
-    # Hitung ringkasan
-    # -----------------------------------------
-
-    ringkasan = []
-
     urutan_jenis = [
-
         "MAXi",
         "Classy",
         "Matic",
@@ -282,69 +260,54 @@ def generate_vehicle_characteristics(model, X, df):
         "Sport",
         "Off-road",
         "Unknown"
-
     ]
 
-    jenis_tersedia = [
+    summary = []
 
-        j
+    for jenis in urutan_jenis:
 
-        for j in urutan_jenis
-
-        if j in hasil["Jenis"].unique()
-
-    ]
-
-    for jenis in jenis_tersedia:
-
-        df_jenis = hasil[
+        data_jenis = hasil[
             hasil["Jenis"] == jenis
         ]
 
+        if data_jenis.empty:
+            continue
+
         for service in ["Ringan", "Berat"]:
 
-            df_service = df_jenis[
-                df_jenis["Prediksi"] == service
+            data_service = data_jenis[
+                data_jenis["Prediksi"] == service
             ]
 
-            if len(df_service) == 0:
+            if data_service.empty:
                 continue
 
-            indikasi = "-"
-
-            if not df_service["Indikasi"].mode().empty:
-
-                indikasi = (
-                    df_service["Indikasi"]
-                    .mode()
-                    .iloc[0]
-                )
-
-            ringkasan.append({
+            summary.append({
 
                 "Jenis": jenis,
 
                 "Service": service,
 
-                "Indikasi Dominan": indikasi,
+                "Indikasi Dominan":
+                    data_service["Indikasi"]
+                    .mode()
+                    .iloc[0],
 
                 "Rata-rata KM":
                     round(
-                        df_service["Km"].mean(),
+                        data_service["Km"].mean(),
                         0
                     ),
 
                 "Rata-rata Usia":
                     round(
-                        df_service["Usia Motor"].mean(),
+                        data_service["Usia Motor"].mean(),
                         1
                     ),
 
                 "Jumlah Data":
-                    len(df_service)
+                    len(data_service)
 
             })
 
-    summary_df = pd.DataFrame(ringkasan)
-
-    return summary_df
+    return pd.DataFrame(summary)
