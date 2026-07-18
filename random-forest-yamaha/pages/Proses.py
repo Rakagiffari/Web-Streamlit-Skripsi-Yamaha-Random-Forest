@@ -1293,90 +1293,98 @@ if uploaded_file is not None:
                     Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
                 """)
 
+                        # ==========================================================
+            # REPRESENTATIVE DECISION TREE
             # ==========================================================
-# REPRESENTATIVE DECISION TREE
-# ==========================================================
 
-st.markdown("---")
+            with st.expander("Representative Decision Tree", expanded=False):
 
-with st.expander("Representative Decision Tree", expanded=False):
+                # -------------------------------------
+                # Visualisasi Representative Tree
+                # -------------------------------------
 
-    representative_tree = model.estimators_[0]
+                representative_tree = model.estimators_[0]
 
-    fig_tree, ax_tree = plt.subplots(
-        figsize=(18, 8),
-        dpi=120
-    )
+                fig_tree, ax_tree = plt.subplots(
+                    figsize=(18, 8),
+                    dpi=120
+                )
 
-    plot_tree(
+                plot_tree(
+                    representative_tree,
+                    feature_names=feature_names,
+                    class_names=["Ringan", "Berat"],
+                    filled=True,
+                    rounded=True,
+                    fontsize=8,
+                    max_depth=3,
+                    ax=ax_tree
+                )
 
-        representative_tree,
+                plt.tight_layout()
 
-        feature_names=feature_names,
+                st.pyplot(fig_tree)
 
-        class_names=["Ringan", "Berat"],
+                plt.close(fig_tree)
 
-        filled=True,
+                st.markdown("---")
 
-        rounded=True,
+                # -------------------------------------
+                # Decision Rules
+                # -------------------------------------
 
-        fontsize=8,
+                st.markdown("#### 📋 Decision Rules")
 
-        max_depth=3,
+                rules = extract_tree_rules(
+                    representative_tree,
+                    feature_names
+                )
 
-        ax=ax_tree
+                rules = filter_tree_rules(
+                    rules,
+                    min_support=10,
+                    min_purity=90,
+                    max_gini=0.15
+                )
 
-    )
+                rules = normalize_tree_rules(
+                    rules
+                )
 
-    plt.tight_layout()
+                rule_table = create_rule_table(
+                    rules,
+                    top_n=10
+                )
 
-    st.pyplot(fig_tree)
+                if not rule_table.empty:
 
-    plt.close(fig_tree)
+                    st.dataframe(
+                        rule_table,
+                        hide_index=True,
+                        use_container_width=True
+                    )
 
-    st.markdown("---")
+                else:
 
-    st.markdown("#### 📋 Decision Rules")
+                    st.info(
+                        "Tidak ditemukan Decision Rule yang memenuhi kriteria."
+                    )
 
-    rules = extract_tree_rules(
-        representative_tree,
-        feature_names
-    )
+                st.markdown("---")
 
-    rules = filter_tree_rules(
-        rules
-    )
+                # -------------------------------------
+                # Insight Model
+                # -------------------------------------
 
-    rules = normalize_tree_rules(
-        rules
-    )
+                st.markdown("#### 💡 Insight Model")
 
-    rule_table = create_rule_table(
-        rules,
-        top_n=10
-    )
+                insights = generate_rule_insight(
+                    rules
+                )
 
-    st.dataframe(
+                for insight in insights:
 
-        rule_table,
-
-        hide_index=True,
-
-        use_container_width=True
-
-    )
-
-    st.markdown("---")
-
-    st.markdown("#### 💡 Insight Model")
-
-    insights = generate_rule_insight(
-        rules
-    )
-
-    for text in insights:
-
-        st.markdown(text)
+                    st.markdown(insight)
             
             # ==========================================================
             # STATISTIK DATASET
