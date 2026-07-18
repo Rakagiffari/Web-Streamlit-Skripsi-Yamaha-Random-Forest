@@ -1053,14 +1053,18 @@ if uploaded_file is not None:
                 expanded=False
             ):
 
-                # Root Node
-                root_node = representative_tree.tree_.feature[0]
-                root_feature = feature_names[root_node]
-                root_threshold = representative_tree.tree_.threshold[0]
+                # -----------------------------
+                # Informasi Representative Tree
+                # -----------------------------
 
-                # Informasi Tree
+                root_index = representative_tree.tree_.feature[0]
+
+                if root_index != -2:
+                    root_feature = feature_names[root_index]
+                else:
+                    root_feature = "-"
+
                 total_nodes = representative_tree.tree_.node_count
-                tree_depth = representative_tree.tree_.max_depth
 
                 children_left = representative_tree.tree_.children_left
                 children_right = representative_tree.tree_.children_right
@@ -1070,47 +1074,65 @@ if uploaded_file is not None:
                     for i in range(total_nodes)
                 )
 
-                # Decision Path dengan Support terbesar
+                tree_depth = representative_tree.tree_.max_depth
+
+                # -----------------------------
+                # Pola keputusan utama
+                # -----------------------------
+
                 best_pattern = top_patterns[0]
+
+                # -----------------------------
+                # Ringkasan Tree
+                # -----------------------------
 
                 st.markdown("#### Ringkasan Representative Decision Tree")
 
-                info_df = pd.DataFrame({
+                summary_df = pd.DataFrame({
+
                     "Informasi": [
-                        "Root Node",
-                        "Threshold",
-                        "Jumlah Node",
-                        "Jumlah Leaf",
-                        "Kedalaman Tree"
+
+                        "Faktor yang Pertama Diperhatikan",
+                        "Jumlah Tahapan Keputusan",
+                        "Jumlah Keputusan Akhir",
+                        "Tingkat Kerumitan Pohon"
+
                     ],
+
                     "Hasil": [
+
                         root_feature,
-                        f"{root_threshold:.2f}",
                         total_nodes,
                         total_leaf,
                         tree_depth
+
                     ]
+
                 })
 
                 st.dataframe(
-                    info_df,
+                    summary_df,
                     hide_index=True,
                     use_container_width=True
                 )
 
-                st.markdown(f"""
-Representative Decision Tree merupakan salah satu pohon keputusan yang dipilih sebagai representasi dari model **Random Forest**. Pohon ini digunakan untuk membantu menjelaskan bagaimana proses klasifikasi dilakukan sebelum seluruh Decision Tree digabungkan melalui mekanisme **Majority Voting**.
+                st.markdown("---")
 
-Berdasarkan hasil pelatihan model, atribut **{root_feature}** menjadi **Root Node**, sehingga atribut tersebut digunakan sebagai pemisah pertama dalam proses klasifikasi pada pohon representatif.
+                st.markdown("#### Insight Hasil Analisis")
 
-Decision Path dengan **Support** terbesar mengikuti jalur:
+                st.info(f"""
+Berdasarkan hasil pelatihan model Random Forest, **{root_feature}** merupakan faktor yang pertama kali digunakan dalam proses menentukan jenis layanan service. Hal ini menunjukkan bahwa informasi tersebut memiliki pengaruh yang besar dalam membedakan kendaraan yang memerlukan **Service Ringan** maupun **Service Berat**.
 
-> **{" → ".join(best_pattern["path"])}**
+Salah satu pola yang paling sering ditemukan pada data riwayat service adalah:
 
-Jalur tersebut menghasilkan prediksi **{best_pattern["prediction"]}** dengan tingkat kemurnian sebesar **{best_pattern["purity"]:.1f}%**, serta didukung oleh **{best_pattern["samples"]}** data pelatihan.
+➡️ **{" → ".join(best_pattern["path"])}**
 
-Representative Decision Tree hanya digunakan sebagai media interpretasi model. Keputusan akhir Random Forest tetap ditentukan berdasarkan hasil **Majority Voting** dari seluruh Decision Tree yang terbentuk selama proses pelatihan.
-                """)
+Kendaraan yang memiliki karakteristik tersebut diprediksi termasuk kategori **{best_pattern["prediction"]}**.
+
+Pola ini ditemukan pada **{best_pattern["samples"]}** data pelatihan sehingga dapat dijadikan gambaran karakteristik layanan yang paling sering muncul pada data riwayat service kendaraan Yamaha.
+
+Representative Decision Tree hanya digunakan untuk membantu menjelaskan bagaimana model melakukan proses klasifikasi. Hasil prediksi akhir tetap ditentukan oleh keseluruhan pohon keputusan yang terdapat pada model Random Forest sehingga hasil klasifikasi menjadi lebih stabil dan akurat.
+""")
             
             # ==========================================================
             # STATISTIK DATASET
