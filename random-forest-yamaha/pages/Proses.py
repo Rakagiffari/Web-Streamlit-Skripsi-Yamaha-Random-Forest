@@ -158,7 +158,7 @@ def extract_tree_paths(tree_model, feature_names):
     tree = tree_model.tree_
     paths = []
     
-    def recurse(node, current_path)
+    def recurse(node, current_path):
         if tree.feature[node] != _tree.TREE_UNDEFINED:
             feature = feature_names[tree.feature[node]]
             threshold = tree.threshold[node]
