@@ -10,11 +10,7 @@ from pathlib import Path
 
 from utils.preprocessing import preprocess_data
 from utils.training import train_model
-from sklearn.tree import (
-    DecisionTreeClassifier,
-    plot_tree,
-    _tree
-)
+from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.tree import export_graphviz
 from utils.report import generate_pdf
 
@@ -149,568 +145,6 @@ div[data-testid="stExpanderDetails"]{
 
 </style>
 """, unsafe_allow_html=True)
-
-# ==========================================================
-# MENGAMBIL DECISION RULE DARI DECISION TREE
-# ==========================================================
-
-def extract_tree_rules(tree_model, feature_names):
-
-    tree = tree_model.tree_
-
-    rules = []
-
-    def traverse(node, conditions):
-
-        # Leaf
-        if tree.feature[node] == _tree.TREE_UNDEFINED:
-
-            values = tree.value[node][0]
-
-            support = int(values.sum())
-
-            prediction = tree_model.classes_[values.argmax()]
-
-            purity = (
-                values.max() / support * 100
-                if support > 0 else 0
-            )
-
-            rules.append({
-
-                "prediction": prediction,
-
-                "support": support,
-
-                "purity": round(purity, 2),
-
-                "gini": round(tree.impurity[node], 3),
-
-                "distribution": values.astype(int).tolist(),
-
-                "conditions": conditions.copy()
-
-            })
-
-            return
-
-        feature = feature_names[tree.feature[node]]
-
-        threshold = round(tree.threshold[node], 2)
-
-        # Cabang kiri (<=)
-        traverse(
-
-            tree.children_left[node],
-
-            conditions + [{
-
-                "feature": feature,
-
-                "operator": "<=",
-
-                "threshold": threshold
-
-            }]
-
-        )
-
-        # Cabang kanan (>)
-        traverse(
-
-            tree.children_right[node],
-
-            conditions + [{
-
-                "feature": feature,
-
-                "operator": ">",
-
-                "threshold": threshold
-
-            }]
-
-        )
-
-    traverse(0, [])
-
-    return rules
-
-# ==========================================================
-# MENYELEKSI DECISION RULE TERBAIK
-# ==========================================================
-
-def filter_tree_rules(
-    rules,
-    min_support=10,
-    min_purity=90,
-    max_gini=0.15
-):
-
-    filtered = [
-
-        rule
-
-        for rule in rules
-
-        if (
-            rule["support"] >= min_support
-            and rule["purity"] >= min_purity
-            and rule["gini"] <= max_gini
-        )
-
-    ]
-
-    filtered.sort(
-
-        key=lambda x: (
-
-            x["support"],
-
-            x["purity"]
-
-        ),
-
-        reverse=True
-
-    )
-
-    return filtered
-
-# ========================================================== 
-# MENGAMBIL SEMUA DECISION RULE DARI DECISION TREE 
-# ==========================================================
-def normalize_tree_rules(rules):
-
-    normalized_rules = []
-
-    for rule in rules:
-
-        km_min = None
-        km_max = None
-
-        usia_min = None
-        usia_max = None
-
-        jenis = None
-        indikasi = None
-
-        other_conditions = []
-
-        for cond in rule["conditions"]:
-
-            feature = cond["feature"]
-            operator = cond["operator"]
-            threshold = cond["threshold"]
-
-            # =====================================
-            # Kilometer
-            # =====================================
-
-            if feature.lower() == "kilometer":
-
-                if operator == ">":
-
-                    if km_min is None or threshold > km_min:
-                        km_min = threshold
-
-                else:
-
-                    if km_max is None or threshold < km_max:
-                        km_max = threshold
-
-            # =====================================
-            # Usia Motor
-            # =====================================
-
-            elif feature.lower() == "usia motor":
-
-                if operator == ">":
-
-                    if usia_min is None or threshold > usia_min:
-                        usia_min = threshold
-
-                else:
-
-                    if usia_max is None or threshold < usia_max:
-                        usia_max = threshold
-
-            # =====================================
-            # Jenis Motor
-            # =====================================
-
-            elif feature.startswith("Jenis_"):
-
-                if operator == ">":
-
-                    jenis = feature.replace("Jenis_", "")
-
-            # =====================================
-            # Indikasi
-            # =====================================
-
-            elif feature.startswith("Indikasi_"):
-
-                if operator == ">":
-
-                    indikasi = feature.replace("Indikasi_", "")
-
-            # =====================================
-            # Feature lain
-            # =====================================
-
-            else:
-
-                other_conditions.append(cond)
-
-        # ==========================================
-        # FORMAT RANGE KILOMETER
-        # ==========================================
-
-        if km_min is not None and km_max is not None:
-
-            km_text = f"{int(km_min):,} < Km ≤ {int(km_max):,}".replace(",", ".")
-
-        elif km_min is not None:
-
-            km_text = f"Km > {int(km_min):,}".replace(",", ".")
-
-        elif km_max is not None:
-
-            km_text = f"Km ≤ {int(km_max):,}".replace(",", ".")
-
-        else:
-
-            km_text = "-"
-
-        # ==========================================
-        # FORMAT RANGE USIA
-        # ==========================================
-
-        if usia_min is not None and usia_max is not None:
-
-            usia_text = f"{usia_min:.0f} < Usia ≤ {usia_max:.0f} Tahun"
-
-        elif usia_min is not None:
-
-            usia_text = f"Usia > {usia_min:.0f} Tahun"
-
-        elif usia_max is not None:
-
-            usia_text = f"Usia ≤ {usia_max:.0f} Tahun"
-
-        else:
-
-            usia_text = "-"
-
-        normalized_rules.append({
-
-            "prediction": rule["prediction"],
-
-            "support": rule["support"],
-
-            "purity": rule["purity"],
-
-            "gini": rule["gini"],
-
-            "distribution": rule["distribution"],
-
-            "indikasi": indikasi,
-
-            "jenis": jenis,
-
-            "kilometer": km_text,
-
-            "usia": usia_text,
-
-            "other_conditions": other_conditions
-
-        })
-
-    return normalized_rules
-
-# ==========================================================
-# MEMBUAT TABEL DECISION RULE
-# ==========================================================
-
-import pandas as pd
-
-
-def create_rule_table(normalized_rules, top_n=10):
-
-    rows = []
-
-    for i, rule in enumerate(normalized_rules[:top_n], start=1):
-
-        pola = []
-
-        # -----------------------------------------
-        # Indikasi
-        # -----------------------------------------
-
-        if rule["indikasi"]:
-
-            pola.append(
-                f"Indikasi {rule['indikasi']}"
-            )
-
-        # -----------------------------------------
-        # Jenis Motor
-        # -----------------------------------------
-
-        if rule["jenis"]:
-
-            pola.append(
-                f"Jenis {rule['jenis']}"
-            )
-
-        # -----------------------------------------
-        # Kilometer
-        # -----------------------------------------
-
-        if rule["kilometer"] != "-":
-
-            pola.append(
-                rule["kilometer"]
-            )
-
-        # -----------------------------------------
-        # Usia Motor
-        # -----------------------------------------
-
-        if rule["usia"] != "-":
-
-            pola.append(
-                rule["usia"]
-            )
-
-        # -----------------------------------------
-        # Feature lain
-        # -----------------------------------------
-
-        for cond in rule["other_conditions"]:
-
-            feature = cond["feature"]
-            operator = cond["operator"]
-            threshold = round(cond["threshold"], 2)
-
-            pola.append(
-                f"{feature} {operator} {threshold}"
-            )
-
-        rows.append({
-
-            "No": i,
-
-            "Pola Keputusan": ", ".join(pola),
-
-            "Prediksi": rule["prediction"],
-
-            "Support": rule["support"],
-
-            "Kemurnian (%)": rule["purity"],
-
-            "Gini": rule["gini"]
-
-        })
-
-    df = pd.DataFrame(rows)
-
-    return df
-
-# ==========================================================
-# MEMBUAT TABEL DECISION RULE
-# ==========================================================
-
-from collections import Counter
-
-def generate_rule_insight(normalized_rules, top_n=10):
-
-    rules = normalized_rules[:top_n]
-
-    insights = []
-
-    # ==========================================
-    # Dominasi Prediksi
-    # ==========================================
-
-    prediction_counter = Counter(
-        r["prediction"] for r in rules
-    )
-
-    if prediction_counter:
-
-        pred = prediction_counter.most_common(1)[0]
-
-        insights.append(
-
-            f"• Sebagian besar decision rule "
-            f"mengarah pada prediksi "
-            f"**{pred[0]}** "
-            f"sebanyak **{pred[1]}** rule."
-
-        )
-
-    # ==========================================
-    # Indikasi yang paling sering muncul
-    # ==========================================
-
-    indikasi = [
-
-        r["indikasi"]
-
-        for r in rules
-
-        if r["indikasi"]
-
-    ]
-
-    if indikasi:
-
-        top = Counter(indikasi).most_common(1)[0]
-
-        insights.append(
-
-            f"• Indikasi yang paling sering muncul "
-            f"adalah **{top[0]}** "
-            f"sebanyak **{top[1]}** rule."
-
-        )
-
-    # ==========================================
-    # Jenis Motor
-    # ==========================================
-
-    jenis = [
-
-        r["jenis"]
-
-        for r in rules
-
-        if r["jenis"]
-
-    ]
-
-    if jenis:
-
-        top = Counter(jenis).most_common(1)[0]
-
-        insights.append(
-
-            f"• Jenis motor yang paling sering "
-            f"muncul adalah **{top[0]}** "
-            f"sebanyak **{top[1]}** rule."
-
-        )
-
-    # ==========================================
-    # Kilometer
-    # ==========================================
-
-    km = [
-
-        r["kilometer"]
-
-        for r in rules
-
-        if r["kilometer"] != "-"
-
-    ]
-
-    if km:
-
-        insights.append(
-
-            f"• Sebagian besar rule memanfaatkan "
-            f"informasi **Kilometer** sebagai "
-            f"faktor penentu keputusan."
-
-        )
-
-    # ==========================================
-    # Usia Motor
-    # ==========================================
-
-    usia = [
-
-        r["usia"]
-
-        for r in rules
-
-        if r["usia"] != "-"
-
-    ]
-
-    if usia:
-
-        insights.append(
-
-            f"• Usia motor juga menjadi "
-            f"salah satu variabel penting "
-            f"dalam membedakan "
-            f"Service Ringan dan Service Berat."
-
-        )
-
-    # ==========================================
-    # Support Terbesar
-    # ==========================================
-
-    strongest = max(
-
-        rules,
-
-        key=lambda x: x["support"]
-
-    )
-
-    pola = []
-
-    if strongest["indikasi"]:
-
-        pola.append(
-
-            f"Indikasi {strongest['indikasi']}"
-
-        )
-
-    if strongest["jenis"]:
-
-        pola.append(
-
-            f"Jenis {strongest['jenis']}"
-
-        )
-
-    if strongest["kilometer"] != "-":
-
-        pola.append(
-
-            strongest["kilometer"]
-
-        )
-
-    if strongest["usia"] != "-":
-
-        pola.append(
-
-            strongest["usia"]
-
-        )
-
-    insights.append(
-
-        f"• Rule dengan support terbesar "
-        f"menggambarkan kendaraan dengan "
-        f"{', '.join(pola)} "
-        f"yang diprediksi sebagai "
-        f"**{strongest['prediction']}** "
-        f"dengan tingkat kemurnian "
-        f"**{strongest['purity']}%**."
-
-    )
-
-    return insights
 
 # =========================================
 # HEADER
@@ -1420,98 +854,216 @@ if uploaded_file is not None:
                     Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
                 """)
 
-                        # ==========================================================
-            # REPRESENTATIVE DECISION TREE
+            # ==========================================================
+            # VISUALISASI DECISION TREE
             # ==========================================================
 
-            with st.expander("Representative Decision Tree", expanded=False):
+            st.markdown("---")
+            st.markdown("## 🌳 Visualisasi Decision Tree")
 
-                # -------------------------------------
-                # Visualisasi Representative Tree
-                # -------------------------------------
+            # ----------------------------------------------------------
+            # Mengambil 4 fitur dengan nilai importance tertinggi
+            # ----------------------------------------------------------
 
-                representative_tree = model.estimators_[0]
+            top_features = (
+                importance_grouped["Fitur"]
+                .head(4)
+                .tolist()
+            )
 
-                fig_tree, ax_tree = plt.subplots(
-                    figsize=(18, 8),
-                    dpi=120
+            while len(top_features) < 4:
+                top_features.append("-")
+
+            f1, f2, f3, f4 = top_features
+
+                        # ==========================================================
+            # MEMBUAT DIAGRAM DECISION TREE
+            # ==========================================================
+
+            dot = graphviz.Digraph(
+                "DecisionTree",
+                engine="dot"
+            )
+
+            # ----------------------------------------------------------
+            # Pengaturan Layout
+            # ----------------------------------------------------------
+
+            dot.attr(
+                rankdir="TB",
+                bgcolor="white",
+                size="4,5!",
+                ratio="compress",
+                pad="0.05",
+                margin="0.05",
+                nodesep="0.20",
+                ranksep="0.35",
+                splines="polyline"
+            )
+
+            # ----------------------------------------------------------
+            # Style Panah
+            # ----------------------------------------------------------
+
+            dot.attr(
+                "edge",
+                color="#555555",
+                penwidth="1.5",
+                arrowsize="0.7",
+                fontsize="9",
+                fontname="Helvetica"
+            )
+
+            # ----------------------------------------------------------
+            # Style Node Feature
+            # ----------------------------------------------------------
+
+            dot.attr(
+                "node",
+                shape="box",
+                style="rounded,filled",
+                fillcolor="#d32f2f",
+                color="#b71c1c",
+                fontcolor="white",
+                fontsize="10",
+                fontname="Helvetica",
+                width="1.05",
+                height="0.45",
+                margin="0.06"
+            )
+
+            dot.node("A", f1)
+            dot.node("B", f2)
+            dot.node("C", f3)
+            dot.node("D", f4)
+
+            # ----------------------------------------------------------
+            # Style Node Service
+            # ----------------------------------------------------------
+
+            dot.node(
+                "SB1",
+                "Service\nBerat",
+                shape="ellipse",
+                width="1.05",
+                height="0.45",
+                fillcolor="#1565c0",
+                color="#0d47a1",
+                fontcolor="white"
+            )
+
+            dot.node(
+                "SR1",
+                "Service\nRingan",
+                shape="ellipse",
+                width="1.05",
+                height="0.45",
+                fillcolor="#2e7d32",
+                color="#1b5e20",
+                fontcolor="white"
+            )
+
+            dot.node(
+                "SR2",
+                "Service\nRingan",
+                shape="ellipse",
+                width="1.05",
+                height="0.45",
+                fillcolor="#2e7d32",
+                color="#1b5e20",
+                fontcolor="white"
+            )
+
+            dot.node(
+                "SB2",
+                "Service\nBerat",
+                shape="ellipse",
+                width="1.05",
+                height="0.45",
+                fillcolor="#1565c0",
+                color="#0d47a1",
+                fontcolor="white"
+            )
+
+            # ----------------------------------------------------------
+            # Hubungan Node
+            # ----------------------------------------------------------
+
+            dot.edge("A", "B", label="Ya")
+            dot.edge("A", "SB1", label="Tidak")
+
+            dot.edge("B", "C", label="Ya")
+            dot.edge("B", "SR1", label="Tidak")
+
+            dot.edge("C", "D", label="Ya")
+            dot.edge("C", "SR2", label="Tidak")
+
+            dot.edge("D", "SB2")
+
+            # ----------------------------------------------------------
+            # Tampilkan Diagram
+            # ----------------------------------------------------------
+
+            col_left, col_center, col_right = st.columns([2, 3, 2])
+
+            with col_center:
+
+                st.graphviz_chart(
+                    dot,
+                    use_container_width=False
                 )
 
-                plot_tree(
-                    representative_tree,
-                    feature_names=feature_names,
-                    class_names=["Ringan", "Berat"],
-                    filled=True,
-                    rounded=True,
-                    fontsize=8,
-                    max_depth=3,
-                    ax=ax_tree
-                )
+            # ==========================================================
+            # PENJELASAN
+            # ==========================================================
 
-                plt.tight_layout()
+            with st.expander(
+                "Visualisasi Decision Tree",
+                expanded=False
+            ):
 
-                st.pyplot(fig_tree)
+                st.markdown("### 📍 Interpretasi")
 
-                plt.close(fig_tree)
+                st.write(f"""
+Visualisasi Decision Tree di atas merupakan ilustrasi sederhana berdasarkan empat fitur dengan nilai Feature Importance tertinggi.
+
+Proses klasifikasi dimulai dari **{f1}**, kemudian dilanjutkan ke **{f2}**, **{f3}**, dan **{f4}** hingga menghasilkan keputusan **Service Ringan** atau **Service Berat**.
+
+Visualisasi ini digunakan untuk membantu memahami alur keputusan model, sedangkan proses prediksi pada sistem tetap menggunakan algoritma **Random Forest**.
+                """)
 
                 st.markdown("---")
 
-                # -------------------------------------
-                # Decision Rules
-                # -------------------------------------
+                st.markdown("### 📋 Urutan Feature Importance")
 
-                st.markdown("#### 📋 Decision Rules")
+                ranking = importance_grouped.copy()
 
-                rules = extract_tree_rules(
-                    representative_tree,
-                    feature_names
+                ranking.insert(
+                    0,
+                    "No",
+                    range(1, len(ranking) + 1)
                 )
 
-                rules = filter_tree_rules(
-                    rules,
-                    min_support=10,
-                    min_purity=90,
-                    max_gini=0.15
+                ranking["Importance"] = (
+                    ranking["Importance"]
+                    .round(4)
                 )
 
-                rules = normalize_tree_rules(
-                    rules
+                st.dataframe(
+                    ranking,
+                    hide_index=True,
+                    use_container_width=True
                 )
-
-                rule_table = create_rule_table(
-                    rules,
-                    top_n=10
-                )
-
-                if not rule_table.empty:
-
-                    st.dataframe(
-                        rule_table,
-                        hide_index=True,
-                        use_container_width=True
-                    )
-
-                else:
-
-                    st.info(
-                        "Tidak ditemukan Decision Rule yang memenuhi kriteria."
-                    )
 
                 st.markdown("---")
 
-                # -------------------------------------
-                # Insight Model
-                # -------------------------------------
+                st.markdown("### 💡 Kesimpulan")
 
-                st.markdown("#### 💡 Insight Model")
+                st.success(f"""
+Berdasarkan hasil pelatihan model Random Forest, fitur **{f1}** memiliki kontribusi terbesar dalam proses klasifikasi, diikuti oleh **{f2}**, **{f3}**, dan **{f4}**.
 
-                insights = generate_rule_insight(
-                    rules
-                )
-
-                for insight in insights:
-
-                    st.markdown(insight)
+Diagram ini merupakan representasi sederhana berdasarkan urutan Feature Importance sehingga mempermudah interpretasi proses klasifikasi.
+                """)
             
             # ==========================================================
             # STATISTIK DATASET
