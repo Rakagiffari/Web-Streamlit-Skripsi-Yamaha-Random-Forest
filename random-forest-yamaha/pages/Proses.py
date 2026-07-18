@@ -216,86 +216,155 @@ def extract_tree_paths(tree_model, feature_names):
     return paths
 
 # ==========================================================
-# FUNGSI REPRESENTATIVE DECISION TREE
+# FUNGSI PARSING POLA RANDOM FOREST
 # ==========================================================
 
-def extract_tree_paths(tree_model, feature_names):
+def parse_pattern(pattern):
+    """
+    Mengubah hasil extract_tree_paths() menjadi pola yang
+    lebih mudah diproses pada Insight Random Forest.
+    """
 
-    tree = tree_model.tree_
+    indikasi = "-"
+    jenis = "-"
 
-    paths = []
+    km_min = None
+    km_max = None
 
-    def recurse(node, current_path):
+    usia_min = None
+    usia_max = None
 
-        if tree.feature[node] != _tree.TREE_UNDEFINED:
+    # ==========================================
+    # MEMBACA SETIAP RULE
+    # ==========================================
 
-            feature = feature_names[tree.feature[node]]
-            threshold = tree.threshold[node]
+    for rule in pattern["path"]:
 
-            recurse(
-                tree.children_left[node],
-                current_path + [
-                    f"{feature} ≤ {threshold:.2f}"
-                ]
-            )
+        rule = rule.strip()
 
-            recurse(
-                tree.children_right[node],
-                current_path + [
-                    f"{feature} > {threshold:.2f}"
-                ]
-            )
+        # =====================================================
+        # INDIKASI (ONE HOT ENCODING)
+        # =====================================================
 
-        else:
+        if rule.startswith("Indikasi_"):
 
-            samples = tree.n_node_samples[node]
+            if ">" in rule:
 
-            values = tree.value[node][0]
+                indikasi = (
+                    rule.split(">")[0]
+                    .replace("Indikasi_", "")
+                    .strip()
+                )
 
-            label = values.argmax()
+        # =====================================================
+        # JENIS MOTOR (ONE HOT ENCODING)
+        # =====================================================
 
-            total = values.sum()
+        elif rule.startswith("Jenis_"):
 
-            purity = (
-                values[label] / total * 100
-                if total > 0
-                else 0
-            )
+            if ">" in rule:
 
-            prediction = (
-                "Service Ringan"
-                if label == 0
-                else "Service Berat"
-            )
+                jenis = (
+                    rule.split(">")[0]
+                    .replace("Jenis_", "")
+                    .strip()
+                )
 
-            paths.append({
+        # =====================================================
+        # KILOMETER
+        # =====================================================
 
-                "path": current_path,
+        elif rule.startswith("Kilometer"):
 
-                "prediction": prediction,
+            if "<=" in rule:
 
-                "samples": samples,
+                km_max = float(rule.split("<=")[1])
 
-                "purity": purity
+            elif ">" in rule:
 
-            })
+                km_min = float(rule.split(">")[1])
 
-    recurse(0, [])
+        # =====================================================
+        # USIA MOTOR
+        # =====================================================
 
-    paths = sorted(
+        elif rule.startswith("Usia Motor"):
 
-        paths,
+            if "<=" in rule:
 
-        key=lambda x: (
-            x["samples"],
-            x["purity"]
-        ),
+                usia_max = float(rule.split("<=")[1])
 
-        reverse=True
+            elif ">" in rule:
 
-    )
+                usia_min = float(rule.split(">")[1])
 
-    return paths
+    # =====================================================
+    # FORMAT KILOMETER
+    # =====================================================
+
+    if km_min is not None and km_max is not None:
+
+        kilometer = (
+            f"{km_min:,.0f} - {km_max:,.0f} km"
+        )
+
+    elif km_min is not None:
+
+        kilometer = f"> {km_min:,.0f} km"
+
+    elif km_max is not None:
+
+        kilometer = f"≤ {km_max:,.0f} km"
+
+    else:
+
+        kilometer = "-"
+
+    # =====================================================
+    # FORMAT USIA MOTOR
+    # =====================================================
+
+    if usia_min is not None and usia_max is not None:
+
+        usia = (
+            f"{round(usia_min)} - {round(usia_max)} Tahun"
+        )
+
+    elif usia_min is not None:
+
+        usia = f"> {round(usia_min)} Tahun"
+
+    elif usia_max is not None:
+
+        usia = f"≤ {round(usia_max)} Tahun"
+
+    else:
+
+        usia = "-"
+
+    # =====================================================
+    # HASIL
+    # =====================================================
+
+    parsed = {
+
+        "indikasi": indikasi,
+
+        "jenis": jenis,
+
+        "kilometer": kilometer,
+
+        "usia": usia,
+
+        "prediction": pattern["prediction"],
+
+        "purity": float(pattern["purity"]),
+
+        "samples": int(pattern["samples"])
+
+    }
+
+    return parsed
 
 # ==========================================================
 # FUNGSI MEMBANGUN TABEL INSIGHT
@@ -401,58 +470,174 @@ def build_pattern_table(patterns):
         })
 
     return pd.DataFrame(tabel)
+
 # ==========================================================
-# FUNGSI INSIGHT RANDOM FOREST
+# FUNGSI MEMBANGUN TABEL INSIGHT RANDOM FOREST
 # ==========================================================
+
+import pandas as pd
+
+def build_pattern_table(patterns):
+
+    rows = []
+
+    for i, pattern in enumerate(patterns, start=1):
+
+        rows.append({
+
+            "No": i,
+
+            "Indikasi": pattern["indikasi"],
+
+            "Jenis Motor": pattern["jenis"],
+
+            "Kilometer": pattern["kilometer"],
+
+            "Usia Motor": pattern["usia"],
+
+            "Frekuensi Tree": pattern["frequency"],
+
+            "Rata-rata Sampel": pattern["samples"],
+
+            "Kemurnian (%)": f'{pattern["purity"]:.2f}%'
+
+        })
+
+    return pd.DataFrame(rows)
+    
+# ==========================================================
+# FUNGSI GENERATE RANDOM FOREST INSIGHT
+# ==========================================================
+
+from collections import defaultdict
 
 def generate_rf_insight(model, feature_names):
 
-    all_patterns = []
+    grouped_patterns = defaultdict(
+        lambda: {
+            "indikasi": "-",
+            "jenis": "-",
+            "kilometer": "-",
+            "usia": "-",
+            "prediction": "",
+            "frequency": 0,
+            "total_samples": 0,
+            "total_purity": 0
+        }
+    )
 
-    for tree in model.estimators_:
+    # ======================================================
+    # MEMBACA SELURUH TREE
+    # ======================================================
+
+    for estimator in model.estimators_:
 
         paths = extract_tree_paths(
-            tree,
+            estimator,
             feature_names
         )
 
-        all_patterns.extend(paths)
+        for path in paths:
 
-    berat_patterns = sorted(
+            parsed = parse_pattern(path)
 
-        [
-            p
-            for p in all_patterns
-            if p["prediction"] == "Service Berat"
-        ],
+            signature = (
+
+                parsed["indikasi"],
+
+                parsed["jenis"],
+
+                parsed["kilometer"],
+
+                parsed["usia"],
+
+                parsed["prediction"]
+
+            )
+
+            grouped_patterns[signature]["indikasi"] = parsed["indikasi"]
+            grouped_patterns[signature]["jenis"] = parsed["jenis"]
+            grouped_patterns[signature]["kilometer"] = parsed["kilometer"]
+            grouped_patterns[signature]["usia"] = parsed["usia"]
+            grouped_patterns[signature]["prediction"] = parsed["prediction"]
+
+            grouped_patterns[signature]["frequency"] += 1
+
+            grouped_patterns[signature]["total_samples"] += parsed["samples"]
+
+            grouped_patterns[signature]["total_purity"] += parsed["purity"]
+
+    # ======================================================
+    # HITUNG RATA-RATA
+    # ======================================================
+
+    hasil = []
+
+    for item in grouped_patterns.values():
+
+        freq = item["frequency"]
+
+        hasil.append({
+
+            "indikasi": item["indikasi"],
+
+            "jenis": item["jenis"],
+
+            "kilometer": item["kilometer"],
+
+            "usia": item["usia"],
+
+            "prediction": item["prediction"],
+
+            "frequency": freq,
+
+            "samples": round(item["total_samples"] / freq, 1),
+
+            "purity": round(item["total_purity"] / freq, 2)
+
+        })
+
+    # ======================================================
+    # SORTING
+    # ======================================================
+
+    hasil.sort(
 
         key=lambda x: (
-            x["samples"],
-            x["purity"]
+
+            x["frequency"],
+
+            x["purity"],
+
+            x["samples"]
+
         ),
 
         reverse=True
 
-    )[:5]
+    )
 
-    ringan_patterns = sorted(
+    # ======================================================
+    # PISAH BERAT & RINGAN
+    # ======================================================
 
-        [
-            p
-            for p in all_patterns
-            if p["prediction"] == "Service Ringan"
-        ],
+    berat_patterns = [
+        x for x in hasil
+        if "Berat" in x["prediction"]
+    ]
 
-        key=lambda x: (
-            x["samples"],
-            x["purity"]
-        ),
+    ringan_patterns = [
+        x for x in hasil
+        if "Ringan" in x["prediction"]
+    ]
 
-        reverse=True
+    return (
 
-    )[:5]
+        berat_patterns[:5],
 
-    return berat_patterns, ringan_patterns
+        ringan_patterns[:5]
+
+    )
 
 # =========================================
 # HEADER
