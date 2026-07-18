@@ -913,13 +913,186 @@ if uploaded_file is not None:
                 """)
 
             # ==========================================================
+# FUNGSI REPRESENTATIVE DECISION TREE
+# ==========================================================
+
+def extract_tree_paths(tree_model, feature_names):
+
+    tree = tree_model.tree_
+
+    paths = []
+
+    def recurse(node, current_path):
+
+        if tree.feature[node] != _tree.TREE_UNDEFINED:
+
+            feature = feature_names[
+                tree.feature[node]
+            ]
+
+            threshold = round(
+                tree.threshold[node],
+                2
+            )
+
+            # Cabang kiri
+            recurse(
+
+                tree.children_left[node],
+
+                current_path + [{
+
+                    "feature": feature,
+                    "operator": "<=",
+                    "threshold": threshold
+
+                }]
+
+            )
+
+            # Cabang kanan
+            recurse(
+
+                tree.children_right[node],
+
+                current_path + [{
+
+                    "feature": feature,
+                    "operator": ">",
+                    "threshold": threshold
+
+                }]
+
+            )
+
+        else:
+
+            prediction = tree.value[node][0]
+
+            label = prediction.argmax()
+
+            service = (
+                "Service Ringan"
+                if label == 0
+                else "Service Berat"
+            )
+
+            samples = int(
+                tree.n_node_samples[node]
+            )
+
+            indikasi = None
+
+            for kondisi in current_path:
+
+                if kondisi["feature"] == "Indikasi":
+
+                    indikasi = (
+                        f'{kondisi["operator"]} '
+                        f'{kondisi["threshold"]}'
+                    )
+
+                    break
+
+            paths.append({
+
+                "indikasi": indikasi,
+
+                "prediction": service,
+
+                "samples": samples,
+
+                "conditions": current_path
+
+            })
+
+    recurse(0, [])
+
+    return paths
+
+
+# ==========================================================
+# MEMILIH POLA TERBAIK
+# ==========================================================
+
+def get_best_patterns(paths):
+
+    hasil = {}
+
+    for item in paths:
+
+        if item["indikasi"] is None:
+            continue
+
+        key = (
+            item["prediction"],
+            item["indikasi"]
+        )
+
+        if key not in hasil:
+
+            hasil[key] = item
+
+        elif item["samples"] > hasil[key]["samples"]:
+
+            hasil[key] = item
+
+    return list(hasil.values())
+
+
+# ==========================================================
+# MEMBUAT KETERANGAN
+# ==========================================================
+
+def build_description(pattern):
+
+    kondisi = []
+
+    for item in pattern["conditions"]:
+
+        if item["feature"] == "Indikasi":
+            continue
+
+        kondisi.append(
+
+            f'{item["feature"]} '
+            f'{item["operator"]} '
+            f'{item["threshold"]}'
+
+        )
+
+    if len(kondisi) == 0:
+
+        return (
+            f"Model lebih sering memprediksi "
+            f"{pattern['prediction']}."
+        )
+
+    return (
+
+        f"Model lebih sering memprediksi "
+
+        f"{pattern['prediction']} "
+
+        f"apabila "
+
+        + ", ".join(kondisi)
+
+        + "."
+
+    )
+
+                # ==========================================================
             # REPRESENTATIVE DECISION TREE
             # ==========================================================
+
+            st.markdown("---")
+            st.markdown("## 🌳 Representative Decision Tree")
 
             representative_tree = model.estimators_[0]
 
             fig_tree, ax_tree = plt.subplots(
-                figsize=(20, 8)
+                figsize=(18, 8)
             )
 
             plot_tree(
@@ -966,50 +1139,96 @@ if uploaded_file is not None:
 
             plt.close(fig_tree)
 
+            st.caption(
+                "Representative Decision Tree merupakan salah satu pohon keputusan yang dipilih dari Random Forest untuk membantu memahami proses klasifikasi."
+            )
+
             # ==========================================================
             # POLA KEPUTUSAN MODEL
             # ==========================================================
 
-            st.markdown("### 📋 Pola Keputusan Model")
-
-            tree_patterns = extract_tree_paths(
+            paths = extract_tree_paths(
                 representative_tree,
                 feature_names
             )
 
-            pola_data = []
+            best_patterns = get_best_patterns(paths)
 
-            for i, pattern in enumerate(tree_patterns, start=1):
+            service_berat = []
+            service_ringan = []
 
-                kondisi = " → ".join(pattern["path"])
+            for pattern in best_patterns:
 
-                keterangan = (
-                    f"Jika {kondisi}, maka model cenderung "
-                    f"mengklasifikasikan sebagai "
-                    f"{pattern['prediction']} "
-                    f"(Support: {pattern['samples']} data)."
+                row = {
+
+                    "Indikasi": (
+                        pattern["indikasi"]
+                        if pattern["indikasi"] is not None
+                        else "-"
+                    ),
+
+                    "Keterangan": build_description(pattern)
+
+                }
+
+                if pattern["prediction"] == "Service Berat":
+
+                    service_berat.append(row)
+
+                else:
+
+                    service_ringan.append(row)
+
+            # ==========================================================
+            # SERVICE BERAT
+            # ==========================================================
+
+            st.markdown("### 🔴 Pola Keputusan Service Berat")
+
+            if len(service_berat) > 0:
+
+                df_berat = pd.DataFrame(
+                    service_berat
                 )
 
-                pola_data.append({
-                    "Pola Keputusan": f"Pola {i}",
-                    "Keterangan": keterangan
-                })
+                st.dataframe(
+                    df_berat,
+                    use_container_width=True,
+                    hide_index=True
+                )
 
-            pola_df = pd.DataFrame(pola_data)
+            else:
 
-            st.dataframe(
-                pola_df,
-                hide_index=True,
-                use_container_width=False,
-                width=1100,
-                height=420
-            )
+                st.info(
+                    "Tidak ditemukan pola Service Berat pada Representative Decision Tree."
+                )
+
+            # ==========================================================
+            # SERVICE RINGAN
+            # ==========================================================
+
+            st.markdown("### 🟢 Pola Keputusan Service Ringan")
+
+            if len(service_ringan) > 0:
+
+                df_ringan = pd.DataFrame(
+                    service_ringan
+                )
+
+                st.dataframe(
+                    df_ringan,
+                    use_container_width=True,
+                    hide_index=True
+                )
+
+            else:
+
+                st.info(
+                    "Tidak ditemukan pola Service Ringan pada Representative Decision Tree."
+                )
 
             st.caption(
-                "Pola keputusan diperoleh secara otomatis dari "
-                "Representative Decision Tree. "
-                "Setiap pola menunjukkan jalur keputusan dari root "
-                "hingga leaf pada pohon representatif."
+                "Setiap tabel hanya menampilkan satu pola keputusan dengan jumlah data (support) terbesar untuk setiap indikasi yang ditemukan pada Representative Decision Tree."
             )
             
             # ==========================================================
