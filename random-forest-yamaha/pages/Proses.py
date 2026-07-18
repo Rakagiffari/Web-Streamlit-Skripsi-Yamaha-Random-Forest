@@ -1044,60 +1044,73 @@ if uploaded_file is not None:
                     Decision Path di atas menampilkan lima jalur keputusan dengan nilai **Support** terbesar yang berasal dari **Representative Decision Tree**. Nilai Support menunjukkan jumlah data pelatihan yang mengikuti jalur keputusan tersebut hingga mencapai node akhir (leaf). Jalur-jalur ini digunakan sebagai ilustrasi bagaimana salah satu Decision Tree dalam Random Forest melakukan proses klasifikasi. Keputusan akhir model Random Forest tetap diperoleh melalui mekanisme **Majority Voting** dari seluruh Decision Tree.
                 """)
 
+                        # =====================================
+            # INSIGHT REPRESENTATIVE DECISION TREE
             # =====================================
-# INSIGHT REPRESENTATIVE DECISION TREE
-# =====================================
 
-with st.expander(
-    "Insight Representative Decision Tree",
-    expanded=False
-):
+            with st.expander(
+                "Insight Representative Decision Tree",
+                expanded=False
+            ):
 
-    # Root Node
-    root_index = representative_tree.tree_.feature[0]
-    root_feature = feature_names[root_index]
-    root_threshold = representative_tree.tree_.threshold[0]
+                # Root Node
+                root_node = representative_tree.tree_.feature[0]
+                root_feature = feature_names[root_node]
+                root_threshold = representative_tree.tree_.threshold[0]
 
-    # Informasi Tree
-    total_node = representative_tree.tree_.node_count
-    max_depth = representative_tree.tree_.max_depth
+                # Informasi Tree
+                total_nodes = representative_tree.tree_.node_count
+                tree_depth = representative_tree.tree_.max_depth
 
-    children_left = representative_tree.tree_.children_left
-    children_right = representative_tree.tree_.children_right
+                children_left = representative_tree.tree_.children_left
+                children_right = representative_tree.tree_.children_right
 
-    total_leaf = sum(
-        children_left[i] == children_right[i]
-        for i in range(total_node)
-    )
+                total_leaf = sum(
+                    children_left[i] == children_right[i]
+                    for i in range(total_nodes)
+                )
 
-    # Decision Path dengan Support Terbesar
-    best_path = top_patterns[0]
+                # Decision Path dengan Support terbesar
+                best_pattern = top_patterns[0]
 
-    st.markdown(f"""
-### Analisis Representative Decision Tree
+                st.markdown("#### Ringkasan Representative Decision Tree")
 
-Representative Decision Tree merupakan salah satu pohon keputusan yang dipilih sebagai representasi dari model Random Forest. Visualisasi ini digunakan untuk membantu menjelaskan bagaimana proses klasifikasi dilakukan pada salah satu Decision Tree sebelum seluruh pohon digabungkan melalui mekanisme **Majority Voting**.
+                info_df = pd.DataFrame({
+                    "Informasi": [
+                        "Root Node",
+                        "Threshold",
+                        "Jumlah Node",
+                        "Jumlah Leaf",
+                        "Kedalaman Tree"
+                    ],
+                    "Hasil": [
+                        root_feature,
+                        f"{root_threshold:.2f}",
+                        total_nodes,
+                        total_leaf,
+                        tree_depth
+                    ]
+                })
 
-Berdasarkan hasil pelatihan model diperoleh informasi sebagai berikut:
+                st.dataframe(
+                    info_df,
+                    hide_index=True,
+                    use_container_width=True
+                )
 
-| Informasi | Hasil |
-|:--|:--|
-| Root Node | **{root_feature}** |
-| Nilai Threshold | **{root_threshold:.2f}** |
-| Jumlah Node | **{total_node}** |
-| Jumlah Leaf | **{total_leaf}** |
-| Kedalaman Tree | **{max_depth}** |
+                st.markdown(f"""
+Representative Decision Tree merupakan salah satu pohon keputusan yang dipilih sebagai representasi dari model **Random Forest**. Pohon ini digunakan untuk membantu menjelaskan bagaimana proses klasifikasi dilakukan sebelum seluruh Decision Tree digabungkan melalui mekanisme **Majority Voting**.
 
-Atribut **{root_feature}** menjadi pemisah pertama (root node), sehingga pada pohon representatif atribut tersebut menjadi faktor awal dalam proses klasifikasi.
+Berdasarkan hasil pelatihan model, atribut **{root_feature}** menjadi **Root Node**, sehingga atribut tersebut digunakan sebagai pemisah pertama dalam proses klasifikasi pada pohon representatif.
 
-Decision Path dengan nilai **Support** terbesar diperoleh melalui jalur berikut:
+Decision Path dengan **Support** terbesar mengikuti jalur:
 
-> **{" → ".join(best_path["path"])}**
+> **{" → ".join(best_pattern["path"])}**
 
-Jalur tersebut menghasilkan prediksi **{best_path["prediction"]}** dengan nilai **Kemurnian {best_path["purity"]:.1f}%** dan didukung oleh **{best_path["samples"]}** data pelatihan.
+Jalur tersebut menghasilkan prediksi **{best_pattern["prediction"]}** dengan tingkat kemurnian sebesar **{best_pattern["purity"]:.1f}%**, serta didukung oleh **{best_pattern["samples"]}** data pelatihan.
 
-Perlu diperhatikan bahwa visualisasi ini hanya merepresentasikan **satu pohon keputusan** dari keseluruhan Random Forest. Oleh karena itu, keputusan akhir model tetap ditentukan melalui mekanisme **Majority Voting** dari seluruh Decision Tree yang terbentuk selama proses pelatihan.
-""")
+Representative Decision Tree hanya digunakan sebagai media interpretasi model. Keputusan akhir Random Forest tetap ditentukan berdasarkan hasil **Majority Voting** dari seluruh Decision Tree yang terbentuk selama proses pelatihan.
+                """)
             
             # ==========================================================
             # STATISTIK DATASET
