@@ -986,100 +986,94 @@ if uploaded_file is not None:
                     Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
                 """)
 
+                        # =====================================
+            # KARAKTERISTIK HASIL KLASIFIKASI
             # =====================================
-# KARAKTERISTIK HASIL KLASIFIKASI
-# =====================================
 
-with st.expander(
-    "Karakteristik Hasil Klasifikasi",
-    expanded=False
-):
+            with st.expander(
+                "Karakteristik Hasil Klasifikasi",
+                expanded=False
+            ):
 
-    st.caption(
-        "Ringkasan karakteristik kendaraan berdasarkan hasil prediksi Random Forest."
-    )
+                st.caption(
+                    "Ringkasan karakteristik kendaraan berdasarkan hasil prediksi Random Forest."
+                )
 
-    urutan_jenis = [
-        "MAXi",
-        "Classy",
-        "Matic",
-        "Moped",
-        "Sport",
-        "Off-road",
-        "Unknown"
-    ]
+                urutan_jenis = [
+                    "MAXi",
+                    "Classy",
+                    "Matic",
+                    "Moped",
+                    "Sport",
+                    "Off-road",
+                    "Unknown"
+                ]
 
-    for jenis in urutan_jenis:
+                for jenis in urutan_jenis:
 
-        data = summary_df[
-            summary_df["Jenis"] == jenis
-        ]
+                    data = summary_df[
+                        summary_df["Jenis"] == jenis
+                    ]
 
-        if data.empty:
-            continue
+                    if data.empty:
+                        continue
 
-        st.markdown(f"### 🏍️ {jenis}")
+                    st.markdown(f"### 🏍️ {jenis}")
 
-        cols = st.columns(len(data))
+                    col1, col2 = st.columns(2)
 
-        for i, (_, row) in enumerate(data.iterrows()):
+                    kolom = [col1, col2]
 
-            with cols[i]:
+                    for i, (_, row) in enumerate(data.iterrows()):
 
-                warna = "#16a34a"
+                        with kolom[i % 2]:
 
-                if row["Service"] == "Berat":
-                    warna = "#dc2626"
+                            warna = "#16a34a"
 
-                st.markdown(f"""
-                <div style="
-                    border:1px solid #334155;
-                    border-radius:14px;
-                    padding:18px;
-                    background:#0f172a;
-                    margin-bottom:12px;
-                    min-height:240px;
-                ">
+                            if row["Service"] == "Berat":
+                                warna = "#dc2626"
 
-                <div style="
-                    font-size:18px;
-                    font-weight:700;
-                    color:{warna};
-                    margin-bottom:10px;
-                ">
-                {row["Service"]}
-                </div>
+                            st.markdown(f"""
+                            <div style="
+                                background:#111827;
+                                border:1px solid #374151;
+                                border-radius:15px;
+                                padding:18px;
+                                margin-bottom:15px;
+                                min-height:230px;
+                            ">
 
-                <hr style="margin-top:6px;margin-bottom:10px;">
+                            <h4 style="
+                                color:{warna};
+                                margin-top:0;
+                                margin-bottom:10px;
+                            ">
+                            {row["Service"]}
+                            </h4>
 
-                <b>Indikasi Dominan</b><br>
-                {row["Indikasi Dominan"]}
+                            <hr>
 
-                <br><br>
+                            <p><b>Indikasi Dominan</b><br>
+                            {row["Indikasi Dominan"]}</p>
 
-                <b>Rata-rata Kilometer</b><br>
-                {row["Rata-rata KM"]:,.0f} km
+                            <p><b>Rata-rata Kilometer</b><br>
+                            {row["Rata-rata KM"]:,.0f} km</p>
 
-                <br><br>
+                            <p><b>Rata-rata Usia</b><br>
+                            {row["Rata-rata Usia"]:.1f} Tahun</p>
 
-                <b>Rata-rata Usia</b><br>
-                {row["Rata-rata Usia"]:.1f} Tahun
+                            <p><b>Jumlah Data</b><br>
+                            {int(row["Jumlah Data"])} Data</p>
 
-                <br><br>
+                            </div>
+                            """, unsafe_allow_html=True)
 
-                <b>Jumlah Data</b><br>
-                {int(row["Jumlah Data"])} Data
+                    st.markdown("<br>", unsafe_allow_html=True)
 
-                </div>
-                """, unsafe_allow_html=True)
-
-        st.markdown("---")
-
-    st.success("""
-Karakteristik hasil klasifikasi diperoleh berdasarkan prediksi Random Forest terhadap seluruh data kendaraan.
-Setiap kelompok menampilkan jenis layanan yang diprediksi, indikasi kerusakan yang paling dominan, rata-rata kilometer, rata-rata usia motor, serta jumlah data pada masing-masing kelompok kendaraan.
+                st.info("""
+Karakteristik hasil klasifikasi diperoleh dari prediksi Random Forest terhadap seluruh data kendaraan.
+Ringkasan ini menunjukkan kecenderungan jenis layanan berdasarkan karakteristik kendaraan pada setiap kelompok jenis motor.
 """)
-
             
             # =====================================
             # REPRESENTATIVE DECISION TREE
