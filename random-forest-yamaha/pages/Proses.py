@@ -539,21 +539,33 @@ def generate_rf_insight(model, feature_names):
 
         for path in paths:
 
-            parsed = parse_pattern(path)
+    parsed = parse_pattern(path)
 
-            signature = (
+    # ============================================
+    # HANYA AMBIL RULE YANG LENGKAP
+    # ============================================
 
-                parsed["indikasi"],
+    if (
+        parsed["indikasi"] == "-"
+        or parsed["jenis"] == "-"
+        or parsed["kilometer"] == "-"
+        or parsed["usia"] == "-"
+    ):
+        continue
 
-                parsed["jenis"],
+    signature = (
 
-                parsed["kilometer"],
+        parsed["indikasi"],
 
-                parsed["usia"],
+        parsed["jenis"],
 
-                parsed["prediction"]
+        parsed["kilometer"],
 
-            )
+        parsed["usia"],
+
+        parsed["prediction"]
+
+    )
 
             grouped_patterns[signature]["indikasi"] = parsed["indikasi"]
             grouped_patterns[signature]["jenis"] = parsed["jenis"]
