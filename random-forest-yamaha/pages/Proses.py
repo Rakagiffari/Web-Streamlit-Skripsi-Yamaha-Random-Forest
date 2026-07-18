@@ -912,105 +912,145 @@ if uploaded_file is not None:
                     Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
                 """)
 
-            # ==========================================================
-            # REPRESENTATIVE DECISION TREE
-            # ==========================================================
+            # =====================================
+# REPRESENTATIVE DECISION TREE
+# =====================================
 
-            representative_tree = model.estimators_[0]
+with st.expander("Representative Decision Tree", expanded=False):
 
-            fig_tree, ax_tree = plt.subplots(
-                figsize=(20, 8)
-            )
+    st.caption(
+        "Visualisasi salah satu Decision Tree yang dipilih sebagai representasi dari keseluruhan pohon pada algoritma Random Forest."
+    )
 
-            plot_tree(
+    representative_tree = model.estimators_[0]
 
-                representative_tree,
+    # -------------------------------------
+    # Membuat Visualisasi Tree
+    # -------------------------------------
 
-                feature_names=feature_names,
+    fig_tree, ax_tree = plt.subplots(
+        figsize=(18, 8),
+        dpi=130
+    )
 
-                class_names=[
-                    "Ringan",
-                    "Berat"
-                ],
+    plot_tree(
 
-                filled=True,
+        representative_tree,
 
-                rounded=True,
+        feature_names=feature_names,
 
-                fontsize=9,
+        class_names=[
+            "Ringan",
+            "Berat"
+        ],
 
-                impurity=False,
+        filled=True,
 
-                proportion=True,
+        rounded=True,
 
-                max_depth=3,
+        fontsize=9,
 
-                ax=ax_tree
+        impurity=False,
 
-            )
+        proportion=True,
 
-            plt.tight_layout()
+        max_depth=3,
 
-            st.pyplot(fig_tree)
+        ax=ax_tree
 
-            tree_path = (
-                BASE_DIR /
-                "representative_tree.png"
-            )
+    )
 
-            fig_tree.savefig(
-                tree_path,
-                dpi=250,
-                bbox_inches="tight"
-            )
+    plt.tight_layout()
 
-            plt.close(fig_tree)
+    # -------------------------------------
+    # Tree di tengah
+    # -------------------------------------
 
-            # ==========================================================
-            # POLA KEPUTUSAN MODEL
-            # ==========================================================
+    kiri, tengah, kanan = st.columns([2,3,2])
 
-            st.markdown("### 📋 Pola Keputusan Model")
+    with tengah:
 
-            tree_patterns = extract_tree_paths(
-                representative_tree,
-                feature_names
-            )
+        st.pyplot(
+            fig_tree,
+            use_container_width=False
+        )
 
-            pola_data = []
+    # -------------------------------------
+    # Simpan gambar untuk PDF
+    # -------------------------------------
 
-            for i, pattern in enumerate(tree_patterns, start=1):
+    tree_path = (
+        BASE_DIR /
+        "representative_tree.png"
+    )
 
-                kondisi = " → ".join(pattern["path"])
+    fig_tree.savefig(
+        tree_path,
+        dpi=250,
+        bbox_inches="tight"
+    )
 
-                keterangan = (
-                    f"Jika {kondisi}, maka model cenderung "
-                    f"mengklasifikasikan sebagai "
-                    f"{pattern['prediction']} "
-                    f"(Support: {pattern['samples']} data)."
-                )
+    plt.close(fig_tree)
 
-                pola_data.append({
-                    "Pola Keputusan": f"Pola {i}",
-                    "Keterangan": keterangan
-                })
+    st.markdown("---")
 
-            pola_df = pd.DataFrame(pola_data)
+    st.markdown("""
+Representative Decision Tree merupakan salah satu pohon keputusan yang dipilih dari kumpulan Decision Tree pada algoritma Random Forest. Visualisasi ini digunakan untuk memberikan gambaran bagaimana model mengambil keputusan berdasarkan fitur-fitur yang digunakan. Pohon ini hanya bersifat representatif sehingga hasil prediksi akhir Random Forest tetap ditentukan melalui mekanisme **Majority Voting** dari seluruh Decision Tree.
+""")
 
-            st.dataframe(
-                pola_df,
-                hide_index=True,
-                use_container_width=False,
-                width=1100,
-                height=420
-            )
+    st.markdown("---")
 
-            st.caption(
-                "Pola keputusan diperoleh secara otomatis dari "
-                "Representative Decision Tree. "
-                "Setiap pola menunjukkan jalur keputusan dari root "
-                "hingga leaf pada pohon representatif."
-            )
+    # =====================================
+    # POLA KEPUTUSAN MODEL
+    # =====================================
+
+    st.caption(
+        "Pola keputusan yang dihasilkan secara otomatis dari Representative Decision Tree."
+    )
+
+    tree_patterns = extract_tree_paths(
+        representative_tree,
+        feature_names
+    )
+
+    pola_data = []
+
+    for i, pattern in enumerate(tree_patterns, start=1):
+
+        kondisi = " → ".join(pattern["path"])
+
+        keterangan = (
+            f"Jika {kondisi}, maka model cenderung "
+            f"mengklasifikasikan sebagai "
+            f"{pattern['prediction']} "
+            f"(Support: {pattern['samples']} data)."
+        )
+
+        pola_data.append({
+
+            "Pola Keputusan": f"Pola {i}",
+
+            "Keterangan": keterangan
+
+        })
+
+    pola_df = pd.DataFrame(pola_data)
+
+    st.dataframe(
+
+        pola_df,
+
+        hide_index=True,
+
+        use_container_width=True,
+
+        height=420
+
+    )
+
+    st.caption(
+        "Setiap pola menunjukkan jalur keputusan dari root node hingga leaf node pada Representative Decision Tree."
+    )
             
             # ==========================================================
             # STATISTIK DATASET
