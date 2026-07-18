@@ -155,54 +155,170 @@ div[data-testid="stExpanderDetails"]{
 # ==========================================================
 
 def extract_tree_paths(tree_model, feature_names):
+
     tree = tree_model.tree_
+
     paths = []
+
     def recurse(node, current_path):
+
         if tree.feature[node] != _tree.TREE_UNDEFINED:
-            feature = feature_names[tree.feature[node]]
-            threshold = tree.threshold[node]
-            
-            recurse(
-                tree.children_left[node],
-                current_path + [
-                    f"{feature} ≤ {threshold:.2f}"
-                ]
+
+            feature = feature_names[
+                tree.feature[node]
+            ]
+
+            threshold = round(
+                tree.threshold[node],
+                2
             )
 
+            # Cabang kiri
             recurse(
+
+                tree.children_left[node],
+
+                current_path + [{
+
+                    "feature": feature,
+                    "operator": "<=",
+                    "threshold": threshold
+
+                }]
+
+            )
+
+            # Cabang kanan
+            recurse(
+
                 tree.children_right[node],
-                current_path + [
-                    f"{feature} > {threshold:.2f}"
-                ]
+
+                current_path + [{
+
+                    "feature": feature,
+                    "operator": ">",
+                    "threshold": threshold
+
+                }]
+
             )
 
         else:
 
-            samples = tree.n_node_samples[node]
             prediction = tree.value[node][0]
+
             label = prediction.argmax()
-            
+
             service = (
                 "Service Ringan"
                 if label == 0
                 else "Service Berat"
             )
 
+            samples = int(
+                tree.n_node_samples[node]
+            )
+
+            indikasi = None
+
+            for kondisi in current_path:
+
+                if kondisi["feature"] == "Indikasi":
+
+                    indikasi = (
+                        f'{kondisi["operator"]} '
+                        f'{kondisi["threshold"]}'
+                    )
+
+                    break
+
             paths.append({
-                "path": current_path,
+
+                "indikasi": indikasi,
+
+                "prediction": service,
+
                 "samples": samples,
-                "prediction": service
+
+                "conditions": current_path
+
             })
-            
+
     recurse(0, [])
-    
-    paths = sorted(
-        paths,
-        key=lambda x: x["samples"],
-        reverse=True
-    )
 
     return paths
+
+
+# ==========================================================
+# MEMILIH POLA TERBAIK
+# ==========================================================
+
+def get_best_patterns(paths):
+
+    hasil = {}
+
+    for item in paths:
+
+        if item["indikasi"] is None:
+            continue
+
+        key = (
+            item["prediction"],
+            item["indikasi"]
+        )
+
+        if key not in hasil:
+
+            hasil[key] = item
+
+        elif item["samples"] > hasil[key]["samples"]:
+
+            hasil[key] = item
+
+    return list(hasil.values())
+
+
+# ==========================================================
+# MEMBUAT KETERANGAN
+# ==========================================================
+
+def build_description(pattern):
+
+    kondisi = []
+
+    for item in pattern["conditions"]:
+
+        if item["feature"] == "Indikasi":
+            continue
+
+        kondisi.append(
+
+            f'{item["feature"]} '
+            f'{item["operator"]} '
+            f'{item["threshold"]}'
+
+        )
+
+    if len(kondisi) == 0:
+
+        return (
+            f"Model lebih sering memprediksi "
+            f"{pattern['prediction']}."
+        )
+
+    return (
+
+        f"Model lebih sering memprediksi "
+
+        f"{pattern['prediction']} "
+
+        f"apabila "
+
+        + ", ".join(kondisi)
+
+        + "."
+
+    )
 
 # =========================================
 # HEADER
@@ -912,177 +1028,9 @@ if uploaded_file is not None:
                     Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
                 """)
 
+            
+
             # ==========================================================
-# FUNGSI REPRESENTATIVE DECISION TREE
-# ==========================================================
-
-def extract_tree_paths(tree_model, feature_names):
-
-    tree = tree_model.tree_
-
-    paths = []
-
-    def recurse(node, current_path):
-
-        if tree.feature[node] != _tree.TREE_UNDEFINED:
-
-            feature = feature_names[
-                tree.feature[node]
-            ]
-
-            threshold = round(
-                tree.threshold[node],
-                2
-            )
-
-            # Cabang kiri
-            recurse(
-
-                tree.children_left[node],
-
-                current_path + [{
-
-                    "feature": feature,
-                    "operator": "<=",
-                    "threshold": threshold
-
-                }]
-
-            )
-
-            # Cabang kanan
-            recurse(
-
-                tree.children_right[node],
-
-                current_path + [{
-
-                    "feature": feature,
-                    "operator": ">",
-                    "threshold": threshold
-
-                }]
-
-            )
-
-        else:
-
-            prediction = tree.value[node][0]
-
-            label = prediction.argmax()
-
-            service = (
-                "Service Ringan"
-                if label == 0
-                else "Service Berat"
-            )
-
-            samples = int(
-                tree.n_node_samples[node]
-            )
-
-            indikasi = None
-
-            for kondisi in current_path:
-
-                if kondisi["feature"] == "Indikasi":
-
-                    indikasi = (
-                        f'{kondisi["operator"]} '
-                        f'{kondisi["threshold"]}'
-                    )
-
-                    break
-
-            paths.append({
-
-                "indikasi": indikasi,
-
-                "prediction": service,
-
-                "samples": samples,
-
-                "conditions": current_path
-
-            })
-
-    recurse(0, [])
-
-    return paths
-
-
-# ==========================================================
-# MEMILIH POLA TERBAIK
-# ==========================================================
-
-def get_best_patterns(paths):
-
-    hasil = {}
-
-    for item in paths:
-
-        if item["indikasi"] is None:
-            continue
-
-        key = (
-            item["prediction"],
-            item["indikasi"]
-        )
-
-        if key not in hasil:
-
-            hasil[key] = item
-
-        elif item["samples"] > hasil[key]["samples"]:
-
-            hasil[key] = item
-
-    return list(hasil.values())
-
-
-# ==========================================================
-# MEMBUAT KETERANGAN
-# ==========================================================
-
-def build_description(pattern):
-
-    kondisi = []
-
-    for item in pattern["conditions"]:
-
-        if item["feature"] == "Indikasi":
-            continue
-
-        kondisi.append(
-
-            f'{item["feature"]} '
-            f'{item["operator"]} '
-            f'{item["threshold"]}'
-
-        )
-
-    if len(kondisi) == 0:
-
-        return (
-            f"Model lebih sering memprediksi "
-            f"{pattern['prediction']}."
-        )
-
-    return (
-
-        f"Model lebih sering memprediksi "
-
-        f"{pattern['prediction']} "
-
-        f"apabila "
-
-        + ", ".join(kondisi)
-
-        + "."
-
-    )
-
-                # ==========================================================
             # REPRESENTATIVE DECISION TREE
             # ==========================================================
 
