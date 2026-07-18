@@ -539,38 +539,42 @@ def generate_rf_insight(model, feature_names):
 
         for path in paths:
 
-    parsed = parse_pattern(path)
+            parsed = parse_pattern(path)
 
-    # ============================================
-    # HANYA AMBIL RULE YANG LENGKAP
-    # ============================================
+            # ==================================================
+            # HANYA AMBIL RULE YANG LENGKAP
+            # ==================================================
 
-    if (
-        parsed["indikasi"] == "-"
-        or parsed["jenis"] == "-"
-        or parsed["kilometer"] == "-"
-        or parsed["usia"] == "-"
-    ):
-        continue
+            if (
+                parsed["indikasi"] == "-"
+                or parsed["jenis"] == "-"
+                or parsed["kilometer"] == "-"
+                or parsed["usia"] == "-"
+            ):
+                continue
 
-    signature = (
+            signature = (
 
-        parsed["indikasi"],
+                parsed["indikasi"],
 
-        parsed["jenis"],
+                parsed["jenis"],
 
-        parsed["kilometer"],
+                parsed["kilometer"],
 
-        parsed["usia"],
+                parsed["usia"],
 
-        parsed["prediction"]
+                parsed["prediction"]
 
-    )
+            )
 
             grouped_patterns[signature]["indikasi"] = parsed["indikasi"]
+
             grouped_patterns[signature]["jenis"] = parsed["jenis"]
+
             grouped_patterns[signature]["kilometer"] = parsed["kilometer"]
+
             grouped_patterns[signature]["usia"] = parsed["usia"]
+
             grouped_patterns[signature]["prediction"] = parsed["prediction"]
 
             grouped_patterns[signature]["frequency"] += 1
@@ -589,6 +593,16 @@ def generate_rf_insight(model, feature_names):
 
         freq = item["frequency"]
 
+        avg_samples = (
+            item["total_samples"] / freq
+            if freq > 0 else 0
+        )
+
+        avg_purity = (
+            item["total_purity"] / freq
+            if freq > 0 else 0
+        )
+
         hasil.append({
 
             "indikasi": item["indikasi"],
@@ -603,9 +617,9 @@ def generate_rf_insight(model, feature_names):
 
             "frequency": freq,
 
-            "samples": round(item["total_samples"] / freq, 1),
+            "samples": round(avg_samples, 1),
 
-            "purity": round(item["total_purity"] / freq, 2)
+            "purity": round(avg_purity, 2)
 
         })
 
@@ -613,7 +627,9 @@ def generate_rf_insight(model, feature_names):
     # SORTING
     # ======================================================
 
-    hasil.sort(
+    hasil = sorted(
+
+        hasil,
 
         key=lambda x: (
 
@@ -630,18 +646,28 @@ def generate_rf_insight(model, feature_names):
     )
 
     # ======================================================
-    # PISAH BERAT & RINGAN
+    # PISAHKAN BERAT & RINGAN
     # ======================================================
 
-    berat_patterns = [
-        x for x in hasil
-        if "Berat" in x["prediction"]
-    ]
+    berat_patterns = []
 
-    ringan_patterns = [
-        x for x in hasil
-        if "Ringan" in x["prediction"]
-    ]
+    ringan_patterns = []
+
+    for item in hasil:
+
+        pred = str(item["prediction"]).lower()
+
+        if "berat" in pred:
+
+            berat_patterns.append(item)
+
+        elif "ringan" in pred:
+
+            ringan_patterns.append(item)
+
+    # ======================================================
+    # AMBIL TOP 5
+    # ======================================================
 
     return (
 
