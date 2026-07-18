@@ -9,7 +9,10 @@ import graphviz
 from pathlib import Path
 
 from utils.preprocessing import preprocess_data
-from utils.training import train_model
+from utils.training import (
+    train_model,
+    generate_vehicle_characteristics
+)
 from sklearn.tree import (
     DecisionTreeClassifier,
     plot_tree,
@@ -667,6 +670,16 @@ if uploaded_file is not None:
                 test_size,
                 feature_names
             ) = train_model(X, y)
+
+            # =====================================
+            # KARAKTERISTIK HASIL KLASIFIKASI
+            # =====================================
+
+            summary_df = generate_vehicle_characteristics(
+                model,
+                X,
+                df
+            )
 
             progress.success("✔ Model berhasil dilatih")
             time.sleep(0.5)
