@@ -204,24 +204,28 @@ def train_model(X, y):
     )
 
     # =====================================
-    # RETURN
-    # =====================================
+# RETURN
+# =====================================
 
-    return (
+feature_names = X.columns.tolist()
 
-        rf,
+return (
 
-        accuracy,
-        precision,
-        recall,
-        f1,
+    rf,
 
-        report,
-        matrix,
+    accuracy,
+    precision,
+    recall,
+    f1,
 
-        importance_grouped,
+    report,
+    matrix,
 
-        len(X_train),
-        len(X_test)
+    importance_grouped,
 
-    )
+    len(X_train),
+    len(X_test),
+
+    feature_names
+
+)
