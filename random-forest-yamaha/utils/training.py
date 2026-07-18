@@ -203,26 +203,29 @@ def train_model(X, y):
         drop=True
     )
 
-    # =====================================
+        # =====================================
     # RETURN
     # =====================================
 
+    feature_names = X.columns.tolist()
+
     return (
 
-    rf,
+        rf,
 
-    accuracy,
-    precision,
-    recall,
-    f1,
+        accuracy,
+        precision,
+        recall,
+        f1,
 
-    report,
-    matrix,
+        report,
+        matrix,
 
-    importance_grouped,
+        importance_grouped,
 
-    len(X_train),
-    len(X_test),
+        len(X_train),
+        len(X_test),
 
-      X.columns.tolist()       # TAMBAHAN
-)
+        feature_names
+
+    )
