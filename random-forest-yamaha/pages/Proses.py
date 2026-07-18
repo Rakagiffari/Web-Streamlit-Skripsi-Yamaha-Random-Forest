@@ -1170,6 +1170,8 @@ if uploaded_file is not None:
 
             if len(service_berat) > 0:
 
+                df_berat = pd.DataFrame(service_berat)
+
                 df_berat.insert(
                     0,
                     "No",
@@ -1195,6 +1197,8 @@ if uploaded_file is not None:
             st.markdown("### 🟢 Pola Keputusan Service Ringan")
 
             if len(service_ringan) > 0:
+
+                df_ringan = pd.DataFrame(service_ringan)
 
                 df_ringan.insert(
                     0,
