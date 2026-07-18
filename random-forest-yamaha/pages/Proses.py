@@ -283,10 +283,7 @@ def get_best_patterns(paths):
 
         key = (
             item["prediction"],
-            indikasi,
-            jenis,
-            km,
-            usia
+            indikasi
         )
 
         if (
