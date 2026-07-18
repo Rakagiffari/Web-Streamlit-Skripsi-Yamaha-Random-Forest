@@ -1293,88 +1293,90 @@ if uploaded_file is not None:
                     Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
                 """)
 
-            
-
             # ==========================================================
 # REPRESENTATIVE DECISION TREE
 # ==========================================================
 
 st.markdown("---")
-st.subheader("🌳 Representative Decision Tree")
 
-# Mengambil salah satu tree dari Random Forest
-tree_model = model.estimators_[0]
+with st.expander("Representative Decision Tree", expanded=False):
 
-# ================================
-# Visualisasi Tree
-# ================================
+    representative_tree = model.estimators_[0]
 
-fig, ax = plt.subplots(figsize=(20, 10))
-
-plot_tree(
-    tree_model,
-    feature_names=X.columns,
-    class_names=["Service Ringan", "Service Berat"],
-    filled=True,
-    rounded=True,
-    fontsize=8,
-    max_depth=3
-)
-
-st.pyplot(fig)
-
-# ================================
-# Decision Rules
-# ================================
-
-st.markdown("### 📋 Decision Rules")
-
-rules = extract_tree_rules(
-    tree_model,
-    list(X.columns)
-)
-
-rules = filter_tree_rules(
-    rules,
-    min_support=10,
-    min_purity=90,
-    max_gini=0.15
-)
-
-rules = normalize_tree_rules(
-    rules
-)
-
-rule_table = create_rule_table(
-    rules,
-    top_n=10
-)
-
-if len(rule_table) > 0:
-
-    st.dataframe(
-        rule_table,
-        use_container_width=True,
-        hide_index=True
+    fig_tree, ax_tree = plt.subplots(
+        figsize=(18, 8),
+        dpi=120
     )
 
-else:
+    plot_tree(
 
-    st.info("Tidak ditemukan rule yang memenuhi kriteria.")
+        representative_tree,
 
-# ================================
-# Insight
-# ================================
+        feature_names=feature_names,
 
-st.markdown("### 💡 Insight Model")
+        class_names=["Ringan", "Berat"],
 
-insights = generate_rule_insight(
-    rules
-)
+        filled=True,
 
-for insight in insights:
+        rounded=True,
 
-    st.markdown(insight)
+        fontsize=8,
+
+        max_depth=3,
+
+        ax=ax_tree
+
+    )
+
+    plt.tight_layout()
+
+    st.pyplot(fig_tree)
+
+    plt.close(fig_tree)
+
+    st.markdown("---")
+
+    st.markdown("#### 📋 Decision Rules")
+
+    rules = extract_tree_rules(
+        representative_tree,
+        feature_names
+    )
+
+    rules = filter_tree_rules(
+        rules
+    )
+
+    rules = normalize_tree_rules(
+        rules
+    )
+
+    rule_table = create_rule_table(
+        rules,
+        top_n=10
+    )
+
+    st.dataframe(
+
+        rule_table,
+
+        hide_index=True,
+
+        use_container_width=True
+
+    )
+
+    st.markdown("---")
+
+    st.markdown("#### 💡 Insight Model")
+
+    insights = generate_rule_insight(
+        rules
+    )
+
+    for text in insights:
+
+        st.markdown(text)
             
             # ==========================================================
             # STATISTIK DATASET
