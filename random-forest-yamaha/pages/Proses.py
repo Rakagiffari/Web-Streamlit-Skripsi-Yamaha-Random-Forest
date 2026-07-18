@@ -168,12 +168,8 @@ def extract_tree_paths(tree_model, feature_names):
                 tree.feature[node]
             ]
 
-            threshold = round(
-                tree.threshold[node],
-                2
-            )
+            threshold = tree.threshold[node]
 
-            # Cabang kiri
             recurse(
 
                 tree.children_left[node],
@@ -181,14 +177,15 @@ def extract_tree_paths(tree_model, feature_names):
                 current_path + [{
 
                     "feature": feature,
+
                     "operator": "<=",
+
                     "threshold": threshold
 
                 }]
 
             )
 
-            # Cabang kanan
             recurse(
 
                 tree.children_right[node],
@@ -196,7 +193,9 @@ def extract_tree_paths(tree_model, feature_names):
                 current_path + [{
 
                     "feature": feature,
+
                     "operator": ">",
+
                     "threshold": threshold
 
                 }]
@@ -205,40 +204,36 @@ def extract_tree_paths(tree_model, feature_names):
 
         else:
 
-            prediction = tree.value[node][0]
+            label = tree.value[node][0].argmax()
 
-            label = prediction.argmax()
-
-            service = (
+            prediction = (
                 "Service Ringan"
                 if label == 0
                 else "Service Berat"
             )
 
-            samples = int(
-                tree.n_node_samples[node]
-            )
-
-            indikasi = None
+            indikasi = "-"
 
             for kondisi in current_path:
 
-                if kondisi["feature"] == "Indikasi":
+                if kondisi["feature"].startswith("Indikasi_"):
 
-                    indikasi = (
-                        f'{kondisi["operator"]} '
-                        f'{kondisi["threshold"]}'
+                    indikasi = kondisi["feature"].replace(
+                        "Indikasi_",
+                        ""
                     )
 
                     break
 
             paths.append({
 
+                "prediction": prediction,
+
                 "indikasi": indikasi,
 
-                "prediction": service,
-
-                "samples": samples,
+                "samples": int(
+                    tree.n_node_samples[node]
+                ),
 
                 "conditions": current_path
 
