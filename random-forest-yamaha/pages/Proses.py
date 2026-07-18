@@ -1,4 +1,4 @@
-import streamlit as st
+    import streamlit as st
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -923,7 +923,7 @@ if uploaded_file is not None:
                     Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
                 """)
 
-                        # =====================================
+            # =====================================
             # REPRESENTATIVE DECISION TREE
             # =====================================
 
@@ -995,7 +995,7 @@ if uploaded_file is not None:
             ):
 
                 st.caption(
-                    "Lima pola keputusan dengan nilai support terbesar yang diperoleh dari Representative Decision Tree."
+                    "Tabel berikut menampilkan lima jalur keputusan (Decision Path) dengan nilai support terbesar yang berasal dari Representative Decision Tree. Jalur ini digunakan sebagai ilustrasi proses klasifikasi pada salah satu pohon dalam Random Forest."
                 )
 
                 tree_patterns = extract_tree_paths(
@@ -1041,7 +1041,62 @@ if uploaded_file is not None:
                 )
 
                 st.markdown("""
-Decision Path di atas menampilkan pola keputusan utama yang dipelajari oleh Random Forest melalui Representative Decision Tree. Pola dipilih berdasarkan nilai **Support** terbesar sehingga mewakili karakteristik data historis yang paling dominan. Informasi ini digunakan sebagai **insight** untuk membantu memahami karakteristik layanan yang sering muncul pada data riwayat service kendaraan Yamaha.
+                    Decision Path di atas menampilkan lima jalur keputusan dengan nilai **Support** terbesar yang berasal dari **Representative Decision Tree**. Nilai Support menunjukkan jumlah data pelatihan yang mengikuti jalur keputusan tersebut hingga mencapai node akhir (leaf). Jalur-jalur ini digunakan sebagai ilustrasi bagaimana salah satu Decision Tree dalam Random Forest melakukan proses klasifikasi. Keputusan akhir model Random Forest tetap diperoleh melalui mekanisme **Majority Voting** dari seluruh Decision Tree.
+                """)
+
+            # =====================================
+# INSIGHT REPRESENTATIVE DECISION TREE
+# =====================================
+
+with st.expander(
+    "Insight Representative Decision Tree",
+    expanded=False
+):
+
+    # Root Node
+    root_index = representative_tree.tree_.feature[0]
+    root_feature = feature_names[root_index]
+    root_threshold = representative_tree.tree_.threshold[0]
+
+    # Informasi Tree
+    total_node = representative_tree.tree_.node_count
+    max_depth = representative_tree.tree_.max_depth
+
+    children_left = representative_tree.tree_.children_left
+    children_right = representative_tree.tree_.children_right
+
+    total_leaf = sum(
+        children_left[i] == children_right[i]
+        for i in range(total_node)
+    )
+
+    # Decision Path dengan Support Terbesar
+    best_path = top_patterns[0]
+
+    st.markdown(f"""
+### Analisis Representative Decision Tree
+
+Representative Decision Tree merupakan salah satu pohon keputusan yang dipilih sebagai representasi dari model Random Forest. Visualisasi ini digunakan untuk membantu menjelaskan bagaimana proses klasifikasi dilakukan pada salah satu Decision Tree sebelum seluruh pohon digabungkan melalui mekanisme **Majority Voting**.
+
+Berdasarkan hasil pelatihan model diperoleh informasi sebagai berikut:
+
+| Informasi | Hasil |
+|:--|:--|
+| Root Node | **{root_feature}** |
+| Nilai Threshold | **{root_threshold:.2f}** |
+| Jumlah Node | **{total_node}** |
+| Jumlah Leaf | **{total_leaf}** |
+| Kedalaman Tree | **{max_depth}** |
+
+Atribut **{root_feature}** menjadi pemisah pertama (root node), sehingga pada pohon representatif atribut tersebut menjadi faktor awal dalam proses klasifikasi.
+
+Decision Path dengan nilai **Support** terbesar diperoleh melalui jalur berikut:
+
+> **{" → ".join(best_path["path"])}**
+
+Jalur tersebut menghasilkan prediksi **{best_path["prediction"]}** dengan nilai **Kemurnian {best_path["purity"]:.1f}%** dan didukung oleh **{best_path["samples"]}** data pelatihan.
+
+Perlu diperhatikan bahwa visualisasi ini hanya merepresentasikan **satu pohon keputusan** dari keseluruhan Random Forest. Oleh karena itu, keputusan akhir model tetap ditentukan melalui mekanisme **Majority Voting** dari seluruh Decision Tree yang terbentuk selama proses pelatihan.
 """)
             
             # ==========================================================
