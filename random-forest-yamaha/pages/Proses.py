@@ -618,15 +618,6 @@ if uploaded_file is not None:
                 feature_names
             ) = train_model(X, y)
 
-            # =====================================
-            # INSIGHT RANDOM FOREST
-            # =====================================
-
-            berat_patterns, ringan_patterns = generate_rf_insight(
-                model,
-                feature_names
-            )
-
             progress.success("✔ Model berhasil dilatih")
             time.sleep(0.5)
 
@@ -932,7 +923,7 @@ if uploaded_file is not None:
                     Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
                 """)
 
-            # =====================================
+                        # =====================================
             # REPRESENTATIVE DECISION TREE
             # =====================================
 
