@@ -215,6 +215,29 @@ def extract_tree_paths(tree_model, feature_names):
 
     return paths
 
+# ==========================================================
+# FUNGSI MEMBANGUN TABEL INSIGHT RANDOM FOREST
+# ==========================================================
+def build_pattern_table(patterns):
+    
+    tabel = []
+    
+    for i, pattern in enumerate(patterns, start=1):
+        rule = ", ".join(pattern["path"])
+        tabel.append({
+            "No":
+                i,
+            "Pola Keputusan":
+                rule,
+            "Prediksi":
+                pattern["prediction"],
+            "Support":
+                pattern["samples"],
+            "Kemurnian":
+                f"{pattern['purity']:.1f}%"
+        })
+    return pd.DataFrame(tabel)
+
 # =========================================
 # HEADER
 # =========================================
@@ -923,7 +946,7 @@ if uploaded_file is not None:
                     Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
                 """)
 
-                        # =====================================
+            # =====================================
             # REPRESENTATIVE DECISION TREE
             # =====================================
 
@@ -998,10 +1021,56 @@ if uploaded_file is not None:
                     "Lima pola keputusan dengan nilai support terbesar yang diperoleh dari Representative Decision Tree."
                 )
 
-                tree_patterns = extract_tree_paths(
+                                tree_patterns = extract_tree_paths(
                     representative_tree,
                     feature_names
                 )
+
+                # =====================================
+                # POLA SERVICE BERAT
+                # =====================================
+
+                berat_patterns = sorted(
+
+                    [
+                        p
+                        for p in tree_patterns
+                        if p["prediction"] == "Service Berat"
+                    ],
+
+                    key=lambda x: (
+                        x["samples"],
+                        x["purity"]
+                    ),
+
+                    reverse=True
+
+                )[:5]
+
+                # =====================================
+                # POLA SERVICE RINGAN
+                # =====================================
+
+                ringan_patterns = sorted(
+
+                    [
+                        p
+                        for p in tree_patterns
+                        if p["prediction"] == "Service Ringan"
+                    ],
+
+                    key=lambda x: (
+                        x["samples"],
+                        x["purity"]
+                    ),
+
+                    reverse=True
+
+                )[:5]
+
+                # =====================================
+                # REPRESENTATIVE DECISION PATH
+                # =====================================
 
                 top_patterns = tree_patterns[:5]
 
@@ -1030,18 +1099,85 @@ if uploaded_file is not None:
 
                     })
 
-                st.dataframe(
+                        # =====================================
+            # INSIGHT RANDOM FOREST
+            # =====================================
 
-                    pd.DataFrame(tabel),
+            with st.expander(
+                "Insight Random Forest",
+                expanded=False
+            ):
 
-                    hide_index=True,
-
-                    use_container_width=True
-
+                st.caption(
+                    "Insight Random Forest merupakan hasil interpretasi pola keputusan yang diperoleh dari model untuk membantu memahami karakteristik layanan berdasarkan data historis."
                 )
 
                 st.markdown("""
-Decision Path di atas menampilkan pola keputusan utama yang dipelajari oleh Random Forest melalui Representative Decision Tree. Pola dipilih berdasarkan nilai **Support** terbesar sehingga mewakili karakteristik data historis yang paling dominan. Informasi ini digunakan sebagai **insight** untuk membantu memahami karakteristik layanan yang sering muncul pada data riwayat service kendaraan Yamaha.
+Insight Random Forest menyajikan pola-pola keputusan yang paling dominan berdasarkan hasil pembelajaran model. Pola disusun berdasarkan nilai **Support** terbesar sehingga dapat digunakan sebagai gambaran karakteristik kendaraan yang paling sering muncul pada masing-masing kategori layanan.
+""")
+
+                st.markdown("---")
+
+                # =====================================
+                # SERVICE BERAT
+                # =====================================
+
+                st.markdown("### 🔴 Pola Dominan Service Berat")
+
+                st.markdown("""
+Pola berikut menunjukkan karakteristik kendaraan yang paling sering diklasifikasikan sebagai **Service Berat** berdasarkan hasil analisis model Random Forest.
+""")
+
+                berat_df = build_pattern_table(
+                    berat_patterns
+                )
+
+                st.dataframe(
+                    berat_df,
+                    hide_index=True,
+                    use_container_width=True
+                )
+
+                if len(berat_patterns) > 0:
+
+                    pola = berat_patterns[0]
+
+                    st.info(f"""
+Pola dominan pertama memiliki **Support sebanyak {pola['samples']} data** dengan tingkat **Kemurnian {pola['purity']:.1f}%**.
+
+Hal ini menunjukkan bahwa karakteristik tersebut merupakan salah satu pola yang paling sering muncul pada kategori **Service Berat** dalam data historis.
+""")
+
+                st.markdown("---")
+
+                # =====================================
+                # SERVICE RINGAN
+                # =====================================
+
+                st.markdown("### 🟢 Pola Dominan Service Ringan")
+
+                st.markdown("""
+Pola berikut menunjukkan karakteristik kendaraan yang paling sering diklasifikasikan sebagai **Service Ringan** berdasarkan hasil analisis model Random Forest.
+""")
+
+                ringan_df = build_pattern_table(
+                    ringan_patterns
+                )
+
+                st.dataframe(
+                    ringan_df,
+                    hide_index=True,
+                    use_container_width=True
+                )
+
+                if len(ringan_patterns) > 0:
+
+                    pola = ringan_patterns[0]
+
+                    st.info(f"""
+Pola dominan pertama memiliki **Support sebanyak {pola['samples']} data** dengan tingkat **Kemurnian {pola['purity']:.1f}%**.
+
+Hal ini menunjukkan bahwa karakteristik tersebut merupakan salah satu pola yang paling sering muncul pada kategori **Service Ringan** dalam data historis.
 """)
             
             # ==========================================================
