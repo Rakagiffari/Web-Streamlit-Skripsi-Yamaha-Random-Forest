@@ -248,30 +248,83 @@ def extract_tree_paths(tree_model, feature_names):
 # MEMILIH POLA TERBAIK
 # ==========================================================
 
-def get_best_patterns(paths):
+def get_best_patterns(paths, top_n=5):
 
-    hasil = {}
+    unique_patterns = {}
 
     for item in paths:
 
-        if item["indikasi"] is None:
-            continue
+        # ==========================
+        # Ambil informasi rule
+        # ==========================
+
+        indikasi = None
+        jenis = None
+        km = None
+        usia = None
+
+        for kondisi in item["conditions"]:
+
+            fitur = kondisi["feature"]
+
+            if fitur.startswith("Indikasi_"):
+                indikasi = fitur.replace("Indikasi_", "")
+
+            elif fitur.startswith("Jenis_"):
+                jenis = fitur.replace("Jenis_", "")
+
+            elif fitur == "Km":
+                km = (
+                    kondisi["operator"],
+                    round(kondisi["threshold"], 0)
+                )
+
+            elif fitur == "Usia Motor":
+                usia = (
+                    kondisi["operator"],
+                    round(kondisi["threshold"], 0)
+                )
+
+        # ==========================
+        # Key kombinasi
+        # ==========================
 
         key = (
             item["prediction"],
-            item["indikasi"]
+            indikasi,
+            jenis,
+            km,
+            usia
         )
 
-        if key not in hasil:
+        # ==========================
+        # Simpan rule dengan sample terbesar
+        # ==========================
 
-            hasil[key] = item
+        if (
+            key not in unique_patterns
+            or
+            item["samples"] >
+            unique_patterns[key]["samples"]
+        ):
 
-        elif item["samples"] > hasil[key]["samples"]:
+            unique_patterns[key] = item
 
-            hasil[key] = item
+    # ==========================
+    # Urutkan berdasarkan samples
+    # ==========================
 
-    return list(hasil.values())
+    hasil = sorted(
 
+        unique_patterns.values(),
+
+        key=lambda x: x["samples"],
+
+        reverse=True
+
+    )
+
+    return hasil[:top_n]
 
 # ==========================================================
 # MEMBUAT KETERANGAN
