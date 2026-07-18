@@ -229,3 +229,122 @@ def train_model(X, y):
         feature_names
 
     )
+
+# ==========================================================
+# KARAKTERISTIK HASIL KLASIFIKASI
+# ==========================================================
+
+def generate_vehicle_characteristics(model, X, df):
+
+    """
+    Membuat ringkasan karakteristik hasil klasifikasi
+    berdasarkan hasil prediksi Random Forest.
+
+    Parameter
+    ---------
+    model : RandomForestClassifier
+    X     : Data fitur yang digunakan saat training
+    df    : Dataset sebelum encoding
+    """
+
+    # -----------------------------------------
+    # Prediksi seluruh data
+    # -----------------------------------------
+
+    prediksi = model.predict(X)
+
+    hasil = df.copy()
+
+    hasil["Prediksi"] = prediksi
+
+    # Ubah angka menjadi label jika masih numerik
+    if hasil["Prediksi"].dtype != object:
+
+        hasil["Prediksi"] = hasil["Prediksi"].map({
+
+            0: "Ringan",
+            1: "Berat"
+
+        })
+
+    # -----------------------------------------
+    # Hitung ringkasan
+    # -----------------------------------------
+
+    ringkasan = []
+
+    urutan_jenis = [
+
+        "MAXi",
+        "Classy",
+        "Matic",
+        "Moped",
+        "Sport",
+        "Off-road",
+        "Unknown"
+
+    ]
+
+    jenis_tersedia = [
+
+        j
+
+        for j in urutan_jenis
+
+        if j in hasil["Jenis"].unique()
+
+    ]
+
+    for jenis in jenis_tersedia:
+
+        df_jenis = hasil[
+            hasil["Jenis"] == jenis
+        ]
+
+        for service in ["Ringan", "Berat"]:
+
+            df_service = df_jenis[
+                df_jenis["Prediksi"] == service
+            ]
+
+            if len(df_service) == 0:
+                continue
+
+            indikasi = "-"
+
+            if not df_service["Indikasi"].mode().empty:
+
+                indikasi = (
+                    df_service["Indikasi"]
+                    .mode()
+                    .iloc[0]
+                )
+
+            ringkasan.append({
+
+                "Jenis": jenis,
+
+                "Service": service,
+
+                "Indikasi Dominan": indikasi,
+
+                "Rata-rata KM":
+                    round(
+                        df_service["Km"].mean(),
+                        0
+                    ),
+
+                "Rata-rata Usia":
+                    round(
+                        df_service["Usia Motor"].mean(),
+                        1
+                    ),
+
+                "Jumlah Data":
+                    len(df_service)
+
+            })
+
+    summary_df = pd.DataFrame(ringkasan)
+
+    return summary_df
