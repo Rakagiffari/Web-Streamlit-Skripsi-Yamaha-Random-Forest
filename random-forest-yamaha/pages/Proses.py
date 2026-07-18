@@ -307,21 +307,24 @@ def build_pattern_table(patterns):
 
     for i, pattern in enumerate(patterns, start=1):
 
+        # Mengubah setiap rule menjadi format yang lebih mudah dibaca
+        karakteristik = ""
+
+        for rule in pattern["path"]:
+
+            karakteristik += f"• {rule}\n"
+
+        karakteristik = karakteristik.strip()
+
         tabel.append({
 
             "No": i,
 
-            "Pola Keputusan":
-                ", ".join(pattern["path"]),
+            "Karakteristik Kendaraan": karakteristik,
 
-            "Prediksi":
-                pattern["prediction"],
+            "Prediksi": pattern["prediction"],
 
-            "Support":
-                pattern["samples"],
-
-            "Kemurnian":
-                f"{pattern['purity']:.1f}%"
+            "Kemurnian": f"{pattern['purity']:.1f}%"
 
         })
 
