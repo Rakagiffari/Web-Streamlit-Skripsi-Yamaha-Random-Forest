@@ -215,6 +215,171 @@ def extract_tree_paths(tree_model, feature_names):
 
     return paths
 
+# ==========================================================
+# FUNGSI REPRESENTATIVE DECISION TREE
+# ==========================================================
+
+def extract_tree_paths(tree_model, feature_names):
+
+    tree = tree_model.tree_
+
+    paths = []
+
+    def recurse(node, current_path):
+
+        if tree.feature[node] != _tree.TREE_UNDEFINED:
+
+            feature = feature_names[tree.feature[node]]
+            threshold = tree.threshold[node]
+
+            recurse(
+                tree.children_left[node],
+                current_path + [
+                    f"{feature} ≤ {threshold:.2f}"
+                ]
+            )
+
+            recurse(
+                tree.children_right[node],
+                current_path + [
+                    f"{feature} > {threshold:.2f}"
+                ]
+            )
+
+        else:
+
+            samples = tree.n_node_samples[node]
+
+            values = tree.value[node][0]
+
+            label = values.argmax()
+
+            total = values.sum()
+
+            purity = (
+                values[label] / total * 100
+                if total > 0
+                else 0
+            )
+
+            prediction = (
+                "Service Ringan"
+                if label == 0
+                else "Service Berat"
+            )
+
+            paths.append({
+
+                "path": current_path,
+
+                "prediction": prediction,
+
+                "samples": samples,
+
+                "purity": purity
+
+            })
+
+    recurse(0, [])
+
+    paths = sorted(
+
+        paths,
+
+        key=lambda x: (
+            x["samples"],
+            x["purity"]
+        ),
+
+        reverse=True
+
+    )
+
+    return paths
+
+# ==========================================================
+# FUNGSI MEMBANGUN TABEL INSIGHT
+# ==========================================================
+
+def build_pattern_table(patterns):
+
+    tabel = []
+
+    for i, pattern in enumerate(patterns, start=1):
+
+        tabel.append({
+
+            "No": i,
+
+            "Pola Keputusan":
+                ", ".join(pattern["path"]),
+
+            "Prediksi":
+                pattern["prediction"],
+
+            "Support":
+                pattern["samples"],
+
+            "Kemurnian":
+                f"{pattern['purity']:.1f}%"
+
+        })
+
+    return pd.DataFrame(tabel)
+
+# ==========================================================
+# FUNGSI INSIGHT RANDOM FOREST
+# ==========================================================
+
+def generate_rf_insight(model, feature_names):
+
+    all_patterns = []
+
+    for tree in model.estimators_:
+
+        paths = extract_tree_paths(
+            tree,
+            feature_names
+        )
+
+        all_patterns.extend(paths)
+
+    berat_patterns = sorted(
+
+        [
+            p
+            for p in all_patterns
+            if p["prediction"] == "Service Berat"
+        ],
+
+        key=lambda x: (
+            x["samples"],
+            x["purity"]
+        ),
+
+        reverse=True
+
+    )[:5]
+
+    ringan_patterns = sorted(
+
+        [
+            p
+            for p in all_patterns
+            if p["prediction"] == "Service Ringan"
+        ],
+
+        key=lambda x: (
+            x["samples"],
+            x["purity"]
+        ),
+
+        reverse=True
+
+    )[:5]
+
+    return berat_patterns, ringan_patterns
+
 # =========================================
 # HEADER
 # =========================================
@@ -618,6 +783,15 @@ if uploaded_file is not None:
                 feature_names
             ) = train_model(X, y)
 
+            # =====================================
+            # INSIGHT RANDOM FOREST
+            # =====================================
+
+            berat_patterns, ringan_patterns = generate_rf_insight(
+                model,
+                feature_names
+            )
+
             progress.success("✔ Model berhasil dilatih")
             time.sleep(0.5)
 
@@ -923,7 +1097,7 @@ if uploaded_file is not None:
                     Berdasarkan hasil pelatihan model, fitur **{top1}** memiliki nilai Feature Importance tertinggi sehingga menjadi faktor utama dalam proses klasifikasi. Selanjutnya diikuti oleh fitur **{top2}** dan **{top3}** yang juga memberikan kontribusi penting terhadap keputusan model.
                 """)
 
-                        # =====================================
+            # =====================================
             # REPRESENTATIVE DECISION TREE
             # =====================================
 
@@ -1043,6 +1217,95 @@ if uploaded_file is not None:
                 st.markdown("""
 Decision Path di atas menampilkan pola keputusan utama yang dipelajari oleh Random Forest melalui Representative Decision Tree. Pola dipilih berdasarkan nilai **Support** terbesar sehingga mewakili karakteristik data historis yang paling dominan. Informasi ini digunakan sebagai **insight** untuk membantu memahami karakteristik layanan yang sering muncul pada data riwayat service kendaraan Yamaha.
 """)
+
+                        # =====================================
+            # INSIGHT RANDOM FOREST
+            # =====================================
+
+            with st.expander(
+                "Insight Random Forest",
+                expanded=False
+            ):
+
+                st.caption(
+                    "Insight Random Forest menyajikan pola-pola layanan dominan yang diperoleh dari seluruh Decision Tree pada model Random Forest."
+                )
+
+                st.markdown("""
+Berbeda dengan **Representative Decision Tree** yang hanya menampilkan satu pohon keputusan sebagai ilustrasi, bagian ini menyajikan ringkasan pola keputusan yang diperoleh dari seluruh Decision Tree dalam model **Random Forest**. Pola-pola yang ditampilkan merupakan pola dengan nilai **Support** terbesar sehingga dapat membantu memahami karakteristik layanan yang paling sering muncul pada data historis.
+                """)
+
+                st.markdown("---")
+
+                # =====================================
+                # SERVICE BERAT
+                # =====================================
+
+                st.markdown(
+                    "### 🔴 Pola Dominan Service Berat"
+                )
+
+                st.markdown("""
+Berikut merupakan lima pola layanan **Service Berat** yang paling dominan berdasarkan hasil pembelajaran seluruh Decision Tree pada model Random Forest.
+                """)
+
+                berat_df = build_pattern_table(
+                    berat_patterns
+                )
+
+                st.dataframe(
+                    berat_df,
+                    hide_index=True,
+                    use_container_width=True
+                )
+
+                if berat_patterns:
+
+                    pola = berat_patterns[0]
+
+                    st.info(
+                        f"""
+Support tertinggi pada kategori **Service Berat** adalah **{pola['samples']}** data dengan tingkat kemurnian **{pola['purity']:.1f}%**.
+
+Pola keputusan tersebut merupakan karakteristik kendaraan yang paling sering diklasifikasikan sebagai **Service Berat** oleh model Random Forest.
+                        """
+                    )
+
+                st.markdown("---")
+
+                # =====================================
+                # SERVICE RINGAN
+                # =====================================
+
+                st.markdown(
+                    "### 🟢 Pola Dominan Service Ringan"
+                )
+
+                st.markdown("""
+Berikut merupakan lima pola layanan **Service Ringan** yang paling dominan berdasarkan hasil pembelajaran seluruh Decision Tree pada model Random Forest.
+                """)
+
+                ringan_df = build_pattern_table(
+                    ringan_patterns
+                )
+
+                st.dataframe(
+                    ringan_df,
+                    hide_index=True,
+                    use_container_width=True
+                )
+
+                if ringan_patterns:
+
+                    pola = ringan_patterns[0]
+
+                    st.info(
+                        f"""
+Support tertinggi pada kategori **Service Ringan** adalah **{pola['samples']}** data dengan tingkat kemurnian **{pola['purity']:.1f}%**.
+
+Pola keputusan tersebut merupakan karakteristik kendaraan yang paling sering diklasifikasikan sebagai **Service Ringan** oleh model Random Forest.
+                        """
+                    )
             
             # ==========================================================
             # STATISTIK DATASET
