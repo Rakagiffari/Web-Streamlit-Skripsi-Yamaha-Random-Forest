@@ -1086,9 +1086,16 @@ if uploaded_file is not None:
 
             plt.close(fig_tree)
 
+                        # =====================================
+            # REPRESENTATIVE DECISION PATH
             # =====================================
-            # DECISION PATH
-            # =====================================
+
+            tree_patterns = extract_tree_paths(
+                representative_tree,
+                feature_names
+            )
+
+            top_patterns = tree_patterns[:5]
 
             with st.expander(
                 "Representative Decision Path",
@@ -1096,34 +1103,24 @@ if uploaded_file is not None:
             ):
 
                 st.caption(
-                    "Tabel berikut menampilkan lima jalur keputusan (Decision Path) dengan nilai support terbesar yang berasal dari Representative Decision Tree. Jalur ini digunakan sebagai ilustrasi proses klasifikasi pada salah satu pohon dalam Random Forest."
+                    "Lima pola keputusan dengan jumlah data terbesar pada Representative Decision Tree."
                 )
-
-                tree_patterns = extract_tree_paths(
-                    representative_tree,
-                    feature_names
-                )
-
-                top_patterns = tree_patterns[:5]
 
                 tabel = []
 
                 for i, pattern in enumerate(top_patterns, start=1):
 
-                    rule = ", ".join(pattern["path"])
-
                     tabel.append({
 
-                        "No":
-                            i,
+                        "No": i,
 
                         "Pola Keputusan":
-                            rule,
+                            " → ".join(pattern["path"]),
 
                         "Prediksi":
                             pattern["prediction"],
 
-                        "Support":
+                        "Jumlah Data":
                             pattern["samples"],
 
                         "Kemurnian":
@@ -1132,20 +1129,149 @@ if uploaded_file is not None:
                     })
 
                 st.dataframe(
-
                     pd.DataFrame(tabel),
-
                     hide_index=True,
-
                     use_container_width=True
-
                 )
 
-                st.markdown("""
-                    Decision Path di atas menampilkan lima jalur keputusan dengan nilai **Support** terbesar yang berasal dari **Representative Decision Tree**. Nilai Support menunjukkan jumlah data pelatihan yang mengikuti jalur keputusan tersebut hingga mencapai node akhir (leaf). Jalur-jalur ini digunakan sebagai ilustrasi bagaimana salah satu Decision Tree dalam Random Forest melakukan proses klasifikasi. Keputusan akhir model Random Forest tetap diperoleh melalui mekanisme **Majority Voting** dari seluruh Decision Tree.
-                """)
+                st.markdown("---")
 
-                        # =====================================
+                # =====================================
+                # INSIGHT
+                # =====================================
+
+                best_pattern = top_patterns[0]
+
+                characteristics = []
+
+                for rule in best_pattern["path"]:
+
+                    # -----------------------------
+                    # Jenis Motor
+                    # -----------------------------
+                    if rule.startswith("Jenis_"):
+
+                        if "> 0.50" in rule:
+
+                            nama = (
+                                rule.split("_")[1]
+                                .split()[0]
+                            )
+
+                            characteristics.append(
+                                f"Jenis motor **{nama}**"
+                            )
+
+                    # -----------------------------
+                    # Indikasi
+                    # -----------------------------
+                    elif rule.startswith("Indikasi_"):
+
+                        if "> 0.50" in rule:
+
+                            nama = (
+                                rule.split("_")[1]
+                                .split()[0]
+                            )
+
+                            characteristics.append(
+                                f"Indikasi kerusakan pada **{nama}**"
+                            )
+
+                    # -----------------------------
+                    # Kilometer
+                    # -----------------------------
+                    elif rule.startswith("Km"):
+
+                        if ">" in rule:
+
+                            nilai = float(
+                                rule.split(">")[1]
+                            )
+
+                            characteristics.append(
+                                f"Kilometer kendaraan lebih dari **{nilai:,.0f} km**".replace(",", ".")
+                            )
+
+                        elif "≤" in rule:
+
+                            nilai = float(
+                                rule.split("≤")[1]
+                            )
+
+                            characteristics.append(
+                                f"Kilometer kendaraan maksimal **{nilai:,.0f} km**".replace(",", ".")
+                            )
+
+                    # -----------------------------
+                    # Usia Motor
+                    # -----------------------------
+                    elif rule.startswith("Usia Motor"):
+
+                        if ">" in rule:
+
+                            nilai = float(
+                                rule.split(">")[1]
+                            )
+
+                            characteristics.append(
+                                f"Usia motor lebih dari **{nilai:.0f} tahun**"
+                            )
+
+                        elif "≤" in rule:
+
+                            nilai = float(
+                                rule.split("≤")[1]
+                            )
+
+                            characteristics.append(
+                                f"Usia motor maksimal **{nilai:.0f} tahun**"
+                            )
+
+                # Hilangkan duplikasi
+                characteristics = list(
+                    dict.fromkeys(characteristics)
+                )
+
+                st.markdown(
+                    "#### Insight Representative Decision Path"
+                )
+
+                st.write(
+                    """
+Representative Decision Path merupakan salah satu jalur keputusan yang paling sering dilalui oleh data pada Representative Decision Tree. Jalur ini memberikan gambaran mengenai karakteristik kendaraan yang dominan pada data pelatihan.
+                    """
+                )
+
+                if characteristics:
+
+                    st.markdown(
+                        "**Karakteristik kendaraan yang paling sering ditemukan:**"
+                    )
+
+                    for item in characteristics:
+
+                        st.markdown(
+                            f"- {item}"
+                        )
+
+                else:
+
+                    st.info(
+                        "Tidak ditemukan karakteristik khusus pada jalur keputusan ini."
+                    )
+
+                st.success(
+                    f"""
+Model memprediksi kendaraan pada pola tersebut termasuk kategori **{best_pattern['prediction']}**.
+
+Pola ini muncul pada **{best_pattern['samples']}** data pelatihan dengan tingkat kemurnian sebesar **{best_pattern['purity']:.1f}%**.
+
+Representative Decision Path memberikan gambaran mengenai pola kendaraan yang paling sering ditemukan pada data riwayat service sehingga dapat digunakan sebagai referensi dalam memahami karakteristik kendaraan yang cenderung memperoleh jenis layanan tertentu.
+                    """
+                )
+                
+            # =====================================
             # REPRESENTATIVE DECISION PATH
             # =====================================
 
