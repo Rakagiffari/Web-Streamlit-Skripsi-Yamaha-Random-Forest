@@ -151,7 +151,14 @@ div[data-testid="stExpanderDetails"]{
 """, unsafe_allow_html=True)
 
 # ==========================================================
-# FUNGSI REPRESENTATIVE DECISION TREE
+# REPRESENTATIVE DECISION TREE
+# ==========================================================
+
+from sklearn.tree import _tree
+
+
+# ==========================================================
+# MENGAMBIL SEMUA PATH DARI DECISION TREE
 # ==========================================================
 
 def extract_tree_paths(tree_model, feature_names):
@@ -207,29 +214,18 @@ def extract_tree_paths(tree_model, feature_names):
             label = tree.value[node][0].argmax()
 
             prediction = (
+
                 "Service Ringan"
+
                 if label == 0
+
                 else "Service Berat"
+
             )
-
-            indikasi = "-"
-
-            for kondisi in current_path:
-
-                if kondisi["feature"].startswith("Indikasi_"):
-
-                    indikasi = kondisi["feature"].replace(
-                        "Indikasi_",
-                        ""
-                    )
-
-                    break
 
             paths.append({
 
                 "prediction": prediction,
-
-                "indikasi": indikasi,
 
                 "samples": int(
                     tree.n_node_samples[node]
@@ -245,12 +241,12 @@ def extract_tree_paths(tree_model, feature_names):
 
 
 # ==========================================================
-# MEMILIH POLA TERBAIK
+# MENGAMBIL POLA TERBAIK
 # ==========================================================
 
 def get_best_patterns(paths):
 
-    unique_patterns = {}
+    hasil = {}
 
     for item in paths:
 
@@ -264,65 +260,115 @@ def get_best_patterns(paths):
             fitur = kondisi["feature"]
 
             if fitur.startswith("Indikasi_"):
-                indikasi = fitur.replace("Indikasi_", "")
+
+                indikasi = fitur.replace(
+                    "Indikasi_",
+                    ""
+                )
 
             elif fitur.startswith("Jenis_"):
-                jenis = fitur.replace("Jenis_", "")
+
+                jenis = fitur.replace(
+                    "Jenis_",
+                    ""
+                )
 
             elif fitur == "Km":
+
                 km = (
+
                     kondisi["operator"],
-                    round(kondisi["threshold"], 0)
+
+                    int(kondisi["threshold"])
+
                 )
 
             elif fitur == "Usia Motor":
+
                 usia = (
+
                     kondisi["operator"],
-                    round(kondisi["threshold"], 0)
+
+                    int(kondisi["threshold"])
+
                 )
 
         key = (
+
             item["prediction"],
-            indikasi
+
+            indikasi,
+
+            jenis,
+
+            km,
+
+            usia
+
         )
 
         if (
-            key not in unique_patterns
-            or item["samples"] > unique_patterns[key]["samples"]
+
+            key not in hasil
+
+            or
+
+            item["samples"] >
+
+            hasil[key]["samples"]
+
         ):
-            unique_patterns[key] = item
 
-    # ==========================
-    # Pisahkan berdasarkan kelas
-    # ==========================
+            hasil[key] = {
 
-    service_berat = [
-        x for x in unique_patterns.values()
-        if x["prediction"] == "Service Berat"
-    ]
+                "prediction": item["prediction"],
 
-    service_ringan = [
-        x for x in unique_patterns.values()
-        if x["prediction"] == "Service Ringan"
-    ]
+                "indikasi": indikasi,
 
-    # ==========================
-    # Urutkan berdasarkan samples
-    # ==========================
+                "jenis": jenis,
+
+                "km": km,
+
+                "usia": usia,
+
+                "samples": item["samples"]
+
+            }
 
     service_berat = sorted(
-        service_berat,
+
+        [
+
+            x for x in hasil.values()
+
+            if x["prediction"] == "Service Berat"
+
+        ],
+
         key=lambda x: x["samples"],
+
         reverse=True
+
     )
 
     service_ringan = sorted(
-        service_ringan,
+
+        [
+
+            x for x in hasil.values()
+
+            if x["prediction"] == "Service Ringan"
+
+        ],
+
         key=lambda x: x["samples"],
+
         reverse=True
+
     )
 
     return service_berat, service_ringan
+
 
 # ==========================================================
 # MEMBUAT KETERANGAN
@@ -330,90 +376,85 @@ def get_best_patterns(paths):
 
 def build_description(pattern):
 
-    indikasi = None
-    jenis = None
-    km = None
-    usia = None
-
-    for item in pattern["conditions"]:
-
-        fitur = item["feature"]
-        operator = item["operator"]
-        nilai = item["threshold"]
-
-        # ==========================
-        # INDIKASI
-        # ==========================
-        if fitur.startswith("Indikasi_"):
-
-            indikasi = fitur.replace("Indikasi_", "")
-
-        # ==========================
-        # JENIS MOTOR
-        # ==========================
-        elif fitur.startswith("Jenis_"):
-
-            jenis = fitur.replace("Jenis_", "")
-
-        # ==========================
-        # KILOMETER
-        # ==========================
-        elif fitur == "Km":
-
-            if operator == "<=":
-
-                km = f"kilometer ≤ {int(nilai):,} km".replace(",", ".")
-
-            else:
-
-                km = f"kilometer lebih dari {int(nilai):,} km".replace(",", ".")
-
-        # ==========================
-        # USIA MOTOR
-        # ==========================
-        elif fitur == "Usia Motor":
-
-            if operator == "<=":
-
-                usia = f"usia motor ≤ {int(nilai)} tahun"
-
-            else:
-
-                usia = f"usia motor lebih dari {int(nilai)} tahun"
-
-    # ==========================
-    # SUSUN KALIMAT
-    # ==========================
-
     bagian = []
 
-    if indikasi:
-        bagian.append(f"Indikasi {indikasi}")
+    if pattern["indikasi"]:
 
-    if jenis:
-        bagian.append(f"jenis motor {jenis}")
+        bagian.append(
 
-    if km:
-        bagian.append(km)
+            f"Indikasi {pattern['indikasi']}"
 
-    if usia:
-        bagian.append(usia)
+        )
+
+    if pattern["jenis"]:
+
+        bagian.append(
+
+            f"jenis motor {pattern['jenis']}"
+
+        )
+
+    if pattern["km"]:
+
+        op, nilai = pattern["km"]
+
+        if op == "<=":
+
+            bagian.append(
+
+                f"kilometer ≤ {nilai:,} km".replace(",", ".")
+
+            )
+
+        else:
+
+            bagian.append(
+
+                f"kilometer lebih dari {nilai:,} km".replace(",", ".")
+
+            )
+
+    if pattern["usia"]:
+
+        op, nilai = pattern["usia"]
+
+        if op == "<=":
+
+            bagian.append(
+
+                f"usia motor ≤ {nilai} tahun"
+
+            )
+
+        else:
+
+            bagian.append(
+
+                f"usia motor lebih dari {nilai} tahun"
+
+            )
 
     if len(bagian) == 0:
 
         return (
+
             f"Kendaraan cenderung diklasifikasikan sebagai "
+
             f"{pattern['prediction']}."
+
         )
 
     return (
 
-        f"Kendaraan dengan {', '.join(bagian)} "
+        f"Kendaraan dengan "
+
+        f"{', '.join(bagian)} "
+
         f"cenderung diklasifikasikan sebagai "
+
         f"{pattern['prediction']}."
 
     )
-
 # =========================================
 # HEADER
 # =========================================
