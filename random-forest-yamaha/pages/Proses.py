@@ -307,20 +307,92 @@ def build_pattern_table(patterns):
 
     for i, pattern in enumerate(patterns, start=1):
 
-        # Mengubah setiap rule menjadi format yang lebih mudah dibaca
-        karakteristik = ""
+        indikasi = "-"
+        jenis = "-"
+        kilometer = "-"
+        usia = "-"
 
         for rule in pattern["path"]:
 
-            karakteristik += f"• {rule}\n"
+            # ==========================
+            # INDIKASI
+            # ==========================
 
-        karakteristik = karakteristik.strip()
+            if rule.startswith("Indikasi_"):
+
+                if ">" in rule:
+
+                    nama = (
+                        rule.split(">")[0]
+                        .replace("Indikasi_", "")
+                        .strip()
+                    )
+
+                    indikasi = nama
+
+            # ==========================
+            # JENIS MOTOR
+            # ==========================
+
+            elif rule.startswith("Jenis_"):
+
+                if ">" in rule:
+
+                    nama = (
+                        rule.split(">")[0]
+                        .replace("Jenis_", "")
+                        .strip()
+                    )
+
+                    jenis = nama
+
+            # ==========================
+            # KILOMETER
+            # ==========================
+
+            elif rule.startswith("Kilometer"):
+
+                if "<=" in rule:
+
+                    nilai = float(rule.split("<=")[1])
+
+                    kilometer = f"≤ {nilai:,.0f} km"
+
+                elif ">" in rule:
+
+                    nilai = float(rule.split(">")[1])
+
+                    kilometer = f"> {nilai:,.0f} km"
+
+            # ==========================
+            # USIA MOTOR
+            # ==========================
+
+            elif rule.startswith("Usia Motor"):
+
+                if "<=" in rule:
+
+                    nilai = float(rule.split("<=")[1])
+
+                    usia = f"≤ {nilai:.0f} Tahun"
+
+                elif ">" in rule:
+
+                    nilai = float(rule.split(">")[1])
+
+                    usia = f"> {nilai:.0f} Tahun"
 
         tabel.append({
 
             "No": i,
 
-            "Karakteristik Kendaraan": karakteristik,
+            "Indikasi": indikasi,
+
+            "Jenis Motor": jenis,
+
+            "Kilometer": kilometer,
+
+            "Usia Motor": usia,
 
             "Prediksi": pattern["prediction"],
 
@@ -329,7 +401,6 @@ def build_pattern_table(patterns):
         })
 
     return pd.DataFrame(tabel)
-
 # ==========================================================
 # FUNGSI INSIGHT RANDOM FOREST
 # ==========================================================
