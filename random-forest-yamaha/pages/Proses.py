@@ -1265,7 +1265,7 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
                     if data.empty:
                         continue
 
-                    st.markdown(f"{jenis}")
+                    st.info(f"{jenis}")
 
                     tampil = data[
                         [
