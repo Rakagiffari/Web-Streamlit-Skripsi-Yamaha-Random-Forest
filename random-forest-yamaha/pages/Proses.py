@@ -1238,7 +1238,7 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
             # =====================================
 
             with st.expander(
-                "Karakteristik Hasil Klasifikasi",
+                "Hasil Klasifikasi",
                 expanded=False
             ):
 
