@@ -1466,7 +1466,95 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                     )
 
                     plt.close(fig2)
-                        
+
+                            st.markdown("---")
+
+                st.subheader("Distribusi Jenis Kendaraan berdasarkan Kategori Service")
+
+                # ==========================================
+                # GROUPED BAR CHART
+                # ==========================================
+
+                visual_df = feature_df.copy()
+
+                urutan_jenis = [
+                    "MAXi",
+                    "Classy",
+                    "Matic",
+                    "Moped",
+                    "Sport",
+                    "Off-road",
+                    "Unknown"
+                ]
+
+                grouped = (
+                    visual_df
+                    .groupby(["Jenis", "Service"])
+                    .size()
+                    .unstack(fill_value=0)
+                    .reindex(urutan_jenis, fill_value=0)
+                )
+
+                # Pastikan kedua kelas selalu ada
+                for col in ["Ringan", "Berat"]:
+                    if col not in grouped.columns:
+                        grouped[col] = 0
+
+                grouped = grouped[["Ringan", "Berat"]]
+
+                fig3, ax3 = plt.subplots(
+                    figsize=(8,4.8),
+                    dpi=120
+                )
+
+                grouped.plot(
+                    kind="bar",
+                    ax=ax3,
+                    color=[
+                        "#fca5a5",
+                        "#b91c1c"
+                    ],
+                    width=0.72
+                )
+
+                ax3.set_xlabel(
+                    "Jenis Kendaraan",
+                    fontsize=9
+                )
+
+                ax3.set_ylabel(
+                    "Jumlah Kendaraan",
+                    fontsize=9
+                )
+
+                ax3.tick_params(
+                    labelsize=8
+                )
+
+                ax3.legend(
+                    title="Service",
+                    fontsize=8,
+                    title_fontsize=8
+                )
+
+                # Menampilkan jumlah pada tiap batang
+                for container in ax3.containers:
+
+                    ax3.bar_label(
+                        container,
+                        fontsize=8,
+                        padding=2
+                    )
+
+                plt.tight_layout()
+
+                st.pyplot(
+                    fig3,
+                    use_container_width=True
+                )
+
+                plt.close(fig3)
+
             # =====================================
             # PDF
             # =====================================
