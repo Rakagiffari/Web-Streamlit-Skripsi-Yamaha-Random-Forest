@@ -1233,7 +1233,7 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
                     """
                 )
 
-            # =====================================
+                        # =====================================
             # KARAKTERISTIK HASIL KLASIFIKASI
             # =====================================
 
@@ -1243,7 +1243,7 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
             ):
 
                 st.caption(
-                    "Ringkasan karakteristik kendaraan berdasarkan hasil prediksi Random Forest."
+                    "Ringkasan karakteristik kendaraan berdasarkan hasil prediksi Random Forest yang dikelompokkan berdasarkan jenis motor."
                 )
 
                 urutan_jenis = [
@@ -1260,64 +1260,79 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
 
                     data = summary_df[
                         summary_df["Jenis"] == jenis
-                    ]
+                    ].copy()
 
                     if data.empty:
                         continue
 
-                    st.markdown(f"### 🏍️ {jenis}")
+                    st.markdown(f"#### 🏍️ Jenis Motor : {jenis}")
 
-                    col1, col2 = st.columns(2)
+                    tampil = data[
+                        [
+                            "Service",
+                            "Indikasi Dominan",
+                            "Rata-rata KM",
+                            "Rata-rata Usia",
+                            "Jumlah Data"
+                        ]
+                    ].copy()
 
-                    kolom = [col1, col2]
+                    tampil["Rata-rata KM"] = (
+                        tampil["Rata-rata KM"]
+                        .round(0)
+                        .astype(int)
+                        .map(
+                            lambda x:
+                            f"{x:,} km".replace(",", ".")
+                        )
+                    )
 
-                    for i, (_, row) in enumerate(data.iterrows()):
+                    tampil["Rata-rata Usia"] = (
+                        tampil["Rata-rata Usia"]
+                        .round(1)
+                        .astype(str)
+                        + " Tahun"
+                    )
 
-                        with kolom[i % 2]:
+                    tampil["Jumlah Data"] = (
+                        tampil["Jumlah Data"]
+                        .astype(int)
+                    )
 
-                            warna = "#16a34a"
-
-                            if row["Service"] == "Berat":
-                                warna = "#dc2626"
-
-                            st.markdown(f"""
-                            <div style="
-                                background:#111827;
-                                border:1px solid #374151;
-                                border-radius:15px;
-                                padding:18px;
-                                margin-bottom:15px;
-                                min-height:230px;
-                            ">
-
-                            <h4 style="
-                                color:{warna};
-                                margin-top:0;
-                                margin-bottom:10px;
-                            ">
-                            {row["Service"]}
-                            </h4>
-
-                            <hr>
-
-                            <p><b>Indikasi Dominan</b><br>
-                            {row["Indikasi Dominan"]}</p>
-
-                            <p><b>Rata-rata Kilometer</b><br>
-                            {row["Rata-rata KM"]:,.0f} km</p>
-
-                            <p><b>Rata-rata Usia</b><br>
-                            {row["Rata-rata Usia"]:.1f} Tahun</p>
-
-                            </div>
-                            """, unsafe_allow_html=True)
+                    st.dataframe(
+                        tampil,
+                        hide_index=True,
+                        use_container_width=True
+                    )
 
                     st.markdown("<br>", unsafe_allow_html=True)
 
-                st.info("""
-Karakteristik hasil klasifikasi diperoleh dari prediksi Random Forest terhadap seluruh data kendaraan.
-Ringkasan ini menunjukkan kecenderungan jenis layanan berdasarkan karakteristik kendaraan pada setiap kelompok jenis motor.
-""")
+                st.markdown("---")
+
+                total_jenis = (
+                    summary_df["Jenis"]
+                    .nunique()
+                )
+
+                total_ringan = (
+                    summary_df["Service"]
+                    .eq("Ringan")
+                    .sum()
+                )
+
+                total_berat = (
+                    summary_df["Service"]
+                    .eq("Berat")
+                    .sum()
+                )
+
+                st.success(f"""
+Karakteristik hasil klasifikasi merupakan ringkasan hasil prediksi **Random Forest** terhadap seluruh data kendaraan.
+
+Hasil prediksi kemudian dikelompokkan berdasarkan **jenis motor** sehingga diperoleh karakteristik dominan berupa **indikasi kerusakan**, **rata-rata kilometer**, **rata-rata usia motor**, dan **jumlah data** pada setiap kelompok.
+
+Secara keseluruhan terdapat **{total_jenis} kelompok jenis motor**, yang terdiri atas **{total_ringan} kelompok Service Ringan** dan **{total_berat} kelompok Service Berat**.
+                """)
             
             # ==========================================================
             # STATISTIK DATASET
