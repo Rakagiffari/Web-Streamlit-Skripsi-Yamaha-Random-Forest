@@ -293,13 +293,6 @@ uploaded_file = st.file_uploader(
     type=["csv", "xlsx", "xls"]
 )
 
-# =====================================
-# SESSION STATE
-# =====================================
-
-if "training_done" not in st.session_state:
-    st.session_state.training_done = False
-
 # =========================================
 # MAIN
 # =========================================
@@ -632,7 +625,7 @@ if uploaded_file is not None:
             </div>
         """, unsafe_allow_html=True)
 
-        if train_button or st.session_state.training_done:
+        if train_button:
 
             import time
 
@@ -688,50 +681,6 @@ if uploaded_file is not None:
                 feature_df
             )
 
-            # =====================================
-            # SIMPAN HASIL TRAINING
-            # =====================================
-
-            st.session_state.model = model
-
-            st.session_state.accuracy = accuracy
-            st.session_state.precision = precision
-            st.session_state.recall = recall
-            st.session_state.f1 = f1
-
-            st.session_state.report = report
-            st.session_state.matrix = matrix
-
-            st.session_state.importance_grouped = importance_grouped
-
-            st.session_state.train_size = train_size
-            st.session_state.test_size = test_size
-
-            st.session_state.feature_names = feature_names
-
-            st.session_state.summary_df = summary_df
-
-            st.session_state.training_done = True
-
-            model = st.session_state.model
-
-            accuracy = st.session_state.accuracy
-            precision = st.session_state.precision
-            recall = st.session_state.recall
-            f1 = st.session_state.f1
-
-            report = st.session_state.report
-            matrix = st.session_state.matrix
-
-            importance_grouped = st.session_state.importance_grouped
-
-            train_size = st.session_state.train_size
-            test_size = st.session_state.test_size
-
-            feature_names = st.session_state.feature_names
-
-            summary_df = st.session_state.summary_df
-
             progress.success("Model berhasil dilatih")
             time.sleep(0.5)
 
@@ -757,8 +706,6 @@ if uploaded_file is not None:
 
             # Hilangkan animasi
             progress.empty()
-
-            st.session_state.training_done = True
 
             # =====================================
             # SIMPAN MODEL
