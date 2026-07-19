@@ -276,3 +276,194 @@ def generate_pdf(
     elements.append(
         Spacer(1,15)
     )
+
+    # =====================================
+    # FITUR PALING BERPENGARUH
+    # =====================================
+
+    elements.append(
+
+        Paragraph(
+
+            "<b>FITUR PALING BERPENGARUH</b>",
+
+            styles["Heading3"]
+
+        )
+
+    )
+
+    elements.append(
+        Spacer(1,5)
+    )
+
+    fitur_data = [
+
+        ["No", "Nama Fitur"]
+
+    ]
+
+    for i, fitur in enumerate(top_features, start=1):
+
+        fitur_data.append([
+
+            str(i),
+
+            fitur
+
+        ])
+
+    fitur_table = Table(
+
+        fitur_data,
+
+        colWidths=[45, 420]
+
+    )
+
+    fitur_table.setStyle(
+
+        TableStyle([
+
+            ("GRID",(0,0),(-1,-1),0.5,colors.grey),
+
+            ("BOX",(0,0),(-1,-1),1,colors.black),
+
+            ("BACKGROUND",(0,0),(-1,0),colors.HexColor("#E5E7EB")),
+
+            ("FONTNAME",(0,0),(-1,0),"Helvetica-Bold"),
+
+            ("ALIGN",(0,0),(0,-1),"CENTER"),
+
+            ("VALIGN",(0,0),(-1,-1),"MIDDLE"),
+
+            ("BOTTOMPADDING",(0,0),(-1,-1),8)
+
+        ])
+
+    )
+
+    elements.append(fitur_table)
+
+    elements.append(
+        Spacer(1,15)
+    )
+
+    # =====================================
+    # KESIMPULAN
+    # =====================================
+
+    elements.append(
+
+        Paragraph(
+
+            "<b>KESIMPULAN</b>",
+
+            styles["Heading3"]
+
+        )
+
+    )
+
+    elements.append(
+        Spacer(1,5)
+    )
+
+    kesimpulan = f"""
+    Model Random Forest berhasil dilatih menggunakan dataset
+    layanan service kendaraan Yamaha.
+
+    Berdasarkan proses pelatihan diperoleh nilai Accuracy sebesar
+    <b>{accuracy:.2%}</b>, Precision sebesar
+    <b>{precision:.2%}</b>, Recall sebesar
+    <b>{recall:.2%}</b>, dan F1-Score sebesar
+    <b>{f1:.2%}</b>.
+
+    Hasil evaluasi menunjukkan bahwa model mampu melakukan
+    klasifikasi layanan <b>Service Ringan</b> dan
+    <b>Service Berat</b> dengan performa yang baik.
+
+    Feature Importance menunjukkan bahwa beberapa fitur utama
+    memiliki kontribusi paling besar terhadap proses klasifikasi,
+    sehingga dapat digunakan sebagai dasar dalam pengambilan
+    keputusan layanan service kendaraan.
+    """
+
+    kesimpulan_table = Table(
+
+        [[
+
+            Paragraph(
+
+                kesimpulan,
+
+                styles["BodyText"]
+
+            )
+
+        ]],
+
+        colWidths=[470]
+
+    )
+
+    kesimpulan_table.setStyle(
+
+        TableStyle([
+
+            ("BOX",(0,0),(-1,-1),1,colors.black),
+
+            ("BACKGROUND",(0,0),(-1,-1),colors.whitesmoke),
+
+            ("BOTTOMPADDING",(0,0),(-1,-1),10),
+
+            ("TOPPADDING",(0,0),(-1,-1),10)
+
+        ])
+
+    )
+
+    elements.append(kesimpulan_table)
+
+    elements.append(
+        Spacer(1,10)
+    )
+
+    # =====================================
+    # PENUTUP LAPORAN
+    # =====================================
+
+    elements.append(
+        Paragraph(
+            "<para align='center'><font size='9' color='grey'>"
+            "Laporan ini dibuat secara otomatis oleh Sistem "
+            "Klasifikasi Layanan Service Kendaraan Yamaha "
+            "menggunakan algoritma Random Forest."
+            "</font></para>",
+            styles["Normal"]
+        )
+    )
+
+    elements.append(
+        Spacer(1, 8)
+    )
+
+    # =====================================
+    # MEMBUAT PDF
+    # =====================================
+
+    try:
+
+        doc.build(elements)
+
+    except Exception as e:
+
+        raise Exception(
+            f"Gagal membuat laporan PDF: {str(e)}"
+        )
+
+    # =====================================
+    # RETURN PATH PDF
+    # =====================================
+
+    return pdf_path
