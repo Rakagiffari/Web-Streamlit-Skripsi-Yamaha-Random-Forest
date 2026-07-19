@@ -1351,7 +1351,7 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
 
                     st.markdown("<br>", unsafe_allow_html=True)
 
-            # =====================================
+                        # =====================================
             # VISUALISASI HASIL KLASIFIKASI
             # =====================================
 
@@ -1361,15 +1361,15 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
             ):
 
                 st.caption(
-                    "Visualisasi distribusi hasil klasifikasi Random Forest berdasarkan kategori layanan service."
+                    "Visualisasi distribusi kategori layanan Service Ringan dan Service Berat."
                 )
 
                 # -------------------------------------
-                # Distribusi Hasil Klasifikasi
+                # Distribusi Target
                 # -------------------------------------
 
                 service_count = (
-                    summary_df["Service"]
+                    df["Service"]
                     .value_counts()
                     .reindex(
                         ["Ringan", "Berat"],
@@ -1377,16 +1377,11 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                     )
                 )
 
-                total_data = int(service_count.sum())
+                col_bar, col_pie = st.columns(2)
 
-                col_bar, col_pie = st.columns(
-                    2,
-                    gap="large"
-                )
-
-                # =====================================
+                # ==========================
                 # BAR CHART
-                # =====================================
+                # ==========================
 
                 with col_bar:
 
@@ -1403,7 +1398,7 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                     )
 
                     ax1.set_title(
-                        "Distribusi Hasil Klasifikasi",
+                        "Distribusi Service",
                         fontsize=10,
                         fontweight="bold"
                     )
@@ -1414,19 +1409,17 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                     )
 
                     ax1.set_ylabel(
-                        "Jumlah Kendaraan",
+                        "Jumlah Data",
                         fontsize=8
                     )
 
-                    ax1.tick_params(
-                        labelsize=8
-                    )
+                    ax1.tick_params(labelsize=8)
 
                     for i, value in enumerate(service_count.values):
 
                         ax1.text(
                             i,
-                            value + 1,
+                            value,
                             str(int(value)),
                             ha="center",
                             va="bottom",
@@ -1443,9 +1436,9 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
 
                     plt.close(fig1)
 
-                # =====================================
+                # ==========================
                 # PIE CHART
-                # =====================================
+                # ==========================
 
                 with col_pie:
 
@@ -1471,7 +1464,7 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                     )
 
                     ax2.set_title(
-                        "Persentase Hasil Klasifikasi",
+                        "Persentase Service",
                         fontsize=10,
                         fontweight="bold"
                     )
@@ -1487,48 +1480,17 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
 
                     plt.close(fig2)
 
-                # =====================================
-                # INTERPRETASI
-                # =====================================
-
                 st.markdown("---")
 
-                jumlah_ringan = int(
-                    service_count.get(
-                        "Ringan",
-                        0
-                    )
-                )
+                total = int(service_count.sum())
 
-                jumlah_berat = int(
-                    service_count.get(
-                        "Berat",
-                        0
-                    )
-                )
-
-                persen_ringan = (
-                    jumlah_ringan / total_data * 100
-                    if total_data > 0 else 0
-                )
-
-                persen_berat = (
-                    jumlah_berat / total_data * 100
-                    if total_data > 0 else 0
-                )
-
-                dominan = (
-                    "Service Ringan"
-                    if jumlah_ringan >= jumlah_berat
-                    else "Service Berat"
-                )
+                ringan = int(service_count["Ringan"])
+                berat = int(service_count["Berat"])
 
                 st.info(f"""
-Visualisasi menunjukkan distribusi hasil klasifikasi Random Forest terhadap **{total_data}** kendaraan.
+Distribusi data menunjukkan terdapat **{ringan}** data **Service Ringan** dan **{berat}** data **Service Berat** dari total **{total}** data.
 
-Sebanyak **{jumlah_ringan}** kendaraan (**{persen_ringan:.1f}%**) diklasifikasikan sebagai **Service Ringan**, sedangkan **{jumlah_berat}** kendaraan (**{persen_berat:.1f}%**) diklasifikasikan sebagai **Service Berat**.
-
-Berdasarkan hasil klasifikasi tersebut, kategori yang paling dominan adalah **{dominan}**.
+Grafik batang memperlihatkan jumlah masing-masing kategori layanan, sedangkan diagram lingkaran menunjukkan persentase distribusi setiap kategori terhadap keseluruhan data.
                 """)
                         
             # =====================================
