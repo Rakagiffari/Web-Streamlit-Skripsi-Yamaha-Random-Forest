@@ -1405,19 +1405,13 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                 with open(pdf_path, "rb") as pdf_file:
 
                     st.download_button(
-
                         label="📄 Download Laporan PDF",
-
                         data=pdf_file.read(),
-
                         file_name="Laporan_Training_Model.pdf",
-
                         mime="application/pdf",
-
                         use_container_width=True,
-
-                        key="download_pdf"
-
+                        key="download_pdf",
+                        on_click="ignore"
                     )
 
             st.markdown(
