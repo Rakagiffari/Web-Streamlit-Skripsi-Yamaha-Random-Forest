@@ -493,106 +493,6 @@ if uploaded_file is not None:
             )
 
         # =====================================
-        # FEATURE ENGINEERING
-        # =====================================
-
-        # Salinan dataset hanya untuk visualisasi
-        feature_df = df.copy()
-
-        from datetime import datetime
-
-        tahun_sekarang = datetime.now().year
-
-        # -------------------------------------
-        # Feature 1 : Usia Motor
-        # -------------------------------------
-
-        feature_df["Usia Motor"] = (
-            tahun_sekarang - feature_df["Tahun"]
-        )
-
-        # -------------------------------------
-        # Feature 2 : Jenis Motor
-        # -------------------------------------
-
-        def get_jenis(model):
-
-            model = str(model).upper()
-
-            if any(x in model for x in [
-                "XMAX", "NMAX", "AEROX", "LEXI", "TMAX"
-            ]):
-                return "MAXi"
-
-            elif any(x in model for x in [
-                "FAZZIO", "FILANO"
-            ]):
-                return "Classy"
-
-            elif any(x in model for x in [
-                "MIO", "SOUL", "XEON", "FINO",
-                "GEAR", "FREEGO", "X-RIDE",
-                "XRIDE", "NOUVO", "LEXAM"
-            ]):
-                return "Matic"
-
-            elif any(x in model for x in [
-                "R15", "R25", "R6", "R1",
-                "VIXION", "BYSON",
-                "SCORPIO", "RX",
-                "XSR", "MT"
-            ]):
-                return "Sport"
-
-            elif any(x in model for x in [
-                "WR", "YZ"
-            ]):
-                return "Off-road"
-
-            elif any(x in model for x in [
-                "JUPITER", "VEGA",
-                "CRYPTON", "ALFA",
-                "SIGMA", "F1ZR",
-                "MX"
-            ]):
-                return "Moped"
-
-            return "Unknown"
-
-        feature_df["Jenis"] = feature_df["Model"].apply(get_jenis)
-
-        # -------------------------------------
-        # Atur posisi kolom
-        # -------------------------------------
-
-        cols = feature_df.columns.tolist()
-
-        cols.remove("Jenis")
-        cols.remove("Usia Motor")
-
-        cols.insert(cols.index("Model") + 1, "Jenis")
-        cols.insert(cols.index("Tahun") + 1, "Usia Motor")
-
-        feature_df = feature_df[cols]
-
-        # -------------------------------------
-        # TAMPILAN
-        # -------------------------------------
-
-        with st.expander("Feature Engineering", expanded=False):
-
-            st.caption(
-                "Proses penambahan fitur."
-            )
-
-            st.dataframe(
-                feature_df,
-                use_container_width=True,
-                hide_index=True,
-                height=350
-            )
-
-        # =====================================
             # VISUALISASI
             # =====================================
 
@@ -713,6 +613,106 @@ if uploaded_file is not None:
                 st.caption(
                     "Visualisasi distribusi Jenis terhadap layanan Service Ringan dan Service Berat."
                 )
+
+        # =====================================
+        # FEATURE ENGINEERING
+        # =====================================
+
+        # Salinan dataset hanya untuk visualisasi
+        feature_df = df.copy()
+
+        from datetime import datetime
+
+        tahun_sekarang = datetime.now().year
+
+        # -------------------------------------
+        # Feature 1 : Usia Motor
+        # -------------------------------------
+
+        feature_df["Usia Motor"] = (
+            tahun_sekarang - feature_df["Tahun"]
+        )
+
+        # -------------------------------------
+        # Feature 2 : Jenis Motor
+        # -------------------------------------
+
+        def get_jenis(model):
+
+            model = str(model).upper()
+
+            if any(x in model for x in [
+                "XMAX", "NMAX", "AEROX", "LEXI", "TMAX"
+            ]):
+                return "MAXi"
+
+            elif any(x in model for x in [
+                "FAZZIO", "FILANO"
+            ]):
+                return "Classy"
+
+            elif any(x in model for x in [
+                "MIO", "SOUL", "XEON", "FINO",
+                "GEAR", "FREEGO", "X-RIDE",
+                "XRIDE", "NOUVO", "LEXAM"
+            ]):
+                return "Matic"
+
+            elif any(x in model for x in [
+                "R15", "R25", "R6", "R1",
+                "VIXION", "BYSON",
+                "SCORPIO", "RX",
+                "XSR", "MT"
+            ]):
+                return "Sport"
+
+            elif any(x in model for x in [
+                "WR", "YZ"
+            ]):
+                return "Off-road"
+
+            elif any(x in model for x in [
+                "JUPITER", "VEGA",
+                "CRYPTON", "ALFA",
+                "SIGMA", "F1ZR",
+                "MX"
+            ]):
+                return "Moped"
+
+            return "Unknown"
+
+        feature_df["Jenis"] = feature_df["Model"].apply(get_jenis)
+
+        # -------------------------------------
+        # Atur posisi kolom
+        # -------------------------------------
+
+        cols = feature_df.columns.tolist()
+
+        cols.remove("Jenis")
+        cols.remove("Usia Motor")
+
+        cols.insert(cols.index("Model") + 1, "Jenis")
+        cols.insert(cols.index("Tahun") + 1, "Usia Motor")
+
+        feature_df = feature_df[cols]
+
+        # -------------------------------------
+        # TAMPILAN
+        # -------------------------------------
+
+        with st.expander("Feature Engineering", expanded=False):
+
+            st.caption(
+                "Proses penambahan fitur."
+            )
+
+            st.dataframe(
+                feature_df,
+                use_container_width=True,
+                hide_index=True,
+                height=350
+            )
 
         # =====================================
         # PREPROCESS DATA
