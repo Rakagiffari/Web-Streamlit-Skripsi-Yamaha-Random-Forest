@@ -1309,9 +1309,6 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
                             <p><b>Rata-rata Usia</b><br>
                             {row["Rata-rata Usia"]:.1f} Tahun</p>
 
-                            <p><b>Jumlah Data</b><br>
-                            {int(row["Jumlah Data"])} Data</p>
-
                             </div>
                             """, unsafe_allow_html=True)
 
