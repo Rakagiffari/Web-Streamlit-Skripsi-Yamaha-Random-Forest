@@ -1271,14 +1271,14 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
                         [
                             "Service",
                             "Rata-rata KM",
-                            "Rata-rata Usia",
+                            "Rata-rata Usia"
                         ]
                     ].copy()
 
                     tampil.columns = [
                         "Hasil Klasifikasi",
                         "Rata-rata KM (km)",
-                        "Rata-rata Usia (Tahun)",
+                        "Rata-rata Usia (Tahun)"
                     ]
 
                     tampil["Rata-rata KM (km)"] = (
@@ -1298,13 +1298,67 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
                         hide_index=True
                     )
 
+                    # ==================================
+                    # PENJELASAN OTOMATIS
+                    # ==================================
+
+                    ringan = data[
+                        data["Service"] == "Ringan"
+                    ]
+
+                    berat = data[
+                        data["Service"] == "Berat"
+                    ]
+
+                    if not ringan.empty and not berat.empty:
+
+                        km_ringan = ringan.iloc[0]["Rata-rata KM"]
+                        usia_ringan = ringan.iloc[0]["Rata-rata Usia"]
+
+                        km_berat = berat.iloc[0]["Rata-rata KM"]
+                        usia_berat = berat.iloc[0]["Rata-rata Usia"]
+
+                        st.success(f"""
+Berdasarkan hasil klasifikasi Random Forest, kendaraan jenis **{jenis}** yang diprediksi sebagai **Service Ringan** memiliki rata-rata kilometer sekitar **{km_ringan:,.0f} km** dan rata-rata usia motor sekitar **{usia_ringan:.1f} tahun**.
+
+Sedangkan kendaraan yang diprediksi sebagai **Service Berat** memiliki rata-rata kilometer sekitar **{km_berat:,.0f} km** dan rata-rata usia motor sekitar **{usia_berat:.1f} tahun**.
+
+Hal ini menunjukkan bahwa pada kendaraan jenis **{jenis}**, kendaraan dengan kilometer dan usia motor yang lebih tinggi cenderung diklasifikasikan sebagai **Service Berat**.
+                        """)
+
+                    elif not ringan.empty:
+
+                        km_ringan = ringan.iloc[0]["Rata-rata KM"]
+                        usia_ringan = ringan.iloc[0]["Rata-rata Usia"]
+
+                        st.success(f"""
+Berdasarkan hasil klasifikasi Random Forest, seluruh kendaraan jenis **{jenis}** pada data ini diprediksi sebagai **Service Ringan**.
+
+Rata-rata kendaraan memiliki kilometer sekitar **{km_ringan:,.0f} km** dengan usia motor sekitar **{usia_ringan:.1f} tahun**.
+
+Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang diprediksi sebagai **Service Berat**.
+                        """)
+
+                    elif not berat.empty:
+
+                        km_berat = berat.iloc[0]["Rata-rata KM"]
+                        usia_berat = berat.iloc[0]["Rata-rata Usia"]
+
+                        st.success(f"""
+Berdasarkan hasil klasifikasi Random Forest, seluruh kendaraan jenis **{jenis}** pada data ini diprediksi sebagai **Service Berat**.
+
+Rata-rata kendaraan memiliki kilometer sekitar **{km_berat:,.0f} km** dengan usia motor sekitar **{usia_berat:.1f} tahun**.
+
+Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang diprediksi sebagai **Service Ringan**.
+                        """)
+
                     st.markdown("<br>", unsafe_allow_html=True)
 
-                st.success("""
+                st.info("""
 Karakteristik hasil klasifikasi merupakan ringkasan hasil prediksi Random Forest terhadap seluruh data kendaraan.
 
-Ringkasan ini menunjukkan kecenderungan karakteristik kendaraan berdasarkan hasil klasifikasi pada setiap jenis motor. Nilai rata-rata kilometer, usia motor, dan jumlah data digunakan untuk membantu mengidentifikasi pola kendaraan yang cenderung memperoleh klasifikasi Service Ringan maupun Service Berat.
-""")
+Bagian ini bertujuan untuk memperlihatkan pola karakteristik kendaraan pada setiap jenis motor berdasarkan hasil klasifikasi yang diperoleh dari model Random Forest.
+                """)
             
             # ==========================================================
             # STATISTIK DATASET
