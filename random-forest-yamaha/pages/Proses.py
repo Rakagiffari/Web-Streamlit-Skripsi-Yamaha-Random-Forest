@@ -1389,10 +1389,6 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
 
             )
 
-            st.success("✅ Laporan PDF berhasil dibuat.")
-
-            st.markdown("<br>", unsafe_allow_html=True)
-
             left, center, right = st.columns([1, 2, 1])
 
             with center:
