@@ -1351,12 +1351,12 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
 
                     st.markdown("<br>", unsafe_allow_html=True)
 
-                        # =====================================
+            # =====================================
             # VISUALISASI HASIL KLASIFIKASI
             # =====================================
 
             with st.expander(
-                "Visualisasi Hasil Klasifikasi",
+                "Visualisasi",
                 expanded=False
             ):
 
@@ -1395,12 +1395,6 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                         y=service_count.values,
                         palette="Reds_r",
                         ax=ax1
-                    )
-
-                    ax1.set_title(
-                        "Distribusi Service",
-                        fontsize=10,
-                        fontweight="bold"
                     )
 
                     ax1.set_xlabel(
