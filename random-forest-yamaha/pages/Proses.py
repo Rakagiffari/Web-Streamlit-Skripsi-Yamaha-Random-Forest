@@ -1350,10 +1350,196 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                         """)
 
                     st.markdown("<br>", unsafe_allow_html=True)
+
+                        # =====================================
+            # VISUALISASI HASIL KLASIFIKASI
+            # =====================================
+
+            with st.expander(
+                "Visualisasi Hasil Klasifikasi",
+                expanded=False
+            ):
+
+                st.caption(
+                    "Visualisasi distribusi hasil klasifikasi berdasarkan jumlah dan persentase kendaraan pada masing-masing kategori service."
+                )
+
+                # ---------------------------------
+                # Menyiapkan Data
+                # ---------------------------------
+
+                visual_df = (
+                    summary_df
+                    .groupby("Service")
+                    .size()
+                    .reset_index(name="Jumlah")
+                )
+
+                visual_df["Persentase"] = (
+                    visual_df["Jumlah"] /
+                    visual_df["Jumlah"].sum()
+                ) * 100
+
+                col1, col2 = st.columns(
+                    2,
+                    gap="large"
+                )
+
+                # =====================================
+                # BAR CHART
+                # =====================================
+
+                with col1:
+
+                    fig_bar, ax_bar = plt.subplots(
+                        figsize=(4.5,4),
+                        dpi=120
+                    )
+
+                    bars = ax_bar.bar(
+                        visual_df["Service"],
+                        visual_df["Jumlah"],
+                        color=[
+                            "#ef4444",
+                            "#991b1b"
+                        ]
+                    )
+
+                    ax_bar.set_title(
+                        "Distribusi Hasil Klasifikasi",
+                        fontsize=10,
+                        weight="bold"
+                    )
+
+                    ax_bar.set_xlabel(
+                        "Kategori Service",
+                        fontsize=8
+                    )
+
+                    ax_bar.set_ylabel(
+                        "Jumlah Kendaraan",
+                        fontsize=8
+                    )
+
+                    ax_bar.tick_params(
+                        labelsize=8
+                    )
+
+                    for bar in bars:
+
+                        height = bar.get_height()
+
+                        ax_bar.text(
+                            bar.get_x() + bar.get_width()/2,
+                            height,
+                            f"{int(height)}",
+                            ha="center",
+                            va="bottom",
+                            fontsize=8,
+                            fontweight="bold"
+                        )
+
+                    st.pyplot(
+                        fig_bar,
+                        use_container_width=True
+                    )
+
+                    plt.close(fig_bar)
+
+                # =====================================
+                # PIE CHART
+                # =====================================
+
+                with col2:
+
+                    fig_pie, ax_pie = plt.subplots(
+                        figsize=(4.5,4),
+                        dpi=120
+                    )
+
+                    ax_pie.pie(
+
+                        visual_df["Jumlah"],
+
+                        labels=visual_df["Service"],
+
+                        autopct="%1.1f%%",
+
+                        startangle=90,
+
+                        colors=[
+                            "#ef4444",
+                            "#991b1b"
+                        ],
+
+                        textprops={
+                            "fontsize":8
+                        }
+
+                    )
+
+                    ax_pie.set_title(
+                        "Persentase Hasil Klasifikasi",
+                        fontsize=10,
+                        weight="bold"
+                    )
+
+                    st.pyplot(
+                        fig_pie,
+                        use_container_width=True
+                    )
+
+                    plt.close(fig_pie)
+
+                st.markdown("---")
+
+                ringan = visual_df.loc[
+                    visual_df["Service"]=="Ringan",
+                    "Jumlah"
+                ]
+
+                berat = visual_df.loc[
+                    visual_df["Service"]=="Berat",
+                    "Jumlah"
+                ]
+
+                jumlah_ringan = (
+                    int(ringan.iloc[0])
+                    if not ringan.empty
+                    else 0
+                )
+
+                jumlah_berat = (
+                    int(berat.iloc[0])
+                    if not berat.empty
+                    else 0
+                )
+
+                if jumlah_ringan > jumlah_berat:
+
+                    dominan = "Service Ringan"
+
+                elif jumlah_berat > jumlah_ringan:
+
+                    dominan = "Service Berat"
+
+                else:
+
+                    dominan = "kedua kategori memiliki jumlah yang sama"
+
+                st.info(
+                    f"""
+Visualisasi menunjukkan distribusi hasil klasifikasi Random Forest terhadap **{len(feature_df)}** data kendaraan.
+
+Bar chart memperlihatkan jumlah kendaraan pada masing-masing kategori service, sedangkan pie chart menunjukkan proporsi setiap kategori terhadap keseluruhan hasil klasifikasi.
+
+Berdasarkan hasil tersebut, kategori yang paling banyak diprediksi oleh model adalah **{dominan}**.
+                    """
+                )
                         
-                # =====================================
-                # PDF
-                # =====================================
+            # =====================================
+            # PDF
+            # =====================================
 
             logo_path = (
                 BASE_DIR /
