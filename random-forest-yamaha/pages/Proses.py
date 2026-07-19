@@ -1233,7 +1233,7 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
                     """
                 )
 
-                        # =====================================
+            # =====================================
             # KARAKTERISTIK HASIL KLASIFIKASI
             # =====================================
 
@@ -1302,7 +1302,7 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
 
                     st.markdown("<br>", unsafe_allow_html=True)
 
-                st.info("""
+                st.success("""
 Karakteristik hasil klasifikasi merupakan ringkasan hasil prediksi Random Forest terhadap seluruh data kendaraan.
 
 Ringkasan ini menunjukkan kecenderungan karakteristik kendaraan berdasarkan hasil klasifikasi pada setiap jenis motor. Nilai rata-rata kilometer, usia motor, dan jumlah data digunakan untuk membantu mengidentifikasi pola kendaraan yang cenderung memperoleh klasifikasi Service Ringan maupun Service Berat.
