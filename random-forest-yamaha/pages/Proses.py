@@ -1350,66 +1350,7 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                         """)
 
                     st.markdown("<br>", unsafe_allow_html=True)
-            
-            # ==========================================================
-            # STATISTIK DATASET
-            # ==========================================================
-
-            st.markdown("### 📈 Ringkasan Dataset")
-
-            col_km, col_usia = st.columns(2)
-
-            if "Km" in df.columns:
-
-                with col_km:
-
-                    km_summary = (
-                        df.groupby("Service")["Km"]
-                        .mean()
-                        .round(1)
-                        .reset_index()
-                    )
-
-                    st.markdown("#### 🚗 Rata-rata Kilometer")
-
-                    st.dataframe(
-                        km_summary,
-                        use_container_width=True,
-                        hide_index=True
-                    )
-
-            if "Usia Motor" in feature_df.columns:
-
-                with col_usia:
-
-                    usia_summary = (
-                        feature_df.groupby("Service")["Usia Motor"]
-                        .mean()
-                        .round(1)
-                        .reset_index()
-                    )
-
-                    st.markdown("#### 📅 Rata-rata Usia Motor")
-
-                    st.dataframe(
-                        usia_summary,
-                        use_container_width=True,
-                        hide_index=True
-                    )
-
-            st.markdown("### 📝 Kesimpulan")
-
-            st.success(f"""
-Model Random Forest memperoleh Accuracy sebesar **{accuracy:.2%}**.
-
-Feature Importance menunjukkan bahwa fitur yang paling dominan adalah **{top1['Fitur']}**.
-
-Keputusan model merupakan kombinasi seluruh fitur yang dipelajari oleh banyak Decision Tree melalui mekanisme Majority Voting.
-
-Seluruh insight pada halaman ini dihitung secara otomatis dari hasil pelatihan model sehingga akan berubah ketika dataset yang digunakan berubah.
-""")
                         
-                    
                 # =====================================
                 # PDF
                 # =====================================
