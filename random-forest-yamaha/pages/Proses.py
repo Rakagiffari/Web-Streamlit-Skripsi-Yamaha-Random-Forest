@@ -1365,7 +1365,7 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                 )
 
                 # -------------------------------------
-                # Data Visualisasi
+                # Distribusi Hasil Klasifikasi
                 # -------------------------------------
 
                 service_count = (
@@ -1376,6 +1376,8 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                         fill_value=0
                     )
                 )
+
+                total_data = int(service_count.sum())
 
                 col_bar, col_pie = st.columns(
                     2,
@@ -1389,7 +1391,7 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                 with col_bar:
 
                     fig1, ax1 = plt.subplots(
-                        figsize=(5.5,4.2),
+                        figsize=(5.5,4),
                         dpi=120
                     )
 
@@ -1424,7 +1426,7 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
 
                         ax1.text(
                             i,
-                            value,
+                            value + 1,
                             str(int(value)),
                             ha="center",
                             va="bottom",
@@ -1448,7 +1450,7 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                 with col_pie:
 
                     fig2, ax2 = plt.subplots(
-                        figsize=(5.5,4.2),
+                        figsize=(5.5,4),
                         dpi=120
                     )
 
@@ -1458,21 +1460,14 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                     )
 
                     ax2.pie(
-
                         service_count.values,
-
                         labels=service_count.index,
-
                         autopct="%1.1f%%",
-
                         startangle=90,
-
                         colors=colors,
-
                         textprops={
                             "fontsize":9
                         }
-
                     )
 
                     ax2.set_title(
@@ -1493,47 +1488,47 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                     plt.close(fig2)
 
                 # =====================================
-                # PENJELASAN
+                # INTERPRETASI
                 # =====================================
 
                 st.markdown("---")
 
-                total_data = int(service_count.sum())
-
-                total_ringan = int(
+                jumlah_ringan = int(
                     service_count.get(
                         "Ringan",
                         0
                     )
                 )
 
-                total_berat = int(
+                jumlah_berat = int(
                     service_count.get(
                         "Berat",
                         0
                     )
                 )
 
-                if total_ringan > total_berat:
+                persen_ringan = (
+                    jumlah_ringan / total_data * 100
+                    if total_data > 0 else 0
+                )
 
-                    dominan = "Service Ringan"
+                persen_berat = (
+                    jumlah_berat / total_data * 100
+                    if total_data > 0 else 0
+                )
 
-                elif total_berat > total_ringan:
+                dominan = (
+                    "Service Ringan"
+                    if jumlah_ringan >= jumlah_berat
+                    else "Service Berat"
+                )
 
-                    dominan = "Service Berat"
+                st.info(f"""
+Visualisasi menunjukkan distribusi hasil klasifikasi Random Forest terhadap **{total_data}** kendaraan.
 
-                else:
+Sebanyak **{jumlah_ringan}** kendaraan (**{persen_ringan:.1f}%**) diklasifikasikan sebagai **Service Ringan**, sedangkan **{jumlah_berat}** kendaraan (**{persen_berat:.1f}%**) diklasifikasikan sebagai **Service Berat**.
 
-                    dominan = "kedua kategori memiliki jumlah yang sama"
-
-                st.success(f"""
-Visualisasi menunjukkan hasil klasifikasi Random Forest terhadap **{total_data}** kendaraan.
-
-Sebanyak **{total_ringan}** kendaraan diklasifikasikan sebagai **Service Ringan**, sedangkan **{total_berat}** kendaraan diklasifikasikan sebagai **Service Berat**.
-
-Grafik batang memperlihatkan jumlah kendaraan pada masing-masing kategori layanan, sedangkan diagram lingkaran menunjukkan proporsi setiap kategori terhadap keseluruhan hasil klasifikasi.
-
-Berdasarkan hasil tersebut, kategori yang paling dominan adalah **{dominan}**.
+Berdasarkan hasil klasifikasi tersebut, kategori yang paling dominan adalah **{dominan}**.
                 """)
                         
             # =====================================
