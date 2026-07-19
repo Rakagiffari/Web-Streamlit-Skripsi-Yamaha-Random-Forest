@@ -1363,65 +1363,67 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
 
             pdf_path = generate_pdf(
 
-                pdf_path=
-                "laporan_training_model.pdf",
+                pdf_path="laporan_training_model.pdf",
 
-                logo_path=
-                str(logo_path),
+                logo_path=str(logo_path),
 
-                total_data=
-                len(df),
+                total_data=len(df),
 
-                train_data=
-                train_count,
+                train_data=train_size,
 
-                test_data=
-                test_count,
+                test_data=test_size,
 
-                accuracy=
-                accuracy,
+                accuracy=accuracy,
 
-                precision=
-                precision,
+                precision=precision,
 
-                recall=
-                recall,
+                recall=recall,
 
-                f1=
-                f1,
+                f1=f1,
 
-                cm_image=
-                str(cm_path),
+                cm_image=str(cm_path),
 
-                fi_image=
-                str(fi_path),
+                fi_image=str(fi_path),
 
-                top_features=
-                importance_grouped[
+                top_features=importance_grouped[
                     "Fitur"
                 ].head(5).tolist()
+
             )
 
-            with open(
-                pdf_path,
-                "rb"
-            ) as pdf_file:
+            st.markdown("---")
 
-                st.download_button(
+            col1, col2, col3 = st.columns([1, 2, 1])
 
-                    "📄 Download Laporan",
+            with col2:
 
-                    pdf_file,
+                with open(
+                    pdf_path,
+                    "rb"
+                ) as pdf_file:
 
-                    file_name=
-                    "Laporan_Training_Model.pdf",
+                    st.download_button(
 
-                    mime=
-                    "application/pdf"
-                )
+                        label="📄 Download Laporan PDF",
 
-    except Exception as e:
+                        data=pdf_file,
 
-        st.error(
-            f"Terjadi error: {e}"
-        )
+                        file_name="Laporan_Training_Model.pdf",
+
+                        mime="application/pdf",
+
+                        use_container_width=True
+
+                    )
+
+            st.markdown("""
+                <div style="
+                    text-align:center;
+                    color:#9ca3af;
+                    font-size:14px;
+                    margin-top:-8px;
+                    margin-bottom:20px;
+                ">
+                    Tekan tombol berikut untuk mengunduh laporan hasil pelatihan model dalam format PDF.
+                </div>
+            """, unsafe_allow_html=True)
