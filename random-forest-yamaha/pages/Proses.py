@@ -635,27 +635,27 @@ if uploaded_file is not None:
             # ENCODING
             # =====================================
 
-            progress.info("↻ Melakukan encoding...")
+            progress.info("Melakukan encoding...")
             time.sleep(0.8)
 
-            progress.success("✔ Encoding selesai")
+            progress.success("Encoding selesai")
             time.sleep(0.3)
 
             # =====================================
             # TRAIN TEST SPLIT
             # =====================================
 
-            progress.info("↻ Membagi data train dan test...")
+            progress.info("Membagi data train dan test...")
             time.sleep(0.8)
 
-            progress.success("✔ Train-test split selesai")
+            progress.success("Train-test split selesai")
             time.sleep(0.3)
 
             # =====================================
             # TRAIN RANDOM FOREST
             # =====================================
 
-            progress.info("↻ Melatih Random Forest...")
+            progress.info("Melatih Random Forest...")
 
             (
                 model,
@@ -681,27 +681,27 @@ if uploaded_file is not None:
                 feature_df
             )
 
-            progress.success("✔ Model berhasil dilatih")
+            progress.success("Model berhasil dilatih")
             time.sleep(0.5)
 
             # =====================================
             # EVALUASI
             # =====================================
 
-            progress.info("↻ Menghitung evaluasi...")
+            progress.info("Menghitung evaluasi...")
             time.sleep(0.8)
 
-            progress.success("✔ Evaluasi selesai")
+            progress.success("Evaluasi selesai")
             time.sleep(0.3)
 
             # =====================================
             # INSIGHT
             # =====================================
 
-            progress.info("↻ Menyusun insight...")
+            progress.info("Menyusun insight...")
             time.sleep(0.8)
 
-            progress.success("✔ Insight berhasil dibuat")
+            progress.success("Insight berhasil dibuat")
             time.sleep(0.3)
 
             # Hilangkan animasi
