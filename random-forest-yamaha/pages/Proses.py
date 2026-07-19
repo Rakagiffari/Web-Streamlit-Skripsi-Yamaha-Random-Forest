@@ -1466,19 +1466,6 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                     )
 
                     plt.close(fig2)
-
-                st.markdown("---")
-
-                total = int(service_count.sum())
-
-                ringan = int(service_count["Ringan"])
-                berat = int(service_count["Berat"])
-
-                st.info(f"""
-Distribusi data menunjukkan terdapat **{ringan}** data **Service Ringan** dan **{berat}** data **Service Berat** dari total **{total}** data.
-
-Grafik batang memperlihatkan jumlah masing-masing kategori layanan, sedangkan diagram lingkaran menunjukkan persentase distribusi setiap kategori terhadap keseluruhan data.
-                """)
                         
             # =====================================
             # PDF
