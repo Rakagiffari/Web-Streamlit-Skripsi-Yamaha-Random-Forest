@@ -1470,7 +1470,7 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                 st.markdown("---")
 
                 st.caption(
-                    "Visualisasi distribusi kategori layanan Service Ringan dan Service Berat."
+                    "Visualisasi distribusi Jenis terhadap layanan Service Ringan dan Service Berat."
                 )
                 
                 # ==========================================
