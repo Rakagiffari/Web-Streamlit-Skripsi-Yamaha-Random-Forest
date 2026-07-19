@@ -32,13 +32,6 @@ st.set_page_config(
 )
 
 # =========================================
-# SESSION STATE
-# =========================================
-
-if "trained" not in st.session_state:
-    st.session_state.trained = False
-
-# =========================================
 # STYLE
 # =========================================
 
@@ -632,7 +625,7 @@ if uploaded_file is not None:
             </div>
         """, unsafe_allow_html=True)
 
-        if train_button or st.session_state.trained:
+        if train_button:
 
             import time
 
@@ -677,8 +670,6 @@ if uploaded_file is not None:
                 test_size,
                 feature_names
             ) = train_model(X, y)
-
-            st.session_state.trained = True
 
             # =====================================
             # KARAKTERISTIK HASIL KLASIFIKASI
