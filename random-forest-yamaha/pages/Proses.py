@@ -1233,7 +1233,7 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
                     """
                 )
 
-                        # =====================================
+            # =====================================
             # KARAKTERISTIK HASIL KLASIFIKASI
             # =====================================
 
@@ -1273,7 +1273,6 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
                             "Indikasi Dominan",
                             "Rata-rata KM",
                             "Rata-rata Usia",
-                            "Jumlah Data"
                         ]
                     ].copy()
 
@@ -1292,11 +1291,6 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
                         .round(1)
                         .astype(str)
                         + " Tahun"
-                    )
-
-                    tampil["Jumlah Data"] = (
-                        tampil["Jumlah Data"]
-                        .astype(int)
                     )
 
                     st.dataframe(
