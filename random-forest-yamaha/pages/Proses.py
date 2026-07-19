@@ -1272,7 +1272,6 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
                             "Service",
                             "Rata-rata KM",
                             "Rata-rata Usia",
-                            "Jumlah Data"
                         ]
                     ].copy()
 
@@ -1280,7 +1279,6 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
                         "Hasil Klasifikasi",
                         "Rata-rata KM (km)",
                         "Rata-rata Usia (Tahun)",
-                        "Jumlah Data"
                     ]
 
                     tampil["Rata-rata KM (km)"] = (
