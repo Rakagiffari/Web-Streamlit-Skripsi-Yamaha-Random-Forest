@@ -1352,78 +1352,86 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                     st.markdown("<br>", unsafe_allow_html=True)
 
             # =====================================
-            # PDF
+            # LAPORAN PDF
             # =====================================
-
-            logo_path = (
-                BASE_DIR /
-                "assets" /
-                "yamaha_logo.png"
-            )
-
-            pdf_path = generate_pdf(
-
-                pdf_path="laporan_training_model.pdf",
-
-                logo_path=str(logo_path),
-
-                total_data=len(df),
-
-                train_data=train_size,
-
-                test_data=test_size,
-
-                accuracy=accuracy,
-
-                precision=precision,
-
-                recall=recall,
-
-                f1=f1,
-
-                cm_image=str(cm_path),
-
-                fi_image=str(fi_path),
-
-                top_features=importance_grouped[
-                    "Fitur"
-                ].head(5).tolist()
-
-            )
 
             st.markdown("---")
 
-            col1, col2, col3 = st.columns([1, 2, 1])
+            try:
 
-            with col2:
+                # Lokasi logo
+                logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
 
-                with open(
-                    pdf_path,
-                    "rb"
-                ) as pdf_file:
+                # Generate PDF
+                pdf_path = generate_pdf(
 
-                    st.download_button(
+                    pdf_path=BASE_DIR / "laporan_training_model.pdf",
 
-                        label="📄 Download Laporan PDF",
+                    logo_path=logo_path,
 
-                        data=pdf_file,
+                    total_data=len(df),
 
-                        file_name="Laporan_Training_Model.pdf",
+                    train_data=train_size,
 
-                        mime="application/pdf",
+                    test_data=test_size,
 
-                        use_container_width=True
+                    accuracy=accuracy,
 
-                    )
+                    precision=precision,
 
-            st.markdown("""
-                <div style="
-                    text-align:center;
-                    color:#9ca3af;
-                    font-size:14px;
-                    margin-top:-8px;
-                    margin-bottom:20px;
-                ">
-                    Tekan tombol berikut untuk mengunduh laporan hasil pelatihan model dalam format PDF.
-                </div>
-            """, unsafe_allow_html=True)
+                    recall=recall,
+
+                    f1=f1,
+
+                    cm_image=cm_path,
+
+                    fi_image=fi_path,
+
+                    top_features=importance_grouped[
+                        "Fitur"
+                    ].head(5).tolist()
+
+                )
+
+                st.success("Laporan PDF berhasil dibuat.")
+
+                col1, col2, col3 = st.columns([1, 2, 1])
+
+                with col2:
+
+                    with open(pdf_path, "rb") as pdf_file:
+
+                        st.download_button(
+
+                            label="📄 Download Laporan PDF",
+
+                            data=pdf_file,
+
+                            file_name="Laporan_Training_Model.pdf",
+
+                            mime="application/pdf",
+
+                            use_container_width=True,
+
+                            key="download_pdf"
+
+                        )
+
+                st.markdown(
+                    """
+                    <div style="
+                        text-align:center;
+                        color:#9ca3af;
+                        font-size:14px;
+                        margin-top:-8px;
+                        margin-bottom:15px;
+                    ">
+                        Tekan tombol di atas untuk mengunduh laporan hasil pelatihan model dalam format PDF.
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+
+            except Exception as e:
+
+                st.error(f"Gagal membuat laporan PDF: {e}")
