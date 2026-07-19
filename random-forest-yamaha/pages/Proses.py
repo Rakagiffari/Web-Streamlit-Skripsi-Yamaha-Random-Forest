@@ -635,7 +635,7 @@ if uploaded_file is not None:
             # ENCODING
             # =====================================
 
-            progress.info("⏳ Melakukan encoding...")
+            progress.info("◌ Melakukan encoding...")
             time.sleep(0.5)
 
             progress.success("✔ Encoding selesai")
@@ -645,7 +645,7 @@ if uploaded_file is not None:
             # TRAIN TEST SPLIT
             # =====================================
 
-            progress.info("⏳ Membagi data train dan test...")
+            progress.info("◌ Membagi data train dan test...")
             time.sleep(0.5)
 
             progress.success("✔ Train-test split selesai")
@@ -655,7 +655,7 @@ if uploaded_file is not None:
             # TRAIN RANDOM FOREST
             # =====================================
 
-            progress.info("⏳ Melatih Random Forest...")
+            progress.info("◌ Melatih Random Forest...")
 
             (
                 model,
@@ -688,7 +688,7 @@ if uploaded_file is not None:
             # EVALUASI
             # =====================================
 
-            progress.info("⏳ Menghitung evaluasi...")
+            progress.info("◌ Menghitung evaluasi...")
             time.sleep(0.5)
 
             progress.success("✔ Evaluasi selesai")
@@ -698,7 +698,7 @@ if uploaded_file is not None:
             # INSIGHT
             # =====================================
 
-            progress.info("⏳ Menyusun insight...")
+            progress.info("◌ Menyusun insight...")
             time.sleep(0.5)
 
             progress.success("✔ Insight berhasil dibuat")
