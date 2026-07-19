@@ -1468,6 +1468,10 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                     plt.close(fig2)
 
                 st.markdown("---")
+
+                st.caption(
+                    "Visualisasi distribusi kategori layanan Service Ringan dan Service Berat."
+                )
                 
                 # ==========================================
                 # GROUPED BAR CHART
