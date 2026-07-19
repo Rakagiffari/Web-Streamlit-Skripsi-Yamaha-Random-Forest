@@ -1429,3 +1429,7 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                 """,
                 unsafe_allow_html=True
             )
+
+    except Exception as e:
+
+        st.exception(e)
