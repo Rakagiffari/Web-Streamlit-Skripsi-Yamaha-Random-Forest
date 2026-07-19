@@ -293,6 +293,13 @@ uploaded_file = st.file_uploader(
     type=["csv", "xlsx", "xls"]
 )
 
+# =====================================
+# SESSION STATE
+# =====================================
+
+if "training_done" not in st.session_state:
+    st.session_state.training_done = False
+
 # =========================================
 # MAIN
 # =========================================
@@ -625,7 +632,7 @@ if uploaded_file is not None:
             </div>
         """, unsafe_allow_html=True)
 
-        if train_button:
+        if train_button or st.session_state.training_done:
 
             import time
 
@@ -706,6 +713,8 @@ if uploaded_file is not None:
 
             # Hilangkan animasi
             progress.empty()
+
+            st.session_state.training_done = True
 
             # =====================================
             # SIMPAN MODEL
