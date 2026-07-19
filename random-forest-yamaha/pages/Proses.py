@@ -1357,10 +1357,8 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
 
             st.markdown("---")
 
-            # Lokasi logo
             logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
 
-            # Membuat laporan PDF
             pdf_path = generate_pdf(
 
                 pdf_path=BASE_DIR / "laporan_training_model.pdf",
@@ -1386,16 +1384,18 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                 fi_image=fi_path,
 
                 top_features=importance_grouped["Fitur"]
-                .head(5)
-                .tolist()
+                    .head(5)
+                    .tolist()
 
             )
 
             st.success("✅ Laporan PDF berhasil dibuat.")
 
-            col1, col2, col3 = st.columns([1, 2, 1])
+            st.markdown("<br>", unsafe_allow_html=True)
 
-            with col2:
+            left, center, right = st.columns([1, 2, 1])
+
+            with center:
 
                 with open(pdf_path, "rb") as pdf_file:
 
@@ -1403,7 +1403,7 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
 
                         label="📄 Download Laporan PDF",
 
-                        data=pdf_file,
+                        data=pdf_file.read(),
 
                         file_name="Laporan_Training_Model.pdf",
 
@@ -1422,7 +1422,7 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                     color:#9ca3af;
                     font-size:14px;
                     margin-top:-8px;
-                    margin-bottom:18px;
+                    margin-bottom:15px;
                 ">
                     Tekan tombol di atas untuk mengunduh laporan hasil pelatihan model dalam format PDF.
                 </div>
