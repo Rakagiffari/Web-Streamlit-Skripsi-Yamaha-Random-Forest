@@ -1468,9 +1468,7 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                     plt.close(fig2)
 
                 st.markdown("---")
-
-                st.subheader("Distribusi Jenis Kendaraan berdasarkan Kategori Service")
-
+                
                 # ==========================================
                 # GROUPED BAR CHART
                 # ==========================================
