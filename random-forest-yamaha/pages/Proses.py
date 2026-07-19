@@ -1233,7 +1233,7 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
                     """
                 )
 
-            # =====================================
+                        # =====================================
             # KARAKTERISTIK HASIL KLASIFIKASI
             # =====================================
 
@@ -1243,7 +1243,7 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
             ):
 
                 st.caption(
-                    "Ringkasan karakteristik kendaraan berdasarkan hasil prediksi Random Forest yang dikelompokkan berdasarkan jenis motor."
+                    "Ringkasan karakteristik kendaraan berdasarkan hasil prediksi Random Forest."
                 )
 
                 urutan_jenis = [
@@ -1265,68 +1265,48 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
                     if data.empty:
                         continue
 
-                    st.markdown(f"{jenis}")
+                    st.markdown(f"#### 🏍️ {jenis}")
 
                     tampil = data[
                         [
                             "Service",
-                            "Indikasi Dominan",
                             "Rata-rata KM",
                             "Rata-rata Usia",
+                            "Jumlah Data"
                         ]
                     ].copy()
 
-                    tampil["Rata-rata KM"] = (
-                        tampil["Rata-rata KM"]
+                    tampil.columns = [
+                        "Hasil Klasifikasi",
+                        "Rata-rata KM (km)",
+                        "Rata-rata Usia (Tahun)",
+                        "Jumlah Data"
+                    ]
+
+                    tampil["Rata-rata KM (km)"] = (
+                        tampil["Rata-rata KM (km)"]
                         .round(0)
                         .astype(int)
-                        .map(
-                            lambda x:
-                            f"{x:,} km".replace(",", ".")
-                        )
                     )
 
-                    tampil["Rata-rata Usia"] = (
-                        tampil["Rata-rata Usia"]
+                    tampil["Rata-rata Usia (Tahun)"] = (
+                        tampil["Rata-rata Usia (Tahun)"]
                         .round(1)
-                        .astype(str)
-                        + " Tahun"
                     )
 
                     st.dataframe(
                         tampil,
-                        hide_index=True,
-                        use_container_width=True
+                        use_container_width=True,
+                        hide_index=True
                     )
 
                     st.markdown("<br>", unsafe_allow_html=True)
 
-                st.markdown("---")
+                st.info("""
+Karakteristik hasil klasifikasi merupakan ringkasan hasil prediksi Random Forest terhadap seluruh data kendaraan.
 
-                total_jenis = (
-                    summary_df["Jenis"]
-                    .nunique()
-                )
-
-                total_ringan = (
-                    summary_df["Service"]
-                    .eq("Ringan")
-                    .sum()
-                )
-
-                total_berat = (
-                    summary_df["Service"]
-                    .eq("Berat")
-                    .sum()
-                )
-
-                st.success(f"""
-Karakteristik hasil klasifikasi merupakan ringkasan hasil prediksi **Random Forest** terhadap seluruh data kendaraan.
-
-Hasil prediksi kemudian dikelompokkan berdasarkan **jenis motor** sehingga diperoleh karakteristik dominan berupa **indikasi kerusakan**, **rata-rata kilometer**, **rata-rata usia motor**, dan **jumlah data** pada setiap kelompok.
-
-Secara keseluruhan terdapat **{total_jenis} kelompok jenis motor**, yang terdiri atas **{total_ringan} kelompok Service Ringan** dan **{total_berat} kelompok Service Berat**.
-                """)
+Ringkasan ini menunjukkan kecenderungan karakteristik kendaraan berdasarkan hasil klasifikasi pada setiap jenis motor. Nilai rata-rata kilometer, usia motor, dan jumlah data digunakan untuk membantu mengidentifikasi pola kendaraan yang cenderung memperoleh klasifikasi Service Ringan maupun Service Berat.
+""")
             
             # ==========================================================
             # STATISTIK DATASET
