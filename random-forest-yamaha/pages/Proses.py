@@ -1357,81 +1357,75 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
 
             st.markdown("---")
 
-            try:
+            # Lokasi logo
+            logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
 
-                # Lokasi logo
-                logo_path = BASE_DIR / "assets" / "yamaha_logo.png"
+            # Membuat laporan PDF
+            pdf_path = generate_pdf(
 
-                # Generate PDF
-                pdf_path = generate_pdf(
+                pdf_path=BASE_DIR / "laporan_training_model.pdf",
 
-                    pdf_path=BASE_DIR / "laporan_training_model.pdf",
+                logo_path=logo_path,
 
-                    logo_path=logo_path,
+                total_data=len(df),
 
-                    total_data=len(df),
+                train_data=train_size,
 
-                    train_data=train_size,
+                test_data=test_size,
 
-                    test_data=test_size,
+                accuracy=accuracy,
 
-                    accuracy=accuracy,
+                precision=precision,
 
-                    precision=precision,
+                recall=recall,
 
-                    recall=recall,
+                f1=f1,
 
-                    f1=f1,
+                cm_image=cm_path,
 
-                    cm_image=cm_path,
+                fi_image=fi_path,
 
-                    fi_image=fi_path,
+                top_features=importance_grouped["Fitur"]
+                .head(5)
+                .tolist()
 
-                    top_features=importance_grouped[
-                        "Fitur"
-                    ].head(5).tolist()
+            )
 
-                )
+            st.success("✅ Laporan PDF berhasil dibuat.")
 
-                st.success("Laporan PDF berhasil dibuat.")
+            col1, col2, col3 = st.columns([1, 2, 1])
 
-                col1, col2, col3 = st.columns([1, 2, 1])
+            with col2:
 
-                with col2:
+                with open(pdf_path, "rb") as pdf_file:
 
-                    with open(pdf_path, "rb") as pdf_file:
+                    st.download_button(
 
-                        st.download_button(
+                        label="📄 Download Laporan PDF",
 
-                            label="📄 Download Laporan PDF",
+                        data=pdf_file,
 
-                            data=pdf_file,
+                        file_name="Laporan_Training_Model.pdf",
 
-                            file_name="Laporan_Training_Model.pdf",
+                        mime="application/pdf",
 
-                            mime="application/pdf",
+                        use_container_width=True,
 
-                            use_container_width=True,
+                        key="download_pdf"
 
-                            key="download_pdf"
+                    )
 
-                        )
-
-                st.markdown(
-                    """
-                    <div style="
-                        text-align:center;
-                        color:#9ca3af;
-                        font-size:14px;
-                        margin-top:-8px;
-                        margin-bottom:15px;
-                    ">
-                        Tekan tombol di atas untuk mengunduh laporan hasil pelatihan model dalam format PDF.
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-
-            except Exception as e:
-
-                st.error(f"Gagal membuat laporan PDF: {e}")
+            st.markdown(
+                """
+                <div style="
+                    text-align:center;
+                    color:#9ca3af;
+                    font-size:14px;
+                    margin-top:-8px;
+                    margin-bottom:18px;
+                ">
+                    Tekan tombol di atas untuk mengunduh laporan hasil pelatihan model dalam format PDF.
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
