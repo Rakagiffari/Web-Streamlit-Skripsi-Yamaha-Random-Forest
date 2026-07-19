@@ -1320,7 +1320,6 @@ Representative Decision Path memberikan gambaran mengenai pola kendaraan yang pa
 
                         st.success(f"""
 Berdasarkan hasil klasifikasi Random Forest, kendaraan jenis **{jenis}** yang diprediksi sebagai **Service Ringan** memiliki rata-rata kilometer sekitar **{km_ringan:,.0f} km** dan rata-rata usia motor sekitar **{usia_ringan:.1f} tahun**.
-
 Sedangkan kendaraan yang diprediksi sebagai **Service Berat** memiliki rata-rata kilometer sekitar **{km_berat:,.0f} km** dan rata-rata usia motor sekitar **{usia_berat:.1f} tahun**.
 
 Hal ini menunjukkan bahwa pada kendaraan jenis **{jenis}**, kendaraan dengan kilometer dan usia motor yang lebih tinggi cenderung diklasifikasikan sebagai **Service Berat**.
@@ -1333,7 +1332,6 @@ Hal ini menunjukkan bahwa pada kendaraan jenis **{jenis}**, kendaraan dengan kil
 
                         st.success(f"""
 Berdasarkan hasil klasifikasi Random Forest, seluruh kendaraan jenis **{jenis}** pada data ini diprediksi sebagai **Service Ringan**.
-
 Rata-rata kendaraan memiliki kilometer sekitar **{km_ringan:,.0f} km** dengan usia motor sekitar **{usia_ringan:.1f} tahun**.
 
 Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang diprediksi sebagai **Service Berat**.
@@ -1346,19 +1344,12 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
 
                         st.success(f"""
 Berdasarkan hasil klasifikasi Random Forest, seluruh kendaraan jenis **{jenis}** pada data ini diprediksi sebagai **Service Berat**.
-
 Rata-rata kendaraan memiliki kilometer sekitar **{km_berat:,.0f} km** dengan usia motor sekitar **{usia_berat:.1f} tahun**.
 
 Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang diprediksi sebagai **Service Ringan**.
                         """)
 
                     st.markdown("<br>", unsafe_allow_html=True)
-
-                st.info("""
-Karakteristik hasil klasifikasi merupakan ringkasan hasil prediksi Random Forest terhadap seluruh data kendaraan.
-
-Bagian ini bertujuan untuk memperlihatkan pola karakteristik kendaraan pada setiap jenis motor berdasarkan hasil klasifikasi yang diperoleh dari model Random Forest.
-                """)
             
             # ==========================================================
             # STATISTIK DATASET
