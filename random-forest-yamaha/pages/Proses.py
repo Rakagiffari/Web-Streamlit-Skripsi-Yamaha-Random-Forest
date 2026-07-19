@@ -593,6 +593,128 @@ if uploaded_file is not None:
             )
 
         # =====================================
+            # VISUALISASI
+            # =====================================
+
+            with st.expander(
+                "Visualisasi",
+                expanded=False
+            ):
+
+                st.caption(
+                    "Visualisasi distribusi kategori layanan Service Ringan dan Service Berat."
+                )
+
+                # -------------------------------------
+                # Distribusi Target
+                # -------------------------------------
+
+                service_count = (
+                    df["Service"]
+                    .value_counts()
+                    .reindex(
+                        ["Ringan", "Berat"],
+                        fill_value=0
+                    )
+                )
+
+                col_bar, col_pie = st.columns(2)
+
+                # ==========================
+                # BAR CHART
+                # ==========================
+
+                with col_bar:
+
+                    fig1, ax1 = plt.subplots(
+                        figsize=(5.5,4),
+                        dpi=120
+                    )
+
+                    sns.barplot(
+                        x=service_count.index,
+                        y=service_count.values,
+                        palette="Reds_r",
+                        ax=ax1
+                    )
+
+                    ax1.set_xlabel(
+                        "Kategori Service",
+                        fontsize=8
+                    )
+
+                    ax1.set_ylabel(
+                        "Jumlah Data",
+                        fontsize=8
+                    )
+
+                    ax1.tick_params(labelsize=8)
+
+                    for i, value in enumerate(service_count.values):
+
+                        ax1.text(
+                            i,
+                            value,
+                            str(int(value)),
+                            ha="center",
+                            va="bottom",
+                            fontsize=8,
+                            fontweight="bold"
+                        )
+
+                    plt.tight_layout()
+
+                    st.pyplot(
+                        fig1,
+                        use_container_width=True
+                    )
+
+                    plt.close(fig1)
+
+                # ==========================
+                # PIE CHART
+                # ==========================
+
+                with col_pie:
+
+                    fig2, ax2 = plt.subplots(
+                        figsize=(5.5,4),
+                        dpi=120
+                    )
+
+                    colors = sns.color_palette(
+                        "Reds_r",
+                        len(service_count)
+                    )
+
+                    ax2.pie(
+                        service_count.values,
+                        labels=service_count.index,
+                        autopct="%1.1f%%",
+                        startangle=90,
+                        colors=colors,
+                        textprops={
+                            "fontsize":9
+                        }
+                    )
+                    ax2.axis("equal")
+
+                    plt.tight_layout()
+
+                    st.pyplot(
+                        fig2,
+                        use_container_width=True
+                    )
+
+                    plt.close(fig2)
+
+                st.markdown("---")
+
+                st.caption(
+                    "Visualisasi distribusi Jenis terhadap layanan Service Ringan dan Service Berat."
+                )
+
+        # =====================================
         # PREPROCESS DATA
         # =====================================
 
@@ -1350,212 +1472,6 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                         """)
 
                     st.markdown("<br>", unsafe_allow_html=True)
-
-            # =====================================
-            # VISUALISASI HASIL KLASIFIKASI
-            # =====================================
-
-            with st.expander(
-                "Visualisasi",
-                expanded=False
-            ):
-
-                st.caption(
-                    "Visualisasi distribusi kategori layanan Service Ringan dan Service Berat."
-                )
-
-                # -------------------------------------
-                # Distribusi Target
-                # -------------------------------------
-
-                service_count = (
-                    df["Service"]
-                    .value_counts()
-                    .reindex(
-                        ["Ringan", "Berat"],
-                        fill_value=0
-                    )
-                )
-
-                col_bar, col_pie = st.columns(2)
-
-                # ==========================
-                # BAR CHART
-                # ==========================
-
-                with col_bar:
-
-                    fig1, ax1 = plt.subplots(
-                        figsize=(5.5,4),
-                        dpi=120
-                    )
-
-                    sns.barplot(
-                        x=service_count.index,
-                        y=service_count.values,
-                        palette="Reds_r",
-                        ax=ax1
-                    )
-
-                    ax1.set_xlabel(
-                        "Kategori Service",
-                        fontsize=8
-                    )
-
-                    ax1.set_ylabel(
-                        "Jumlah Data",
-                        fontsize=8
-                    )
-
-                    ax1.tick_params(labelsize=8)
-
-                    for i, value in enumerate(service_count.values):
-
-                        ax1.text(
-                            i,
-                            value,
-                            str(int(value)),
-                            ha="center",
-                            va="bottom",
-                            fontsize=8,
-                            fontweight="bold"
-                        )
-
-                    plt.tight_layout()
-
-                    st.pyplot(
-                        fig1,
-                        use_container_width=True
-                    )
-
-                    plt.close(fig1)
-
-                # ==========================
-                # PIE CHART
-                # ==========================
-
-                with col_pie:
-
-                    fig2, ax2 = plt.subplots(
-                        figsize=(5.5,4),
-                        dpi=120
-                    )
-
-                    colors = sns.color_palette(
-                        "Reds_r",
-                        len(service_count)
-                    )
-
-                    ax2.pie(
-                        service_count.values,
-                        labels=service_count.index,
-                        autopct="%1.1f%%",
-                        startangle=90,
-                        colors=colors,
-                        textprops={
-                            "fontsize":9
-                        }
-                    )
-                    ax2.axis("equal")
-
-                    plt.tight_layout()
-
-                    st.pyplot(
-                        fig2,
-                        use_container_width=True
-                    )
-
-                    plt.close(fig2)
-
-                st.markdown("---")
-
-                st.caption(
-                    "Visualisasi distribusi Jenis terhadap layanan Service Ringan dan Service Berat."
-                )
-                
-                # ==========================================
-                # GROUPED BAR CHART
-                # ==========================================
-
-                visual_df = feature_df.copy()
-
-                urutan_jenis = [
-                    "MAXi",
-                    "Classy",
-                    "Matic",
-                    "Moped",
-                    "Sport",
-                    "Off-road",
-                    "Unknown"
-                ]
-
-                grouped = (
-                    visual_df
-                    .groupby(["Jenis", "Service"])
-                    .size()
-                    .unstack(fill_value=0)
-                    .reindex(urutan_jenis, fill_value=0)
-                )
-
-                # Pastikan kedua kelas selalu ada
-                for col in ["Ringan", "Berat"]:
-                    if col not in grouped.columns:
-                        grouped[col] = 0
-
-                grouped = grouped[["Ringan", "Berat"]]
-
-                fig3, ax3 = plt.subplots(
-                    figsize=(8,4.8),
-                    dpi=120
-                )
-
-                grouped.plot(
-                    kind="bar",
-                    ax=ax3,
-                    color=[
-                        "#fca5a5",
-                        "#b91c1c"
-                    ],
-                    width=0.72
-                )
-
-                ax3.set_xlabel(
-                    "Jenis Kendaraan",
-                    fontsize=9
-                )
-
-                ax3.set_ylabel(
-                    "Jumlah Kendaraan",
-                    fontsize=9
-                )
-
-                ax3.tick_params(
-                    labelsize=8
-                )
-
-                ax3.legend(
-                    title="Service",
-                    fontsize=8,
-                    title_fontsize=8
-                )
-
-                # Menampilkan jumlah pada tiap batang
-                for container in ax3.containers:
-
-                    ax3.bar_label(
-                        container,
-                        fontsize=8,
-                        padding=2
-                    )
-
-                plt.tight_layout()
-
-                st.pyplot(
-                    fig3,
-                    use_container_width=True
-                )
-
-                plt.close(fig3)
 
             # =====================================
             # PDF
