@@ -1456,13 +1456,6 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                             "fontsize":9
                         }
                     )
-
-                    ax2.set_title(
-                        "Persentase Service",
-                        fontsize=10,
-                        fontweight="bold"
-                    )
-
                     ax2.axis("equal")
 
                     plt.tight_layout()
