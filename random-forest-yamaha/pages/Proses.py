@@ -550,7 +550,7 @@ if uploaded_file is not None:
             with col_pie:
 
                 fig2, ax2 = plt.subplots(
-                    figsize=(5.5, 5.5)
+                    figsize=(6, 5)
                 )
 
                 colors = sns.color_palette(
