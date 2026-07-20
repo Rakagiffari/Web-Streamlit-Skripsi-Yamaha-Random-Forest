@@ -305,55 +305,63 @@ def generate_pdf(
         Spacer(1, 15)
     )
 
+        # =====================================
+    # HASIL EVALUASI MODEL
     # =====================================
-    # INFORMASI DATASET & HASIL EVALUASI
-    # =====================================
-
-    dataset_text = f"""
-    <b>INFORMASI DATASET</b><br/><br/>
-    • Jumlah Data : {total_data}<br/>
-    • Data Training : {train_data}<br/>
-    • Data Testing : {test_data}
-    """
-
-    metric_text = f"""
-    <b>HASIL EVALUASI MODEL</b><br/><br/>
-    • Accuracy : {accuracy:.2%}<br/>
-    • Precision : {precision:.2%}<br/>
-    • Recall : {recall:.2%}<br/>
-    • F1-Score : {f1:.2%}
-    """
-
-    info_table = Table(
-        [[
-            Paragraph(dataset_text, styles["BodyText"]),
-            Paragraph(metric_text, styles["BodyText"])
-        ]],
-        colWidths=[240, 240]
-    )
-
-    info_table.setStyle(
-
-        TableStyle([
-
-            ("GRID",(0,0),(-1,-1),0.5,colors.grey),
-
-            ("BOX",(0,0),(-1,-1),1,colors.black),
-
-            ("BACKGROUND",(0,0),(-1,-1),colors.whitesmoke),
-
-            ("VALIGN",(0,0),(-1,-1),"TOP"),
-
-            ("BOTTOMPADDING",(0,0),(-1,-1),10)
-
-        ])
-
-    )
-
-    elements.append(info_table)
 
     elements.append(
-        Spacer(1,15)
+        Paragraph(
+            "<b>HASIL EVALUASI MODEL</b>",
+            styles["Heading2"]
+        )
+    )
+
+    elements.append(
+        Spacer(1, 8)
+    )
+
+    hasil_evaluasi = f"""
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Setelah proses pelatihan selesai dilakukan, model <b>Random Forest</b>
+    dievaluasi menggunakan data yang telah dipisahkan menjadi
+    <b>data training</b> dan <b>data testing</b>. Pada proses ini,
+    sebanyak <b>{train_data} data</b> digunakan sebagai data training
+    untuk membangun pola klasifikasi, sedangkan
+    <b>{test_data} data</b> digunakan sebagai data testing untuk
+    mengukur kemampuan model dalam melakukan prediksi terhadap data
+    yang belum pernah dipelajari sebelumnya.
+
+    <br/><br/>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Berdasarkan hasil evaluasi, model memperoleh nilai
+    <b>Accuracy sebesar {accuracy:.2%}</b>,
+    <b>Precision sebesar {precision:.2%}</b>,
+    <b>Recall sebesar {recall:.2%}</b>, dan
+    <b>F1-Score sebesar {f1:.2%}</b>.
+    Nilai tersebut menunjukkan bahwa model memiliki performa yang
+    baik dalam mengklasifikasikan layanan
+    <b>Service Ringan</b> dan <b>Service Berat</b>
+    berdasarkan karakteristik kendaraan yang digunakan sebagai
+    data masukan.
+
+    <br/><br/>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Untuk memberikan gambaran yang lebih rinci mengenai hasil prediksi
+    model terhadap data testing, visualisasi
+    <b>Confusion Matrix</b> disajikan pada bagian berikut.
+    """
+
+    elements.append(
+        Paragraph(
+            hasil_evaluasi,
+            styles["BodyText"]
+        )
+    )
+
+    elements.append(
+        Spacer(1, 15)
     )
 
     # =====================================
