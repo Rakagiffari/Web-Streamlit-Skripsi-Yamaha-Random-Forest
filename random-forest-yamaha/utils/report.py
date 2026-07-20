@@ -199,7 +199,7 @@ def generate_pdf(
         [
             [
                 Paragraph(
-                    "PT Yamaha Music Manufacturing Asia (YMMA)",
+                    "PT Yamaha Indonesia Motor Manufacturing",
                     company_style
                 )
             ],
