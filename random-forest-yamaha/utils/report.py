@@ -34,7 +34,10 @@ import os
 def generate_pdf(
     pdf_path,
     logo_path,
+    nama_file,
     total_data,
+    duplicate_data,
+    missing_value,
     train_data,
     test_data,
     accuracy,
