@@ -168,6 +168,12 @@ def generate_pdf(
                     contact_style
                 )
             ],
+            [
+                Paragraph(
+                    f"Tanggal : {tanggal}",
+                    date_style
+
+            ],
         ],
         colWidths=[13.5 * cm]
     )
