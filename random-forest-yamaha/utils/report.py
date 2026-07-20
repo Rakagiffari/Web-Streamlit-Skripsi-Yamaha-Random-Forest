@@ -265,7 +265,7 @@ def generate_pdf(
         Paragraph(
             """
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            Berikut merupakan informasi mengenai dataset yang digunakan
+            Berikut informasi mengenai dataset yang digunakan
             pada proses klasifikasi layanan service kendaraan.
             """,
             styles["BodyText"]
