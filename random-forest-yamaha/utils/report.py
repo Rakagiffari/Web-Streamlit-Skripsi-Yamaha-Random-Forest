@@ -321,7 +321,7 @@ def generate_pdf(
     memiliki kemampuan yang baik dalam mengklasifikasikan layanan
     Service Ringan dan Service Berat.
 
-    <br/><br/>
+    <br/>
 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     Visualisasi <b>Confusion Matrix</b> pada bagian berikut
