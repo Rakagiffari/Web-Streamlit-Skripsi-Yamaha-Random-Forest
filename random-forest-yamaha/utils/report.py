@@ -276,7 +276,7 @@ def generate_pdf(
             ["Nama File", ":", nama_file],
             ["Jumlah Data", ":", f"{total_data} data"],
             ["Data Duplikat", ":", f"{duplicate_data} data"],
-            ["Data Hilang (Missing Value)", ":", f"{missing_value} data"],
+            ["Missing Value", ":", f"{missing_value} data"],
         ],
         colWidths=[165, 10, 305]
     )
