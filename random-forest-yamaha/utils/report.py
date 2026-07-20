@@ -357,6 +357,16 @@ def generate_pdf(
 
     # Gambar Confusion Matrix
     cm_img = Image(cm_image, width=180, height=180)
+    cm_box = Table([[cm_img]], colWidths=[190], rowHeights=[190])
+    cm_box.setStyle(TableStyle([
+        ("BOX", (0, 0), (-1, -1), 0.8, colors.black),
+        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 5),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 5),
+        ("TOPPADDING", (0, 0), (-1, -1), 5),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+    ]))
 
     # Penjelasan
     cm_desc = Paragraph(
