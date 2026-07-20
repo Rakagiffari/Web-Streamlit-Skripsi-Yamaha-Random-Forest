@@ -264,6 +264,10 @@ def generate_pdf(
             body_style
         )
     )
+    
+    elements.append(
+        Spacer(1, 5)
+    )
 
     # =====================================
     # INFORMASI DATASET
@@ -312,6 +316,10 @@ def generate_pdf(
     )
 
     elements.append(dataset_table)
+    
+    elements.append(
+        Spacer(1, 8)
+    )
 
     # =====================================
     # HASIL EVALUASI MODEL
