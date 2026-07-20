@@ -262,9 +262,8 @@ def generate_pdf(
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     Laporan ini menyajikan informasi hasil klasifikasi layanan service
     kendaraan yamaha yang dihasilkan oleh sistem menggunakan algoritma
-    random forest. Informasi yang ditampilkan bertujuan untuk
-    memberikan gambaran mengenai proses klasifikasi layanan service
-    berdasarkan data kendaraan yang telah diproses oleh sistem.
+    random forest. Informasi ini bertujuan untuk memberikan gambaran
+    mengenai proses klasifikasi layanan service.
     """
 
     elements.append(
@@ -357,7 +356,7 @@ def generate_pdf(
     elements.append(distribution_table)
 
     elements.append(
-        Spacer(1,5)
+        Spacer(1,7)
     )
 
     # ==========================================================
