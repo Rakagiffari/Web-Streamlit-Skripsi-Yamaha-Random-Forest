@@ -509,6 +509,13 @@ if uploaded_file is not None:
 
             service_count = df["Service"].value_counts()
 
+            BASE_DIR = Path(__file__).parent.parent
+
+            distribution_path = (
+                BASE_DIR /
+                "distribution_target.png"
+            )
+
             # =====================================
             # VISUALISASI
             # =====================================
