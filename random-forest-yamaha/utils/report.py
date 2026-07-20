@@ -324,7 +324,7 @@ def generate_pdf(
     <br/>
 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Visualisasi <b>Confusion Matrix</b> pada bagian berikut
+    Visualisasi Confusion Matrix pada bagian berikut
     menunjukkan perbandingan antara hasil prediksi model dengan
     data aktual.
     """
