@@ -79,7 +79,7 @@ def generate_pdf(
         "CompanyStyle",
         parent=styles["Normal"],
         fontName="Helvetica-Bold",
-        fontSize=18,
+        fontSize=10,
         leading=22,
         alignment=TA_LEFT,
         textColor=colors.black
