@@ -522,7 +522,7 @@ if uploaded_file is not None:
             # -------------------------------------
 
             fig_bar, ax_bar = plt.subplots(
-                figsize=(3.8, 3.2),
+                figsize=(4.4, 3.8),
                 dpi=120
             )
 
@@ -573,7 +573,7 @@ if uploaded_file is not None:
             # -------------------------------------
 
             fig_pie, ax_pie = plt.subplots(
-                figsize=(3.8, 3.2),
+                figsize=(4.4, 3.8),
                 dpi=120
             )
 
