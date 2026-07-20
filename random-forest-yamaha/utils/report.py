@@ -320,13 +320,9 @@ def generate_pdf(
     F1-Score {f1:.2%}. Nilai tersebut menunjukkan bahwa model
     memiliki kemampuan yang baik dalam mengklasifikasikan layanan
     Service Ringan dan Service Berat.
-    """
+
+    <br><br/>
     
-    elements.append(
-        Spacer(1, 5)
-    )
-    
-    f"""
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     Visualisasi Confusion Matrix pada bagian berikut
     menunjukkan perbandingan antara hasil prediksi model dengan
@@ -335,7 +331,7 @@ def generate_pdf(
 
     elements.append(
         Paragraph(
-            visualisasi_cf,
+            hasil_evaluasi,
             styles["BodyText"]
         )
     )
