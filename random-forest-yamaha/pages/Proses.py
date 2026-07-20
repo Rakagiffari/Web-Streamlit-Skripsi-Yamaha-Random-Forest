@@ -1635,6 +1635,7 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                 precision=precision,
                 recall=recall,
                 f1=f1,
+                distribution_image=distribution_path,
                 cm_image=cm_path,
                 fi_image=fi_path,
                 top_features=importance_grouped["Fitur"]
