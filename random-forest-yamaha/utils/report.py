@@ -158,22 +158,16 @@ def generate_pdf(
             ],
             [
                 Paragraph(
-                    "🏠︎ : Jl. Prof. Dr. Hamka No.56, Parupuk Tabing, Kec. Koto Tangah, Kota Padang, Sumatera Barat 25173",
+                    "Jl. Prof. Dr. Hamka No.56, Parupuk Tabing, Kec. Koto Tangah, Kota Padang, Sumatera Barat 25173",
                     contact_style
                 )
             ],
             [
                 Paragraph(
-                    "☎ : 08116606631",
+                    "08116606631  |  https://tjahaja-baru.com/",
                     contact_style
                 )
             ],
-            [
-                Paragraph(
-                    "✉ : https://tjahaja-baru.com/",
-                    contact_style
-                )
-            ]
         ],
         colWidths=[13.5 * cm]
     )
