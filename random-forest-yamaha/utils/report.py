@@ -360,6 +360,22 @@ def generate_pdf(
         Spacer(1,5)
     )
 
+    # ==========================================================
+    # GARIS PEMBATAS
+    # ==========================================================
+
+    elements.append(
+        HRFlowable(
+            width="100%",
+            thickness=2,
+            color=colors.HexColor("#666666")
+        )
+    )
+
+    elements.append(
+        Spacer(1, 5)
+    )
+
     # =====================================
     # HASIL EVALUASI MODEL
     # =====================================
@@ -373,8 +389,7 @@ def generate_pdf(
     Precision {precision:.2%},
     Recall {recall:.2%}, dan
     F1-Score {f1:.2%}. Nilai tersebut menunjukkan bahwa model
-    memiliki kemampuan yang baik dalam mengklasifikasikan layanan
-    Service Ringan dan Service Berat.
+    memiliki kemampuan yang baik.
     """
 
     elements.append(
