@@ -254,20 +254,9 @@ def generate_pdf(
         Spacer(1, 15)
     )
 
-        # =====================================
+    # =====================================
     # INFORMASI DATASET
     # =====================================
-
-    elements.append(
-        Paragraph(
-            "<b>INFORMASI DATASET</b>",
-            styles["Heading2"]
-        )
-    )
-
-    elements.append(
-        Spacer(1, 8)
-    )
 
     informasi_dataset = f"""
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
