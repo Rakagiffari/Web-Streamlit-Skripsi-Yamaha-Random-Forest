@@ -84,7 +84,7 @@ def generate_pdf(
         spaceAfter=0,
     )
 
-    elements = []
+    elements = [].
 
     # ==========================================================
     # HEADER
@@ -342,10 +342,6 @@ def generate_pdf(
             hasil_evaluasi,
             body_style
         )
-    )
-
-    elements.append(
-        Spacer(1, 5)
     )
 
     # =====================================
