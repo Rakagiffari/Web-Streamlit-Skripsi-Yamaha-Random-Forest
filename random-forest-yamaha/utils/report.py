@@ -320,15 +320,17 @@ def generate_pdf(
     mengukur kemampuan model dalam melakukan prediksi terhadap data
     yang belum pernah dipelajari sebelumnya.
 
+    <br/><br/>
+
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     Berdasarkan hasil evaluasi, model memperoleh nilai
-    <b>Accuracy sebesar {accuracy:.2%}</b>,
-    <b>Precision sebesar {precision:.2%}</b>,
-    <b>Recall sebesar {recall:.2%}</b>, dan
-    <b>F1-Score sebesar {f1:.2%}</b>.
+    Accuracy sebesar {accuracy:.2%},
+    Precision sebesar {precision:.2%},
+    Recall sebesar {recall:.2%}, dan
+    F1-Score sebesar {f1:.2%}.
     Nilai tersebut menunjukkan bahwa model memiliki performa yang
     baik dalam mengklasifikasikan layanan
-    <b>Service Ringan</b> dan <b>Service Berat</b>
+    Service Ringan dan Service Berat
     berdasarkan karakteristik kendaraan yang digunakan sebagai
     data masukan.
 
