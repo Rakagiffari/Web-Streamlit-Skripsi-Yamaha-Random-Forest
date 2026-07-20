@@ -273,10 +273,6 @@ def generate_pdf(
             cm_style
         )
     )
-    
-    elements.append(
-        Spacer(1, 5)
-    )
 
     # =====================================
     # INFORMASI DATASET
