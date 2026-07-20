@@ -324,23 +324,9 @@ def generate_pdf(
     <br/><br/>
 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Berdasarkan hasil evaluasi, model memperoleh nilai
-    Accuracy sebesar {accuracy:.2%},
-    Precision sebesar {precision:.2%},
-    Recall sebesar {recall:.2%}, dan
-    F1-Score sebesar {f1:.2%}.
-    Nilai tersebut menunjukkan bahwa model memiliki performa yang
-    baik dalam mengklasifikasikan layanan
-    Service Ringan dan Service Berat
-    berdasarkan karakteristik kendaraan yang digunakan sebagai
-    data masukan.
-
-    <br/><br/>
-
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Untuk memberikan gambaran yang lebih rinci mengenai hasil prediksi
-    model terhadap data testing, visualisasi
-    <b>Confusion Matrix</b> disajikan pada bagian berikut.
+    Visualisasi <b>Confusion Matrix</b> pada bagian berikut
+    menunjukkan perbandingan antara hasil prediksi model dengan
+    data aktual.
     """
 
     elements.append(
