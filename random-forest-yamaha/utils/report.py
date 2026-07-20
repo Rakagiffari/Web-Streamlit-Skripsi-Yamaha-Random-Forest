@@ -226,7 +226,7 @@ def generate_pdf(
         Spacer(1, 8)
     )
 
-    # =====================================
+        # =====================================
     # PENJELASAN LAPORAN
     # =====================================
 
@@ -238,48 +238,23 @@ def generate_pdf(
     )
 
     elements.append(
-        Spacer(1, 6)
+        Spacer(1, 8)
     )
 
-    penjelasan_text = f"""
-    Laporan ini merupakan hasil pengolahan data layanan service kendaraan
-    Yamaha menggunakan algoritma <b>Random Forest</b>. Model yang telah
-    dilatih digunakan untuk mengklasifikasikan data layanan service ke
-    dalam dua kategori, yaitu <b>Service Ringan</b> dan
-    <b>Service Berat</b>.
+    penjelasan = """
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Laporan ini merupakan hasil pengolahan data layanan service kendaraan Yamaha menggunakan algoritma <b>Random Forest</b>. Model yang telah dilatih digunakan untuk mengklasifikasikan layanan service ke dalam dua kategori, yaitu <b>Service Ringan</b> dan <b>Service Berat</b>.
 
-    Informasi yang disajikan pada laporan ini meliputi informasi dataset,
-    hasil evaluasi model, visualisasi <i>Confusion Matrix</i>,
-    <i>Feature Importance</i>, fitur-fitur yang paling berpengaruh,
-    serta kesimpulan berdasarkan hasil klasifikasi yang diperoleh.
+    <br/><br/>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Laporan ini menyajikan informasi mengenai dataset yang digunakan, hasil evaluasi model, visualisasi <i>Confusion Matrix</i>, <i>Feature Importance</i>, fitur-fitur yang paling berpengaruh, hasil klasifikasi, serta kesimpulan berdasarkan proses klasifikasi yang telah dilakukan.
     """
 
-    penjelasan_table = Table(
-        [[Paragraph(penjelasan_text, styles["BodyText"])]],
-        colWidths=[480]
+    elements.append(
+        Paragraph(
+            penjelasan,
+            styles["BodyText"]
+        )
     )
-
-    penjelasan_table.setStyle(
-
-        TableStyle([
-
-            ("BOX", (0,0), (-1,-1), 1, colors.HexColor("#BDBDBD")),
-
-            ("BACKGROUND", (0,0), (-1,-1), colors.whitesmoke),
-
-            ("LEFTPADDING", (0,0), (-1,-1), 12),
-
-            ("RIGHTPADDING", (0,0), (-1,-1), 12),
-
-            ("TOPPADDING", (0,0), (-1,-1), 10),
-
-            ("BOTTOMPADDING", (0,0), (-1,-1), 10),
-
-        ])
-
-    )
-
-    elements.append(penjelasan_table)
 
     elements.append(
         Spacer(1, 15)
