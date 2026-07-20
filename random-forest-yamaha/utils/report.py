@@ -23,6 +23,8 @@ from reportlab.platypus import (
 from reportlab.lib.units import cm
 from datetime import datetime
 from pathlib import Path
+from reportlab.lib.enums import TA_JUSTIFY
+from reportlab.lib.styles import ParagraphStyle
 
 import os
 
