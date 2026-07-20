@@ -373,15 +373,15 @@ def generate_pdf(
     # Penjelasan
     cm_desc = Paragraph(
         f"""
-        Sebanyak <b>{tn}</b> data <b>Service Ringan</b> berhasil
-        diprediksi dengan benar sebagai <b>Service Ringan</b>.
-        Sementara itu, terdapat <b>{fp}</b> data <b>Service Ringan</b>
-        yang diprediksi sebagai <b>Service Berat</b>.
+        Sebanyak {tn} data Service Ringan berhasil
+        diprediksi dengan benar sebagai Service Ringan.
+        Sementara itu, terdapat {fp} data Service Ringan
+        yang diprediksi sebagai Service Berat.
         
-        Pada kategori <b>Service Berat</b>, sebanyak
-        <b>{tp}</b> data berhasil diprediksi dengan benar,
-        sedangkan <b>{fn}</b> data diprediksi sebagai
-        <b>Service Ringan</b>. Hasil tersebut menunjukkan bahwa
+        Pada kategori Service Berat, sebanyak
+        {tp} data berhasil diprediksi dengan benar,
+        sedangkan {fn} data diprediksi sebagai
+        Service Ringan. Hasil tersebut menunjukkan bahwa
         sebagian besar data berhasil diklasifikasikan dengan benar
         sehingga model memiliki kemampuan klasifikasi yang baik.
         """,
