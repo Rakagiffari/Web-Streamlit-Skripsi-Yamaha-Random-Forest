@@ -260,18 +260,7 @@ def generate_pdf(
     # =====================================
     # INFORMASI DATASET
     # =====================================
-
-    elements.append(
-        Paragraph(
-            "<b>INFORMASI DATASET</b>",
-            styles["Heading2"]
-        )
-    )
-
-    elements.append(
-        Spacer(1, 8)
-    )
-
+    
     elements.append(
         Paragraph(
             """
@@ -298,21 +287,13 @@ def generate_pdf(
     )
 
     dataset_table.setStyle(
-
         TableStyle([
-
             ("FONTNAME", (0,0), (-1,-1), "Helvetica"),
-
             ("FONTSIZE", (0,0), (-1,-1), 10),
-
             ("BOTTOMPADDING", (0,0), (-1,-1), 3),
-
             ("TOPPADDING", (0,0), (-1,-1), 3),
-
             ("LEFTPADDING", (0,0), (-1,-1), 18),
-
             ("RIGHTPADDING", (0,0), (-1,-1), 0),
-
             ("VALIGN", (0,0), (-1,-1), "TOP"),
 
             # Tidak ada garis sehingga tampil seperti dokumen Word
@@ -320,9 +301,7 @@ def generate_pdf(
             ("LINEABOVE", (0,0), (-1,-1), 0, colors.white),
             ("LINEBEFORE", (0,0), (-1,-1), 0, colors.white),
             ("LINEAFTER", (0,0), (-1,-1), 0, colors.white),
-
         ])
-
     )
 
     elements.append(dataset_table)
