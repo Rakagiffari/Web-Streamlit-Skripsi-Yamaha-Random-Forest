@@ -1379,6 +1379,10 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                 top_features=importance_grouped["Fitur"]
                     .head(5)
                     .tolist()
+                tn=tn,
+                fp=fp,
+                fn=fn,
+                tp=tp,
             )
 
             left, center, right = st.columns([1, 2, 1])
