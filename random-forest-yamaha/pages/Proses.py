@@ -1361,32 +1361,24 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
 
             pdf_path = generate_pdf(
 
-                pdf_path=BASE_DIR / "laporan_training_model.pdf",
-
+            pdf_path=BASE_DIR / "laporan_training_model.pdf",
+                
                 logo_path=logo_path,
-
+                nama_file=uploaded_file.name,
                 total_data=len(df),
-
+                duplicate_data=total_duplicate,
+                missing_value=total_missing,
                 train_data=train_size,
-
                 test_data=test_size,
-
                 accuracy=accuracy,
-
                 precision=precision,
-
                 recall=recall,
-
                 f1=f1,
-
                 cm_image=cm_path,
-
                 fi_image=fi_path,
-
                 top_features=importance_grouped["Fitur"]
                     .head(5)
                     .tolist()
-
             )
 
             left, center, right = st.columns([1, 2, 1])
