@@ -72,7 +72,7 @@ def generate_pdf(
 
     styles = getSampleStyleSheet()
 
-    elements = []
+    elements = [].
 
     # ==========================================================
     # HEADER
@@ -266,7 +266,7 @@ def generate_pdf(
             """
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             Berikut informasi mengenai dataset yang digunakan
-            pada proses klasifikasi layanan service kendaraan.
+            pada klasifikasi layanan service kendaraan.
             """,
             styles["BodyText"]
         )
