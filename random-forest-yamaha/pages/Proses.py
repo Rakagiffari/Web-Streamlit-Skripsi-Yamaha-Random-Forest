@@ -528,60 +528,48 @@ if uploaded_file is not None:
             # BAR CHART
             # -------------------------------------
 
-            fig_bar, ax_bar = plt.subplots(
-                figsize=(5.0, 4.2),
-                dpi=120
+            fig, (ax1, ax2) = plt.subplots(
+                1,
+                2,
+                figsize=(8,4),
+                dpi=220
             )
 
             sns.barplot(
                 x=service_count.index,
                 y=service_count.values,
                 palette="Reds",
-                ax=ax_bar
+                ax=ax1
             )
 
-            ax_bar.set_title(
+            ax1.set_title(
                 "Distribusi Target",
                 fontsize=10
             )
 
-            ax_bar.set_xlabel(
-                "Kategori",
-                fontsize=8
-            )
-
-            ax_bar.set_ylabel(
-                "Jumlah",
-                fontsize=8
-            )
-
-            ax_bar.tick_params(
-                axis="both",
-                labelsize=8
-            )
-
-            ymax = service_count.max()
+            ax1.set_xlabel("")
+            ax1.set_ylabel("Jumlah Data")
 
             for i, value in enumerate(service_count.values):
 
-                ax_bar.text(
-                    i,
-                    value + (ymax * 0.02),
-                    str(value),
-                    ha="center",
-                    fontsize=8,
-                    fontweight="bold"
-                )
-
-            plt.tight_layout()
+            ax1.text(
+                i,
+                value + 5,
+                str(value),
+                ha="center",
+                fontsize=9,
+                fontweight="bold"
+            )
 
             # -------------------------------------
             # PIE CHART
             # -------------------------------------
 
-            fig_pie, ax_pie = plt.subplots(
-                figsize=(5.0, 4.2),
-                dpi=120
+            fig, (ax1, ax2) = plt.subplots(
+                1,
+                2,
+                figsize=(8,4),
+                dpi=220
             )
 
             colors = sns.color_palette(
@@ -589,29 +577,34 @@ if uploaded_file is not None:
                 len(service_count)
             )
 
-            ax_pie.pie(
+            ax2.pie(
                 service_count.values,
                 labels=service_count.index,
                 autopct="%1.1f%%",
                 startangle=90,
-                colors=colors,
+                colors=sns.color_palette(
+                    "Reds",
+                    len(service_count)
+                ),
                 textprops={
-                    "fontsize": 8
-                },
-                wedgeprops={
-                    "edgecolor": "white"
+                    "fontsize":8
                 }
             )
 
-            ax_pie.set_title(
+            ax2.set_title(
                 "Persentase Target",
                 fontsize=10
             )
 
-            ax_pie.axis("equal")
+            ax2.axis("equal")
 
             plt.tight_layout()
 
+            fig.savefig(
+                distribution_path,
+                dpi=250,
+                bbox_inches="tight"
+            )            
             # -------------------------------------
             # TAMPILKAN BERSEBELAHAN
             # -------------------------------------
