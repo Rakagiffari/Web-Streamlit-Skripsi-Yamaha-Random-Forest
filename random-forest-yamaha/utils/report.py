@@ -69,61 +69,6 @@ def generate_pdf(
 
     styles = getSampleStyleSheet()
 
-    # =====================================
-    # PDF STYLE
-    # =====================================
-
-    company_style = ParagraphStyle(
-        "Company",
-        parent=styles["Normal"],
-        fontName="Helvetica-Bold",
-        fontSize=10,
-        leading=15,
-        alignment=TA_LEFT,
-        textColor=colors.black
-    )
-
-    subtitle_style = ParagraphStyle(
-        "Subtitle",
-        parent=styles["Normal"],
-        fontName="Helvetica",
-        fontSize=10,
-        leading=13,
-        alignment=TA_LEFT,
-        textColor=colors.HexColor("#555555")
-    )
-
-    contact_style = ParagraphStyle(
-        "Contact",
-        parent=styles["Normal"],
-        fontName="Helvetica",
-        fontSize=8.5,
-        leading=12,
-        alignment=TA_LEFT,
-        textColor=colors.HexColor("#666666")
-    )
-
-    report_title_style = ParagraphStyle(
-        "ReportTitle",
-        parent=styles["Normal"],
-        fontName="Helvetica-Bold",
-        fontSize=17,
-        leading=20,
-        alignment=TA_CENTER,
-        textColor=colors.black
-    )
-    
-    date_style = ParagraphStyle(
-        "Date",
-        parent=styles["Normal"],
-        fontName="Helvetica",
-        fontSize=10,
-        alignment=TA_RIGHT,
-        textColor=colors.black
-    )
-
-    elements = []
-
     # ==========================================================
     # HEADER
     # ==========================================================
@@ -132,7 +77,7 @@ def generate_pdf(
         "CompanyStyle",
         parent=styles["Normal"],
         fontName="Helvetica-Bold",
-        fontSize=18,
+        fontSize=14,
         leading=22,
         alignment=TA_LEFT,
         textColor=colors.black
