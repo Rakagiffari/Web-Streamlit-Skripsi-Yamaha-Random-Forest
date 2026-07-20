@@ -333,7 +333,7 @@ def generate_pdf(
         Spacer(1, 5)
     )
     
-    hasil_evaluasi = f"""
+    visualisasi_cf = f"""
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     Visualisasi Confusion Matrix pada bagian berikut
     menunjukkan perbandingan antara hasil prediksi model dengan
@@ -342,7 +342,7 @@ def generate_pdf(
 
     elements.append(
         Paragraph(
-            hasil_evaluasi,
+            visualisasi_cf,
             styles["BodyText"]
         )
     )
