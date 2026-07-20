@@ -305,20 +305,9 @@ def generate_pdf(
         Spacer(1, 15)
     )
 
-        # =====================================
+    # =====================================
     # HASIL EVALUASI MODEL
     # =====================================
-
-    elements.append(
-        Paragraph(
-            "<b>HASIL EVALUASI MODEL</b>",
-            styles["Heading2"]
-        )
-    )
-
-    elements.append(
-        Spacer(1, 8)
-    )
 
     hasil_evaluasi = f"""
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -361,7 +350,7 @@ def generate_pdf(
     )
 
     elements.append(
-        Spacer(1, 15)
+        Spacer(1, 5)
     )
 
     # =====================================
