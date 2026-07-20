@@ -125,9 +125,7 @@ def generate_pdf(
             width=3.8 * cm,
             height=2.5 * cm
         )
-
     else:
-
         logo = Spacer(3.8 * cm, 2.5 * cm)
 
     # ==========================================================
@@ -173,21 +171,13 @@ def generate_pdf(
     )
 
     company_info.setStyle(
-
         TableStyle([
-
             ("LEFTPADDING",(0,0),(-1,-1),0),
-
             ("RIGHTPADDING",(0,0),(-1,-1),0),
-
             ("TOPPADDING",(0,0),(-1,-1),0),
-
             ("BOTTOMPADDING",(0,0),(-1,-1),1),
-
             ("VALIGN",(0,0),(-1,-1),"TOP")
-
         ])
-
     )
 
     # ==========================================================
@@ -205,21 +195,13 @@ def generate_pdf(
     )
 
     header_table.setStyle(
-
         TableStyle([
-
             ("VALIGN",(0,0),(-1,-1),"TOP"),
-
             ("LEFTPADDING",(0,0),(-1,-1),0),
-
             ("RIGHTPADDING",(0,0),(-1,-1),0),
-
             ("TOPPADDING",(0,0),(-1,-1),0),
-
             ("BOTTOMPADDING",(0,0),(-1,-1),0)
-
         ])
-
     )
 
     elements.append(header_table)
@@ -233,21 +215,74 @@ def generate_pdf(
     # ==========================================================
 
     elements.append(
-
         HRFlowable(
-
             width="100%",
-
             thickness=2,
-
             color=colors.HexColor("#C00000")
-
         )
-
     )
 
     elements.append(
         Spacer(1, 8)
+    )
+
+    # =====================================
+    # PENJELASAN LAPORAN
+    # =====================================
+
+    elements.append(
+        Paragraph(
+            "<b>PENJELASAN LAPORAN</b>",
+            styles["Heading2"]
+        )
+    )
+
+    elements.append(
+        Spacer(1, 6)
+    )
+
+    penjelasan_text = f"""
+    Laporan ini merupakan hasil pengolahan data layanan service kendaraan
+    Yamaha menggunakan algoritma <b>Random Forest</b>. Model yang telah
+    dilatih digunakan untuk mengklasifikasikan data layanan service ke
+    dalam dua kategori, yaitu <b>Service Ringan</b> dan
+    <b>Service Berat</b>.
+
+    Informasi yang disajikan pada laporan ini meliputi informasi dataset,
+    hasil evaluasi model, visualisasi <i>Confusion Matrix</i>,
+    <i>Feature Importance</i>, fitur-fitur yang paling berpengaruh,
+    serta kesimpulan berdasarkan hasil klasifikasi yang diperoleh.
+    """
+
+    penjelasan_table = Table(
+        [[Paragraph(penjelasan_text, styles["BodyText"])]],
+        colWidths=[480]
+    )
+
+    penjelasan_table.setStyle(
+
+        TableStyle([
+
+            ("BOX", (0,0), (-1,-1), 1, colors.HexColor("#BDBDBD")),
+
+            ("BACKGROUND", (0,0), (-1,-1), colors.whitesmoke),
+
+            ("LEFTPADDING", (0,0), (-1,-1), 12),
+
+            ("RIGHTPADDING", (0,0), (-1,-1), 12),
+
+            ("TOPPADDING", (0,0), (-1,-1), 10),
+
+            ("BOTTOMPADDING", (0,0), (-1,-1), 10),
+
+        ])
+
+    )
+
+    elements.append(penjelasan_table)
+
+    elements.append(
+        Spacer(1, 15)
     )
 
     # =====================================
