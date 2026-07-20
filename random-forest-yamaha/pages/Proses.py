@@ -470,33 +470,6 @@ if uploaded_file is not None:
         # =====================================
 
         with st.expander("Data Duplikat", expanded=False):
-            st.caption("Ringkasan pemeriksaan data duplikat pada dataset.")
-            
-            total_duplicate = df.duplicated().sum()
-
-            duplicate_info = pd.DataFrame({
-                "Nama": [
-                    "Jumlah Data",
-                    "Data Duplikat"
-                ],
-
-                "Jumlah": [
-                    len(df),
-                    total_duplicate
-                ]
-            })
-
-            st.dataframe(
-                duplicate_info,
-                use_container_width=True,
-                hide_index=True
-            )
-
-        # =====================================
-        # DATA DUPLIKAT
-        # =====================================
-
-        with st.expander("Data Duplikat", expanded=False):
 
             st.caption(
                 "Ringkasan pemeriksaan data duplikat pada dataset."
