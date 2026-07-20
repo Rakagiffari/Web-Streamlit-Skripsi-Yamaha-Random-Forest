@@ -344,29 +344,18 @@ def generate_pdf(
     # CONFUSION MATRIX
     # =====================================
 
-    elements.append(
-        Paragraph(
-            "<b>CONFUSION MATRIX</b>",
-            styles["Heading2"]
-        )
+    cm_style = ParagraphStyle(
+        "CMStyle",
+        parent=styles["BodyText"],
+        alignment=TA_JUSTIFY,   # Rata kanan-kiri
+        leading=18,             # Jarak antar baris
+        leftIndent=8,
+        rightIndent=5,
+        spaceBefore=0,
+        spaceAfter=0,
     )
-
-    elements.append(
-        Spacer(1, 8)
-    )
-
     # Gambar Confusion Matrix
     cm_img = Image(cm_image, width=180, height=180)
-    cm_box = Table([[cm_img]], colWidths=[190], rowHeights=[190])
-    cm_box.setStyle(TableStyle([
-        ("BOX", (0, 0), (-1, -1), 0.8, colors.black),
-        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-        ("LEFTPADDING", (0, 0), (-1, -1), 5),
-        ("RIGHTPADDING", (0, 0), (-1, -1), 5),
-        ("TOPPADDING", (0, 0), (-1, -1), 5),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
-    ]))
 
     # Penjelasan
     cm_desc = Paragraph(
