@@ -79,7 +79,6 @@ def generate_pdf(
         parent=styles["BodyText"],
         alignment=TA_JUSTIFY,   # Rata kanan-kiri
         leading=18,             # Jarak antar baris
-        firstLineIndent=18,     # Indent baris pertama
         spaceBefore=0,
         spaceAfter=0,
     )
