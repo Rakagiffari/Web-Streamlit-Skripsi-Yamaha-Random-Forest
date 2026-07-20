@@ -8,9 +8,18 @@ from reportlab.platypus import (
 )
 
 from reportlab.lib import colors
-from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
-from reportlab.platypus import HRFlowable
+from reportlab.lib.styles import (
+    getSampleStyleSheet,
+    ParagraphStyle
+)
+from reportlab.lib.enums import (
+    TA_LEFT,
+    TA_CENTER,
+    TA_RIGHT
+)
+from reportlab.platypus import (
+    HRFlowable
+)
 from reportlab.lib.units import cm
 from datetime import datetime
 from pathlib import Path
