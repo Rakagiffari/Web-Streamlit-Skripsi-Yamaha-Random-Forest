@@ -23,6 +23,7 @@ from reportlab.platypus import (
 from reportlab.lib.units import cm
 from datetime import datetime
 from pathlib import Path
+from utils.report import generate_pdf
 
 import os
 
@@ -79,7 +80,7 @@ def generate_pdf(
         "CompanyStyle",
         parent=styles["Normal"],
         fontName="Helvetica-Bold",
-        fontSize=10,
+        fontSize=15,
         leading=22,
         alignment=TA_LEFT,
         textColor=colors.black
