@@ -254,6 +254,49 @@ def generate_pdf(
         Spacer(1, 15)
     )
 
+        # =====================================
+    # INFORMASI DATASET
+    # =====================================
+
+    elements.append(
+        Paragraph(
+            "<b>INFORMASI DATASET</b>",
+            styles["Heading2"]
+        )
+    )
+
+    elements.append(
+        Spacer(1, 8)
+    )
+
+    informasi_dataset = f"""
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Berikut merupakan informasi mengenai dataset yang digunakan pada proses
+    klasifikasi layanan service kendaraan.
+
+    <br/><br/>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <b>Nama File</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {nama_file}<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <b>Jumlah Data</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {total_data} data<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <b>Data Duplikat</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {duplicate_data} data<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <b>Data Hilang (Missing Value)</b> : {missing_value} data
+    """
+
+    elements.append(
+        Paragraph(
+            informasi_dataset,
+            styles["BodyText"]
+        )
+    )
+
+    elements.append(
+        Spacer(1, 15)
+    )
+
     # =====================================
     # INFORMASI DATASET & HASIL EVALUASI
     # =====================================
