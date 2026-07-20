@@ -461,8 +461,7 @@ def generate_pdf(
         ["1", top_features[0], "-"],
         ["2", top_features[1], "-"],
         ["3", top_features[2], "-"],
-        ["4", top_features[3], "-"],
-        ["5", top_features[4], "-"],
+        ["4", top_features[3], "-"]
     ]
 
     feature_table = Table(
