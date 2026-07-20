@@ -626,6 +626,108 @@ if uploaded_file is not None:
             plt.close(fig_bar)
             plt.close(fig_pie)
 
+            # =====================================
+            # SIMPAN VISUALISASI UNTUK PDF
+            # =====================================
+
+            BASE_DIR = Path(__file__).parent.parent
+
+            distribution_path = (
+                BASE_DIR /
+                "distribution_target.png"
+            )
+
+            fig_pdf, (ax_pdf_bar, ax_pdf_pie) = plt.subplots(
+                1,
+                2,
+                figsize=(8, 3.8),
+                dpi=220
+            )
+
+            # -------------------------------------
+            # BAR CHART
+            # -------------------------------------
+
+            sns.barplot(
+                x=service_count.index,
+                y=service_count.values,
+                palette="Reds",
+                ax=ax_pdf_bar
+            )
+
+            ax_pdf_bar.set_title(
+                "Distribusi Target",
+                fontsize=10
+            )
+
+            ax_pdf_bar.set_xlabel(
+                "Kategori",
+                fontsize=8
+            )    
+
+            ax_pdf_bar.set_ylabel(
+                "Jumlah",
+                fontsize=8
+            )
+
+            ax_pdf_bar.tick_params(
+                axis="both",
+                labelsize=8
+            )
+
+            ymax = service_count.max()
+
+            for i, value in enumerate(service_count.values):
+
+                ax_pdf_bar.text(
+                    i,
+                    value + (ymax * 0.02),
+                    str(value),
+                    ha="center",
+                    fontsize=8,
+                    fontweight="bold"
+                )
+
+            # -------------------------------------
+            # PIE CHART
+            # -------------------------------------
+
+            colors = sns.color_palette(
+                "Reds",
+                len(service_count)
+            )
+
+            ax_pdf_pie.pie(
+                service_count.values,
+                labels=service_count.index,
+                autopct="%1.1f%%",
+                startangle=90,
+                colors=colors,
+                textprops={
+                    "fontsize": 8
+                },
+                wedgeprops={
+                    "edgecolor": "white"
+                }
+            )
+
+            ax_pdf_pie.set_title(
+                "Persentase Target",
+                fontsize=10
+            )
+
+            ax_pdf_pie.axis("equal")
+
+            plt.tight_layout()
+
+            fig_pdf.savefig(
+                distribution_path,
+                dpi=250,
+                bbox_inches="tight"
+            )
+
+            plt.close(fig_pdf)
+
             st.markdown("---")
 
             # =====================================
