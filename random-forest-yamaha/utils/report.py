@@ -64,10 +64,10 @@ def generate_pdf(
 
     doc = SimpleDocTemplate(
         pdf_path,
-        leftMargin=20,
-        rightMargin=20,
-        topMargin=20,
-        bottomMargin=20
+        leftMargin=2.5 * cm,
+        rightMargin=2.5 * cm,
+        topMargin=2.5 * cm,
+        bottomMargin=2.5 * cm
     )
 
     styles = getSampleStyleSheet()
