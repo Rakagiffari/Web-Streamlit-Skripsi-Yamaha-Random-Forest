@@ -70,17 +70,17 @@ def generate_pdf(
     styles = getSampleStyleSheet()
 
     # ==========================================================
-    # HEADER
+    # STYLE HEADER
     # ==========================================================
 
     company_style = ParagraphStyle(
         "CompanyStyle",
         parent=styles["Normal"],
         fontName="Helvetica-Bold",
-        fontSize=14,
+        fontSize=18,
         leading=22,
         alignment=TA_LEFT,
-        textColor=colors.black
+        textColor=colors.black,
     )
 
     subtitle_style = ParagraphStyle(
@@ -88,9 +88,9 @@ def generate_pdf(
         parent=styles["Normal"],
         fontName="Helvetica",
         fontSize=10,
-        leading=12,
+        leading=13,
         alignment=TA_LEFT,
-        textColor=colors.HexColor("#555555")
+        textColor=colors.HexColor("#555555"),
     )
 
     contact_style = ParagraphStyle(
@@ -100,7 +100,7 @@ def generate_pdf(
         fontSize=8.5,
         leading=11,
         alignment=TA_LEFT,
-        textColor=colors.HexColor("#666666")
+        textColor=colors.HexColor("#666666"),
     )
 
     date_style = ParagraphStyle(
@@ -108,7 +108,7 @@ def generate_pdf(
         parent=styles["Normal"],
         fontName="Helvetica",
         fontSize=10,
-        alignment=TA_RIGHT
+        alignment=TA_RIGHT,
     )
 
     report_title_style = ParagraphStyle(
@@ -117,8 +117,13 @@ def generate_pdf(
         fontName="Helvetica-Bold",
         fontSize=17,
         leading=20,
-        alignment=TA_CENTER
+        alignment=TA_CENTER,
+        textColor=colors.black,
     )
+
+    # ==========================================================
+    # HEADER
+    # ==========================================================
 
     # ==========================================================
     # LOGO
