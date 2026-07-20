@@ -261,29 +261,71 @@ def generate_pdf(
     # INFORMASI DATASET
     # =====================================
 
-    informasi_dataset = f"""
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Berikut merupakan informasi mengenai dataset yang digunakan pada proses
-    klasifikasi layanan service kendaraan.
+    elements.append(
+        Paragraph(
+            "<b>INFORMASI DATASET</b>",
+            styles["Heading2"]
+        )
+    )
 
-    <br/><br/>
-
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <b>Nama File</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {nama_file}<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <b>Jumlah Data</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {total_data} data<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <b>Data Duplikat</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {duplicate_data} data<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <b>Data Hilang (Missing Value)</b> : {missing_value} data
-    """
+    elements.append(
+        Spacer(1, 8)
+    )
 
     elements.append(
         Paragraph(
-            informasi_dataset,
+            """
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Berikut merupakan informasi mengenai dataset yang digunakan
+            pada proses klasifikasi layanan service kendaraan.
+            """,
             styles["BodyText"]
         )
     )
+
+    elements.append(
+        Spacer(1, 8)
+    )
+
+    dataset_table = Table(
+        [
+            ["Nama File", ":", nama_file],
+            ["Jumlah Data", ":", f"{total_data} data"],
+            ["Data Duplikat", ":", f"{duplicate_data} data"],
+            ["Data Hilang (Missing Value)", ":", f"{missing_value} data"],
+        ],
+        colWidths=[165, 10, 305]
+    )
+
+    dataset_table.setStyle(
+
+        TableStyle([
+
+            ("FONTNAME", (0,0), (-1,-1), "Helvetica"),
+
+            ("FONTSIZE", (0,0), (-1,-1), 10),
+
+            ("BOTTOMPADDING", (0,0), (-1,-1), 3),
+
+            ("TOPPADDING", (0,0), (-1,-1), 3),
+
+            ("LEFTPADDING", (0,0), (-1,-1), 18),
+
+            ("RIGHTPADDING", (0,0), (-1,-1), 0),
+
+            ("VALIGN", (0,0), (-1,-1), "TOP"),
+
+            # Tidak ada garis sehingga tampil seperti dokumen Word
+            ("LINEBELOW", (0,0), (-1,-1), 0, colors.white),
+            ("LINEABOVE", (0,0), (-1,-1), 0, colors.white),
+            ("LINEBEFORE", (0,0), (-1,-1), 0, colors.white),
+            ("LINEAFTER", (0,0), (-1,-1), 0, colors.white),
+
+        ])
+
+    )
+
+    elements.append(dataset_table)
 
     elements.append(
         Spacer(1, 15)
