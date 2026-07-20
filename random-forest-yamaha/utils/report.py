@@ -262,7 +262,7 @@ def generate_pdf(
     elements.append(
         Paragraph(
             penjelasan,
-            body_style
+            cm_style
         )
     )
     
