@@ -242,11 +242,12 @@ def generate_pdf(
     )
 
     penjelasan = """
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Laporan ini merupakan hasil pengolahan data layanan service kendaraan Yamaha menggunakan algoritma <b>Random Forest</b>. Model yang telah dilatih digunakan untuk mengklasifikasikan layanan service ke dalam dua kategori, yaitu <b>Service Ringan</b> dan <b>Service Berat</b>.
-
-    <br/><br/>
-
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Laporan ini menyajikan informasi mengenai dataset yang digunakan, hasil evaluasi model, visualisasi <i>Confusion Matrix</i>, <i>Feature Importance</i>, fitur-fitur yang paling berpengaruh, hasil klasifikasi, serta kesimpulan berdasarkan proses klasifikasi yang telah dilakukan.
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Laporan ini menyajikan informasi hasil klasifikasi layanan service
+    kendaraan Yamaha yang dihasilkan oleh sistem menggunakan algoritma
+    <b>Random Forest</b>. Informasi yang ditampilkan bertujuan untuk
+    memberikan gambaran mengenai proses klasifikasi layanan service
+    berdasarkan data kendaraan yang telah diproses oleh sistem.
     """
 
     elements.append(
