@@ -425,118 +425,113 @@ def generate_pdf(
     )
     
     # =====================================
-# FEATURE IMPORTANCE
-# =====================================
+    # FEATURE IMPORTANCE
+    # =====================================
 
-elements.append(Spacer(1, 12))
+    elements.append(Spacer(1, 12))
 
-fi_img = Image(fi_image, width=180, height=180)
+    # -----------------------------
+    # Gambar Feature Importance
+    # -----------------------------
 
-# Border gambar agar sama seperti Confusion Matrix
-fi_box = Table([[fi_img]], colWidths=[190], rowHeights=[190])
+    fi_img = Image(fi_image, width=180, height=180)
 
-fi_box.setStyle(TableStyle([
-    ("BOX", (0,0), (-1,-1), 0.8, colors.black),
-    ("ALIGN", (0,0), (-1,-1), "CENTER"),
-    ("VALIGN", (0,0), (-1,-1), "MIDDLE"),
-    ("LEFTPADDING", (0,0), (-1,-1), 5),
-    ("RIGHTPADDING", (0,0), (-1,-1), 5),
-    ("TOPPADDING", (0,0), (-1,-1), 5),
-    ("BOTTOMPADDING", (0,0), (-1,-1), 5),
-]))
+    fi_box = Table(
+        [[fi_img]],
+        colWidths=[190],
+        rowHeights=[190]
+    )
 
-# -----------------------------
-# Isi tabel feature importance
-# -----------------------------
+    fi_box.setStyle(TableStyle([
+        ("BOX", (0,0), (-1,-1), 0.8, colors.black),
+        ("ALIGN", (0,0), (-1,-1), "CENTER"),
+        ("VALIGN", (0,0), (-1,-1), "MIDDLE"),
+        ("LEFTPADDING", (0,0), (-1,-1), 5),
+        ("RIGHTPADDING", (0,0), (-1,-1), 5),
+        ("TOPPADDING", (0,0), (-1,-1), 5),
+        ("BOTTOMPADDING", (0,0), (-1,-1), 5),
+    ]))
 
-feature_data = [["Fitur", "Persentase"]]
+    # -----------------------------
+    # Tabel Feature Importance
+    # -----------------------------
 
-total = 0
+    feature_data = [
+        ["No", "Fitur", "Persentase"],
+        ["1", top_features[0], "-"],
+        ["2", top_features[1], "-"],
+        ["3", top_features[2], "-"],
+        ["4", top_features[3], "-"],
+        ["5", top_features[4], "-"],
+    ]
 
-for fitur in top_features:
+    feature_table = Table(
+        feature_data,
+        colWidths=[35, 150, 75]
+    )
 
-    nilai = importance_grouped.loc[
-        importance_grouped["Fitur"] == fitur,
-        "Importance"
-    ].values[0] * 100
+    feature_table.setStyle(TableStyle([
 
-    total += nilai
+        ("GRID", (0,0), (-1,-1), 0.5, colors.grey),
+        ("BOX", (0,0), (-1,-1), 1, colors.black),
 
-    feature_data.append([
-        fitur,
-        f"{nilai:.2f} %"
-    ])
+        ("BACKGROUND", (0,0), (-1,0), colors.HexColor("#E5E7EB")),
 
-feature_data.append([
-    "Total",
-    f"{total:.2f} %"
-])
+        ("FONTNAME", (0,0), (-1,0), "Helvetica-Bold"),
 
-feature_table = Table(
-    feature_data,
-    colWidths=[165, 95]
-)
+        ("ALIGN", (0,0), (-1,-1), "CENTER"),
+        ("VALIGN", (0,0), (-1,-1), "MIDDLE"),
 
-feature_table.setStyle(TableStyle([
+        ("TOPPADDING", (0,0), (-1,-1), 7),
+        ("BOTTOMPADDING", (0,0), (-1,-1), 7),
 
-    ("BACKGROUND", (0,0), (-1,0), colors.HexColor("#E5E7EB")),
-    ("BACKGROUND", (0,-1), (-1,-1), colors.HexColor("#F5F5F5")),
+    ]))
 
-    ("GRID", (0,0), (-1,-1), 0.5, colors.grey),
+    # -----------------------------
+    # Layout
+    # -----------------------------
 
-    ("BOX", (0,0), (-1,-1), 1, colors.black),
+    feature_layout = Table(
+        [[fi_box, feature_table]],
+        colWidths=[190, 290],
+        rowHeights=[190]
+    )
 
-    ("FONTNAME", (0,0), (-1,0), "Helvetica-Bold"),
-    ("FONTNAME", (0,-1), (-1,-1), "Helvetica-Bold"),
+    feature_layout.setStyle(TableStyle([
 
-    ("ALIGN", (0,0), (-1,-1), "CENTER"),
-    ("VALIGN", (0,0), (-1,-1), "MIDDLE"),
+        ("VALIGN", (0,0), (-1,-1), "MIDDLE"),
 
-    ("TOPPADDING", (0,0), (-1,-1), 6),
-    ("BOTTOMPADDING", (0,0), (-1,-1), 6),
-]))
+        ("LEFTPADDING", (0,0), (-1,-1), 0),
+        ("RIGHTPADDING", (0,0), (-1,-1), 10),
 
-# -----------------------------
-# Layout sama seperti Confusion Matrix
-# -----------------------------
+        ("TOPPADDING", (0,0), (-1,-1), 0),
+        ("BOTTOMPADDING", (0,0), (-1,-1), 0),
 
-fi_layout = Table(
-    [[fi_box, feature_table]],
-    colWidths=[190, 290]
-)
+    ]))
 
-fi_layout.setStyle(TableStyle([
+    elements.append(feature_layout)
 
-    ("VALIGN", (0,0), (-1,-1), "TOP"),
-    ("LEFTPADDING", (0,0), (-1,-1), 0),
-    ("RIGHTPADDING", (0,0), (-1,-1), 10),
-    ("TOPPADDING", (0,0), (-1,-1), 0),
-    ("BOTTOMPADDING", (0,0), (-1,-1), 0),
+    elements.append(Spacer(1, 8))
 
-]))
+    elements.append(
+        Paragraph(
+            f"""
+            Berdasarkan hasil Feature Importance, fitur
+            <b>{top_features[0]}</b> merupakan fitur yang paling
+            berpengaruh terhadap proses klasifikasi, diikuti oleh
+            <b>{top_features[1]}</b>,
+            <b>{top_features[2]}</b>,
+            <b>{top_features[3]}</b>, dan
+            <b>{top_features[4]}</b>.
+            Semakin tinggi nilai importance suatu fitur,
+            semakin besar kontribusinya dalam membantu model
+            Random Forest menentukan kategori layanan service.
+            """,
+            cm_style
+        )
+    )
 
-elements.append(fi_layout)
-
-elements.append(Spacer(1, 8))
-
-feature_text = Paragraph(
-    f"""
-    Berdasarkan hasil feature importance, fitur <b>{top_features[0]}</b>
-    memiliki kontribusi terbesar terhadap proses klasifikasi.
-    Selanjutnya diikuti oleh <b>{top_features[1]}</b>,
-    <b>{top_features[2]}</b>,
-    <b>{top_features[3]}</b>, dan
-    <b>{top_features[4]}</b>.
-    Semakin besar nilai persentase suatu fitur, semakin besar pula
-    pengaruhnya dalam membantu algoritma Random Forest menentukan
-    klasifikasi layanan Service Ringan maupun Service Berat.
-    """,
-    cm_style
-)
-
-elements.append(feature_text)
-
-elements.append(Spacer(1, 12))
+    elements.append(Spacer(1, 12))
 
     # =====================================
     # KESIMPULAN
