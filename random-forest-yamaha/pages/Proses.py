@@ -513,7 +513,8 @@ if uploaded_file is not None:
             with col_bar:
 
                 fig1, ax1 = plt.subplots(
-                    figsize=(6, 5)
+                    figsize=(6, 5.5),
+                    dpi=120
                 )
 
                 sns.barplot(
@@ -543,6 +544,8 @@ if uploaded_file is not None:
 
                 st.pyplot(fig1)
 
+                plt.close(fig1)
+
             # ==========================
             # PIE CHART
             # ==========================
@@ -550,7 +553,8 @@ if uploaded_file is not None:
             with col_pie:
 
                 fig2, ax2 = plt.subplots(
-                    figsize=(6, 5)
+                    figsize=(6, 5.5),
+                    dpi=120
                 )
 
                 colors = sns.color_palette(
@@ -564,16 +568,20 @@ if uploaded_file is not None:
                     autopct="%1.1f%%",
                     startangle=90,
                     colors=colors,
+                    radius=1.0,
                     textprops={
                         "fontsize": 10
                     }
                 )
 
-                ax2.set_title(
-                    "Persentase Target"
-                )
+                ax2.set_title("Persentase Target")
+                ax2.set_aspect("equal")
+
+                plt.tight_layout()
 
                 st.pyplot(fig2)
+
+                plt.close(fig2)
 
             st.markdown("---")
 
@@ -582,9 +590,7 @@ if uploaded_file is not None:
                 "Kategori Service": service_count.index,
                 "Jumlah Data": service_count.values,
                 "Persentase (%)": (
-                    service_count.values
-                    / len(df)
-                    * 100
+                    service_count.values / len(df) * 100
                 ).round(2)
 
             })
@@ -595,6 +601,16 @@ if uploaded_file is not None:
                 hide_index=True
             )
 
+        # =====================================
+        # FEATURE ENGINEERING
+        # =====================================
+
+        # Salinan dataset hanya untuk visualisasi
+        feature_df = df.copy()
+
+        from datetime import datetime
+
+        tahun_sekarang = datetime.now().year
         # =====================================
         # FEATURE ENGINEERING
         # =====================================
