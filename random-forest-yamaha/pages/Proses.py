@@ -497,7 +497,7 @@ if uploaded_file is not None:
                 hide_index=True
             )
 
-                # =====================================
+        # =====================================
         # DISTRIBUSI DATA
         # =====================================
 
@@ -522,7 +522,7 @@ if uploaded_file is not None:
             # -------------------------------------
 
             fig_bar, ax_bar = plt.subplots(
-                figsize=(4.4, 3.8),
+                figsize=(5.0, 4.2),
                 dpi=120
             )
 
@@ -573,7 +573,7 @@ if uploaded_file is not None:
             # -------------------------------------
 
             fig_pie, ax_pie = plt.subplots(
-                figsize=(4.4, 3.8),
+                figsize=(5.0, 4.2),
                 dpi=120
             )
 
