@@ -350,6 +350,22 @@ def generate_pdf(
         )
     )
 
+    # ==========================================================
+    # GARIS PEMBATAS
+    # ==========================================================
+
+    elements.append(
+        HRFlowable(
+            width="100%",
+            thickness=2,
+            color=colors.HexColor("#666666")
+        )
+    )
+
+    elements.append(
+        Spacer(1, 8)
+    )
+
     # =====================================
     # CONFUSION MATRIX
     # =====================================
