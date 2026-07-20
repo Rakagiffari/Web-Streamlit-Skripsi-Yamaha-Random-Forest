@@ -368,14 +368,18 @@ def generate_pdf(
     )
     # Penjelasan
     cm_desc = Paragraph(
-        """
-        Confusion Matrix menunjukkan perbandingan antara hasil
-        prediksi model dengan data aktual. Sebagian besar data
-        berhasil diklasifikasikan dengan benar, sedangkan hanya
-        sebagian kecil data yang mengalami kesalahan klasifikasi.
-        Hasil ini menunjukkan bahwa model Random Forest memiliki
-        kemampuan yang baik dalam membedakan kategori
-        <b>Service Ringan</b> dan <b>Service Berat</b>.
+        f"""
+        Sebanyak <b>{tn}</b> data <b>Service Ringan</b> berhasil
+        diprediksi dengan benar sebagai <b>Service Ringan</b>.
+        Sementara itu, terdapat <b>{fp}</b> data <b>Service Ringan</b>
+        yang diprediksi sebagai <b>Service Berat</b>.
+        
+        Pada kategori <b>Service Berat</b>, sebanyak
+        <b>{tp}</b> data berhasil diprediksi dengan benar,
+        sedangkan <b>{fn}</b> data diprediksi sebagai
+        <b>Service Ringan</b>. Hasil tersebut menunjukkan bahwa
+        sebagian besar data berhasil diklasifikasikan dengan benar
+        sehingga model memiliki kemampuan klasifikasi yang baik.
         """,
         cm_style
     )
