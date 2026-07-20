@@ -493,6 +493,120 @@ if uploaded_file is not None:
             )
 
         # =====================================
+        # DISTRIBUSI DATA
+        # =====================================
+
+        with st.expander("Distribusi Data", expanded=False):
+
+            st.caption(
+                "Distribusi jumlah data pada setiap kategori layanan service."
+            )
+
+            service_count = df["Service"].value_counts()
+
+            col_bar, col_pie = st.columns(2)
+
+            # ==========================
+            # BAR CHART
+            # ==========================
+
+            with col_bar:
+
+                fig1, ax1 = plt.subplots(
+                    figsize=(6, 5)
+                )
+
+                sns.barplot(
+                    x=service_count.index,
+                    y=service_count.values,
+                    palette="Reds",
+                    ax=ax1
+                )
+
+                ax1.set_title("Distribusi Target")
+                ax1.set_xlabel("Kategori Service")
+                ax1.set_ylabel("Jumlah Data")
+
+                for i, value in enumerate(service_count.values):
+
+                    ax1.text(
+                        i,
+                        value,
+                        str(value),
+                        ha="center",
+                        va="bottom",
+                        fontsize=10,
+                        fontweight="bold"
+                    )
+
+                plt.tight_layout()
+
+                st.pyplot(fig1)
+
+            # ==========================
+            # PIE CHART
+            # ==========================
+
+            with col_pie:
+
+                fig2, ax2 = plt.subplots(
+                    figsize=(5.5, 5.5)
+                )
+
+                colors = sns.color_palette(
+                    "Reds",
+                    len(service_count)
+                )
+
+                ax2.pie(
+                    service_count.values,
+                    labels=service_count.index,
+                    autopct="%1.1f%%",
+                    startangle=90,
+                    colors=colors,
+                    textprops={
+                        "fontsize": 10
+                    }
+                )
+
+                ax2.set_title(
+                    "Persentase Target"
+                )
+
+                st.pyplot(fig2)
+
+            st.markdown("---")
+
+            distribusi_df = pd.DataFrame({
+
+                "Kategori Service": service_count.index,
+                "Jumlah Data": service_count.values,
+                "Persentase (%)": (
+                    service_count.values
+                    / len(df)
+                    * 100
+                ).round(2)
+
+            })
+
+            st.dataframe(
+                distribusi_df,
+                use_container_width=True,
+                hide_index=True
+            )
+
+        # =====================================
+        # FEATURE ENGINEERING
+        # =====================================
+
+        # Salinan dataset hanya untuk visualisasi
+        feature_df = df.copy()
+
+        from datetime import datetime
+
+        tahun_sekarang = datetime.now().year
+
+        # =====================================
         # FEATURE ENGINEERING
         # =====================================
 
