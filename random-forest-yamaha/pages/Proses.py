@@ -865,6 +865,11 @@ if uploaded_file is not None:
 
             tn, fp, fn, tp = matrix.ravel()
 
+            tn=tn,
+            fp=fp,
+            fn=fn,
+            tp=tp,
+
             if accuracy >= 0.90:
                 kualitas = "sangat baik"
 
@@ -1379,10 +1384,6 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                 top_features=importance_grouped["Fitur"]
                     .head(5)
                     .tolist()
-                tn=tn,
-                fp=fp,
-                fn=fn,
-                tp=tp,
             )
 
             left, center, right = st.columns([1, 2, 1])
