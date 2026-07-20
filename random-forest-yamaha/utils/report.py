@@ -397,7 +397,7 @@ def generate_pdf(
         Pada kategori Service Berat, sebanyak
         {tp} data berhasil diprediksi dengan benar,
         sedangkan {fn} data diprediksi sebagai
-        Service Ringan. Hasil tersebut menunjukkan bahwa
+        Service Ringan. Hasil tersebut menunjukkan
         sebagian besar data berhasil diklasifikasikan dengan benar
         sehingga model memiliki kemampuan klasifikasi yang baik.
         """,
