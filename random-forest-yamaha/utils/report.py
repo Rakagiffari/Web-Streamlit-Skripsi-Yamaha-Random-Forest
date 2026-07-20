@@ -8,18 +8,9 @@ from reportlab.platypus import (
 )
 
 from reportlab.lib import colors
-from reportlab.lib.styles import (
-    getSampleStyleSheet,
-    ParagraphStyle
-)
-from reportlab.lib.enums import (
-    TA_LEFT,
-    TA_CENTER,
-    TA_RIGHT
-)
-from reportlab.platypus import (
-    HRFlowable
-)
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
+from reportlab.platypus import HRFlowable
 from reportlab.lib.units import cm
 from datetime import datetime
 from pathlib import Path
@@ -124,255 +115,232 @@ def generate_pdf(
 
     elements = []
 
-# ==========================================================
-# HEADER MODERN
-# ==========================================================
+    # ==========================================================
+    # HEADER
+    # ==========================================================
 
-from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
-from reportlab.lib.styles import ParagraphStyle
-from reportlab.platypus import HRFlowable
-
-# ==========================================================
-# STYLE HEADER
-# ==========================================================
-
-company_style = ParagraphStyle(
-    "CompanyStyle",
-    parent=styles["Normal"],
-    fontName="Helvetica-Bold",
-    fontSize=18,
-    leading=20,
-    alignment=TA_LEFT,
-    spaceAfter=2
-)
-
-subtitle_style = ParagraphStyle(
-    "SubtitleStyle",
-    parent=styles["Normal"],
-    fontName="Helvetica",
-    fontSize=10,
-    leading=12,
-    alignment=TA_LEFT,
-    textColor=colors.HexColor("#555555"),
-    spaceAfter=4
-)
-
-contact_style = ParagraphStyle(
-    "ContactStyle",
-    parent=styles["Normal"],
-    fontName="Helvetica",
-    fontSize=8.5,
-    leading=11,
-    alignment=TA_LEFT,
-    textColor=colors.HexColor("#666666")
-)
-
-title_style = ParagraphStyle(
-    "TitleStyle",
-    parent=styles["Normal"],
-    fontName="Helvetica-Bold",
-    fontSize=17,
-    leading=20,
-    alignment=TA_CENTER,
-    spaceAfter=0
-)
-
-date_style = ParagraphStyle(
-    "DateStyle",
-    parent=styles["Normal"],
-    fontName="Helvetica",
-    fontSize=10,
-    alignment=TA_RIGHT
-)
-
-# ==========================================================
-# LOGO
-# ==========================================================
-
-if os.path.exists(logo_path):
-
-    logo = Image(
-        logo_path,
-        width=4.2 * cm,
-        height=2.6 * cm
+    company_style = ParagraphStyle(
+        "CompanyStyle",
+        parent=styles["Normal"],
+        fontName="Helvetica-Bold",
+        fontSize=18,
+        leading=22,
+        alignment=TA_LEFT,
+        textColor=colors.black
     )
 
-else:
+    subtitle_style = ParagraphStyle(
+        "SubtitleStyle",
+        parent=styles["Normal"],
+        fontName="Helvetica",
+        fontSize=10,
+        leading=12,
+        alignment=TA_LEFT,
+        textColor=colors.HexColor("#555555")
+    )
 
-    logo = Paragraph("", styles["Normal"])
+    contact_style = ParagraphStyle(
+        "ContactStyle",
+        parent=styles["Normal"],
+        fontName="Helvetica",
+        fontSize=8.5,
+        leading=11,
+        alignment=TA_LEFT,
+        textColor=colors.HexColor("#666666")
+    )
 
-# ==========================================================
-# INFORMASI PERUSAHAAN
-# ==========================================================
+    date_style = ParagraphStyle(
+        "DateStyle",
+        parent=styles["Normal"],
+        fontName="Helvetica",
+        fontSize=10,
+        alignment=TA_RIGHT
+    )
 
-company_table = Table(
+    report_title_style = ParagraphStyle(
+        "ReportTitleStyle",
+        parent=styles["Normal"],
+        fontName="Helvetica-Bold",
+        fontSize=17,
+        leading=20,
+        alignment=TA_CENTER
+    )
 
-    [
+    # ==========================================================
+    # LOGO
+    # ==========================================================
 
+    if os.path.exists(logo_path):
+
+        logo = Image(
+            logo_path,
+            width=3.8 * cm,
+            height=2.5 * cm
+        )
+
+    else:
+
+        logo = Spacer(3.8 * cm, 2.5 * cm)
+
+    # ==========================================================
+    # INFORMASI PERUSAHAAN
+    # ==========================================================
+
+    company_info = Table(
         [
-            Paragraph(
-                "PT. YAMAHA TJAHAJA BARU TABING",
-                company_style
-            )
+            [
+                Paragraph(
+                    "PT. YAMAHA TJAHAJA BARU TABING",
+                    company_style
+                )
+            ],
+            [
+                Paragraph(
+                    "Laporan Hasil Sistem Klasifikasi Layanan Service Kendaraan",
+                    subtitle_style
+                )
+            ],
+            [
+                Paragraph(
+                    "Jl. Adinegoro No.28, Tabing, Kota Padang",
+                    contact_style
+                )
+            ],
+            [
+                Paragraph(
+                    "Telp : (0751) 123456",
+                    contact_style
+                )
+            ],
+            [
+                Paragraph(
+                    "Email : info@yamahatjahajabaru.co.id",
+                    contact_style
+                )
+            ]
         ],
+        colWidths=[13.5 * cm]
+    )
 
-        [
-            Paragraph(
-                "Laporan Hasil Sistem Klasifikasi Layanan Service Kendaraan",
-                subtitle_style
-            )
-        ],
+    company_info.setStyle(
 
-        [
-            Paragraph(
-                "Jl. Adinegoro No. 28, Tabing, Kota Padang",
-                contact_style
-            )
-        ],
+        TableStyle([
 
-        [
-            Paragraph(
-                "Telp : (0751) 123456",
-                contact_style
-            )
-        ],
+            ("LEFTPADDING",(0,0),(-1,-1),0),
 
-        [
-            Paragraph(
-                "Email : info@yamahatjahajabaru.co.id",
-                contact_style
-            )
-        ]
+            ("RIGHTPADDING",(0,0),(-1,-1),0),
 
-    ],
+            ("TOPPADDING",(0,0),(-1,-1),0),
 
-    colWidths=[13.2 * cm]
+            ("BOTTOMPADDING",(0,0),(-1,-1),1),
 
-)
+            ("VALIGN",(0,0),(-1,-1),"TOP")
 
-company_table.setStyle(
-
-    TableStyle([
-
-        ("LEFTPADDING",(0,0),(-1,-1),0),
-        ("RIGHTPADDING",(0,0),(-1,-1),0),
-        ("TOPPADDING",(0,0),(-1,-1),0),
-        ("BOTTOMPADDING",(0,0),(-1,-1),0),
-        ("VALIGN",(0,0),(-1,-1),"TOP")
-
-    ])
-
-)
-
-# ==========================================================
-# HEADER UTAMA
-# ==========================================================
-
-header_table = Table(
-
-    [
-
-        [
-
-            logo,
-
-            company_table
-
-        ]
-
-    ],
-
-    colWidths=[4.5 * cm, 13.5 * cm]
-
-)
-
-header_table.setStyle(
-
-    TableStyle([
-
-        ("VALIGN",(0,0),(-1,-1),"TOP"),
-
-        ("LEFTPADDING",(0,0),(-1,-1),0),
-
-        ("RIGHTPADDING",(0,0),(-1,-1),0),
-
-        ("TOPPADDING",(0,0),(-1,-1),0),
-
-        ("BOTTOMPADDING",(0,0),(-1,-1),0)
-
-    ])
-
-)
-
-elements.append(header_table)
-
-elements.append(
-    Spacer(1, 8)
-)
-
-# ==========================================================
-# GARIS MERAH
-# ==========================================================
-
-elements.append(
-
-    HRFlowable(
-
-        width="100%",
-
-        thickness=2,
-
-        color=colors.HexColor("#C40000")
+        ])
 
     )
 
-)
+    # ==========================================================
+    # HEADER TABLE
+    # ==========================================================
 
-elements.append(
-    Spacer(1, 8)
-)
+    header_table = Table(
+        [
+            [
+                logo,
+                company_info
+            ]
+        ],
+        colWidths=[4.2 * cm, 13.8 * cm]
+    )
 
-# ==========================================================
-# TANGGAL
-# ==========================================================
+    header_table.setStyle(
 
-tanggal = datetime.now().strftime("%d %B %Y")
+        TableStyle([
 
-elements.append(
+            ("VALIGN",(0,0),(-1,-1),"TOP"),
 
-    Paragraph(
+            ("LEFTPADDING",(0,0),(-1,-1),0),
 
-        f"Tanggal : {tanggal}",
+            ("RIGHTPADDING",(0,0),(-1,-1),0),
 
-        date_style
+            ("TOPPADDING",(0,0),(-1,-1),0),
+
+            ("BOTTOMPADDING",(0,0),(-1,-1),0)
+
+        ])
 
     )
 
-)
+    elements.append(header_table)
 
-elements.append(
-    Spacer(1, 10)
-)
+    elements.append(
+        Spacer(1, 8)
+    )
 
-# ==========================================================
-# JUDUL LAPORAN
-# ==========================================================
+    # ==========================================================
+    # GARIS PEMBATAS
+    # ==========================================================
 
-elements.append(
+    elements.append(
 
-    Paragraph(
+        HRFlowable(
 
-        "LAPORAN HASIL SISTEM KLASIFIKASI LAYANAN SERVICE KENDARAAN",
+            width="100%",
 
-        title_style
+            thickness=2,
+
+            color=colors.HexColor("#C00000")
+
+        )
 
     )
 
-)
+    elements.append(
+        Spacer(1, 8)
+    )
 
-elements.append(
-    Spacer(1, 18)
-)
+    # ==========================================================
+    # TANGGAL
+    # ==========================================================
+
+    tanggal = datetime.now().strftime("%d %B %Y")
+
+    elements.append(
+
+        Paragraph(
+
+            f"Tanggal : {tanggal}",
+
+            date_style
+
+        )
+
+    )
+
+    elements.append(
+        Spacer(1, 10)
+    )
+
+    # ==========================================================
+    # JUDUL LAPORAN
+    # ==========================================================
+
+    elements.append(
+
+        Paragraph(
+
+            "LAPORAN HASIL SISTEM KLASIFIKASI LAYANAN SERVICE KENDARAAN",
+
+            report_title_style
+
+        )
+
+    )
+
+    elements.append(
+        Spacer(1, 18)
+    )
 
         # =====================================
     # INFORMASI DATASET & HASIL EVALUASI
