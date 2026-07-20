@@ -254,7 +254,7 @@ def generate_pdf(
     )
 
     elements.append(
-        Spacer(1, 15)
+        Spacer(1, 5)
     )
 
     # =====================================
@@ -273,7 +273,7 @@ def generate_pdf(
     )
 
     elements.append(
-        Spacer(1, 8)
+        Spacer(1, 5)
     )
 
     dataset_table = Table(
