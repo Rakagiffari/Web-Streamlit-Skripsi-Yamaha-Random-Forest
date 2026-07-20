@@ -78,7 +78,7 @@ def generate_pdf(
         parent=styles["Normal"],
         fontName="Helvetica-Bold",
         fontSize=10,
-        leading=20,
+        leading=15,
         alignment=TA_LEFT,
         textColor=colors.black
     )
