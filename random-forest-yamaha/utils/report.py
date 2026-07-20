@@ -321,6 +321,17 @@ def generate_pdf(
     memiliki kemampuan yang baik dalam mengklasifikasikan layanan
     Service Ringan dan Service Berat.
     """
+
+        elements.append(
+        Paragraph(
+            hasil_evaluasi,
+            styles["BodyText"]
+        )
+    )
+
+    elements.append(
+        Spacer(1, 5)
+    )
     
     hasil_evaluasi = f"""
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
