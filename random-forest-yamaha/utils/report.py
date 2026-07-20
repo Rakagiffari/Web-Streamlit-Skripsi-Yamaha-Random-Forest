@@ -302,6 +302,7 @@ def generate_pdf(
             ["Jumlah Data", ":", f"{total_data} data"],
             ["Data Duplikat", ":", f"{duplicate_data} data"],
             ["Missing Value", ":", f"{missing_value} data"],
+            ["Distribusi Target", ":",f""],
         ],
         colWidths=[165, 10, 305]
     )
@@ -333,20 +334,6 @@ def generate_pdf(
     # =====================================
     # DISTRIBUSI TARGET
     # =====================================
-
-    elements.append(
-        Paragraph(
-            """
-            Distribusi target menunjukkan proporsi data pada setiap kategori layanan service.
-            Visualisasi berikut memberikan gambaran awal terhadap sebaran kelas pada dataset.
-            """,
-            cm_style
-        )
-    )
-
-    elements.append(
-        Spacer(1,8)
-    )
 
     distribution_img = Image(
         distribution_image,
