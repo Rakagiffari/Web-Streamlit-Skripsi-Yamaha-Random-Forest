@@ -370,7 +370,7 @@ def generate_pdf(
         kemampuan yang baik dalam membedakan kategori
         <b>Service Ringan</b> dan <b>Service Berat</b>.
         """,
-        styles["BodyText"]
+        styles["cm_style"]
     )
 
     # Tabel 2 kolom tanpa border
