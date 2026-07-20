@@ -49,6 +49,10 @@ def generate_pdf(
     cm_image,
     fi_image,
     top_features
+    tn,
+    fp,
+    fn,
+    tp
 ):
 
     # =====================================
