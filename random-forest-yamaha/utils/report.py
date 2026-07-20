@@ -199,31 +199,31 @@ def generate_pdf(
         [
             [
                 Paragraph(
-                    "PT. YAMAHA TJAHAJA BARU TABING",
+                    "PT Yamaha Music Manufacturing Asia (YMMA)",
                     company_style
                 )
             ],
             [
                 Paragraph(
-                    "Laporan Hasil Sistem Klasifikasi Layanan Service Kendaraan",
+                    "Yamaha Tjahaja Baru Tabing",
                     subtitle_style
                 )
             ],
             [
                 Paragraph(
-                    "Jl. Adinegoro No.28, Tabing, Kota Padang",
+                    "Jl. Prof. Dr. Hamka No.56, Parupuk Tabing, Kec. Koto Tangah, Kota Padang, Sumatera Barat 25173",
                     contact_style
                 )
             ],
             [
                 Paragraph(
-                    "Telp : (0751) 123456",
+                    "Telp : 08116606631",
                     contact_style
                 )
             ],
             [
                 Paragraph(
-                    "Email : info@yamahatjahajabaru.co.id",
+                    "Website : https://tjahaja-baru.com/",
                     contact_style
                 )
             ]
