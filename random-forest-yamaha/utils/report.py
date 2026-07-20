@@ -69,7 +69,7 @@ def generate_pdf(
 
     styles = getSampleStyleSheet()
 
-    
+    elements = []
 
     # ==========================================================
     # HEADER
