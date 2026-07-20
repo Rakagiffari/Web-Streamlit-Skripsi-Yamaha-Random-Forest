@@ -321,19 +321,12 @@ def generate_pdf(
     memiliki kemampuan yang baik dalam mengklasifikasikan layanan
     Service Ringan dan Service Berat.
     """
-
-        elements.append(
-        Paragraph(
-            hasil_evaluasi,
-            styles["BodyText"]
-        )
-    )
-
+    
     elements.append(
         Spacer(1, 5)
     )
     
-    visualisasi_cf = f"""
+    f"""
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     Visualisasi Confusion Matrix pada bagian berikut
     menunjukkan perbandingan antara hasil prediksi model dengan
