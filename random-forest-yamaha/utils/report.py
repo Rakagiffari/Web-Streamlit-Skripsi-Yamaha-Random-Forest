@@ -142,6 +142,8 @@ def generate_pdf(
     # INFORMASI PERUSAHAAN
     # ==========================================================
 
+    tanggal = datetime.now().strftime("%d %B %Y %H:%M:%S")
+
     company_info = Table(
         [
             [
@@ -255,29 +257,7 @@ def generate_pdf(
     elements.append(
         Spacer(1, 8)
     )
-
-    # ==========================================================
-    # TANGGAL
-    # ==========================================================
-
-    tanggal = datetime.now().strftime("%d %B %Y")
-
-    elements.append(
-
-        Paragraph(
-
-            f"Tanggal : {tanggal}",
-
-            date_style
-
-        )
-
-    )
-
-    elements.append(
-        Spacer(1, 10)
-    )
-
+    
     # ==========================================================
     # JUDUL LAPORAN
     # ==========================================================
