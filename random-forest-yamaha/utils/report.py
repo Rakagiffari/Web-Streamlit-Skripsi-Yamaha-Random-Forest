@@ -249,28 +249,8 @@ def generate_pdf(
     elements.append(
         Spacer(1, 8)
     )
-    
-    # ==========================================================
-    # JUDUL LAPORAN
-    # ==========================================================
 
-    elements.append(
-
-        Paragraph(
-
-            "LAPORAN HASIL SISTEM KLASIFIKASI LAYANAN SERVICE KENDARAAN",
-
-            report_title_style
-
-        )
-
-    )
-
-    elements.append(
-        Spacer(1, 18)
-    )
-
-        # =====================================
+    # =====================================
     # INFORMASI DATASET & HASIL EVALUASI
     # =====================================
 
