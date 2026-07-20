@@ -105,14 +105,6 @@ def generate_pdf(
         textColor=colors.HexColor("#666666")
     )
 
-    date_style = ParagraphStyle(
-        "DateStyle",
-        parent=styles["Normal"],
-        fontName="Helvetica",
-        fontSize=10,
-        alignment=TA_RIGHT
-    )
-
     report_title_style = ParagraphStyle(
         "ReportTitleStyle",
         parent=styles["Normal"],
@@ -173,7 +165,7 @@ def generate_pdf(
             [
                 Paragraph(
                     f"Tanggal : {tanggal}",
-                    date_style
+                    contact_style
                 )
             ],
         ],
