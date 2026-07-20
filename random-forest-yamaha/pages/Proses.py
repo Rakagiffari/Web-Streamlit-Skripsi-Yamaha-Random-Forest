@@ -492,7 +492,7 @@ if uploaded_file is not None:
                 hide_index=True
             )
 
-                # =====================================
+        # =====================================
         # DATA DUPLIKAT
         # =====================================
 
@@ -536,7 +536,9 @@ if uploaded_file is not None:
 
             service_count = df["Service"].value_counts()
 
-            col_bar, col_pie = st.columns(2)
+            kiri, col_bar, tengah, col_pie, kanan = st.columns(
+                [1, 5, 0.4, 5, 1]
+            )
 
             # =====================================
             # BAR CHART
@@ -545,7 +547,7 @@ if uploaded_file is not None:
             with col_bar:
 
                 fig_bar, ax_bar = plt.subplots(
-                    figsize=(6, 5),
+                    figsize=(5.2, 4.2),
                     dpi=120
                 )
 
@@ -558,12 +560,19 @@ if uploaded_file is not None:
 
                 ax_bar.set_title(
                     "Distribusi Target",
-                    fontsize=13,
-                    pad=12
+                    fontsize=12,
+                    pad=10
                 )
 
-                ax_bar.set_xlabel("Kategori Service")
-                ax_bar.set_ylabel("Jumlah Data")
+                ax_bar.set_xlabel(
+                    "Kategori Service",
+                    fontsize=10
+                )
+
+                ax_bar.set_ylabel(
+                    "Jumlah Data",
+                    fontsize=10
+                )
 
                 ymax = service_count.max()
 
@@ -583,11 +592,13 @@ if uploaded_file is not None:
                         fontweight="bold"
                     )
 
-                fig_bar.tight_layout()
+                ax_bar.tick_params(labelsize=9)
+
+                plt.tight_layout()
 
                 st.pyplot(
                     fig_bar,
-                    use_container_width=True
+                    use_container_width=False
                 )
 
                 plt.close(fig_bar)
@@ -599,7 +610,7 @@ if uploaded_file is not None:
             with col_pie:
 
                 fig_pie, ax_pie = plt.subplots(
-                    figsize=(6, 5),
+                    figsize=(5.2, 4.2),
                     dpi=120
                 )
 
@@ -614,31 +625,31 @@ if uploaded_file is not None:
                     autopct="%1.1f%%",
                     startangle=90,
                     colors=colors,
-                    radius=1.18,
+                    radius=1.05,
                     labeldistance=1.05,
-                    pctdistance=0.68,
+                    pctdistance=0.65,
                     wedgeprops={
                         "edgecolor": "white",
                         "linewidth": 1
                     },
                     textprops={
-                        "fontsize": 11
+                        "fontsize": 10
                     }
                 )
 
                 ax_pie.set_title(
                     "Persentase Target",
-                    fontsize=13,
-                    pad=12
+                    fontsize=12,
+                    pad=10
                 )
 
                 ax_pie.set_aspect("equal")
 
-                fig_pie.tight_layout()
+                plt.tight_layout()
 
                 st.pyplot(
                     fig_pie,
-                    use_container_width=True
+                    use_container_width=False
                 )
 
                 plt.close(fig_pie)
@@ -673,7 +684,7 @@ if uploaded_file is not None:
         from datetime import datetime
 
         tahun_sekarang = datetime.now().year
-
+        
         # -------------------------------------
         # Feature 1 : Usia Motor
         # -------------------------------------
