@@ -423,77 +423,120 @@ def generate_pdf(
     elements.append(
         Spacer(1,5)
     )
+    
     # =====================================
-    # FITUR PALING BERPENGARUH
-    # =====================================
+# FEATURE IMPORTANCE
+# =====================================
 
-    elements.append(
+elements.append(Spacer(1, 12))
 
-        Paragraph(
+fi_img = Image(fi_image, width=180, height=180)
 
-            "<b>FITUR PALING BERPENGARUH</b>",
+# Border gambar agar sama seperti Confusion Matrix
+fi_box = Table([[fi_img]], colWidths=[190], rowHeights=[190])
 
-            styles["Heading3"]
+fi_box.setStyle(TableStyle([
+    ("BOX", (0,0), (-1,-1), 0.8, colors.black),
+    ("ALIGN", (0,0), (-1,-1), "CENTER"),
+    ("VALIGN", (0,0), (-1,-1), "MIDDLE"),
+    ("LEFTPADDING", (0,0), (-1,-1), 5),
+    ("RIGHTPADDING", (0,0), (-1,-1), 5),
+    ("TOPPADDING", (0,0), (-1,-1), 5),
+    ("BOTTOMPADDING", (0,0), (-1,-1), 5),
+]))
 
-        )
+# -----------------------------
+# Isi tabel feature importance
+# -----------------------------
 
-    )
+feature_data = [["Fitur", "Persentase"]]
 
-    elements.append(
-        Spacer(1,5)
-    )
+total = 0
 
-    fitur_data = [
+for fitur in top_features:
 
-        ["No", "Nama Fitur"]
+    nilai = importance_grouped.loc[
+        importance_grouped["Fitur"] == fitur,
+        "Importance"
+    ].values[0] * 100
 
-    ]
+    total += nilai
 
-    for i, fitur in enumerate(top_features, start=1):
+    feature_data.append([
+        fitur,
+        f"{nilai:.2f} %"
+    ])
 
-        fitur_data.append([
+feature_data.append([
+    "Total",
+    f"{total:.2f} %"
+])
 
-            str(i),
+feature_table = Table(
+    feature_data,
+    colWidths=[165, 95]
+)
 
-            fitur
+feature_table.setStyle(TableStyle([
 
-        ])
+    ("BACKGROUND", (0,0), (-1,0), colors.HexColor("#E5E7EB")),
+    ("BACKGROUND", (0,-1), (-1,-1), colors.HexColor("#F5F5F5")),
 
-    fitur_table = Table(
+    ("GRID", (0,0), (-1,-1), 0.5, colors.grey),
 
-        fitur_data,
+    ("BOX", (0,0), (-1,-1), 1, colors.black),
 
-        colWidths=[45, 420]
+    ("FONTNAME", (0,0), (-1,0), "Helvetica-Bold"),
+    ("FONTNAME", (0,-1), (-1,-1), "Helvetica-Bold"),
 
-    )
+    ("ALIGN", (0,0), (-1,-1), "CENTER"),
+    ("VALIGN", (0,0), (-1,-1), "MIDDLE"),
 
-    fitur_table.setStyle(
+    ("TOPPADDING", (0,0), (-1,-1), 6),
+    ("BOTTOMPADDING", (0,0), (-1,-1), 6),
+]))
 
-        TableStyle([
+# -----------------------------
+# Layout sama seperti Confusion Matrix
+# -----------------------------
 
-            ("GRID",(0,0),(-1,-1),0.5,colors.grey),
+fi_layout = Table(
+    [[fi_box, feature_table]],
+    colWidths=[190, 290]
+)
 
-            ("BOX",(0,0),(-1,-1),1,colors.black),
+fi_layout.setStyle(TableStyle([
 
-            ("BACKGROUND",(0,0),(-1,0),colors.HexColor("#E5E7EB")),
+    ("VALIGN", (0,0), (-1,-1), "TOP"),
+    ("LEFTPADDING", (0,0), (-1,-1), 0),
+    ("RIGHTPADDING", (0,0), (-1,-1), 10),
+    ("TOPPADDING", (0,0), (-1,-1), 0),
+    ("BOTTOMPADDING", (0,0), (-1,-1), 0),
 
-            ("FONTNAME",(0,0),(-1,0),"Helvetica-Bold"),
+]))
 
-            ("ALIGN",(0,0),(0,-1),"CENTER"),
+elements.append(fi_layout)
 
-            ("VALIGN",(0,0),(-1,-1),"MIDDLE"),
+elements.append(Spacer(1, 8))
 
-            ("BOTTOMPADDING",(0,0),(-1,-1),8)
+feature_text = Paragraph(
+    f"""
+    Berdasarkan hasil feature importance, fitur <b>{top_features[0]}</b>
+    memiliki kontribusi terbesar terhadap proses klasifikasi.
+    Selanjutnya diikuti oleh <b>{top_features[1]}</b>,
+    <b>{top_features[2]}</b>,
+    <b>{top_features[3]}</b>, dan
+    <b>{top_features[4]}</b>.
+    Semakin besar nilai persentase suatu fitur, semakin besar pula
+    pengaruhnya dalam membantu algoritma Random Forest menentukan
+    klasifikasi layanan Service Ringan maupun Service Berat.
+    """,
+    cm_style
+)
 
-        ])
+elements.append(feature_text)
 
-    )
-
-    elements.append(fitur_table)
-
-    elements.append(
-        Spacer(1,15)
-    )
+elements.append(Spacer(1, 12))
 
     # =====================================
     # KESIMPULAN
