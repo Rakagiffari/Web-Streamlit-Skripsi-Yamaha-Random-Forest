@@ -74,11 +74,13 @@ def generate_pdf(
 
     styles = getSampleStyleSheet()
 
-    body_style = ParagraphStyle(
-        "BodyStyle",
+    cm_style = ParagraphStyle(
+        "CMStyle",
         parent=styles["BodyText"],
         alignment=TA_JUSTIFY,   # Rata kanan-kiri
         leading=18,             # Jarak antar baris
+        leftIndent=8,
+        rightIndent=5,
         spaceBefore=0,
         spaceAfter=0,
     )
@@ -347,7 +349,7 @@ def generate_pdf(
     elements.append(
         Paragraph(
             hasil_evaluasi,
-            body_style
+            cm_style
         )
     )
 
