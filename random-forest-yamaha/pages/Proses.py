@@ -501,7 +501,7 @@ if uploaded_file is not None:
         # DISTRIBUSI DATA
         # =====================================
 
-        with st.expander("Distribusi Data", expanded=False):
+        with st.expander("Distribusi Target", expanded=False):
 
             st.caption(
                 "Distribusi jumlah data pada setiap kategori layanan service."
