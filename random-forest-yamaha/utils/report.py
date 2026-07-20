@@ -421,7 +421,7 @@ def generate_pdf(
     elements.append(cm_table)
 
     elements.append(
-        Spacer(1, 15)
+        Spacer(1,5)
     )
     # =====================================
     # FITUR PALING BERPENGARUH
