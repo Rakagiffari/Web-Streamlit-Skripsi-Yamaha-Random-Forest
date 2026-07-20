@@ -302,7 +302,7 @@ def generate_pdf(
     elements.append(dataset_table)
 
     elements.append(
-        Spacer(1, 15)
+        Spacer(1,5)
     )
 
     # =====================================
@@ -311,16 +311,14 @@ def generate_pdf(
 
     hasil_evaluasi = f"""
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Setelah proses pelatihan selesai dilakukan, model <b>Random Forest</b>
+    Setelah proses selesai dilakukan, model Random Forest
     dievaluasi menggunakan data yang telah dipisahkan menjadi
-    <b>data training</b> dan <b>data testing</b>. Pada proses ini,
-    sebanyak <b>{train_data} data</b> digunakan sebagai data training
+    data training dan data testing. Pada proses ini,
+    sebanyak {train_data} data digunakan sebagai data training
     untuk membangun pola klasifikasi, sedangkan
-    <b>{test_data} data</b> digunakan sebagai data testing untuk
+    {test_data} data digunakan sebagai data testing untuk
     mengukur kemampuan model dalam melakukan prediksi terhadap data
     yang belum pernah dipelajari sebelumnya.
-
-    <br/><br/>
 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     Berdasarkan hasil evaluasi, model memperoleh nilai
