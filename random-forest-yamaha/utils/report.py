@@ -359,6 +359,9 @@ def generate_pdf(
         spaceAfter=0,
     )
 
+    elements.append(
+        Spacer(1, 5)
+    )
     # Penjelasan
     cm_desc = Paragraph(
         """
