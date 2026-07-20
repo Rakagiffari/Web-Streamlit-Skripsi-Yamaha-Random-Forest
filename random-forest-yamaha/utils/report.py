@@ -345,6 +345,8 @@ def generate_pdf(
     # =====================================
     # CONFUSION MATRIX
     # =====================================
+    
+    cm_img = Image(cm_image, width=180, height=180)
 
     cm_style = ParagraphStyle(
         "CMStyle",
@@ -356,11 +358,9 @@ def generate_pdf(
         spaceBefore=0,
         spaceAfter=0,
     )
-    # Gambar Confusion Matrix
-    cm_img = Image(cm_image, width=180, height=180)
 
     # Penjelasan
-    cm_desc = cm_style(
+    cm_desc = Paragraph(
         """
         Confusion Matrix menunjukkan perbandingan antara hasil
         prediksi model dengan data aktual. Sebagian besar data
@@ -370,7 +370,7 @@ def generate_pdf(
         kemampuan yang baik dalam membedakan kategori
         <b>Service Ringan</b> dan <b>Service Berat</b>.
         """,
-        styles["BodyText"]
+        cm_style
     )
 
     # Tabel 2 kolom tanpa border
