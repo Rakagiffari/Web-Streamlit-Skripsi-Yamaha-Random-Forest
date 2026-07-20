@@ -512,10 +512,17 @@ if uploaded_file is not None:
 
             with col_bar:
 
-                fig1, ax1 = plt.subplots(
-                    figsize=(6, 5.5),
-                    dpi=120
+                fig1 = plt.figure(figsize=(6, 5), dpi=120)
+
+                gs = fig1.add_gridspec(
+                    1, 1,
+                    left=0.12,
+                    right=0.95,
+                    bottom=0.15,
+                    top=0.88
                 )
+
+                ax1 = fig1.add_subplot(gs[0])
 
                 sns.barplot(
                     x=service_count.index,
@@ -529,7 +536,6 @@ if uploaded_file is not None:
                 ax1.set_ylabel("Jumlah Data")
 
                 for i, value in enumerate(service_count.values):
-
                     ax1.text(
                         i,
                         value,
@@ -538,9 +544,7 @@ if uploaded_file is not None:
                         va="bottom",
                         fontsize=10,
                         fontweight="bold"
-                    )
-
-                plt.tight_layout()
+                )
 
                 st.pyplot(fig1)
 
@@ -552,10 +556,17 @@ if uploaded_file is not None:
 
             with col_pie:
 
-                fig2, ax2 = plt.subplots(
-                    figsize=(6, 5.5),
-                    dpi=120
+                fig2 = plt.figure(figsize=(6, 5), dpi=120)
+
+                gs = fig2.add_gridspec(
+                    1, 1,
+                    left=0.12,
+                    right=0.95,
+                    bottom=0.15,
+                    top=0.88
                 )
+
+                ax2 = fig2.add_subplot(gs[0])
 
                 colors = sns.color_palette(
                     "Reds",
@@ -568,7 +579,7 @@ if uploaded_file is not None:
                     autopct="%1.1f%%",
                     startangle=90,
                     colors=colors,
-                    radius=1.0,
+                    radius=0.82,
                     textprops={
                         "fontsize": 10
                     }
@@ -577,12 +588,10 @@ if uploaded_file is not None:
                 ax2.set_title("Persentase Target")
                 ax2.set_aspect("equal")
 
-                plt.tight_layout()
-
                 st.pyplot(fig2)
 
                 plt.close(fig2)
-
+                
             st.markdown("---")
 
             distribusi_df = pd.DataFrame({
