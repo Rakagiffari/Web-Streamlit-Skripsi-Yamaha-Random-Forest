@@ -46,6 +46,7 @@ def generate_pdf(
     precision,
     recall,
     f1,
+    distribution_image,
     cm_image,
     fi_image,
     top_features,
@@ -61,6 +62,9 @@ def generate_pdf(
 
     pdf_path = str(Path(pdf_path))
     logo_path = str(Path(logo_path))
+
+    distribution_image = str(Path(distribution_image))
+
     cm_image = str(Path(cm_image))
     fi_image = str(Path(fi_image))
 
