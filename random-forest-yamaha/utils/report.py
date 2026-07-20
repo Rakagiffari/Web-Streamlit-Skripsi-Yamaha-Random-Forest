@@ -311,14 +311,15 @@ def generate_pdf(
 
     hasil_evaluasi = f"""
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Setelah proses selesai dilakukan, model Random Forest
-    dievaluasi menggunakan data yang telah dipisahkan menjadi
-    data training dan data testing. Pada proses ini,
-    sebanyak {train_data} data digunakan sebagai data training
-    untuk membangun pola klasifikasi, sedangkan
-    {test_data} data digunakan sebagai data testing untuk
-    mengukur kemampuan model dalam melakukan prediksi terhadap data
-    yang belum pernah dipelajari sebelumnya.
+    Model Random Forest dievaluasi menggunakan
+    {train_data} data training dan
+    {test_data} data testing. Berdasarkan hasil pengujian,
+    model memperoleh Accuracy sebesar {accuracy:.2%},
+    Precision {precision:.2%},
+    Recall {recall:.2%}, dan
+    F1-Score {f1:.2%}. Nilai tersebut menunjukkan bahwa model
+    memiliki kemampuan yang baik dalam mengklasifikasikan layanan
+    Service Ringan dan Service Berat.
 
     <br/><br/>
 
