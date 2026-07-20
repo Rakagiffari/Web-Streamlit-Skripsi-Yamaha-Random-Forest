@@ -341,101 +341,56 @@ def generate_pdf(
     )
 
     # =====================================
-    # VISUALISASI
+    # CONFUSION MATRIX
     # =====================================
 
-    cm_obj = None
-    fi_obj = None
-
-    if os.path.exists(cm_image):
-
-        cm_obj = Image(
-            cm_image,
-            width=7*cm,
-            height=6*cm
+    elements.append(
+        Paragraph(
+            "<b>CONFUSION MATRIX</b>",
+            styles["Heading2"]
         )
-
-    else:
-
-        cm_obj = Paragraph(
-            "Confusion Matrix tidak tersedia.",
-            styles["BodyText"]
-        )
-
-    if os.path.exists(fi_image):
-
-        fi_obj = Image(
-            fi_image,
-            width=7*cm,
-            height=6*cm
-        )
-
-    else:
-
-        fi_obj = Paragraph(
-            "Feature Importance tidak tersedia.",
-            styles["BodyText"]
-        )
-
-    grafik_table = Table(
-
-        [
-
-            [
-
-                Paragraph(
-                    "<b>CONFUSION MATRIX</b>",
-                    styles["BodyText"]
-                ),
-
-                Paragraph(
-                    "<b>FEATURE IMPORTANCE</b>",
-                    styles["BodyText"]
-                )
-
-            ],
-
-            [
-
-                cm_obj,
-                fi_obj
-
-            ]
-
-        ],
-
-        colWidths=[240,240]
-
     )
-
-    grafik_table.setStyle(
-
-        TableStyle([
-
-            ("GRID",(0,0),(-1,-1),0.5,colors.grey),
-
-            ("BOX",(0,0),(-1,-1),1,colors.black),
-
-            ("BACKGROUND",(0,0),(-1,0),colors.HexColor("#F3F4F6")),
-
-            ("ALIGN",(0,0),(-1,-1),"CENTER"),
-
-            ("VALIGN",(0,0),(-1,-1),"MIDDLE"),
-
-            ("BOTTOMPADDING",(0,0),(-1,-1),8),
-
-            ("TOPPADDING",(0,0),(-1,-1),8)
-
-        ])
-
-    )
-
-    elements.append(grafik_table)
 
     elements.append(
-        Spacer(1,15)
+        Spacer(1, 8)
     )
 
+    # Gambar Confusion Matrix
+    cm_img = Image(cm_image, width=180, height=180)
+
+    # Penjelasan
+    cm_desc = Paragraph(
+        """
+        Confusion Matrix menunjukkan perbandingan antara hasil
+        prediksi model dengan data aktual. Sebagian besar data
+        berhasil diklasifikasikan dengan benar, sedangkan hanya
+        sebagian kecil data yang mengalami kesalahan klasifikasi.
+        Hasil ini menunjukkan bahwa model Random Forest memiliki
+        kemampuan yang baik dalam membedakan kategori
+        <b>Service Ringan</b> dan <b>Service Berat</b>.
+        """,
+        styles["BodyText"]
+    )
+
+    # Tabel 2 kolom tanpa border
+    cm_table = Table(
+        [[cm_img, cm_desc]],
+        colWidths=[190, 290]
+    )
+
+    cm_table.setStyle(TableStyle([
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 0),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+        ("TOPPADDING", (0, 0), (-1, -1), 0),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+    ]))
+
+    elements.append(cm_table)
+
+    elements.append(
+        Spacer(1, 15)
+    )
     # =====================================
     # FITUR PALING BERPENGARUH
     # =====================================
