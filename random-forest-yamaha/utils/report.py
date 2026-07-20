@@ -164,7 +164,7 @@ def generate_pdf(
             ],
             [
                 Paragraph(
-                    f"Tanggal : {tanggal}",
+                    f"{tanggal}",
                     contact_style
                 )
             ],
