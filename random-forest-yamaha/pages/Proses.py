@@ -501,20 +501,13 @@ if uploaded_file is not None:
         # DISTRIBUSI DATA
         # =====================================
 
-        with st.expander("Distribusi Target", expanded=False):
+        with st.expander("Distribusi Data", expanded=False):
 
             st.caption(
                 "Distribusi jumlah data pada setiap kategori layanan service."
             )
 
             service_count = df["Service"].value_counts()
-
-            BASE_DIR = Path(__file__).parent.parent
-
-            distribution_path = (
-                BASE_DIR /
-                "distribution_target.png"
-            )
 
             # =====================================
             # VISUALISASI
@@ -528,48 +521,60 @@ if uploaded_file is not None:
             # BAR CHART
             # -------------------------------------
 
-            fig, (ax1, ax2) = plt.subplots(
-                1,
-                2,
-                figsize=(8,4),
-                dpi=220
+            fig_bar, ax_bar = plt.subplots(
+                figsize=(3.8, 3.2),
+                dpi=120
             )
 
             sns.barplot(
                 x=service_count.index,
                 y=service_count.values,
                 palette="Reds",
-                ax=ax1
+                ax=ax_bar
             )
 
-            ax1.set_title(
+            ax_bar.set_title(
                 "Distribusi Target",
                 fontsize=10
             )
 
-            ax1.set_xlabel("")
-            ax1.set_ylabel("Jumlah Data")
+            ax_bar.set_xlabel(
+                "Kategori",
+                fontsize=8
+            )
+
+            ax_bar.set_ylabel(
+                "Jumlah",
+                fontsize=8
+            )
+
+            ax_bar.tick_params(
+                axis="both",
+                labelsize=8
+            )
+
+            ymax = service_count.max()
 
             for i, value in enumerate(service_count.values):
 
-            ax1.text(
-                i,
-                value + 5,
-                str(value),
-                ha="center",
-                fontsize=9,
-                fontweight="bold"
-            )
+                ax_bar.text(
+                    i,
+                    value + (ymax * 0.02),
+                    str(value),
+                    ha="center",
+                    fontsize=8,
+                    fontweight="bold"
+                )
+
+            plt.tight_layout()
 
             # -------------------------------------
             # PIE CHART
             # -------------------------------------
 
-            fig, (ax1, ax2) = plt.subplots(
-                1,
-                2,
-                figsize=(8,4),
-                dpi=220
+            fig_pie, ax_pie = plt.subplots(
+                figsize=(3.8, 3.2),
+                dpi=120
             )
 
             colors = sns.color_palette(
@@ -577,34 +582,29 @@ if uploaded_file is not None:
                 len(service_count)
             )
 
-            ax2.pie(
+            ax_pie.pie(
                 service_count.values,
                 labels=service_count.index,
                 autopct="%1.1f%%",
                 startangle=90,
-                colors=sns.color_palette(
-                    "Reds",
-                    len(service_count)
-                ),
+                colors=colors,
                 textprops={
-                    "fontsize":8
+                    "fontsize": 8
+                },
+                wedgeprops={
+                    "edgecolor": "white"
                 }
             )
 
-            ax2.set_title(
+            ax_pie.set_title(
                 "Persentase Target",
                 fontsize=10
             )
 
-            ax2.axis("equal")
+            ax_pie.axis("equal")
 
             plt.tight_layout()
 
-            fig.savefig(
-                distribution_path,
-                dpi=250,
-                bbox_inches="tight"
-            )            
             # -------------------------------------
             # TAMPILKAN BERSEBELAHAN
             # -------------------------------------
@@ -651,7 +651,6 @@ if uploaded_file is not None:
                 use_container_width=True,
                 hide_index=True
             )
-
         # =====================================
         # FEATURE ENGINEERING
         # =====================================
