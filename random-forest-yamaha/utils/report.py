@@ -48,7 +48,7 @@ def generate_pdf(
     f1,
     cm_image,
     fi_image,
-    top_features
+    top_features,
     tn,
     fp,
     fn,
