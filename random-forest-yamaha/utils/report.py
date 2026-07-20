@@ -23,7 +23,6 @@ from reportlab.platypus import (
 from reportlab.lib.units import cm
 from datetime import datetime
 from pathlib import Path
-from utils.report import generate_pdf
 
 import os
 
