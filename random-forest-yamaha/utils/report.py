@@ -172,7 +172,7 @@ def generate_pdf(
                 Paragraph(
                     f"Tanggal : {tanggal}",
                     date_style
-
+                )
             ],
         ],
         colWidths=[13.5 * cm]
