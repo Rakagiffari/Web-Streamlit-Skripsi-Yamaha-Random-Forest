@@ -492,6 +492,38 @@ if uploaded_file is not None:
                 hide_index=True
             )
 
+                # =====================================
+        # DATA DUPLIKAT
+        # =====================================
+
+        with st.expander("Data Duplikat", expanded=False):
+
+            st.caption(
+                "Ringkasan pemeriksaan data duplikat pada dataset."
+            )
+
+            total_duplicate = df.duplicated().sum()
+
+            duplicate_info = pd.DataFrame({
+
+                "Nama": [
+                    "Jumlah Data",
+                    "Data Duplikat"
+                ],
+
+                "Jumlah": [
+                    len(df),
+                    total_duplicate
+                ]
+
+            })
+
+            st.dataframe(
+                duplicate_info,
+                use_container_width=True,
+                hide_index=True
+            )
+
         # =====================================
         # DISTRIBUSI DATA
         # =====================================
@@ -506,92 +538,111 @@ if uploaded_file is not None:
 
             col_bar, col_pie = st.columns(2)
 
-            # ==========================
+            # =====================================
             # BAR CHART
-            # ==========================
+            # =====================================
 
             with col_bar:
 
-                fig1 = plt.figure(figsize=(6, 5), dpi=120)
-
-                gs = fig1.add_gridspec(
-                    1, 1,
-                    left=0.12,
-                    right=0.95,
-                    bottom=0.15,
-                    top=0.88
+                fig_bar, ax_bar = plt.subplots(
+                    figsize=(6, 5),
+                    dpi=120
                 )
-
-                ax1 = fig1.add_subplot(gs[0])
 
                 sns.barplot(
                     x=service_count.index,
                     y=service_count.values,
                     palette="Reds",
-                    ax=ax1
+                    ax=ax_bar
                 )
 
-                ax1.set_title("Distribusi Target")
-                ax1.set_xlabel("Kategori Service")
-                ax1.set_ylabel("Jumlah Data")
+                ax_bar.set_title(
+                    "Distribusi Target",
+                    fontsize=13,
+                    pad=12
+                )
+
+                ax_bar.set_xlabel("Kategori Service")
+                ax_bar.set_ylabel("Jumlah Data")
+
+                ymax = service_count.max()
+
+                ax_bar.set_ylim(
+                    0,
+                    ymax * 1.15
+                )
 
                 for i, value in enumerate(service_count.values):
-                    ax1.text(
+
+                    ax_bar.text(
                         i,
-                        value,
+                        value + ymax * 0.02,
                         str(value),
                         ha="center",
-                        va="bottom",
                         fontsize=10,
                         fontweight="bold"
+                    )
+
+                fig_bar.tight_layout()
+
+                st.pyplot(
+                    fig_bar,
+                    use_container_width=True
                 )
 
-                st.pyplot(fig1)
+                plt.close(fig_bar)
 
-                plt.close(fig1)
-
-            # ==========================
+            # =====================================
             # PIE CHART
-            # ==========================
+            # =====================================
 
             with col_pie:
 
-                fig2 = plt.figure(figsize=(6, 5), dpi=120)
-
-                gs = fig2.add_gridspec(
-                    1, 1,
-                    left=0.12,
-                    right=0.95,
-                    bottom=0.15,
-                    top=0.88
+                fig_pie, ax_pie = plt.subplots(
+                    figsize=(6, 5),
+                    dpi=120
                 )
-
-                ax2 = fig2.add_subplot(gs[0])
 
                 colors = sns.color_palette(
                     "Reds",
                     len(service_count)
                 )
 
-                ax2.pie(
+                ax_pie.pie(
                     service_count.values,
                     labels=service_count.index,
                     autopct="%1.1f%%",
                     startangle=90,
                     colors=colors,
-                    radius=0.82,
+                    radius=1.18,
+                    labeldistance=1.05,
+                    pctdistance=0.68,
+                    wedgeprops={
+                        "edgecolor": "white",
+                        "linewidth": 1
+                    },
                     textprops={
-                        "fontsize": 10
+                        "fontsize": 11
                     }
                 )
 
-                ax2.set_title("Persentase Target")
-                ax2.set_aspect("equal")
+                ax_pie.set_title(
+                    "Persentase Target",
+                    fontsize=13,
+                    pad=12
+                )
 
-                st.pyplot(fig2)
+                ax_pie.set_aspect("equal")
 
-                plt.close(fig2)
-                
+                fig_pie.tight_layout()
+
+                st.pyplot(
+                    fig_pie,
+                    use_container_width=True
+                )
+
+                plt.close(fig_pie)
+
             st.markdown("---")
 
             distribusi_df = pd.DataFrame({
@@ -599,7 +650,9 @@ if uploaded_file is not None:
                 "Kategori Service": service_count.index,
                 "Jumlah Data": service_count.values,
                 "Persentase (%)": (
-                    service_count.values / len(df) * 100
+                    service_count.values /
+                    len(df) *
+                    100
                 ).round(2)
 
             })
@@ -609,27 +662,6 @@ if uploaded_file is not None:
                 use_container_width=True,
                 hide_index=True
             )
-
-        # =====================================
-        # FEATURE ENGINEERING
-        # =====================================
-
-        # Salinan dataset hanya untuk visualisasi
-        feature_df = df.copy()
-
-        from datetime import datetime
-
-        tahun_sekarang = datetime.now().year
-        # =====================================
-        # FEATURE ENGINEERING
-        # =====================================
-
-        # Salinan dataset hanya untuk visualisasi
-        feature_df = df.copy()
-
-        from datetime import datetime
-
-        tahun_sekarang = datetime.now().year
 
         # =====================================
         # FEATURE ENGINEERING
