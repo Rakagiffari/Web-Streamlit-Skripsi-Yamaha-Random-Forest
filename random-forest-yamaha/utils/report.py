@@ -410,14 +410,12 @@ def generate_pdf(
         colWidths=[190, 290]
     )
 
-    cm_table.setStyle(TableStyle([
-        ("BOX", (0,0), (-1,-1), 1, colors.black),  # Garis luar
-        ("LINEAFTER", (0,0), (0,0), 1, colors.black), # Garis pemisah gambar dan teks
-        ("VALIGN", (0,0), (-1,-1), "TOP"), # Posisi
-        ("LEFTPADDING", (0,0), (-1,-1), 8), # Padding
-        ("RIGHTPADDING", (0,0), (-1,-1), 8),
-        ("TOPPADDING", (0,0), (-1,-1), 8),
-        ("BOTTOMPADDING", (0,0), (-1,-1), 8),
+    cm_table.setStyle(TableStyle([ 
+        ("VALIGN", (0, 0), (-1, -1), "TOP"), 
+        ("LEFTPADDING", (0, 0), (-1, -1), 0), 
+        ("RIGHTPADDING", (0, 0), (-1, -1), 10), 
+        ("TOPPADDING", (0, 0), (-1, -1), 0), 
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 0), 
     ]))
 
     elements.append(cm_table)
