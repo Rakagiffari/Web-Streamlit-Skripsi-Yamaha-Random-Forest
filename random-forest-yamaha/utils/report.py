@@ -280,7 +280,7 @@ def generate_pdf(
             Berikut informasi mengenai dataset yang digunakan
             pada klasifikasi layanan service kendaraan.
             """,
-            body_style
+            cm_style
         )
     )
 
