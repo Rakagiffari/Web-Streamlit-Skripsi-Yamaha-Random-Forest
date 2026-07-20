@@ -497,7 +497,7 @@ if uploaded_file is not None:
                 hide_index=True
             )
 
-        # =====================================
+                # =====================================
         # DISTRIBUSI DATA
         # =====================================
 
@@ -509,130 +509,135 @@ if uploaded_file is not None:
 
             service_count = df["Service"].value_counts()
 
-            kiri, col_bar, tengah, col_pie, kanan = st.columns(
-                [1, 5, 0.4, 5, 1]
+            # =====================================
+            # VISUALISASI
+            # =====================================
+
+            left, col_bar, space, col_pie, right = st.columns(
+                [0.5, 3, 0.3, 3, 0.5]
             )
 
-            # =====================================
+            # -------------------------------------
             # BAR CHART
-            # =====================================
+            # -------------------------------------
+
+            fig_bar, ax_bar = plt.subplots(
+                figsize=(3.8, 3.2),
+                dpi=120
+            )
+
+            sns.barplot(
+                x=service_count.index,
+                y=service_count.values,
+                palette="Reds",
+                ax=ax_bar
+            )
+
+            ax_bar.set_title(
+                "Distribusi Target",
+                fontsize=10
+            )
+
+            ax_bar.set_xlabel(
+                "Kategori",
+                fontsize=8
+            )
+
+            ax_bar.set_ylabel(
+                "Jumlah",
+                fontsize=8
+            )
+
+            ax_bar.tick_params(
+                axis="both",
+                labelsize=8
+            )
+
+            ymax = service_count.max()
+
+            for i, value in enumerate(service_count.values):
+
+                ax_bar.text(
+                    i,
+                    value + (ymax * 0.02),
+                    str(value),
+                    ha="center",
+                    fontsize=8,
+                    fontweight="bold"
+                )
+
+            plt.tight_layout()
+
+            # -------------------------------------
+            # PIE CHART
+            # -------------------------------------
+
+            fig_pie, ax_pie = plt.subplots(
+                figsize=(3.8, 3.2),
+                dpi=120
+            )
+
+            colors = sns.color_palette(
+                "Reds",
+                len(service_count)
+            )
+
+            ax_pie.pie(
+                service_count.values,
+                labels=service_count.index,
+                autopct="%1.1f%%",
+                startangle=90,
+                colors=colors,
+                textprops={
+                    "fontsize": 8
+                },
+                wedgeprops={
+                    "edgecolor": "white"
+                }
+            )
+
+            ax_pie.set_title(
+                "Persentase Target",
+                fontsize=10
+            )
+
+            ax_pie.axis("equal")
+
+            plt.tight_layout()
+
+            # -------------------------------------
+            # TAMPILKAN BERSEBELAHAN
+            # -------------------------------------
 
             with col_bar:
-
-                fig_bar, ax_bar = plt.subplots(
-                    figsize=(5.2, 4.2),
-                    dpi=120
-                )
-
-                sns.barplot(
-                    x=service_count.index,
-                    y=service_count.values,
-                    palette="Reds",
-                    ax=ax_bar
-                )
-
-                ax_bar.set_title(
-                    "Distribusi Target",
-                    fontsize=12,
-                    pad=10
-                )
-
-                ax_bar.set_xlabel(
-                    "Kategori Service",
-                    fontsize=10
-                )
-
-                ax_bar.set_ylabel(
-                    "Jumlah Data",
-                    fontsize=10
-                )
-
-                ymax = service_count.max()
-
-                ax_bar.set_ylim(
-                    0,
-                    ymax * 1.15
-                )
-
-                for i, value in enumerate(service_count.values):
-
-                    ax_bar.text(
-                        i,
-                        value + ymax * 0.02,
-                        str(value),
-                        ha="center",
-                        fontsize=10,
-                        fontweight="bold"
-                    )
-
-                ax_bar.tick_params(labelsize=9)
-
-                plt.tight_layout()
 
                 st.pyplot(
                     fig_bar,
                     use_container_width=False
                 )
 
-                plt.close(fig_bar)
-
-            # =====================================
-            # PIE CHART
-            # =====================================
-
             with col_pie:
-
-                fig_pie, ax_pie = plt.subplots(
-                    figsize=(5.2, 4.2),
-                    dpi=120
-                )
-
-                colors = sns.color_palette(
-                    "Reds",
-                    len(service_count)
-                )
-
-                ax_pie.pie(
-                    service_count.values,
-                    labels=service_count.index,
-                    autopct="%1.1f%%",
-                    startangle=90,
-                    colors=colors,
-                    radius=1.05,
-                    labeldistance=1.05,
-                    pctdistance=0.65,
-                    wedgeprops={
-                        "edgecolor": "white",
-                        "linewidth": 1
-                    },
-                    textprops={
-                        "fontsize": 10
-                    }
-                )
-
-                ax_pie.set_title(
-                    "Persentase Target",
-                    fontsize=12,
-                    pad=10
-                )
-
-                ax_pie.set_aspect("equal")
-
-                plt.tight_layout()
 
                 st.pyplot(
                     fig_pie,
                     use_container_width=False
                 )
 
-                plt.close(fig_pie)
+            plt.close(fig_bar)
+            plt.close(fig_pie)
 
             st.markdown("---")
+
+            # =====================================
+            # TABEL DISTRIBUSI
+            # =====================================
 
             distribusi_df = pd.DataFrame({
 
                 "Kategori Service": service_count.index,
+
                 "Jumlah Data": service_count.values,
+
                 "Persentase (%)": (
                     service_count.values /
                     len(df) *
