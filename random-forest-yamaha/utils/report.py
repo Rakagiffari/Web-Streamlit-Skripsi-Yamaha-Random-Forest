@@ -260,7 +260,6 @@ def generate_pdf(
     elements.append(
         Paragraph(
             """
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             Berikut informasi mengenai dataset yang digunakan
             pada klasifikasi layanan service kendaraan.
             """,
