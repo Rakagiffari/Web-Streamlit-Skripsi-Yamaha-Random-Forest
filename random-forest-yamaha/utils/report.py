@@ -74,6 +74,16 @@ def generate_pdf(
 
     styles = getSampleStyleSheet()
 
+    body_style = ParagraphStyle(
+        "BodyStyle",
+        parent=styles["BodyText"],
+        alignment=TA_JUSTIFY,   # Rata kanan-kiri
+        leading=18,             # Jarak antar baris
+        firstLineIndent=18,     # Indent baris pertama
+        spaceBefore=0,
+        spaceAfter=0,
+    )
+
     elements = []
 
     # ==========================================================
@@ -251,7 +261,7 @@ def generate_pdf(
     elements.append(
         Paragraph(
             penjelasan,
-            styles["BodyText"]
+            body_style
         )
     )
 
@@ -265,7 +275,7 @@ def generate_pdf(
             Berikut informasi mengenai dataset yang digunakan
             pada klasifikasi layanan service kendaraan.
             """,
-            styles["BodyText"]
+            body_style
         )
     )
 
@@ -303,10 +313,6 @@ def generate_pdf(
 
     elements.append(dataset_table)
 
-    elements.append(
-        Spacer(1,5)
-    )
-
     # =====================================
     # HASIL EVALUASI MODEL
     # =====================================
@@ -334,7 +340,7 @@ def generate_pdf(
     elements.append(
         Paragraph(
             hasil_evaluasi,
-            styles["BodyText"]
+            body_style
         )
     )
 
