@@ -356,8 +356,8 @@ def generate_pdf(
 
     elements.append(
         HRFlowable(
-            width="100%",
-            thickness=2,
+            width="50%",
+            thickness=1,
             color=colors.HexColor("#666666")
         )
     )
