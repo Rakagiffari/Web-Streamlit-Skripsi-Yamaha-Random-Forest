@@ -226,16 +226,9 @@ def generate_pdf(
         Spacer(1, 8)
     )
 
-        # =====================================
+    # =====================================
     # PENJELASAN LAPORAN
     # =====================================
-
-    elements.append(
-        Paragraph(
-            "<b>PENJELASAN LAPORAN</b>",
-            styles["Heading2"]
-        )
-    )
 
     elements.append(
         Spacer(1, 8)
