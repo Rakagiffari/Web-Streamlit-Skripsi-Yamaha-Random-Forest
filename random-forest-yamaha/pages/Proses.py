@@ -1646,6 +1646,7 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                     .values
                     .tolist()
                 ),
+                summary_df=summary_df,
                 tn=tn,
                 fp=fp,
                 fn=fn,
