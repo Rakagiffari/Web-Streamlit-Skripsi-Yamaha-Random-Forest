@@ -580,20 +580,25 @@ def generate_pdf(
         Spacer(1,5)
     )
 
-    # =====================================
-    # HASIL KLASIFIKASI
-    # =====================================
+    # ==========================================================
+    # GARIS PEMBATAS
+    # ==========================================================
 
     elements.append(
-        Paragraph(
-            "<b>HASIL KLASIFIKASI</b>",
-            styles["Heading2"]
+        HRFlowable(
+            width="100%",
+            thickness=2,
+            color=colors.HexColor("#C00000")
         )
     )
 
     elements.append(
-        Spacer(1,8)
+        Spacer(1, 8)
     )
+
+    # =====================================
+    # HASIL KLASIFIKASI
+    # =====================================
 
     # -------------------------------------
     # Penjelasan
@@ -613,26 +618,7 @@ def generate_pdf(
     )
 
     elements.append(
-        Spacer(1,8)
-    )
-
-    elements.append(
-        Paragraph(
-            """
-            Berdasarkan hasil klasifikasi, setiap jenis kendaraan memiliki
-            karakteristik yang berbeda antara kendaraan yang diprediksi
-            sebagai <b>Service Ringan</b> maupun <b>Service Berat</b>.
-            Perbedaan tersebut dapat diamati melalui rata-rata kilometer
-            dan rata-rata usia motor pada masing-masing jenis kendaraan,
-            sehingga memberikan gambaran mengenai pola layanan service
-            yang dihasilkan oleh model Random Forest.
-            """,
-            cm_style
-        )
-    )
-
-    elements.append(
-        Spacer(1,12)
+        Spacer(1,5)
     )
 
     # -------------------------------------
