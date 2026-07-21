@@ -294,7 +294,6 @@ def generate_pdf(
 
     dataset_table.setStyle(
         TableStyle([
-            ("BOX",(0,0),(-1,-1),0.8,colors.black),
             ("FONTNAME", (0,0), (-1,-1), "Helvetica"),
             ("FONTSIZE", (0,0), (-1,-1), 10),
             ("BOTTOMPADDING", (0,0), (-1,-1), 3),
@@ -334,6 +333,7 @@ def generate_pdf(
 
     distribution_table.setStyle(
         TableStyle([
+            ("BOX",(0,0),(-1,-1),0.8,colors.black),
             ("ALIGN",(0,0),(-1,-1),"CENTER"),
             ("VALIGN", (0, 0), (-1, -1), "TOP"), 
             ("LEFTPADDING", (0, 0), (-1, -1), 0), 
@@ -562,11 +562,12 @@ def generate_pdf(
     elements.append(
         Paragraph(
             f"""
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             Berdasarkan hasil Feature Importance, fitur
-            <b>{nama_fitur[0]}</b> memiliki nilai importance terbesar,
+            {nama_fitur[0]} memiliki nilai importance terbesar,
             sehingga memberikan kontribusi paling dominan dalam proses
             klasifikasi layanan service. Selanjutnya diikuti oleh
-            <b>{', '.join(nama_fitur[1:])}</b> yang juga memberikan
+            {', '.join(nama_fitur[1:])} yang juga memberikan
             pengaruh terhadap keputusan model Random Forest dalam
             mengklasifikasikan layanan Service Ringan maupun Service Berat.
             """,
