@@ -355,7 +355,7 @@ def generate_pdf(
 
     elements.append(
         HRFlowable(
-            width="200%",
+            width="100%",
             thickness=2,
             color=colors.HexColor("#666666")
         )
@@ -398,7 +398,7 @@ def generate_pdf(
 
     elements.append(
         HRFlowable(
-            width="200%",
+            width="100%",
             thickness=2,
             color=colors.HexColor("#666666")
         )
@@ -510,7 +510,7 @@ def generate_pdf(
     )
 
     elements.append(
-        Spacer(1,10)
+        Spacer(1,5)
     )
 
     # ------------------------------------
@@ -550,7 +550,7 @@ def generate_pdf(
     elements.append(feature_table)
 
     elements.append(
-        Spacer(1,10)
+        Spacer(1,5)
     )
 
     # ------------------------------------
@@ -575,7 +575,7 @@ def generate_pdf(
     )
 
     elements.append(
-        Spacer(1,10)
+        Spacer(1,5)
     )
 
     # =====================================
