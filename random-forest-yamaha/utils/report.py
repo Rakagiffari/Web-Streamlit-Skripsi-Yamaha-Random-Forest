@@ -388,8 +388,8 @@ def generate_pdf(
         )
     )
 
-    elements.append(
-        Spacer(1, 10)
+        elements.append(
+        Spacer(1, 5)
     )
 
     # ==========================================================
@@ -432,16 +432,13 @@ def generate_pdf(
     cm_desc = Paragraph(
         f"""
         Sebanyak {tn} data Service Ringan berhasil
-        diprediksi dengan benar sebagai Service Ringan.
-        Sementara itu, terdapat {fp} data Service Ringan
+        diprediksi dengan benar.Sementara itu, 
+        terdapat {fp} data Service Ringan
         yang diprediksi sebagai Service Berat.
         
-        Pada kategori Service Berat, sebanyak
-        {tp} data berhasil diprediksi dengan benar,
-        sedangkan {fn} data diprediksi sebagai
-        Service Ringan. Hasil tersebut menunjukkan
-        sebagian besar data berhasil diklasifikasikan dengan benar
-        sehingga model memiliki kemampuan klasifikasi yang baik.
+        Lalu sebanyak {tp} data Service Berat berhasil 
+        diprediksi dengan benar,sedangkan {fn} data 
+        diprediksi sebagai Service Ringan.
         """,
         cm_style
     )
