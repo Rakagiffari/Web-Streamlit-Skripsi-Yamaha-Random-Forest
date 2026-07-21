@@ -552,7 +552,7 @@ def generate_pdf(
     feature_table = Table(
         feature_data,
         colWidths=[45,250,100]
-        )
+    )
 
     feature_table.setStyle(TableStyle([
 
