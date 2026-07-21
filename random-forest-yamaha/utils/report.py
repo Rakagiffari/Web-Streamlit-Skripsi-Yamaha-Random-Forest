@@ -460,22 +460,14 @@ def generate_pdf(
     # =====================================
     # FEATURE IMPORTANCE
     # =====================================
-
-    elements.append(
-        Spacer(1,8)
-    )
-
-    # ------------------------------------
-    # Penjelasan
-    # ------------------------------------
     # ------------------------------------
     # Gambar
     # ------------------------------------
 
     fi_img = Image(
         fi_image,
-        width=380,
-        height=220
+        width=300,
+        height=200
     )
 
     fi_table = Table(
@@ -496,8 +488,12 @@ def generate_pdf(
     elements.append(fi_table)
 
     elements.append(
-        Spacer(1,12)
+        Spacer(1,5)
     )
+
+    # ------------------------------------
+    # Penjelasan
+    # ------------------------------------
 
     elements.append(
         Paragraph(
@@ -515,22 +511,6 @@ def generate_pdf(
 
     elements.append(
         Spacer(1,10)
-    )
-
-
-    # ------------------------------------
-    # Judul Tabel
-    # ------------------------------------
-
-    elements.append(
-        Paragraph(
-            "<b>Tabel Ranking Feature</b>",
-            styles["Heading3"]
-        )
-    )
-
-    elements.append(
-        Spacer(1,6)
     )
 
     # ------------------------------------
