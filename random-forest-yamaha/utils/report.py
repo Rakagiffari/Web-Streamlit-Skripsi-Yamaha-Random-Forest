@@ -93,7 +93,7 @@ def generate_pdf(
         spaceAfter=0,
     )
 
-    elements = []
+    elements = [].
 
     # ==========================================================
     # HEADER
@@ -537,7 +537,7 @@ def generate_pdf(
     feature_table.setStyle(TableStyle([
 
         ("GRID",(0,0),(-1,-1),0.5,colors.grey),
-        ("BOX",(0,0),(-1,-1),1,colors.black),
+        ("BOX",(0,0),(-1,-1),1,colors.grey),
         ("BACKGROUND",(0,0),(-1,0),colors.HexColor("#E5E7EB")),
         ("FONTNAME",(0,0),(-1,0),"Helvetica-Bold"),
         ("FONTSIZE",(0,0),(-1,-1),10),
@@ -562,7 +562,7 @@ def generate_pdf(
     elements.append(
         Paragraph(
             f"""
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
             Berdasarkan hasil Feature Importance, fitur
             {nama_fitur[0]} memiliki nilai importance terbesar,
             sehingga memberikan kontribusi paling dominan dalam proses
