@@ -580,6 +580,225 @@ def generate_pdf(
     )
 
     # =====================================
+    # HASIL KLASIFIKASI
+    # =====================================
+
+    elements.append(
+        Paragraph(
+            "<b>HASIL KLASIFIKASI</b>",
+            styles["Heading2"]
+        )
+    )
+
+    elements.append(
+        Spacer(1,8)
+    )
+
+    # -------------------------------------
+    # Penjelasan
+    # -------------------------------------
+
+    elements.append(
+        Paragraph(
+            """
+            Hasil klasifikasi berikut menunjukkan karakteristik kendaraan
+            berdasarkan prediksi algoritma Random Forest. Ringkasan hasil
+            disajikan berdasarkan jenis kendaraan beserta rata-rata
+            kilometer dan rata-rata usia motor pada setiap kategori
+            layanan service.
+            """,
+            cm_style
+        )
+    )
+
+    elements.append(
+        Spacer(1,8)
+    )
+
+    elements.append(
+        Paragraph(
+            """
+            Berdasarkan hasil klasifikasi, setiap jenis kendaraan memiliki
+            karakteristik yang berbeda antara kendaraan yang diprediksi
+            sebagai <b>Service Ringan</b> maupun <b>Service Berat</b>.
+            Perbedaan tersebut dapat diamati melalui rata-rata kilometer
+            dan rata-rata usia motor pada masing-masing jenis kendaraan,
+            sehingga memberikan gambaran mengenai pola layanan service
+            yang dihasilkan oleh model Random Forest.
+            """,
+            cm_style
+        )
+    )
+
+    elements.append(
+        Spacer(1,12)
+    )
+
+    # -------------------------------------
+    # Urutan Jenis Kendaraan
+    # -------------------------------------
+
+    urutan_jenis = [
+        "MAXi",
+        "Classy",
+        "Matic",
+        "Moped",
+        "Sport",
+        "Off-road",
+        "Unknown"
+    ]
+
+    # -------------------------------------
+    # Per Jenis Kendaraan
+    # -------------------------------------
+
+    for jenis in urutan_jenis:
+
+        data = summary_df[
+            summary_df["Jenis"] == jenis
+        ].copy()
+    
+        if data.empty:
+            continue
+
+        # ---------------------------------
+        # Judul Jenis
+        # ---------------------------------
+
+        elements.append(
+            Paragraph(
+                f"<b>{jenis}</b>",
+                styles["Heading3"]
+            )
+        )
+
+        elements.append(
+            Spacer(1,5)
+        )
+
+        # ---------------------------------
+        # Tabel
+        # ---------------------------------
+
+        table_data = [
+            [
+                "Hasil Klasifikasi",
+                "Rata-rata KM (km)",
+                "Rata-rata Usia (Tahun)"
+            ]
+        ]
+
+        for _, row in data.iterrows():
+
+            table_data.append([
+                row["Service"],
+                f"{row['Rata-rata KM']:,.0f}".replace(",", "."),
+                f"{row['Rata-rata Usia']:.1f}"
+            ])
+
+        hasil_table = Table(
+            table_data,
+            colWidths=[150,160,160]
+        )
+
+        hasil_table.setStyle(TableStyle([
+
+            ("GRID",(0,0),(-1,-1),0.5,colors.grey),
+            ("BOX",(0,0),(-1,-1),1,colors.black),
+            ("BACKGROUND",(0,0),(-1,0),colors.HexColor("#E5E7EB")),
+            ("FONTNAME",(0,0),(-1,0),"Helvetica-Bold"),
+            ("FONTSIZE",(0,0),(-1,-1),10),
+            ("ALIGN",(0,0),(-1,-1),"CENTER"),
+            ("VALIGN",(0,0),(-1,-1),"MIDDLE"),
+            ("TOPPADDING",(0,0),(-1,-1),7),
+            ("BOTTOMPADDING",(0,0),(-1,-1),7),
+        ]))
+
+        elements.append(hasil_table)
+
+        elements.append(
+            Spacer(1,6)
+        )
+
+    # ---------------------------------
+    # Interpretasi
+    # ---------------------------------
+
+    ringan = data[
+        data["Service"] == "Ringan"
+    ]
+
+    berat = data[
+        data["Service"] == "Berat"
+    ]
+
+    if not ringan.empty and not berat.empty:
+
+        km_ringan = ringan.iloc[0]["Rata-rata KM"]
+        usia_ringan = ringan.iloc[0]["Rata-rata Usia"]
+
+        km_berat = berat.iloc[0]["Rata-rata KM"]
+        usia_berat = berat.iloc[0]["Rata-rata Usia"]
+
+        interpretasi = f"""
+        Berdasarkan hasil klasifikasi Random Forest, kendaraan jenis
+        <b>{jenis}</b> yang diprediksi sebagai
+        <b>Service Ringan</b> memiliki rata-rata kilometer sekitar
+        <b>{km_ringan:,.0f} km</b> dan rata-rata usia motor sekitar
+        <b>{usia_ringan:.1f} tahun</b>. Sedangkan kendaraan yang
+        diprediksi sebagai <b>Service Berat</b> memiliki rata-rata
+        kilometer sekitar <b>{km_berat:,.0f} km</b> dan rata-rata
+        usia motor sekitar <b>{usia_berat:.1f} tahun</b>.
+        Hal ini menunjukkan bahwa pada kendaraan jenis
+        <b>{jenis}</b>, kendaraan dengan kilometer dan usia motor
+        yang lebih tinggi cenderung diklasifikasikan sebagai
+        <b>Service Berat</b>.
+        """
+
+    elif not ringan.empty:
+
+        km_ringan = ringan.iloc[0]["Rata-rata KM"]
+        usia_ringan = ringan.iloc[0]["Rata-rata Usia"]
+
+        interpretasi = f"""
+        Berdasarkan hasil klasifikasi Random Forest, seluruh kendaraan
+        jenis <b>{jenis}</b> pada data ini diprediksi sebagai
+        <b>Service Ringan</b>. Kendaraan memiliki rata-rata kilometer
+        sekitar <b>{km_ringan:,.0f} km</b> dan rata-rata usia motor
+        sekitar <b>{usia_ringan:.1f} tahun</b>. Pada data yang
+        digunakan belum ditemukan kendaraan jenis
+        <b>{jenis}</b> yang diprediksi sebagai
+        <b>Service Berat</b>.
+        """
+
+    else:
+
+        km_berat = berat.iloc[0]["Rata-rata KM"]
+        usia_berat = berat.iloc[0]["Rata-rata Usia"]
+
+        interpretasi = f"""
+        Berdasarkan hasil klasifikasi Random Forest, seluruh kendaraan
+        jenis <b>{jenis}</b> pada data ini diprediksi sebagai
+        <b>Service Berat</b>. Kendaraan memiliki rata-rata kilometer
+        sekitar <b>{km_berat:,.0f} km</b> dan rata-rata usia motor
+        sekitar <b>{usia_berat:.1f} tahun</b>. Pada data yang
+        digunakan belum ditemukan kendaraan jenis
+        <b>{jenis}</b> yang diprediksi sebagai
+        <b>Service Ringan</b>.
+        """
+
+    elements.append(
+        Paragraph(
+            interpretasi,
+            cm_style
+        )
+    )
+
+    elements.append(
+        Spacer(1,12)
+    )
+
+    # =====================================
     # KESIMPULAN
     # =====================================
 
