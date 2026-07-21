@@ -333,7 +333,6 @@ def generate_pdf(
 
     distribution_table.setStyle(
         TableStyle([
-            ("BOX",(0,0),(-1,-1),0.8,colors.black),
             ("ALIGN",(0,0),(-1,-1),"CENTER"),
             ("VALIGN", (0, 0), (-1, -1), "TOP"), 
             ("LEFTPADDING", (0, 0), (-1, -1), 0), 
@@ -474,8 +473,8 @@ def generate_pdf(
 
     fi_img = Image(
         fi_image,
-        width=430,
-        height=250
+        width=380,
+        height=220
     )
 
     fi_table = Table(
@@ -485,7 +484,6 @@ def generate_pdf(
 
     fi_table.setStyle(TableStyle([
 
-        ("BOX",(0,0),(-1,-1),0.8,colors.black),
         ("ALIGN",(0,0),(-1,-1),"CENTER"),
         ("VALIGN",(0,0),(-1,-1),"MIDDLE"),
         ("LEFTPADDING",(0,0),(-1,-1),5),
