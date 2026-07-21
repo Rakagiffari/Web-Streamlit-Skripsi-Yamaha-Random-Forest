@@ -313,7 +313,7 @@ def generate_pdf(
     elements.append(dataset_table)
     
     elements.append(
-        Spacer(1, 8)
+        Spacer(1, 5)
     )
 
     # =====================================
@@ -346,7 +346,7 @@ def generate_pdf(
     elements.append(distribution_table)
 
     elements.append(
-        Spacer(1,7)
+        Spacer(1,10)
     )
 
     # ==========================================================
@@ -386,6 +386,10 @@ def generate_pdf(
             hasil_evaluasi,
             cm_style
         )
+    )
+
+    elements.append(
+        Spacer(1, 10)
     )
 
     # ==========================================================
