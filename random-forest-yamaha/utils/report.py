@@ -613,8 +613,6 @@ def generate_pdf(
         )
     )
 
-    elements.append(Spacer(1,5))
-
     urutan_jenis = [
         "MAXi",
         "Classy",
@@ -688,7 +686,7 @@ def generate_pdf(
 
         blok.append(hasil_table)
 
-        blok.append(Spacer(1, 6))
+        blok.append(Spacer(1, 5))
 
         # =====================================
         # INTERPRETASI
