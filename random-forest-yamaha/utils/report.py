@@ -431,14 +431,8 @@ def generate_pdf(
     # Penjelasan
     cm_desc = Paragraph(
         f"""
-        Sebanyak {tn} data Service Ringan berhasil
-        diprediksi dengan benar.Sementara itu, 
-        terdapat {fp} data Service Ringan
-        yang diprediksi sebagai Service Berat.
-        
-        Lalu sebanyak {tp} data Service Berat berhasil 
-        diprediksi dengan benar,sedangkan {fn} data 
-        diprediksi sebagai Service Ringan.
+        Sebanyak {tn} data Service Ringan berhasil diprediksi dengan benar.Sementara itu, terdapat {fp} data Service Ringan yang diprediksi sebagai Service Berat.
+        Lalu sebanyak {tp} data Service Berat berhasil diprediksi dengan benar,sedangkan {fn} data diprediksi sebagai Service Ringan.
         """,
         cm_style
     )
