@@ -1638,9 +1638,14 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                 distribution_image=distribution_path,
                 cm_image=cm_path,
                 fi_image=fi_path,
-                top_features=importance_grouped["Fitur"]
+                top_features=(
+                    importance_grouped[
+                        ["Fitur", "Importance"]
+                    ]
                     .head(5)
-                    .tolist(),
+                    .values
+                    .tolist()
+                ),
                 tn=tn,
                 fp=fp,
                 fn=fn,
