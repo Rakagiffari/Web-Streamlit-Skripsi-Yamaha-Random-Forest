@@ -74,8 +74,8 @@ def generate_pdf(
 
     doc = SimpleDocTemplate(
         pdf_path,
-        leftMargin=1 * cm,
-        rightMargin=1 * cm,
+        leftMargin=1.5 * cm,
+        rightMargin=1.5 * cm,
         topMargin=1 * cm,
         bottomMargin=1 * cm
     )
