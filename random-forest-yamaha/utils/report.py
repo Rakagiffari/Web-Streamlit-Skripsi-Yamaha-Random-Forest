@@ -362,7 +362,7 @@ def generate_pdf(
     )
 
     elements.append(
-        Spacer(1, 5)
+        Spacer(1, 10)
     )
 
     # =====================================
