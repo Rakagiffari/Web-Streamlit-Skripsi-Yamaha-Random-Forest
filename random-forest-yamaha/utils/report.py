@@ -488,7 +488,7 @@ def generate_pdf(
     elements.append(fi_table)
 
     elements.append(
-        Spacer(1,10)
+        Spacer(1,5)
     )
 
     # ------------------------------------
@@ -550,7 +550,7 @@ def generate_pdf(
     elements.append(feature_table)
 
     elements.append(
-        Spacer(1,5)
+        Spacer(1,10)
     )
 
     # ------------------------------------
