@@ -1649,7 +1649,8 @@ Pada data yang digunakan belum ditemukan kendaraan jenis **{jenis}** yang dipred
                 tn=tn,
                 fp=fp,
                 fn=fn,
-                tp=tp
+                tp=tp,
+                summary_df=summary_df
             )
 
             left, center, right = st.columns([1, 2, 1])
