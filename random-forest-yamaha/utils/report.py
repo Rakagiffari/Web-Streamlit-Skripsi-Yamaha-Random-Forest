@@ -562,7 +562,7 @@ def generate_pdf(
     elements.append(
         Paragraph(
             f"""
-            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             Berdasarkan hasil Feature Importance, fitur
             {nama_fitur[0]} memiliki nilai importance terbesar,
             sehingga memberikan kontribusi paling dominan dalam proses
