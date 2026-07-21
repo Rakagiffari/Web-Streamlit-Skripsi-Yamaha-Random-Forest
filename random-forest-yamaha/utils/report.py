@@ -25,6 +25,7 @@ from datetime import datetime
 from pathlib import Path
 from reportlab.lib.enums import TA_JUSTIFY
 from reportlab.lib.styles import ParagraphStyle
+from reportlab.platypus import KeepTogether
 
 import os
 
@@ -607,52 +608,23 @@ def generate_pdf(
         )
     )
 
-    elements.append(
-        Spacer(1, 8)
-    )
-
-    # -------------------------------------
-    # PENJELASAN
-    # -------------------------------------
+    elements.append(Spacer(1, 8))
 
     elements.append(
         Paragraph(
             """
             Hasil klasifikasi berikut menunjukkan karakteristik kendaraan
-            berdasarkan prediksi algoritma Random Forest. Ringkasan hasil
-            disajikan berdasarkan jenis kendaraan beserta rata-rata
-            kilometer dan rata-rata usia motor pada setiap kategori
-            layanan service.
+            berdasarkan hasil prediksi algoritma Random Forest. Setiap jenis
+            kendaraan disajikan berdasarkan kategori hasil klasifikasi,
+            rata-rata kilometer, dan rata-rata usia kendaraan sehingga dapat
+            memberikan gambaran pola layanan service pada masing-masing jenis
+            kendaraan.
             """,
             cm_style
         )
     )
 
-    elements.append(
-        Spacer(1, 6)
-    )
-
-    elements.append(
-        Paragraph(
-            """
-            Berdasarkan hasil klasifikasi, setiap jenis kendaraan memiliki
-            karakteristik yang berbeda antara kendaraan yang diprediksi
-            sebagai <b>Service Ringan</b> maupun <b>Service Berat</b>.
-            Perbedaan tersebut dapat diamati melalui rata-rata kilometer
-            dan rata-rata usia motor sehingga memberikan gambaran pola
-            layanan service pada masing-masing jenis kendaraan.
-            """,
-            cm_style
-        )
-    )
-
-    elements.append(
-        Spacer(1, 12)
-    )
-
-    # -------------------------------------
-    # URUTAN JENIS
-    # -------------------------------------
+    elements.append(Spacer(1, 12))
 
     urutan_jenis = [
         "MAXi",
@@ -664,10 +636,6 @@ def generate_pdf(
         "Unknown"
     ]
 
-    # =====================================
-    # PER JENIS KENDARAAN
-    # =====================================
-
     for jenis in urutan_jenis:
 
         data = summary_df[
@@ -677,173 +645,153 @@ def generate_pdf(
         if data.empty:
             continue
 
+        blok = []
+
         # =====================================
         # JUDUL
         # =====================================
 
-        elements.append(
+        blok.append(
             Paragraph(
                 f"<b>{jenis}</b>",
                 styles["Heading3"]
             )
         )
 
-        elements.append(
-            Spacer(1,5)
-        )
+        blok.append(Spacer(1, 5))
 
         # =====================================
         # TABEL
         # =====================================
 
-        tampil = data[
-            [
-                "Service",
-                "Rata-rata KM",
-                "Rata-rata Usia"
-            ]
-        ].copy()
-
-        tampil.columns = [
+        table_data = [[
             "Hasil Klasifikasi",
             "Rata-rata KM (km)",
             "Rata-rata Usia (Tahun)"
-        ]
+        ]]
 
-        tampil["Rata-rata KM (km)"] = (
-            tampil["Rata-rata KM (km)"]
-            .round(0)
-            .astype(int)
-        )
-
-        tampil["Rata-rata Usia (Tahun)"] = (
-            tampil["Rata-rata Usia (Tahun)"]
-            .round(1)
-        )
-
-        table_data = [tampil.columns.tolist()]
-
-        for _, row in tampil.iterrows():
+        for _, row in data.iterrows():
 
             table_data.append([
-                row["Hasil Klasifikasi"],
-                f"{row['Rata-rata KM (km)']:,}".replace(",", "."),
-                f"{row['Rata-rata Usia (Tahun)']:.1f}"
+                row["Service"],
+                f"{row['Rata-rata KM']:,.0f}".replace(",", "."),
+                f"{row['Rata-rata Usia']:.1f}"
             ])
 
         hasil_table = Table(
             table_data,
-            colWidths=[150,160,160]
+            colWidths=[150, 160, 160],
+            repeatRows=1
         )
 
         hasil_table.setStyle(TableStyle([
 
             ("BACKGROUND",(0,0),(-1,0),colors.HexColor("#E5E7EB")),
+            ("FONTNAME",(0,0),(-1,0),"Helvetica-Bold"),
             ("GRID",(0,0),(-1,-1),0.5,colors.grey),
             ("BOX",(0,0),(-1,-1),0.8,colors.grey),
-            ("FONTNAME",(0,0),(-1,0),"Helvetica-Bold"),
-            ("FONTSIZE",(0,0),(-1,-1),10),
             ("ALIGN",(0,0),(-1,-1),"CENTER"),
             ("VALIGN",(0,0),(-1,-1),"MIDDLE"),
             ("TOPPADDING",(0,0),(-1,-1),6),
-            ("BOTTOMPADDING",(0,0),(-1,-1),6),
+            ("BOTTOMPADDING",(0,0),(-1,-1),6)
+
         ]))
 
-        elements.append(hasil_table)
+        blok.append(hasil_table)
 
-        elements.append(
-            Spacer(1,6)
-        )
+        blok.append(Spacer(1, 6))
 
-    # =====================================
-    # INTERPRETASI
-    # =====================================
+        # =====================================
+        # INTERPRETASI
+        # =====================================
 
-    ringan = data[
-        data["Service"] == "Ringan"
-    ]
+        ringan = data[data["Service"] == "Ringan"]
+        berat = data[data["Service"] == "Berat"]
 
-    berat = data[
-        data["Service"] == "Berat"
-    ]
+        if not ringan.empty and not berat.empty:
 
-    if not ringan.empty and not berat.empty:
+            km_ringan = ringan.iloc[0]["Rata-rata KM"]
+            usia_ringan = ringan.iloc[0]["Rata-rata Usia"]
 
-        km_ringan = ringan.iloc[0]["Rata-rata KM"]
-        usia_ringan = ringan.iloc[0]["Rata-rata Usia"]
+            km_berat = berat.iloc[0]["Rata-rata KM"]
+            usia_berat = berat.iloc[0]["Rata-rata Usia"]
 
-        km_berat = berat.iloc[0]["Rata-rata KM"]
-        usia_berat = berat.iloc[0]["Rata-rata Usia"]
+            interpretasi = f"""
+            Berdasarkan hasil klasifikasi Random Forest, kendaraan jenis
+            <b>{jenis}</b> yang diprediksi sebagai <b>Service Ringan</b>
+            memiliki rata-rata kilometer sekitar <b>{km_ringan:,.0f} km</b>
+            dengan rata-rata usia <b>{usia_ringan:.1f} tahun</b>.
+            Sementara itu kendaraan yang diprediksi sebagai
+            <b>Service Berat</b> memiliki rata-rata kilometer sekitar
+            <b>{km_berat:,.0f} km</b> dengan rata-rata usia
+            <b>{usia_berat:.1f} tahun</b>. Hal ini menunjukkan bahwa
+            kendaraan dengan usia dan kilometer yang lebih tinggi
+            cenderung memperoleh layanan <b>Service Berat</b>.
+            """
 
-        interpretasi = f"""
-        Berdasarkan hasil klasifikasi Random Forest, kendaraan jenis
-        <b>{jenis}</b> yang diprediksi sebagai <b>Service Ringan</b>
-        memiliki rata-rata kilometer sekitar
-        <b>{km_ringan:,.0f} km</b> dan rata-rata usia motor sekitar
-        <b>{usia_ringan:.1f} tahun</b>. Sedangkan kendaraan yang
-        diprediksi sebagai <b>Service Berat</b> memiliki rata-rata
-        kilometer sekitar <b>{km_berat:,.0f} km</b> dan rata-rata
-        usia motor sekitar <b>{usia_berat:.1f} tahun</b>.
-        Hal ini menunjukkan bahwa kendaraan dengan kilometer dan usia
-        motor yang lebih tinggi cenderung diklasifikasikan sebagai
-        <b>Service Berat</b>.
-        """
+        elif not ringan.empty:
 
-    elif not ringan.empty:
+            km_ringan = ringan.iloc[0]["Rata-rata KM"]
+            usia_ringan = ringan.iloc[0]["Rata-rata Usia"]
 
-        km_ringan = ringan.iloc[0]["Rata-rata KM"]
-        usia_ringan = ringan.iloc[0]["Rata-rata Usia"]
+            interpretasi = f"""
+            Berdasarkan hasil klasifikasi Random Forest, seluruh kendaraan
+            jenis <b>{jenis}</b> pada data ini diprediksi sebagai
+            <b>Service Ringan</b> dengan rata-rata kilometer sekitar
+            <b>{km_ringan:,.0f} km</b> dan rata-rata usia
+            <b>{usia_ringan:.1f} tahun</b>.
+            """
 
-        interpretasi = f"""
-        Berdasarkan hasil klasifikasi Random Forest, seluruh kendaraan
-        jenis <b>{jenis}</b> diprediksi sebagai
-        <b>Service Ringan</b> dengan rata-rata kilometer sekitar
-        <b>{km_ringan:,.0f} km</b> dan rata-rata usia motor sekitar
-        <b>{usia_ringan:.1f} tahun</b>.
-        """
+        else:
 
-    else:
+            km_berat = berat.iloc[0]["Rata-rata KM"]
+            usia_berat = berat.iloc[0]["Rata-rata Usia"]
 
-        km_berat = berat.iloc[0]["Rata-rata KM"]
-        usia_berat = berat.iloc[0]["Rata-rata Usia"]
+            interpretasi = f"""
+            Berdasarkan hasil klasifikasi Random Forest, seluruh kendaraan
+            jenis <b>{jenis}</b> pada data ini diprediksi sebagai
+            <b>Service Berat</b> dengan rata-rata kilometer sekitar
+            <b>{km_berat:,.0f} km</b> dan rata-rata usia
+            <b>{usia_berat:.1f} tahun</b>.
+            """
 
-        interpretasi = f"""
-        Berdasarkan hasil klasifikasi Random Forest, seluruh kendaraan
-        jenis <b>{jenis}</b> diprediksi sebagai
-        <b>Service Berat</b> dengan rata-rata kilometer sekitar
-        <b>{km_berat:,.0f} km</b> dan rata-rata usia motor sekitar
-        <b>{usia_berat:.1f} tahun</b>.
-        """
-
-    elements.append(
-        Paragraph(
-            interpretasi,
-            cm_style
-        )
-    )
-
-    elements.append(
-        Spacer(1,8)
-    )
-
-    # =====================================
-    # GARIS PEMISAH
-    # =====================================
-
-    if jenis != urutan_jenis[-1]:
-
-        elements.append(
-            HRFlowable(
-                width="100%",
-                thickness=0.5,
-                color=colors.HexColor("#BDBDBD")
+        blok.append(
+            Paragraph(
+                interpretasi,
+                cm_style
             )
         )
 
-        elements.append(
-            Spacer(1,8)
+        blok.append(
+            Spacer(1, 10)
         )
 
+        # =====================================
+        # SATUKAN AGAR TIDAK TERPISAH HALAMAN
+        # =====================================
+
+        elements.append(
+            KeepTogether(blok)
+        )
+
+        # =====================================
+        # GARIS PEMISAH
+        # =====================================
+
+        if jenis != urutan_jenis[-1]:
+
+            elements.append(
+                HRFlowable(
+                    width="100%",
+                    thickness=0.5,
+                    color=colors.HexColor("#BDBDBD")
+                )
+            )
+
+            elements.append(
+                Spacer(1, 10)
+            )
+            
     # =====================================
     # KESIMPULAN
     # =====================================
