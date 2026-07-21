@@ -388,7 +388,7 @@ def generate_pdf(
         )
     )
 
-        elements.append(
+    elements.append(
         Spacer(1, 5)
     )
 
