@@ -358,7 +358,7 @@ def generate_pdf(
         HRFlowable(
             width="100%",
             thickness=2,
-            color=colors.HexColor("#666666")
+            color=colors.HexColor("#C00000")
         )
     )
 
@@ -600,8 +600,19 @@ def generate_pdf(
     # HASIL KLASIFIKASI
     # =====================================
 
+    elements.append(
+        Paragraph(
+            "<b>HASIL KLASIFIKASI</b>",
+            styles["Heading2"]
+        )
+    )
+
+    elements.append(
+        Spacer(1, 8)
+    )
+
     # -------------------------------------
-    # Penjelasan
+    # PENJELASAN
     # -------------------------------------
 
     elements.append(
@@ -618,11 +629,29 @@ def generate_pdf(
     )
 
     elements.append(
-        Spacer(1,5)
+        Spacer(1, 6)
+    )
+
+    elements.append(
+        Paragraph(
+            """
+            Berdasarkan hasil klasifikasi, setiap jenis kendaraan memiliki
+            karakteristik yang berbeda antara kendaraan yang diprediksi
+            sebagai <b>Service Ringan</b> maupun <b>Service Berat</b>.
+            Perbedaan tersebut dapat diamati melalui rata-rata kilometer
+            dan rata-rata usia motor sehingga memberikan gambaran pola
+            layanan service pada masing-masing jenis kendaraan.
+            """,
+            cm_style
+        )
+    )
+
+    elements.append(
+        Spacer(1, 12)
     )
 
     # -------------------------------------
-    # Urutan Jenis Kendaraan
+    # URUTAN JENIS
     # -------------------------------------
 
     urutan_jenis = [
@@ -635,22 +664,22 @@ def generate_pdf(
         "Unknown"
     ]
 
-    # -------------------------------------
-    # Per Jenis Kendaraan
-    # -------------------------------------
+    # =====================================
+    # PER JENIS KENDARAAN
+    # =====================================
 
     for jenis in urutan_jenis:
 
         data = summary_df[
             summary_df["Jenis"] == jenis
         ].copy()
-    
+
         if data.empty:
             continue
 
-        # ---------------------------------
-        # Judul Jenis
-        # ---------------------------------
+        # =====================================
+        # JUDUL
+        # =====================================
 
         elements.append(
             Paragraph(
@@ -663,24 +692,43 @@ def generate_pdf(
             Spacer(1,5)
         )
 
-        # ---------------------------------
-        # Tabel
-        # ---------------------------------
+        # =====================================
+        # TABEL
+        # =====================================
 
-        table_data = [
+        tampil = data[
             [
-                "Hasil Klasifikasi",
-                "Rata-rata KM (km)",
-                "Rata-rata Usia (Tahun)"
+                "Service",
+                "Rata-rata KM",
+                "Rata-rata Usia"
             ]
+        ].copy()
+
+        tampil.columns = [
+            "Hasil Klasifikasi",
+            "Rata-rata KM (km)",
+            "Rata-rata Usia (Tahun)"
         ]
 
-        for _, row in data.iterrows():
+        tampil["Rata-rata KM (km)"] = (
+            tampil["Rata-rata KM (km)"]
+            .round(0)
+            .astype(int)
+        )
+
+        tampil["Rata-rata Usia (Tahun)"] = (
+            tampil["Rata-rata Usia (Tahun)"]
+            .round(1)
+        )
+
+        table_data = [tampil.columns.tolist()]
+
+        for _, row in tampil.iterrows():
 
             table_data.append([
-                row["Service"],
-                f"{row['Rata-rata KM']:,.0f}".replace(",", "."),
-                f"{row['Rata-rata Usia']:.1f}"
+                row["Hasil Klasifikasi"],
+                f"{row['Rata-rata KM (km)']:,}".replace(",", "."),
+                f"{row['Rata-rata Usia (Tahun)']:.1f}"
             ])
 
         hasil_table = Table(
@@ -690,15 +738,15 @@ def generate_pdf(
 
         hasil_table.setStyle(TableStyle([
 
-            ("GRID",(0,0),(-1,-1),0.5,colors.grey),
-            ("BOX",(0,0),(-1,-1),1,colors.black),
             ("BACKGROUND",(0,0),(-1,0),colors.HexColor("#E5E7EB")),
+            ("GRID",(0,0),(-1,-1),0.5,colors.grey),
+            ("BOX",(0,0),(-1,-1),0.8,colors.grey),
             ("FONTNAME",(0,0),(-1,0),"Helvetica-Bold"),
             ("FONTSIZE",(0,0),(-1,-1),10),
             ("ALIGN",(0,0),(-1,-1),"CENTER"),
             ("VALIGN",(0,0),(-1,-1),"MIDDLE"),
-            ("TOPPADDING",(0,0),(-1,-1),7),
-            ("BOTTOMPADDING",(0,0),(-1,-1),7),
+            ("TOPPADDING",(0,0),(-1,-1),6),
+            ("BOTTOMPADDING",(0,0),(-1,-1),6),
         ]))
 
         elements.append(hasil_table)
@@ -707,9 +755,9 @@ def generate_pdf(
             Spacer(1,6)
         )
 
-    # ---------------------------------
-    # Interpretasi
-    # ---------------------------------
+    # =====================================
+    # INTERPRETASI
+    # =====================================
 
     ringan = data[
         data["Service"] == "Ringan"
@@ -729,16 +777,15 @@ def generate_pdf(
 
         interpretasi = f"""
         Berdasarkan hasil klasifikasi Random Forest, kendaraan jenis
-        <b>{jenis}</b> yang diprediksi sebagai
-        <b>Service Ringan</b> memiliki rata-rata kilometer sekitar
+        <b>{jenis}</b> yang diprediksi sebagai <b>Service Ringan</b>
+        memiliki rata-rata kilometer sekitar
         <b>{km_ringan:,.0f} km</b> dan rata-rata usia motor sekitar
         <b>{usia_ringan:.1f} tahun</b>. Sedangkan kendaraan yang
         diprediksi sebagai <b>Service Berat</b> memiliki rata-rata
         kilometer sekitar <b>{km_berat:,.0f} km</b> dan rata-rata
         usia motor sekitar <b>{usia_berat:.1f} tahun</b>.
-        Hal ini menunjukkan bahwa pada kendaraan jenis
-        <b>{jenis}</b>, kendaraan dengan kilometer dan usia motor
-        yang lebih tinggi cenderung diklasifikasikan sebagai
+        Hal ini menunjukkan bahwa kendaraan dengan kilometer dan usia
+        motor yang lebih tinggi cenderung diklasifikasikan sebagai
         <b>Service Berat</b>.
         """
 
@@ -749,13 +796,10 @@ def generate_pdf(
 
         interpretasi = f"""
         Berdasarkan hasil klasifikasi Random Forest, seluruh kendaraan
-        jenis <b>{jenis}</b> pada data ini diprediksi sebagai
-        <b>Service Ringan</b>. Kendaraan memiliki rata-rata kilometer
-        sekitar <b>{km_ringan:,.0f} km</b> dan rata-rata usia motor
-        sekitar <b>{usia_ringan:.1f} tahun</b>. Pada data yang
-        digunakan belum ditemukan kendaraan jenis
-        <b>{jenis}</b> yang diprediksi sebagai
-        <b>Service Berat</b>.
+        jenis <b>{jenis}</b> diprediksi sebagai
+        <b>Service Ringan</b> dengan rata-rata kilometer sekitar
+        <b>{km_ringan:,.0f} km</b> dan rata-rata usia motor sekitar
+        <b>{usia_ringan:.1f} tahun</b>.
         """
 
     else:
@@ -765,13 +809,10 @@ def generate_pdf(
 
         interpretasi = f"""
         Berdasarkan hasil klasifikasi Random Forest, seluruh kendaraan
-        jenis <b>{jenis}</b> pada data ini diprediksi sebagai
-        <b>Service Berat</b>. Kendaraan memiliki rata-rata kilometer
-        sekitar <b>{km_berat:,.0f} km</b> dan rata-rata usia motor
-        sekitar <b>{usia_berat:.1f} tahun</b>. Pada data yang
-        digunakan belum ditemukan kendaraan jenis
-        <b>{jenis}</b> yang diprediksi sebagai
-        <b>Service Ringan</b>.
+        jenis <b>{jenis}</b> diprediksi sebagai
+        <b>Service Berat</b> dengan rata-rata kilometer sekitar
+        <b>{km_berat:,.0f} km</b> dan rata-rata usia motor sekitar
+        <b>{usia_berat:.1f} tahun</b>.
         """
 
     elements.append(
@@ -782,8 +823,26 @@ def generate_pdf(
     )
 
     elements.append(
-        Spacer(1,12)
+        Spacer(1,8)
     )
+
+    # =====================================
+    # GARIS PEMISAH
+    # =====================================
+
+    if jenis != urutan_jenis[-1]:
+
+        elements.append(
+            HRFlowable(
+                width="100%",
+                thickness=0.5,
+                color=colors.HexColor("#BDBDBD")
+            )
+        )
+
+        elements.append(
+            Spacer(1,8)
+        )
 
     # =====================================
     # KESIMPULAN
