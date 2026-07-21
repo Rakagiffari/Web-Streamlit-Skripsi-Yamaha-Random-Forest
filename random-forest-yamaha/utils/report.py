@@ -94,7 +94,7 @@ def generate_pdf(
         spaceAfter=0,
     )
 
-    elements = [].
+    elements = []
 
     # ==========================================================
     # HEADER
