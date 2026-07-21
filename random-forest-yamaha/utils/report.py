@@ -603,28 +603,17 @@ def generate_pdf(
 
     elements.append(
         Paragraph(
-            "<b>HASIL KLASIFIKASI</b>",
-            styles["Heading2"]
-        )
-    )
-
-    elements.append(Spacer(1, 8))
-
-    elements.append(
-        Paragraph(
             """
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             Hasil klasifikasi berikut menunjukkan karakteristik kendaraan
             berdasarkan hasil prediksi algoritma Random Forest. Setiap jenis
-            kendaraan disajikan berdasarkan kategori hasil klasifikasi,
-            rata-rata kilometer, dan rata-rata usia kendaraan sehingga dapat
-            memberikan gambaran pola layanan service pada masing-masing jenis
-            kendaraan.
+            kendaraan disajikan seperti berikut :
             """,
             cm_style
         )
     )
 
-    elements.append(Spacer(1, 12))
+    elements.append(Spacer(1,5))
 
     urutan_jenis = [
         "MAXi",
