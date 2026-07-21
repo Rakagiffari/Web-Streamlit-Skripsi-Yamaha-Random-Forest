@@ -461,21 +461,48 @@ def generate_pdf(
     # FEATURE IMPORTANCE
     # =====================================
 
-    elements.append(Spacer(1, 10))
+    elements.append(
+        Spacer(1,8)
+    )
 
-    # ---------------------------------
+    # ------------------------------------
+    # Penjelasan
+    # ------------------------------------
+
+    elements.append(
+        Paragraph(
+            """
+            Feature Importance menunjukkan tingkat kontribusi setiap fitur
+            terhadap proses klasifikasi layanan service menggunakan algoritma
+            Random Forest. Semakin tinggi nilai importance suatu fitur,
+            semakin besar pengaruhnya dalam membantu model menentukan hasil
+            klasifikasi layanan service kendaraan.
+            """,
+            cm_style
+        )
+    )
+
+    elements.append(
+        Spacer(1,10)
+    )
+
+    # ------------------------------------
     # Gambar
-    # ---------------------------------
+    # ------------------------------------
 
-    fi_img = Image(fi_image, width=180, height=180)
+    fi_img = Image(
+        fi_image,
+        width=430,
+        height=250
+    )
 
     fi_table = Table(
         [[fi_img]],
-        colWidths=[190],
-        rowHeights=[190]
+        colWidths=[470]
     )
 
     fi_table.setStyle(TableStyle([
+
         ("BOX",(0,0),(-1,-1),0.8,colors.black),
         ("ALIGN",(0,0),(-1,-1),"CENTER"),
         ("VALIGN",(0,0),(-1,-1),"MIDDLE"),
@@ -485,82 +512,91 @@ def generate_pdf(
         ("BOTTOMPADDING",(0,0),(-1,-1),5),
     ]))
 
-    # ---------------------------------
-    # Tabel kanan
-    # ---------------------------------
+    elements.append(fi_table)
 
-    feature_data = [["No", "Nama Fitur"]]
+    elements.append(
+        Spacer(1,12)
+    )
 
-    for i, fitur in enumerate(top_features, start=1):
+    # ------------------------------------
+    # Judul Tabel
+    # ------------------------------------
+
+    elements.append(
+        Paragraph(
+            "<b>Tabel Ranking Feature</b>",
+            styles["Heading3"]
+        )
+    )
+
+    elements.append(
+        Spacer(1,6)
+    )
+
+    # ------------------------------------
+    # Tabel Ranking
+    # ------------------------------------
+
+    feature_data = [
+        ["No","Nama Fitur","Importance"]
+    ]
+
+    for i, (fitur, nilai) in enumerate(top_features, start=1):
+
         feature_data.append([
             str(i),
-            fitur
+            fitur,
+            f"{nilai:.4f}"
         ])
 
     feature_table = Table(
         feature_data,
-        colWidths=[45, 225]
-    )
+        colWidths=[45,250,100]
+        )
 
     feature_table.setStyle(TableStyle([
 
         ("GRID",(0,0),(-1,-1),0.5,colors.grey),
         ("BOX",(0,0),(-1,-1),1,colors.black),
-
         ("BACKGROUND",(0,0),(-1,0),colors.HexColor("#E5E7EB")),
-
         ("FONTNAME",(0,0),(-1,0),"Helvetica-Bold"),
-
+        ("FONTSIZE",(0,0),(-1,-1),10),
         ("ALIGN",(0,0),(-1,-1),"CENTER"),
         ("VALIGN",(0,0),(-1,-1),"MIDDLE"),
-
         ("TOPPADDING",(0,0),(-1,-1),7),
         ("BOTTOMPADDING",(0,0),(-1,-1),7),
-
     ]))
 
-    # ---------------------------------
-    # Layout (sama seperti Confusion Matrix)
-    # ---------------------------------
+    elements.append(feature_table)
 
-    feature_layout = Table(
-        [[fi_table, feature_table]],
-        colWidths=[190,290]
+    elements.append(
+        Spacer(1,10)
     )
 
-    feature_layout.setStyle(TableStyle([
+    # ------------------------------------
+    # Interpretasi
+    # ------------------------------------
 
-        ("VALIGN",(0,0),(-1,-1),"TOP"),
-
-        ("LEFTPADDING",(0,0),(-1,-1),0),
-        ("RIGHTPADDING",(0,0),(-1,-1),10),
-
-        ("TOPPADDING",(0,0),(-1,-1),0),
-        ("BOTTOMPADDING",(0,0),(-1,-1),0),
-
-    ]))
-
-    elements.append(feature_layout)
-
-    elements.append(Spacer(1,8))
-
-    fitur_text = ", ".join(top_features)
+    nama_fitur = [x[0] for x in top_features]
 
     elements.append(
         Paragraph(
             f"""
-            Berdasarkan hasil Feature Importance, fitur yang memiliki
-            kontribusi terbesar terhadap proses klasifikasi adalah
-            <b>{fitur_text}</b>.
-            Semakin tinggi nilai importance suatu fitur, semakin besar
-            pengaruhnya dalam membantu model Random Forest menentukan
-            klasifikasi layanan Service Ringan maupun Service Berat.
+            Berdasarkan hasil Feature Importance, fitur
+            <b>{nama_fitur[0]}</b> memiliki nilai importance terbesar,
+            sehingga memberikan kontribusi paling dominan dalam proses
+            klasifikasi layanan service. Selanjutnya diikuti oleh
+            <b>{', '.join(nama_fitur[1:])}</b> yang juga memberikan
+            pengaruh terhadap keputusan model Random Forest dalam
+            mengklasifikasikan layanan Service Ringan maupun Service Berat.
             """,
             cm_style
         )
     )
 
-    elements.append(Spacer(1,15))
+    elements.append(
+        Spacer(1,10)
+    )
 
     # =====================================
     # KESIMPULAN
