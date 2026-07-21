@@ -294,6 +294,7 @@ def generate_pdf(
 
     dataset_table.setStyle(
         TableStyle([
+            ("BOX",(0,0),(-1,-1),0.8,colors.black),
             ("FONTNAME", (0,0), (-1,-1), "Helvetica"),
             ("FONTSIZE", (0,0), (-1,-1), 10),
             ("BOTTOMPADDING", (0,0), (-1,-1), 3),
