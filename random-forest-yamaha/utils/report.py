@@ -50,6 +50,7 @@ def generate_pdf(
     cm_image,
     fi_image,
     top_features,
+    summary_df,
     tn,
     fp,
     fn,
