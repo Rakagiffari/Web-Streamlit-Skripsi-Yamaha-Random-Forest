@@ -488,7 +488,7 @@ def generate_pdf(
     elements.append(fi_table)
 
     elements.append(
-        Spacer(1,5)
+        Spacer(1,10)
     )
 
     # ------------------------------------
@@ -498,7 +498,7 @@ def generate_pdf(
     elements.append(
         Paragraph(
             """
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             Feature Importance menunjukkan tingkat kontribusi setiap fitur
             terhadap proses klasifikasi layanan service menggunakan algoritma
             Random Forest. Semakin tinggi nilai importance suatu fitur,
