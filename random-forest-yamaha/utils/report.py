@@ -468,24 +468,6 @@ def generate_pdf(
     # ------------------------------------
     # Penjelasan
     # ------------------------------------
-
-    elements.append(
-        Paragraph(
-            """
-            Feature Importance menunjukkan tingkat kontribusi setiap fitur
-            terhadap proses klasifikasi layanan service menggunakan algoritma
-            Random Forest. Semakin tinggi nilai importance suatu fitur,
-            semakin besar pengaruhnya dalam membantu model menentukan hasil
-            klasifikasi layanan service kendaraan.
-            """,
-            cm_style
-        )
-    )
-
-    elements.append(
-        Spacer(1,10)
-    )
-
     # ------------------------------------
     # Gambar
     # ------------------------------------
@@ -517,6 +499,25 @@ def generate_pdf(
     elements.append(
         Spacer(1,12)
     )
+
+    elements.append(
+        Paragraph(
+            """
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Feature Importance menunjukkan tingkat kontribusi setiap fitur
+            terhadap proses klasifikasi layanan service menggunakan algoritma
+            Random Forest. Semakin tinggi nilai importance suatu fitur,
+            semakin besar pengaruhnya dalam membantu model menentukan hasil
+            klasifikasi layanan service kendaraan.
+            """,
+            cm_style
+        )
+    )
+
+    elements.append(
+        Spacer(1,10)
+    )
+
 
     # ------------------------------------
     # Judul Tabel
