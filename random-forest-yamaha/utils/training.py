@@ -311,4 +311,3 @@ def generate_vehicle_characteristics(model, X, feature_df):
             })
 
     return pd.DataFrame(summary)
-    def preprocess_new_data():
