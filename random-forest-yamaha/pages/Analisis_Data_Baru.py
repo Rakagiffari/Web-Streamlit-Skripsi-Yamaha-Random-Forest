@@ -859,41 +859,41 @@ if "hasil_prediksi" in st.session_state:
 
     with col_right:
 
-    st.markdown(
-        f"""
-        <div class="prediksi-info">
+        st.markdown(
+            f"""
+            <div class="prediksi-info">
 
-            <div class="prediksi-item">
-                <div class="prediksi-label">
-                    Tingkat Keyakinan Model
+                <div class="prediksi-item">
+                    <div class="prediksi-label">
+                        Tingkat Keyakinan Model
+                    </div>
+                    <div class="prediksi-value">
+                        {st.session_state["confidence"]:.2f}%
+                    </div>
                 </div>
-                <div class="prediksi-value">
-                    {st.session_state["confidence"]:.2f}%
+
+                <div class="prediksi-item">
+                    <div class="prediksi-label">
+                        Total Estimasi Waktu
+                    </div>
+                    <div class="prediksi-value">
+                        {st.session_state["estimasi"]} Menit
+                    </div>
                 </div>
+
+                <div class="prediksi-item">
+                    <div class="prediksi-label">
+                        Kategori Berdasarkan Model
+                    </div>
+                    <div class="prediksi-value {kategori_class}">
+                        {st.session_state["kategori"]}
+                    </div>
+                </div>
+
             </div>
-
-            <div class="prediksi-item">
-                <div class="prediksi-label">
-                    Total Estimasi Waktu
-                </div>
-                <div class="prediksi-value">
-                    {st.session_state["estimasi"]} Menit
-                </div>
-            </div>
-
-            <div class="prediksi-item">
-                <div class="prediksi-label">
-                    Kategori Berdasarkan Model
-                </div>
-                <div class="prediksi-value {kategori_class}">
-                    {st.session_state["kategori"]}
-                </div>
-            </div>
-
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+            """,
+            unsafe_allow_html=True
+        )
 
         # Isi akan dibuat pada Bagian 4B
 
