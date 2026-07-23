@@ -986,6 +986,11 @@ if uploaded_file is not None:
                 model_dir / "random_forest_model.pkl"
             )
 
+            joblib.dump(
+                feature_names,
+                model_dir / "feature_names.pkl"
+            )
+
             # =====================================
             # CLASSIFICATION REPORT
             # =====================================
