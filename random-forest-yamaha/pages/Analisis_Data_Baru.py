@@ -52,6 +52,124 @@ st.markdown("""
     margin-top:-10px;
 }
 
+/* ==========================================================
+   BAGIAN 4 - HASIL PREDIKSI
+========================================================== */
+
+.prediksi-card{
+
+    border:1px solid #d7d7d7;
+
+    border-radius:12px;
+
+    padding:18px;
+
+    margin-top:10px;
+
+}
+
+.prediksi-service{
+
+    height:180px;
+
+    border-radius:12px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    font-size:38px;
+
+    font-weight:700;
+
+}
+
+.service-ringan{
+
+    background:#dff2dc;
+
+    color:#156d2d;
+
+}
+
+.service-berat{
+
+    background:#f3cccc;
+
+    color:#b71c1c;
+
+}
+
+.prediksi-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    height:180px;
+
+}
+
+.prediksi-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:16px 0;
+
+    border-bottom:3px solid #222;
+
+}
+
+.prediksi-item:last-child{
+
+    border-bottom:none;
+
+}
+
+.prediksi-label{
+
+    font-size:18px;
+
+    font-weight:500;
+
+    color:#222;
+
+}
+
+.prediksi-value{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:#222;
+
+}
+
+.kategori-ringan{
+
+    color:#15803d;
+
+    font-weight:700;
+
+}
+
+.kategori-berat{
+
+    color:#c62828;
+
+    font-weight:700;
+
+}
+
 /* ===================================================
 SUCCESS BOX
 =================================================== */
@@ -696,4 +814,155 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+# ==========================================================
+# BAGIAN 4A
+# HASIL PREDIKSI - LAYOUT
+# ==========================================================
+
+if "hasil_prediksi" in st.session_state:
+
+    st.markdown("### 3. Hasil Prediksi (Random Forest)")
+
+    # Menentukan warna berdasarkan hasil prediksi
+    if st.session_state["kategori"] == "Ringan":
+
+        service_class = "service-ringan"
+        kategori_class = "kategori-ringan"
+
+    else:
+
+        service_class = "service-berat"
+        kategori_class = "kategori-berat"
+
+    # Layout dua kolom
+    col_left, col_right = st.columns([1.1, 1.9], gap="large")
+
+    # ======================================================
+    # KOLOM KIRI
+    # ======================================================
+
+    with col_left:
+
+        st.markdown(
+            f"""
+            <div class="prediksi-service {service_class}">
+                {st.session_state["hasil_prediksi"]}
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    # ======================================================
+    # KOLOM KANAN
+    # ======================================================
+
+    with col_right:
+
+        st.markdown(
+            """
+            <div class="prediksi-info">
+            """,
+            unsafe_allow_html=True
+        )
+
+        # Isi akan dibuat pada Bagian 4B
+
+        # ======================================================
+        # TINGKAT KEYAKINAN MODEL
+        # ======================================================
+
+        st.markdown(
+            f"""
+            <div class="prediksi-item">
+
+                <div class="prediksi-label">
+                    Tingkat Keyakinan Model
+                </div>
+
+                <div class="prediksi-value">
+                    {st.session_state["confidence"]:.2f}%
+                </div>
+
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        # ======================================================
+        # TOTAL ESTIMASI WAKTU
+        # ======================================================
+
+        st.markdown(
+            f"""
+            <div class="prediksi-item">
+
+                <div class="prediksi-label">
+                    Total Estimasi Waktu
+                </div>
+
+                <div class="prediksi-value">
+                    {st.session_state["estimasi"]} Menit
+                </div>
+
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        # ======================================================
+        # KATEGORI BERDASARKAN MODEL
+        # ======================================================
+
+        st.markdown(
+            f"""
+            <div class="prediksi-item">
+
+                <div class="prediksi-label">
+                    Kategori Berdasarkan Model
+                </div>
+
+                <div class="prediksi-value {kategori_class}">
+                    {st.session_state["kategori"]}
+                </div>
+
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        st.markdown(
+            """
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    # ======================================================
+    # KETERANGAN HASIL PREDIKSI
+    # ======================================================
+
+    if st.session_state["kategori"] == "Ringan":
+
+        st.info(
+            """
+            **Rekomendasi:**
+            
+            Kendaraan diprediksi termasuk **Service Ringan**.
+            Layanan yang dipilih diperkirakan merupakan pekerjaan perawatan berkala
+            dengan estimasi waktu relatif singkat.
+            """
+        )
+
+    else:
+
+        st.warning(
+            """
+            **Rekomendasi:**
+            
+            Kendaraan diprediksi termasuk **Service Berat**.
+            Disarankan dilakukan pemeriksaan secara menyeluruh karena estimasi
+            pekerjaan cenderung lebih kompleks.
+            """
+        )
 
