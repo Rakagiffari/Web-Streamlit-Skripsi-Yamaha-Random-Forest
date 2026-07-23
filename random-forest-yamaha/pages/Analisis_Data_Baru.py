@@ -2,6 +2,7 @@
 # IMPORT
 # ==========================================================
 
+import pandas as pd
 import streamlit as st
 
 # ==========================================================
@@ -256,5 +257,161 @@ with st.container(border=True):
         ]
 
     )
+
+# ==========================================================
+# LANGKAH 1 - BAGIAN 3
+# PEKERJAAN BERDASARKAN INDIKASI
+# ==========================================================
+
+with st.container(border=True):
+
+    st.markdown("### 2. Pekerjaan Berdasarkan Indikasi")
+
+    st.markdown(
+        f"**Indikasi Terpilih :** :blue[{indikasi}]"
+    )
+
+    # ======================================================
+    # DATABASE PEKERJAAN
+    # ======================================================
+
+    pekerjaan_db = {
+
+        "Mesin":[
+
+            ["Ganti Oli", "Penggantian oli mesin", 10],
+            ["Ganti Busi", "Penggantian busi", 15],
+            ["Bersihkan Filter Udara", "Pembersihan filter udara", 10],
+            ["Setel Klep", "Penyetelan klep / valve", 40],
+            ["Bersihkan Throttle Body", "Pembersihan throttle body", 30],
+            ["Cek Kompresi Mesin", "Pemeriksaan kompresi mesin", 30]
+
+        ],
+
+        "Transmisi":[
+
+            ["Servis CVT", "Pembersihan CVT", 35],
+            ["Ganti V-Belt", "Penggantian V-Belt", 40],
+            ["Ganti Roller", "Penggantian roller", 25],
+            ["Cek Kampas Kopling", "Pemeriksaan kampas kopling", 30]
+
+        ],
+
+        "Kelistrikan":[
+
+            ["Cek Aki", "Pemeriksaan aki", 10],
+            ["Cek Lampu", "Pemeriksaan lampu", 10],
+            ["Cek Starter", "Pemeriksaan starter", 15],
+            ["Cek Sistem Charging", "Pemeriksaan sistem pengisian", 20]
+
+        ],
+
+        "Pengereman":[
+
+            ["Ganti Kampas Rem", "Penggantian kampas rem", 25],
+            ["Bleeding Rem", "Penggantian minyak rem", 20],
+            ["Cek Cakram", "Pemeriksaan cakram", 15]
+
+        ],
+
+        "Roda dan Suspensi":[
+
+            ["Cek Ban", "Pemeriksaan ban", 10],
+            ["Cek Bearing", "Pemeriksaan bearing", 20],
+            ["Cek Shockbreaker", "Pemeriksaan shockbreaker", 30]
+
+        ],
+
+        "Body":[
+
+            ["Perbaikan Cover", "Perbaikan body kendaraan", 25],
+            ["Pengencangan Baut", "Pemeriksaan baut", 15]
+
+        ],
+
+        "Sistem Bahan Bakar":[
+
+            ["Cleaning Injector", "Pembersihan injektor", 35],
+            ["Cleaning Throttle Body", "Pembersihan throttle body", 30],
+            ["Cek Fuel Pump", "Pemeriksaan fuel pump", 25]
+
+        ],
+
+        "Umum":[
+
+            ["General Service", "Pemeriksaan umum kendaraan", 30]
+
+        ]
+
+    }
+
+    data = pekerjaan_db.get(indikasi, [])
+
+    df = pd.DataFrame(
+        data,
+        columns=[
+            "Pekerjaan",
+            "Deskripsi",
+            "Estimasi Waktu (menit)"
+        ]
+    )
+
+    df.insert(
+        0,
+        "Pilih",
+        [True]*len(df)
+    )
+
+    edited_df = st.data_editor(
+
+        df,
+
+        use_container_width=True,
+
+        hide_index=True,
+
+        column_config={
+
+            "Pilih": st.column_config.CheckboxColumn(
+                "Pilih"
+            ),
+
+            "Pekerjaan": st.column_config.TextColumn(
+                "Pekerjaan"
+            ),
+
+            "Deskripsi": st.column_config.TextColumn(
+                "Deskripsi"
+            ),
+
+            "Estimasi Waktu (menit)": st.column_config.NumberColumn(
+                "Estimasi Waktu",
+                format="%d menit"
+            )
+
+        },
+
+        disabled=[
+            "Pekerjaan",
+            "Deskripsi",
+            "Estimasi Waktu (menit)"
+        ]
+
+    )
+
+    # ======================================================
+    # TOTAL ESTIMASI
+    # ======================================================
+
+    total_menit = edited_df.loc[
+        edited_df["Pilih"],
+        "Estimasi Waktu (menit)"
+    ].sum()
+
+    st.success(
+        f"⏱️ Total Estimasi Waktu Pekerjaan : **{total_menit} menit**"
+    )
+
+st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
