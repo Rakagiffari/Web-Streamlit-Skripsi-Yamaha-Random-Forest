@@ -260,12 +260,6 @@ with st.container(border=True):
 
 with st.container(border=True):
 
-    st.markdown("### 2. Pekerjaan Berdasarkan Indikasi")
-
-    st.markdown(
-        f"**Indikasi Terpilih :** :blue[{indikasi}]"
-    )
-
     # ======================================================
     # DATABASE PEKERJAAN
     # ======================================================
