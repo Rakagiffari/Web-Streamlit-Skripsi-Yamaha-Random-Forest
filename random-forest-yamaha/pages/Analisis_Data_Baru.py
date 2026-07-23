@@ -53,33 +53,45 @@ st.markdown("""
 }
 
 /* ==========================================================
-HASIL PREDIKSI
+   BAGIAN 4 - HASIL PREDIKSI
 ========================================================== */
 
-.prediksi-wrapper{
-    margin-top:10px;
-}
+/* Card Prediksi */
 
-.prediksi-left{
-    background:#f3faf5;
-    border:1px solid #d8eadc;
+.prediksi-box{
+
+    background:#f8fafc;
+
+    border:1px solid #d9dce3;
+
     border-radius:10px;
+
     height:180px;
 
     display:flex;
-    align-items:center;
+
     justify-content:center;
 
-    padding:20px;
-}
+    align-items:center;
 
-.prediksi-left-danger{
-    background:#fff1f1;
-    border:1px solid #f0c7c7;
-}
-
-.prediksi-content{
     text-align:center;
+
+}
+
+.prediksi-box-ringan{
+
+    background:#edf9f0;
+
+    border:1px solid #cfe8d5;
+
+}
+
+.prediksi-box-berat{
+
+    background:#fff0f0;
+
+    border:1px solid #f1c8c8;
+
 }
 
 .prediksi-title{
@@ -88,15 +100,15 @@ HASIL PREDIKSI
 
     color:#6b7280;
 
-    margin-bottom:10px;
-
     font-weight:500;
+
+    margin-bottom:10px;
 
 }
 
-.prediksi-service-ringan{
+.prediksi-ringan{
 
-    font-size:36px;
+    font-size:34px;
 
     font-weight:700;
 
@@ -106,9 +118,9 @@ HASIL PREDIKSI
 
 }
 
-.prediksi-service-berat{
+.prediksi-berat{
 
-    font-size:36px;
+    font-size:34px;
 
     font-weight:700;
 
@@ -118,23 +130,18 @@ HASIL PREDIKSI
 
 }
 
-/* =============================== */
 
-.info-box{
+/* =======================================
+   INFORMASI HASIL
+======================================= */
 
-    border:1px solid #dfe3e8;
+.prediksi-info{
 
-    border-radius:8px;
-
-    padding:16px 18px;
-
-    margin-bottom:12px;
-
-    background:transparent;
+    width:100%;
 
 }
 
-.info-row{
+.prediksi-row{
 
     display:flex;
 
@@ -142,9 +149,19 @@ HASIL PREDIKSI
 
     align-items:center;
 
+    padding:18px 2px;
+
+    border-bottom:1px solid #e5e7eb;
+
 }
 
-.info-label{
+.prediksi-row:last-child{
+
+    border-bottom:none;
+
+}
+
+.prediksi-label{
 
     display:flex;
 
@@ -156,29 +173,38 @@ HASIL PREDIKSI
 
     font-weight:500;
 
+    color:#374151;
+
 }
 
-.info-value{
+.prediksi-value{
 
     font-size:17px;
 
     font-weight:700;
 
+    color:#111827;
+
 }
 
-/* =============================== */
+
+/* =======================================
+   BADGE
+======================================= */
 
 .badge-ringan{
 
-    background:#e9f9ee;
+    display:inline-block;
+
+    background:#dcfce7;
 
     color:#15803d;
 
-    padding:5px 14px;
+    padding:4px 12px;
 
     border-radius:20px;
 
-    font-size:13px;
+    font-size:12px;
 
     font-weight:700;
 
@@ -186,15 +212,17 @@ HASIL PREDIKSI
 
 .badge-berat{
 
-    background:#fdeaea;
+    display:inline-block;
+
+    background:#fee2e2;
 
     color:#dc2626;
 
-    padding:5px 14px;
+    padding:4px 12px;
 
     border-radius:20px;
 
-    font-size:13px;
+    font-size:12px;
 
     font-weight:700;
 
