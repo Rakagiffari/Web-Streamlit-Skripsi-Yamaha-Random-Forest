@@ -2,8 +2,13 @@
 # IMPORT
 # ==========================================================
 
-import pandas as pd
 import streamlit as st
+import pandas as pd
+import joblib
+
+from pathlib import Path
+
+from utils.preprocessing import preprocess_new_data
 
 # ==========================================================
 # PAGE CONFIG
@@ -14,6 +19,18 @@ st.set_page_config(
     page_icon="📊",
     layout="wide"
 )
+
+# ==========================================================
+# MODEL
+# ==========================================================
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+MODEL_DIR = BASE_DIR / "model"
+
+MODEL_PATH = MODEL_DIR / "random_forest_model.pkl"
+
+FEATURE_PATH = MODEL_DIR / "feature_names.pkl"
 
 # ==========================================================
 # STYLE
@@ -581,6 +598,8 @@ with center:
         use_container_width=True,
         type="primary"
     )
+
+
 
 st.markdown(
     """
