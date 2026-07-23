@@ -575,8 +575,6 @@ st.markdown("<br>", unsafe_allow_html=True)
 # TOMBOL PREDIKSI
 # ==========================================================
 
-st.markdown("<br>", unsafe_allow_html=True)
-
 left, center, right = st.columns([2, 2, 2])
 
 with center:
