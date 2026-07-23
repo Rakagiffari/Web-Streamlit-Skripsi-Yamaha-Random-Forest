@@ -33,105 +33,115 @@ st.markdown("""
 <style>
 
 /* ==========================================================
-MAIN PAGE
+PAGE
 ========================================================== */
 
 .block-container{
     max-width:1400px;
-    padding-top:25px;
-    padding-bottom:40px;
+    padding-top:1.5rem;
+    padding-bottom:2rem;
 }
 
 /* ==========================================================
 HEADER
 ========================================================== */
 
-.page-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    margin-bottom:28px;
-}
-
-.page-left{
-    display:flex;
-    flex-direction:column;
-}
-
 .page-title{
     font-size:38px;
     font-weight:700;
     color:#111827;
-    margin:0;
+    margin-bottom:4px;
     line-height:1.2;
 }
 
 .page-subtitle{
     font-size:15px;
     color:#6B7280;
-    margin-top:6px;
+    margin-top:0;
 }
 
-.page-right{
-    text-align:right;
+.datetime-card{
+    background:#FFFFFF;
+    border:1px solid #E5E7EB;
+    border-radius:12px;
+    padding:14px 18px;
+    text-align:center;
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
 }
 
-.datetime-box{
-    display:flex;
-    align-items:flex-start;
-    gap:10px;
+.datetime-title{
+    font-size:13px;
+    color:#6B7280;
+    margin-bottom:6px;
 }
 
-.datetime-icon{
-    font-size:20px;
-    margin-top:2px;
+.datetime-date{
+    font-size:15px;
+    font-weight:600;
+    color:#111827;
 }
 
-.datetime-text{
+.datetime-time{
     font-size:14px;
-    color:#374151;
-    font-weight:500;
-    line-height:1.5;
+    color:#2563EB;
+    font-weight:600;
+    margin-top:3px;
 }
 
 </style>
 """, unsafe_allow_html=True)
 
+
+# ==========================================================
+# WAKTU WIB
+# ==========================================================
+
+from datetime import datetime, timedelta
+
+utc_now = datetime.utcnow()
+wib_now = utc_now + timedelta(hours=7)
+
+tanggal = wib_now.strftime("%A, %d %B %Y")
+jam = wib_now.strftime("%H:%M WIB")
+
 # ==========================================================
 # HEADER
 # ==========================================================
 
-st.markdown(f"""
-<div class="page-header">
+left, right = st.columns([4,1])
 
-    <div class="page-left">
+with left:
 
-        <div class="page-title">
-            Analisis Data Baru
+    st.markdown("""
+    <div class="page-title">
+        📊 Analisis Data Baru
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="page-subtitle">
+        Analisis kendaraan menggunakan algoritma Random Forest untuk memperoleh prediksi layanan servis.
+    </div>
+    """, unsafe_allow_html=True)
+
+with right:
+
+    st.markdown(f"""
+    <div class="datetime-card">
+
+        <div class="datetime-title">
+            Tanggal & Jam
         </div>
 
-        <div class="page-subtitle">
-            Input data kendaraan untuk mendapatkan prediksi layanan
+        <div class="datetime-date">
+            {tanggal}
+        </div>
+
+        <div class="datetime-time">
+            {jam}
         </div>
 
     </div>
+    """, unsafe_allow_html=True)
 
-    <div class="page-right">
-
-        <div class="datetime-box">
-
-            <div class="datetime-icon">
-                📅
-            </div>
-
-            <div class="datetime-text">
-                <b>{tanggal}</b><br>
-                {jam}
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-""", unsafe_allow_html=True)
+st.markdown("<br>", unsafe_allow_html=True)
