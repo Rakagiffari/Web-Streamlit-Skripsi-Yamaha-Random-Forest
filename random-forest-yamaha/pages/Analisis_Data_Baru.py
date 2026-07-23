@@ -607,74 +607,81 @@ if prediksi_button:
 
     try:
 
-        # ==========================================
-        # LOAD MODEL
-        # ==========================================
+        # ==================================================
+        # LOAD MODEL RANDOM FOREST
+        # ==================================================
 
         model = joblib.load(MODEL_PATH)
 
-        feature_names = joblib.load(FEATURE_PATH)
-
-        # ==========================================
-        # PREPROCESS DATA BARU
-        # ==========================================
+        # ==================================================
+        # PREPROCESS DATA INPUT
+        # ==================================================
 
         X_new = preprocess_new_data(
-
             model_motor=model_motor,
-
             tahun_motor=tahun_motor,
-
             kilometer=kilometer,
-
             indikasi=indikasi
-
         )
 
-        # ==========================================
-        # PREDIKSI RANDOM FOREST
-        # ==========================================
+        # ==================================================
+        # PREDIKSI
+        # ==================================================
 
         prediksi = model.predict(X_new)[0]
 
-        confidence = (
-            model.predict_proba(X_new).max() * 100
-        )
+        probabilitas = model.predict_proba(X_new)[0]
 
-        # ==========================================
+        confidence = float(max(probabilitas) * 100)
+
+        # ==================================================
         # KONVERSI LABEL
-        # ==========================================
+        # ==================================================
 
-        if prediksi == 0:
-
+        # Sesuaikan jika label model berbeda
+        if str(prediksi).lower() in ["ringan", "service ringan"]:
             hasil_prediksi = "SERVICE RINGAN"
+            kategori = "Ringan"
 
+        elif str(prediksi).lower() in ["berat", "service berat"]:
+            hasil_prediksi = "SERVICE BERAT"
+            kategori = "Berat"
+
+        elif prediksi == 0:
+            hasil_prediksi = "SERVICE RINGAN"
             kategori = "Ringan"
 
         else:
-
             hasil_prediksi = "SERVICE BERAT"
-
             kategori = "Berat"
 
-        # ==========================================
-        # SESSION STATE
-        # ==========================================
+        # ==================================================
+        # SIMPAN KE SESSION STATE
+        # ==================================================
 
         st.session_state["hasil_prediksi"] = hasil_prediksi
-
-        st.session_state["confidence"] = confidence
-
         st.session_state["kategori"] = kategori
+        st.session_state["confidence"] = confidence
+        st.session_state["estimasi"] = int(total_estimasi)
 
-        st.session_state["estimasi"] = total_estimasi
+        st.session_state["nama"] = nama
+        st.session_state["no_polisi"] = no_polisi
+        st.session_state["model_motor"] = model_motor
+        st.session_state["jenis_motor"] = jenis_motor
+        st.session_state["kilometer"] = kilometer
+        st.session_state["tahun_motor"] = tahun_motor
+        st.session_state["indikasi"] = indikasi
+        st.session_state["pekerjaan"] = edited_df.loc[
+            edited_df["Pilih"],
+            "Pekerjaan"
+        ].tolist()
 
         st.success("Prediksi berhasil dilakukan.")
 
     except Exception as e:
 
-        st.error(f"Terjadi kesalahan : {e}")
-
+        st.error(f"Terjadi kesalahan saat melakukan prediksi.\n\n{e}")
+        
 st.markdown(
     """
     <div style="
