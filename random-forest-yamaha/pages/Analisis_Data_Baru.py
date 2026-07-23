@@ -569,3 +569,81 @@ with st.container(border=True):
     )
 
 st.markdown("<br>", unsafe_allow_html=True)
+
+# ==========================================================
+# HASIL PREDIKSI
+# ==========================================================
+
+with st.container(border=True):
+
+    st.markdown("### 3. Hasil Prediksi (Random Forest)")
+
+    # ======================================================
+    # DUMMY HASIL PREDIKSI
+    # Nanti diganti dengan output Random Forest
+    # ======================================================
+
+    hasil_prediksi = "SERVICE RINGAN"
+
+    confidence = 87.42
+
+    kategori = "Ringan"
+
+    # ======================================================
+    # LAYOUT
+    # ======================================================
+
+    col1, col2 = st.columns([1.2, 1.5])
+
+    # ======================================================
+    # CARD HASIL
+    # ======================================================
+
+    with col1:
+
+        st.success("### ✅ Prediksi Layanan")
+
+        st.markdown(
+            f"""
+            <div style="text-align:center;padding:20px 0px;">
+
+            <h2 style="color:#16a34a;margin-bottom:0;">
+            {hasil_prediksi}
+            </h2>
+
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    # ======================================================
+    # DETAIL
+    # ======================================================
+
+    with col2:
+
+        st.metric(
+
+            label="🎯 Tingkat Keyakinan Model",
+
+            value=f"{confidence:.2f}%"
+
+        )
+
+        st.metric(
+
+            label="⏱️ Total Estimasi Waktu",
+
+            value=f"{int(total_estimasi)} menit"
+
+        )
+
+        st.metric(
+
+            label="🏷️ Kategori Berdasarkan Model",
+
+            value=kategori
+
+        )
+
+st.markdown("<br>", unsafe_allow_html=True)
