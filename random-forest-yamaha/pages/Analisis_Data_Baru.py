@@ -869,54 +869,39 @@ if "hasil_prediksi" in st.session_state:
 
         st.markdown(
             f"""
-            <table style="
-                width:100%;
-                border-collapse:collapse;
-                height:180px;
-                font-size:18px;
-            ">
+            <div class="prediksi-info">
 
-                <tr style="border-bottom:2px solid #444;">
-                    <td style="padding:14px 0;">
+                <div class="prediksi-item">
+                    <span class="prediksi-label">
                         Tingkat Keyakinan Model
-                    </td>
+                    </span>
 
-                    <td style="
-                        text-align:right;
-                        font-weight:bold;
-                    ">
+                    <span class="prediksi-value">
                         {st.session_state["confidence"]:.2f}%
-                    </td>
-                </tr>
+                    </span>
+                </div>
 
-                <tr style="border-bottom:2px solid #444;">
-                    <td style="padding:14px 0;">
+                <div class="prediksi-item">
+                    <span class="prediksi-label">
                         Total Estimasi Waktu
-                    </td>
+                    </span>
 
-                    <td style="
-                        text-align:right;
-                        font-weight:bold;
-                    ">
+                    <span class="prediksi-value">
                         {st.session_state["estimasi"]} Menit
-                    </td>
-                </tr>
+                    </span>
+                </div>
 
-                <tr>
-                    <td style="padding:14px 0;">
+                <div class="prediksi-item">
+                    <span class="prediksi-label">
                         Kategori Berdasarkan Model
-                    </td>
+                    </span>
 
-                    <td style="
-                        text-align:right;
-                        font-weight:bold;
-                        color:{warna_text};
-                    ">
+                    <span class="prediksi-value {kategori_class}">
                         {st.session_state["kategori"]}
-                    </td>
-                </tr>
+                    </span>
+                </div>
 
-            </table>
-            """,
-            unsafe_allow_html=True
-        )
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
