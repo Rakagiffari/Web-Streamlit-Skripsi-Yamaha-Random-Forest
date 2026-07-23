@@ -52,6 +52,98 @@ st.markdown("""
     margin-top:-10px;
 }
 
+/* =========================================
+HASIL PREDIKSI
+=========================================*/
+
+.result-card{
+    border:1px solid #dcdfe4;
+    border-radius:10px;
+    padding:18px 20px;
+    margin-bottom:14px;
+}
+
+.result-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.result-title{
+    font-size:15px;
+    font-weight:500;
+}
+
+.result-value{
+    font-size:18px;
+    font-weight:700;
+}
+
+.service-box{
+    border-radius:10px;
+    padding:35px 20px;
+    text-align:center;
+    height:205px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.service-ringan{
+    background:#edf8ef;
+    border:1px solid #b6e4c1;
+}
+
+.service-berat{
+    background:#fdecec;
+    border:1px solid #efb4b4;
+}
+
+.service-text-ringan{
+    color:#138a36;
+    font-size:42px;
+    font-weight:800;
+}
+
+.service-text-berat{
+    color:#dc2626;
+    font-size:42px;
+    font-weight:800;
+}
+
+.badge-ringan{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+    padding:5px 14px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+.badge-berat{
+
+    background:#fee2e2;
+
+    color:#b91c1c;
+
+    padding:5px 14px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
 /* ===================================================
 SUCCESS BOX
 =================================================== */
@@ -703,75 +795,130 @@ st.markdown(
 
 if "hasil_prediksi" in st.session_state:
 
-    st.markdown("## 📋 Hasil Prediksi")
+    st.markdown("### 3. Hasil Prediksi (Random Forest)")
 
     with st.container(border=True):
 
-        col1, col2 = st.columns(2, gap="large")
+        left, right = st.columns([1.1,1.9], gap="large")
 
-        # ==================================================
-        # HASIL PREDIKSI
-        # ==================================================
+        # ======================================================
+        # CARD SERVICE
+        # ======================================================
 
-        with col1:
+        with left:
 
-            st.metric(
-                label="Hasil Prediksi",
-                value=st.session_state["hasil_prediksi"]
-            )
+            if st.session_state["kategori"]=="Ringan":
 
-            st.metric(
-                label="Kategori",
-                value=st.session_state["kategori"]
-            )
+                st.markdown(f"""
+                <div class="service-box service-ringan">
 
-        # ==================================================
-        # INFORMASI TAMBAHAN
-        # ==================================================
+                    <div>
 
-        with col2:
+                        <div class="service-text-ringan">
 
-            st.metric(
-                label="Confidence",
-                value=f'{st.session_state["confidence"]:.2f}%'
-            )
+                            {st.session_state["hasil_prediksi"]}
 
-            st.metric(
-                label="Estimasi Waktu",
-                value=f'{st.session_state["estimasi"]} Menit'
-            )
+                        </div>
 
-        st.divider()
+                    </div>
 
-        st.subheader("📄 Ringkasan Analisis")
+                </div>
+                """,unsafe_allow_html=True)
 
-        col3, col4 = st.columns(2, gap="large")
+            else:
 
-        with col3:
+                st.markdown(f"""
+                <div class="service-box service-berat">
 
-            st.write(f"**Nama Pelanggan :** {st.session_state['nama']}")
-            st.write(f"**No Polisi :** {st.session_state['no_polisi']}")
-            st.write(f"**Model Motor :** {st.session_state['model_motor']}")
-            st.write(f"**Jenis Motor :** {st.session_state['jenis_motor']}")
+                    <div>
 
-        with col4:
+                        <div class="service-text-berat">
 
-            st.write(f"**Kilometer :** {st.session_state['kilometer']:,} Km")
-            st.write(f"**Tahun Motor :** {st.session_state['tahun_motor']}")
-            st.write(f"**Indikasi :** {st.session_state['indikasi']}")
+                            {st.session_state["hasil_prediksi"]}
 
-        st.divider()
+                        </div>
 
-        st.subheader("🛠 Pekerjaan yang Dipilih")
+                    </div>
 
-        pekerjaan = st.session_state["pekerjaan"]
+                </div>
+                """,unsafe_allow_html=True)
 
-        if len(pekerjaan) > 0:
+        # ======================================================
+        # INFORMASI
+        # ======================================================
 
-            for i, item in enumerate(pekerjaan, start=1):
+        with right:
 
-                st.write(f"{i}. {item}")
+            st.markdown(f"""
+            <div class="result-card">
 
-        else:
+                <div class="result-row">
 
-            st.info("Belum ada pekerjaan yang dipilih.")
+                    <div class="result-title">
+
+                        🎯 Tingkat Keyakinan Model
+
+                    </div>
+
+                    <div class="result-value">
+
+                        {st.session_state["confidence"]:.2f}%
+
+                    </div>
+
+                </div>
+
+            </div>
+            """,unsafe_allow_html=True)
+
+            st.markdown(f"""
+            <div class="result-card">
+
+                <div class="result-row">
+
+                    <div class="result-title">
+
+                        🕒 Total Estimasi Waktu
+
+                    </div>
+
+                    <div class="result-value">
+
+                        {st.session_state["estimasi"]} menit
+
+                    </div>
+
+                </div>
+
+            </div>
+            """,unsafe_allow_html=True)
+
+            if st.session_state["kategori"]=="Ringan":
+
+                badge='<span class="badge-ringan">Ringan</span>'
+
+            else:
+
+                badge='<span class="badge-berat">Berat</span>'
+
+            st.markdown(f"""
+            <div class="result-card">
+
+                <div class="result-row">
+
+                    <div class="result-title">
+
+                        ⚙️ Kategori Berdasarkan Model
+
+                    </div>
+
+                    <div>
+
+                        {badge}
+
+                    </div>
+
+                </div>
+
+            </div>
+            """,unsafe_allow_html=True)
