@@ -707,86 +707,83 @@ if "hasil_prediksi" in st.session_state:
 
     with st.container(border=True):
 
-        col_kiri, col_kanan = st.columns(
-            [1.25, 1.75],
-            gap="large"
-        )
+        left, right = st.columns([1.2, 1.8], gap="large")
 
-        # ======================================================
-        # CARD HASIL PREDIKSI
-        # ======================================================
+        # ==================================================
+        # HASIL PREDIKSI
+        # ==================================================
 
-        with col_kiri:
+        with left:
 
             if st.session_state["kategori"] == "Ringan":
 
-                st.success("### Prediksi Layanan")
+                st.success(
+                    f"""
+# {st.session_state["hasil_prediksi"]}
+                    """
+                )
 
             else:
 
-                st.error("### Prediksi Layanan")
-
-            st.markdown("<br>", unsafe_allow_html=True)
-
-            st.markdown(
-                f"""
-                <div style="text-align:center;">
-                    <h1 style="
-                        color:#16a34a;
-                        font-size:34px;
-                        margin-bottom:5px;
-                        font-weight:700;
-                    ">
-                        {st.session_state["hasil_prediksi"]}
-                    </h1>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-
-        # ======================================================
-        # INFORMASI HASIL PREDIKSI
-        # ======================================================
-
-        with col_kanan:
-
-            info1, nilai1 = st.columns([3,1])
-
-            with info1:
-                st.write("🎯 Tingkat Keyakinan Model")
-
-            with nilai1:
-                st.markdown(
-                    f"<div style='text-align:right;font-weight:bold'>{st.session_state['confidence']:.2f}%</div>",
-                    unsafe_allow_html=True
+                st.error(
+                    f"""
+# {st.session_state["hasil_prediksi"]}
+                    """
                 )
 
-            st.divider()
+        # ==================================================
+        # INFORMASI PREDIKSI
+        # ==================================================
 
-            info2, nilai2 = st.columns([3,1])
+        with right:
 
-            with info2:
-                st.write("🕒 Total Estimasi Waktu")
+            # -----------------------------
+            # Confidence
+            # -----------------------------
 
-            with nilai2:
-                st.markdown(
-                    f"<div style='text-align:right;font-weight:bold'>{st.session_state['estimasi']} menit</div>",
-                    unsafe_allow_html=True
-                )
+            with st.container(border=True):
 
-            st.divider()
+                c1, c2 = st.columns([3,1])
 
-            info3, nilai3 = st.columns([3,1])
+                with c1:
+                    st.write("🎯 Tingkat Keyakinan Model")
 
-            with info3:
-                st.write("⚙️ Kategori Berdasarkan Model")
+                with c2:
+                    st.markdown(
+                        f"<div style='text-align:right;font-weight:700'>{st.session_state['confidence']:.2f}%</div>",
+                        unsafe_allow_html=True
+                    )
 
-            with nilai3:
+            # -----------------------------
+            # Estimasi
+            # -----------------------------
 
-                if st.session_state["kategori"] == "Ringan":
+            with st.container(border=True):
 
-                    st.success("Ringan")
+                c1, c2 = st.columns([3,1])
 
-                else:
+                with c1:
+                    st.write("🕒 Total Estimasi Waktu")
 
-                    st.error("Berat")
+                with c2:
+                    st.markdown(
+                        f"<div style='text-align:right;font-weight:700'>{st.session_state['estimasi']} menit</div>",
+                        unsafe_allow_html=True
+                    )
+
+            # -----------------------------
+            # Kategori
+            # -----------------------------
+
+            with st.container(border=True):
+
+                c1, c2 = st.columns([3,1])
+
+                with c1:
+                    st.write("⚙️ Kategori Berdasarkan Model")
+
+                with c2:
+                    st.markdown(
+                        f"<div style='text-align:right;font-weight:700'>{st.session_state['kategori']}</div>",
+                        unsafe_allow_html=True
+                    )
