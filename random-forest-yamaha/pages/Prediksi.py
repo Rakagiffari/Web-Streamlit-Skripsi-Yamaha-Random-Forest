@@ -222,3 +222,75 @@ else:
     hasil_prediksi = "Service Berat"
 
 st.success(f"Hasil Prediksi : {hasil_prediksi}")
+
+st.markdown("---")
+
+st.markdown("""
+<h2 style='text-align:center;color:white;'>
+📋 Hasil Prediksi
+</h2>
+""", unsafe_allow_html=True)
+if hasil == 0:
+    hasil_prediksi = "Service Ringan"
+else:
+    hasil_prediksi = "Service Berat"
+
+st.markdown(f"""
+<div style="
+background:#111827;
+border:1px solid #334155;
+padding:25px;
+border-radius:18px;
+text-align:center;
+margin-top:15px;
+">
+
+<div style="
+font-size:16px;
+color:#9ca3af;
+margin-bottom:10px;
+">
+
+Kategori Layanan
+
+</div>
+
+<div style="
+font-size:34px;
+font-weight:bold;
+color:#ffffff;
+">
+
+{hasil_prediksi}
+
+</div>
+
+</div>
+""", unsafe_allow_html=True)
+
+col1,col2,col3 = st.columns(3)
+with col1:
+
+    st.info("⏱️ Estimasi\n\n± 3 Jam")
+
+with col2:
+
+    st.info("👨‍🔧 Mekanik\n\nAndi Saputra")
+
+with col3:
+
+    st.info("📅 Jadwal\n\nHari Ini")
+
+if hasil_prediksi == "Service Ringan":
+
+    st.success("""
+Kendaraan dapat langsung dilakukan service ringan.
+Estimasi pengerjaan relatif singkat.
+""")
+
+else:
+
+    st.warning("""
+Disarankan dilakukan pemeriksaan menyeluruh karena
+kendaraan diprediksi memerlukan service berat.
+""")
