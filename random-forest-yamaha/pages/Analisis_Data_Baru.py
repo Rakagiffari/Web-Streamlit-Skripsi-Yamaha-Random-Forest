@@ -901,7 +901,7 @@ if "hasil_prediksi" in st.session_state:
                     </span>
                 </div>
 
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
