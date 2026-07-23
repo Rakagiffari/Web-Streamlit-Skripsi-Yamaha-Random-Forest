@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 # =========================================
 # CONFIG
@@ -294,3 +295,65 @@ else:
 Disarankan dilakukan pemeriksaan menyeluruh karena
 kendaraan diprediksi memerlukan service berat.
 """)
+
+# =========================================
+# SESSION STATE
+# =========================================
+
+if "history" not in st.session_state:
+    st.session_state.history = []
+
+if hasil == 0:
+    hasil_prediksi = "Service Ringan"
+else:
+    hasil_prediksi = "Service Berat"
+
+from datetime import datetime
+
+st.session_state.history.append({
+
+    "Waktu": datetime.now().strftime("%d-%m-%Y %H:%M"),
+
+    "Model": model,
+
+    "Jenis": jenis,
+
+    "Tahun": tahun,
+
+    "Kilometer": km,
+
+    "Indikasi": indikasi,
+
+    "Prediksi": hasil_prediksi
+
+})
+
+st.markdown("---")
+
+st.subheader("📜 Riwayat Prediksi")
+
+if len(st.session_state.history) > 0:
+
+    history_df = pd.DataFrame(
+        st.session_state.history
+    )
+
+    st.dataframe(
+
+        history_df,
+
+        use_container_width=True,
+
+        hide_index=True
+
+    )
+
+else:
+
+    st.info("Belum ada riwayat prediksi.")
+
+if st.button("🗑 Hapus Riwayat"):
+
+    st.session_state.history = []
+
+    st.rerun()
