@@ -716,26 +716,26 @@ if "hasil_prediksi" in st.session_state:
 
         with kiri:
 
-            if st.session_state["kategori"] == "Ringan":
-                st.success("### ✅ Prediksi Layanan")
-            else:
-                st.error("### ⚠️ Prediksi Layanan")
+        if st.session_state["kategori"] == "Ringan":
 
-            st.markdown("<br>", unsafe_allow_html=True)
+            st.success("### Prediksi Layanan")
 
-            st.markdown(
-                f"""
-                <div style="text-align:center;">
-                    <h2 style="
-                        color:#16a34a;
-                        margin-bottom:0px;
-                    ">
-                        {st.session_state["hasil_prediksi"]}
-                    </h2>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+        else:
+
+            st.error("### Prediksi Layanan")
+    
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        st.markdown(
+            f"""
+            <div style="text-align:center;">
+                <h1 style="margin:0;">
+                    {st.session_state["hasil_prediksi"]}
+                </h1>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
         # ==================================================
         # INFORMASI PREDIKSI
