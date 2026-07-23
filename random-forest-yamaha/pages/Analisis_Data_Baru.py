@@ -698,8 +698,7 @@ st.markdown(
 )
 
 # ==========================================================
-# BAGIAN 4
-# HASIL PREDIKSI
+# HASIL PREDIKSI (RANDOM FOREST)
 # ==========================================================
 
 if "hasil_prediksi" in st.session_state:
@@ -708,67 +707,86 @@ if "hasil_prediksi" in st.session_state:
 
     with st.container(border=True):
 
-        kiri, kanan = st.columns([1.3, 1.7], gap="large")
-
-        # ==================================================
-        # CARD HASIL PREDIKSI
-        # ==================================================
-
-        with kiri:
-
-        if st.session_state["kategori"] == "Ringan":
-
-            st.success("### Prediksi Layanan")
-
-        else:
-
-            st.error("### Prediksi Layanan")
-    
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        st.markdown(
-            f"""
-            <div style="text-align:center;">
-                <h1 style="margin:0;">
-                    {st.session_state["hasil_prediksi"]}
-                </h1>
-            </div>
-            """,
-            unsafe_allow_html=True
+        col_kiri, col_kanan = st.columns(
+            [1.25, 1.75],
+            gap="large"
         )
 
-        # ==================================================
-        # INFORMASI PREDIKSI
-        # ==================================================
+        # ======================================================
+        # CARD HASIL PREDIKSI
+        # ======================================================
 
-        with kanan:
+        with col_kiri:
 
-            info = pd.DataFrame({
+            if st.session_state["kategori"] == "Ringan":
 
-                "Informasi":[
+                st.success("### Prediksi Layanan")
 
-                    "🎯 Tingkat Keyakinan Model",
+            else:
 
-                    "🕒 Total Estimasi Waktu",
+                st.error("### Prediksi Layanan")
 
-                    "⚙️ Kategori Berdasarkan Model"
+            st.markdown("<br>", unsafe_allow_html=True)
 
-                ],
-
-                "Nilai":[
-
-                    f'{st.session_state["confidence"]:.2f}%',
-
-                    f'{st.session_state["estimasi"]} menit',
-
-                    st.session_state["kategori"]
-
-                ]
-
-            })
-
-            st.dataframe(
-                info,
-                use_container_width=True,
-                hide_index=True
+            st.markdown(
+                f"""
+                <div style="text-align:center;">
+                    <h1 style="
+                        color:#16a34a;
+                        font-size:34px;
+                        margin-bottom:5px;
+                        font-weight:700;
+                    ">
+                        {st.session_state["hasil_prediksi"]}
+                    </h1>
+                </div>
+                """,
+                unsafe_allow_html=True
             )
+
+        # ======================================================
+        # INFORMASI HASIL PREDIKSI
+        # ======================================================
+
+        with col_kanan:
+
+            info1, nilai1 = st.columns([3,1])
+
+            with info1:
+                st.write("🎯 Tingkat Keyakinan Model")
+
+            with nilai1:
+                st.markdown(
+                    f"<div style='text-align:right;font-weight:bold'>{st.session_state['confidence']:.2f}%</div>",
+                    unsafe_allow_html=True
+                )
+
+            st.divider()
+
+            info2, nilai2 = st.columns([3,1])
+
+            with info2:
+                st.write("🕒 Total Estimasi Waktu")
+
+            with nilai2:
+                st.markdown(
+                    f"<div style='text-align:right;font-weight:bold'>{st.session_state['estimasi']} menit</div>",
+                    unsafe_allow_html=True
+                )
+
+            st.divider()
+
+            info3, nilai3 = st.columns([3,1])
+
+            with info3:
+                st.write("⚙️ Kategori Berdasarkan Model")
+
+            with nilai3:
+
+                if st.session_state["kategori"] == "Ringan":
+
+                    st.success("Ringan")
+
+                else:
+
+                    st.error("Berat")
