@@ -565,7 +565,7 @@ with st.container(border=True):
     ].sum()
 
     st.success(
-        f"🕒 Total Estimasi Waktu Pekerjaan : **{int(total_estimasi)} menit**"
+        f"Total Estimasi Waktu Pekerjaan : **{int(total_estimasi)} menit**"
     )
 
 # ==========================================================
