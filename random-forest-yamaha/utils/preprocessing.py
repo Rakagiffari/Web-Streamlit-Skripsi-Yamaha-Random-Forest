@@ -226,3 +226,103 @@ def preprocess_data(df):
     X = X.astype(float)
 
     return X, y
+
+# =========================================
+# PREPROCESS DATA BARU (UNTUK PREDIKSI)
+# =========================================
+
+import joblib
+from pathlib import Path
+
+
+def preprocess_new_data(
+    model_motor,
+    tahun_motor,
+    kilometer,
+    indikasi
+):
+    """
+    Mengubah input pengguna menjadi format yang sama
+    seperti data training Random Forest.
+    """
+
+    # ==============================
+    # HITUNG USIA MOTOR
+    # ==============================
+
+    tahun_sekarang = datetime.now().year
+
+    usia_motor = tahun_sekarang - tahun_motor
+
+    # ==============================
+    # TENTUKAN JENIS MOTOR
+    # ==============================
+
+    jenis = get_jenis(model_motor)
+
+    # ==============================
+    # MEMBUAT DATAFRAME
+    # ==============================
+
+    X_new = pd.DataFrame({
+
+        "Jenis": [jenis],
+
+        "Km": [kilometer],
+
+        "Usia Motor": [usia_motor],
+
+        "Indikasi": [indikasi]
+
+    })
+
+    # ==============================
+    # ONE HOT ENCODING
+    # ==============================
+
+    X_new = pd.get_dummies(
+
+        X_new,
+
+        columns=[
+            "Jenis",
+            "Indikasi"
+        ],
+
+        drop_first=False
+
+    )
+
+    # ==============================
+    # LOAD FEATURE NAMES
+    # ==============================
+
+    BASE_DIR = Path(__file__).resolve().parent.parent
+
+    feature_names = joblib.load(
+        BASE_DIR / "model" / "feature_names.pkl"
+    )
+
+    # ==============================
+    # TAMBAHKAN KOLOM YANG BELUM ADA
+    # ==============================
+
+    for col in feature_names:
+
+        if col not in X_new.columns:
+
+            X_new[col] = 0
+
+    # ==============================
+    # HAPUS KOLOM YANG TIDAK DIGUNAKAN
+    # ==============================
+
+    X_new = X_new[feature_names]
+
+    # ==============================
+    # PASTIKAN NUMERIK
+    # ==============================
+
+    X_new = X_new.astype(float)
+
+    return X_new
