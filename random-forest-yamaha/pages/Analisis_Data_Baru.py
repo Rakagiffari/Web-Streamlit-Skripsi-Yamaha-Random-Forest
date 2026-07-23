@@ -211,13 +211,21 @@ with st.container(border=True):
 
     with col6:
 
-        tahun_motor = st.selectbox(
+    tahun_motor = st.number_input(
 
-            "Tahun Motor",
+        "Tahun Motor",
 
-            list(range(2026, 1999, -1))
+        min_value=1990,
 
-        )
+        max_value=2100,
+
+        value=2020,
+
+        step=1,
+
+        format="%d"
+
+    )
 
     # ======================================================
     # BARIS 4
