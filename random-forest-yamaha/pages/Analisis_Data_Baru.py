@@ -698,80 +698,77 @@ st.markdown(
 )
 
 # ==========================================================
+# BAGIAN 4
 # HASIL PREDIKSI
 # ==========================================================
 
 if "hasil_prediksi" in st.session_state:
 
-    st.markdown("## 📋 Hasil Prediksi")
+    st.markdown("### 3. Hasil Prediksi (Random Forest)")
 
     with st.container(border=True):
 
-        col1, col2 = st.columns(2, gap="large")
+        kiri, kanan = st.columns([1.3, 1.7], gap="large")
 
         # ==================================================
-        # HASIL PREDIKSI
+        # CARD HASIL PREDIKSI
         # ==================================================
 
-        with col1:
+        with kiri:
 
-            st.metric(
-                label="Hasil Prediksi",
-                value=st.session_state["hasil_prediksi"]
-            )
+            if st.session_state["kategori"] == "Ringan":
+                st.success("### ✅ Prediksi Layanan")
+            else:
+                st.error("### ⚠️ Prediksi Layanan")
 
-            st.metric(
-                label="Kategori",
-                value=st.session_state["kategori"]
+            st.markdown("<br>", unsafe_allow_html=True)
+
+            st.markdown(
+                f"""
+                <div style="text-align:center;">
+                    <h2 style="
+                        color:#16a34a;
+                        margin-bottom:0px;
+                    ">
+                        {st.session_state["hasil_prediksi"]}
+                    </h2>
+                </div>
+                """,
+                unsafe_allow_html=True
             )
 
         # ==================================================
-        # INFORMASI TAMBAHAN
+        # INFORMASI PREDIKSI
         # ==================================================
 
-        with col2:
+        with kanan:
 
-            st.metric(
-                label="Confidence",
-                value=f'{st.session_state["confidence"]:.2f}%'
+            info = pd.DataFrame({
+
+                "Informasi":[
+
+                    "🎯 Tingkat Keyakinan Model",
+
+                    "🕒 Total Estimasi Waktu",
+
+                    "⚙️ Kategori Berdasarkan Model"
+
+                ],
+
+                "Nilai":[
+
+                    f'{st.session_state["confidence"]:.2f}%',
+
+                    f'{st.session_state["estimasi"]} menit',
+
+                    st.session_state["kategori"]
+
+                ]
+
+            })
+
+            st.dataframe(
+                info,
+                use_container_width=True,
+                hide_index=True
             )
-
-            st.metric(
-                label="Estimasi Waktu",
-                value=f'{st.session_state["estimasi"]} Menit'
-            )
-
-        st.divider()
-
-        st.subheader("📄 Ringkasan Analisis")
-
-        col3, col4 = st.columns(2, gap="large")
-
-        with col3:
-
-            st.write(f"**Nama Pelanggan :** {st.session_state['nama']}")
-            st.write(f"**No Polisi :** {st.session_state['no_polisi']}")
-            st.write(f"**Model Motor :** {st.session_state['model_motor']}")
-            st.write(f"**Jenis Motor :** {st.session_state['jenis_motor']}")
-
-        with col4:
-
-            st.write(f"**Kilometer :** {st.session_state['kilometer']:,} Km")
-            st.write(f"**Tahun Motor :** {st.session_state['tahun_motor']}")
-            st.write(f"**Indikasi :** {st.session_state['indikasi']}")
-
-        st.divider()
-
-        st.subheader("🛠 Pekerjaan yang Dipilih")
-
-        pekerjaan = st.session_state["pekerjaan"]
-
-        if len(pekerjaan) > 0:
-
-            for i, item in enumerate(pekerjaan, start=1):
-
-                st.write(f"{i}. {item}")
-
-        else:
-
-            st.info("Belum ada pekerjaan yang dipilih.")
