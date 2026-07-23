@@ -52,69 +52,125 @@ st.markdown("""
     margin-top:-10px;
 }
 
-/* =========================================
+/* ==========================================================
 HASIL PREDIKSI
-=========================================*/
+========================================================== */
 
-.result-card{
-    border:1px solid #dcdfe4;
-    border-radius:10px;
-    padding:18px 20px;
-    margin-bottom:14px;
+.prediksi-wrapper{
+    margin-top:10px;
 }
 
-.result-row{
+.prediksi-left{
+    background:#f3faf5;
+    border:1px solid #d8eadc;
+    border-radius:10px;
+    height:180px;
+
     display:flex;
-    justify-content:space-between;
     align-items:center;
-}
-
-.result-title{
-    font-size:15px;
-    font-weight:500;
-}
-
-.result-value{
-    font-size:18px;
-    font-weight:700;
-}
-
-.service-box{
-    border-radius:10px;
-    padding:35px 20px;
-    text-align:center;
-    height:205px;
-
-    display:flex;
     justify-content:center;
-    align-items:center;
+
+    padding:20px;
 }
 
-.service-ringan{
-    background:#edf8ef;
-    border:1px solid #b6e4c1;
+.prediksi-left-danger{
+    background:#fff1f1;
+    border:1px solid #f0c7c7;
 }
 
-.service-berat{
-    background:#fdecec;
-    border:1px solid #efb4b4;
+.prediksi-content{
+    text-align:center;
 }
 
-.service-text-ringan{
-    color:#138a36;
-    font-size:42px;
-    font-weight:800;
+.prediksi-title{
+
+    font-size:15px;
+
+    color:#6b7280;
+
+    margin-bottom:10px;
+
+    font-weight:500;
+
 }
 
-.service-text-berat{
+.prediksi-service-ringan{
+
+    font-size:36px;
+
+    font-weight:700;
+
+    color:#15803d;
+
+    letter-spacing:0.5px;
+
+}
+
+.prediksi-service-berat{
+
+    font-size:36px;
+
+    font-weight:700;
+
     color:#dc2626;
-    font-size:42px;
-    font-weight:800;
+
+    letter-spacing:0.5px;
+
 }
+
+/* =============================== */
+
+.info-box{
+
+    border:1px solid #dfe3e8;
+
+    border-radius:8px;
+
+    padding:16px 18px;
+
+    margin-bottom:12px;
+
+    background:transparent;
+
+}
+
+.info-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.info-label{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-size:15px;
+
+    font-weight:500;
+
+}
+
+.info-value{
+
+    font-size:17px;
+
+    font-weight:700;
+
+}
+
+/* =============================== */
 
 .badge-ringan{
 
-    background:#dcfce7;
+    background:#e9f9ee;
 
     color:#15803d;
 
@@ -130,9 +186,9 @@ HASIL PREDIKSI
 
 .badge-berat{
 
-    background:#fee2e2;
+    background:#fdeaea;
 
-    color:#b91c1c;
+    color:#dc2626;
 
     padding:5px 14px;
 
@@ -790,77 +846,100 @@ st.markdown(
 )
 
 # ==========================================================
-# HASIL PREDIKSI
+# HASIL PREDIKSI (RANDOM FOREST)
 # ==========================================================
 
 if "hasil_prediksi" in st.session_state:
 
     st.markdown("### 3. Hasil Prediksi (Random Forest)")
 
-    with st.container(border=True):
+    # ======================================================
+    # BADGE KATEGORI
+    # ======================================================
 
-        left, right = st.columns([1.1,1.9], gap="large")
+    if st.session_state["kategori"] == "Ringan":
 
-        # ======================================================
-        # CARD SERVICE
-        # ======================================================
+        left_class = "prediksi-left"
 
-        with left:
+        service_class = "prediksi-service-ringan"
 
-            if st.session_state["kategori"]=="Ringan":
+        badge = '<span class="badge-ringan">Ringan</span>'
 
-                st.markdown(f"""
-                <div class="service-box service-ringan">
+    else:
 
-                    <div>
+        left_class = "prediksi-left prediksi-left-danger"
 
-                        <div class="service-text-ringan">
+        service_class = "prediksi-service-berat"
 
-                            {st.session_state["hasil_prediksi"]}
+        badge = '<span class="badge-berat">Berat</span>'
 
-                        </div>
+    # ======================================================
+    # LAYOUT
+    # ======================================================
+
+    left, right = st.columns([1.15, 1.85], gap="large")
+
+    # ======================================================
+    # KOLOM KIRI
+    # ======================================================
+
+    with left:
+
+        st.markdown(
+
+            f"""
+
+            <div class="{left_class}">
+
+                <div class="prediksi-content">
+
+                    <div class="prediksi-title">
+
+                        Prediksi Layanan
+
+                    </div>
+
+                    <div class="{service_class}">
+
+                        {st.session_state["hasil_prediksi"]}
 
                     </div>
 
                 </div>
-                """,unsafe_allow_html=True)
 
-            else:
+            </div>
 
-                st.markdown(f"""
-                <div class="service-box service-berat">
+            """,
 
-                    <div>
+            unsafe_allow_html=True
 
-                        <div class="service-text-berat">
+        )
 
-                            {st.session_state["hasil_prediksi"]}
+    # ======================================================
+    # KOLOM KANAN
+    # ======================================================
 
-                        </div>
+    with right:
 
-                    </div>
+        # ------------------------------
+        # Confidence
+        # ------------------------------
 
-                </div>
-                """,unsafe_allow_html=True)
+        st.markdown(
 
-        # ======================================================
-        # INFORMASI
-        # ======================================================
+            f"""
 
-        with right:
+            <div class="info-box">
 
-            st.markdown(f"""
-            <div class="result-card">
+                <div class="info-row">
 
-                <div class="result-row">
-
-                    <div class="result-title">
+                    <div class="info-label">
 
                         🎯 Tingkat Keyakinan Model
 
                     </div>
 
-                    <div class="result-value">
+                    <div class="info-value">
 
                         {st.session_state["confidence"]:.2f}%
 
@@ -869,20 +948,32 @@ if "hasil_prediksi" in st.session_state:
                 </div>
 
             </div>
-            """,unsafe_allow_html=True)
 
-            st.markdown(f"""
-            <div class="result-card">
+            """,
 
-                <div class="result-row">
+            unsafe_allow_html=True
 
-                    <div class="result-title">
+        )
+
+        # ------------------------------
+        # Estimasi
+        # ------------------------------
+
+        st.markdown(
+
+            f"""
+
+            <div class="info-box">
+
+                <div class="info-row">
+
+                    <div class="info-label">
 
                         🕒 Total Estimasi Waktu
 
                     </div>
 
-                    <div class="result-value">
+                    <div class="info-value">
 
                         {st.session_state["estimasi"]} menit
 
@@ -891,22 +982,26 @@ if "hasil_prediksi" in st.session_state:
                 </div>
 
             </div>
-            """,unsafe_allow_html=True)
 
-            if st.session_state["kategori"]=="Ringan":
+            """,
 
-                badge='<span class="badge-ringan">Ringan</span>'
+            unsafe_allow_html=True
 
-            else:
+        )
 
-                badge='<span class="badge-berat">Berat</span>'
+        # ------------------------------
+        # Kategori
+        # ------------------------------
 
-            st.markdown(f"""
-            <div class="result-card">
+        st.markdown(
 
-                <div class="result-row">
+            f"""
 
-                    <div class="result-title">
+            <div class="info-box">
+
+                <div class="info-row">
+
+                    <div class="info-label">
 
                         ⚙️ Kategori Berdasarkan Model
 
@@ -921,4 +1016,9 @@ if "hasil_prediksi" in st.session_state:
                 </div>
 
             </div>
-            """,unsafe_allow_html=True)
+
+            """,
+
+            unsafe_allow_html=True
+
+        )
