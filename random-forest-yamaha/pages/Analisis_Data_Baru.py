@@ -80,10 +80,6 @@ st.markdown(
 
 with st.container(border=True):
 
-    st.markdown("### 1. Data Kendaraan")
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
     # ======================================================
     # MAPPING MODEL -> JENIS
     # ======================================================
