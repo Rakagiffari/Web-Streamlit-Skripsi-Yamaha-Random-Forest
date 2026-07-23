@@ -211,21 +211,21 @@ with st.container(border=True):
 
     with col6:
 
-    tahun_motor = st.number_input(
+        tahun_motor = st.number_input(
 
-        "Tahun Motor",
+            "Tahun Motor",
 
-        min_value=1990,
+            min_value=1990,
 
-        max_value=2100,
+            max_value=2100,
 
-        value=2020,
+            value=2020,
 
-        step=1,
+            step=1,
 
-        format="%d"
+            format="%d"
 
-    )
+        )
 
     # ======================================================
     # BARIS 4
