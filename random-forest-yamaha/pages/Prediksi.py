@@ -160,3 +160,65 @@ st.button(
     "🔍 Prediksi Layanan",
     use_container_width=True
 )
+
+import joblib
+import pandas as pd
+from pathlib import Path
+from datetime import datetime
+
+BASE_DIR = Path(__file__).parent.parent
+
+model = joblib.load(
+    BASE_DIR / "model" / "random_forest_model.pkl"
+)
+
+tahun_sekarang = datetime.now().year
+
+usia_motor = tahun_sekarang - tahun
+
+input_data = pd.DataFrame({
+
+    "Jenis":[jenis],
+
+    "Km":[km],
+
+    "Usia Motor":[usia_motor],
+
+    "Indikasi":[indikasi]
+
+})
+
+input_data = pd.get_dummies(
+
+    input_data,
+
+    columns=[
+        "Jenis",
+        "Indikasi"
+    ],
+
+    drop_first=False
+
+)
+
+feature_names = model.feature_names_in_
+
+input_data = input_data.reindex(
+
+    columns=feature_names,
+
+    fill_value=0
+
+)
+
+hasil = model.predict(input_data)[0]
+
+if hasil == 0:
+
+    hasil_prediksi = "Service Ringan"
+
+else:
+
+    hasil_prediksi = "Service Berat"
+
+st.success(f"Hasil Prediksi : {hasil_prediksi}")
