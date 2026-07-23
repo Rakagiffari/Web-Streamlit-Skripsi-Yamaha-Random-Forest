@@ -568,10 +568,7 @@ with st.container(border=True):
         f"🕒 Total Estimasi Waktu Pekerjaan : **{int(total_estimasi)} menit**"
     )
 
-st.markdown("<br>", unsafe_allow_html=True)
-
 # ==========================================================
-# LANGKAH 1
 # TOMBOL PREDIKSI
 # ==========================================================
 
