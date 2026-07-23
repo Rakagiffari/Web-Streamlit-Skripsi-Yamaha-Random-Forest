@@ -599,7 +599,81 @@ with center:
         type="primary"
     )
 
+# ==========================================================
+# PROSES PREDIKSI RANDOM FOREST
+# ==========================================================
 
+if prediksi_button:
+
+    try:
+
+        # ==========================================
+        # LOAD MODEL
+        # ==========================================
+
+        model = joblib.load(MODEL_PATH)
+
+        feature_names = joblib.load(FEATURE_PATH)
+
+        # ==========================================
+        # PREPROCESS DATA BARU
+        # ==========================================
+
+        X_new = preprocess_new_data(
+
+            model_motor=model_motor,
+
+            tahun_motor=tahun_motor,
+
+            kilometer=kilometer,
+
+            indikasi=indikasi
+
+        )
+
+        # ==========================================
+        # PREDIKSI RANDOM FOREST
+        # ==========================================
+
+        prediksi = model.predict(X_new)[0]
+
+        confidence = (
+            model.predict_proba(X_new).max() * 100
+        )
+
+        # ==========================================
+        # KONVERSI LABEL
+        # ==========================================
+
+        if prediksi == 0:
+
+            hasil_prediksi = "SERVICE RINGAN"
+
+            kategori = "Ringan"
+
+        else:
+
+            hasil_prediksi = "SERVICE BERAT"
+
+            kategori = "Berat"
+
+        # ==========================================
+        # SESSION STATE
+        # ==========================================
+
+        st.session_state["hasil_prediksi"] = hasil_prediksi
+
+        st.session_state["confidence"] = confidence
+
+        st.session_state["kategori"] = kategori
+
+        st.session_state["estimasi"] = total_estimasi
+
+        st.success("Prediksi berhasil dilakukan.")
+
+    except Exception as e:
+
+        st.error(f"Terjadi kesalahan : {e}")
 
 st.markdown(
     """
