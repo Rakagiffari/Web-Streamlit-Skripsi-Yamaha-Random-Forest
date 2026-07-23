@@ -816,37 +816,45 @@ st.markdown(
 )
 
 # ==========================================================
-# BAGIAN 4A
-# HASIL PREDIKSI - LAYOUT
+# BAGIAN 4
+# HASIL PREDIKSI
 # ==========================================================
 
 if "hasil_prediksi" in st.session_state:
 
     st.markdown("### 3. Hasil Prediksi (Random Forest)")
 
-    # Menentukan warna berdasarkan hasil prediksi
     if st.session_state["kategori"] == "Ringan":
 
-        service_class = "service-ringan"
-        kategori_class = "kategori-ringan"
+        warna = "#dff2dc"
+        warna_text = "#156d2d"
 
     else:
 
-        service_class = "service-berat"
-        kategori_class = "kategori-berat"
+        warna = "#f3cccc"
+        warna_text = "#b71c1c"
 
-    # Layout dua kolom
-    col_left, col_right = st.columns([1.1, 1.9], gap="large")
+    col1, col2 = st.columns([1.1, 1.3], gap="large")
 
     # ======================================================
     # KOLOM KIRI
     # ======================================================
 
-    with col_left:
+    with col1:
 
         st.markdown(
             f"""
-            <div class="prediksi-service {service_class}">
+            <div style="
+                height:180px;
+                border-radius:12px;
+                background:{warna};
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                font-size:38px;
+                font-weight:700;
+                color:{warna_text};
+            ">
                 {st.session_state["hasil_prediksi"]}
             </div>
             """,
@@ -857,141 +865,58 @@ if "hasil_prediksi" in st.session_state:
     # KOLOM KANAN
     # ======================================================
 
-    with col_right:
+    with col2:
 
         st.markdown(
             f"""
-            <div class="prediksi-info">
+            <table style="
+                width:100%;
+                border-collapse:collapse;
+                height:180px;
+                font-size:18px;
+            ">
 
-                <div class="prediksi-item">
-                    <div class="prediksi-label">
+                <tr style="border-bottom:2px solid #444;">
+                    <td style="padding:14px 0;">
                         Tingkat Keyakinan Model
-                    </div>
-                    <div class="prediksi-value">
+                    </td>
+
+                    <td style="
+                        text-align:right;
+                        font-weight:bold;
+                    ">
                         {st.session_state["confidence"]:.2f}%
-                    </div>
-                </div>
+                    </td>
+                </tr>
 
-                <div class="prediksi-item">
-                    <div class="prediksi-label">
+                <tr style="border-bottom:2px solid #444;">
+                    <td style="padding:14px 0;">
                         Total Estimasi Waktu
-                    </div>
-                    <div class="prediksi-value">
+                    </td>
+
+                    <td style="
+                        text-align:right;
+                        font-weight:bold;
+                    ">
                         {st.session_state["estimasi"]} Menit
-                    </div>
-                </div>
+                    </td>
+                </tr>
 
-                <div class="prediksi-item">
-                    <div class="prediksi-label">
+                <tr>
+                    <td style="padding:14px 0;">
                         Kategori Berdasarkan Model
-                    </div>
-                    <div class="prediksi-value {kategori_class}">
+                    </td>
+
+                    <td style="
+                        text-align:right;
+                        font-weight:bold;
+                        color:{warna_text};
+                    ">
                         {st.session_state["kategori"]}
-                    </div>
-                </div>
+                    </td>
+                </tr>
 
-            </div>
+            </table>
             """,
             unsafe_allow_html=True
         )
-
-        # Isi akan dibuat pada Bagian 4B
-
-        # ======================================================
-        # TINGKAT KEYAKINAN MODEL
-        # ======================================================
-
-        st.markdown(
-            f"""
-            <div class="prediksi-item">
-
-                <div class="prediksi-label">
-                    Tingkat Keyakinan Model
-                </div>
-
-                <div class="prediksi-value">
-                    {st.session_state["confidence"]:.2f}%
-                </div>
-
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-        # ======================================================
-        # TOTAL ESTIMASI WAKTU
-        # ======================================================
-
-        st.markdown(
-            f"""
-            <div class="prediksi-item">
-
-                <div class="prediksi-label">
-                    Total Estimasi Waktu
-                </div>
-
-                <div class="prediksi-value">
-                    {st.session_state["estimasi"]} Menit
-                </div>
-
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-        # ======================================================
-        # KATEGORI BERDASARKAN MODEL
-        # ======================================================
-
-        st.markdown(
-            f"""
-            <div class="prediksi-item">
-
-                <div class="prediksi-label">
-                    Kategori Berdasarkan Model
-                </div>
-
-                <div class="prediksi-value {kategori_class}">
-                    {st.session_state["kategori"]}
-                </div>
-
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-        st.markdown(
-            """
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-    # ======================================================
-    # KETERANGAN HASIL PREDIKSI
-    # ======================================================
-
-    if st.session_state["kategori"] == "Ringan":
-
-        st.info(
-            """
-            **Rekomendasi:**
-            
-            Kendaraan diprediksi termasuk **Service Ringan**.
-            Layanan yang dipilih diperkirakan merupakan pekerjaan perawatan berkala
-            dengan estimasi waktu relatif singkat.
-            """
-        )
-
-    else:
-
-        st.warning(
-            """
-            **Rekomendasi:**
-            
-            Kendaraan diprediksi termasuk **Service Berat**.
-            Disarankan dilakukan pemeriksaan secara menyeluruh karena estimasi
-            pekerjaan cenderung lebih kompleks.
-            """
-        )
-
