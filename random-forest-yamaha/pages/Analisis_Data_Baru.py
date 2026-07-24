@@ -991,19 +991,20 @@ serta memperkirakan jam selesai berdasarkan total estimasi pekerjaan.
 # 5. SIMPAN DATA
 # ======================================================
 
-st.markdown("")
-
 with st.container(border=True):
 
     st.markdown("### 5. Simpan Data")
 
-    col1, col2 = st.columns([4,1])
+    col1, col2 = st.columns(
+        [5, 1.4],
+        vertical_alignment="center"
+    )
 
     with col1:
 
         st.caption(
-            "Data hasil prediksi layanan beserta jadwal servis akan disimpan "
-            "ke dalam riwayat layanan."
+            "Data hasil prediksi layanan beserta jadwal servis "
+            "akan disimpan ke riwayat layanan."
         )
 
     with col2:
@@ -1014,30 +1015,16 @@ with st.container(border=True):
             type="primary"
         )
 
-        if simpan:
+    if simpan:
 
-            try:
+        try:
 
-                simpan_layanan(
-                    nama=st.session_state["nama"],
-                    no_polisi=st.session_state["no_polisi"],
-                    model_motor=st.session_state["model_motor"],
-                    jenis_motor=st.session_state["jenis_motor"],
-                    tahun_motor=st.session_state["tahun_motor"],
-                    kilometer=st.session_state["kilometer"],
-                    indikasi=st.session_state["indikasi"],
-                    pekerjaan=st.session_state["pekerjaan"],
-                    kategori=st.session_state["kategori"],
-                    confidence=st.session_state["confidence"],
-                    estimasi=st.session_state["estimasi"],
-                    mekanik=st.session_state["jadwal"]["Mekanik"],
-                    nomor_antrean=st.session_state["jadwal"]["Nomor Antrean"],
-                    jam_mulai=st.session_state["jadwal"]["Jam Mulai"],
-                    jam_selesai=st.session_state["jadwal"]["Jam Selesai"]
-                )
+            simpan_layanan(
+                ...
+            )
 
-                st.success("Data berhasil disimpan ke Riwayat Layanan.")
+            st.success("Data berhasil disimpan.")
 
-            except Exception as e:
+        except Exception as e:
 
-                st.error(f"Gagal menyimpan data : {e}")
+            st.error(f"Gagal menyimpan data: {e}")
