@@ -796,8 +796,6 @@ if "hasil_prediksi" in st.session_state:
 
     with st.container(border=True):
 
-        st.subheader("3. Hasil Prediksi (Random Forest)")
-
         st.markdown("")
 
         col1, col2 = st.columns([1.15, 1.85], gap="large")
