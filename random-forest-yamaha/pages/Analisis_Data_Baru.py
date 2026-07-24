@@ -946,67 +946,71 @@ if "hasil_prediksi" in st.session_state:
             )
 
 # ==========================================================
-# 4 PENJADWALAN
+# 4 PENJADWALAN LAYANAN
 # ==========================================================
 
 if "jadwal" in st.session_state:
 
     jadwal = st.session_state["jadwal"]
 
-    st.markdown("## 4. Penjadwalan Layanan")
+    st.markdown("")
 
-    c1, c2, c3, c4, c5 = st.columns(5)
+    with st.container(border=True):
 
-    with c1:
+        st.markdown("### 4. Penjadwalan Layanan")
 
-        st.metric(
+        c1, c2, c3, c4, c5 = st.columns(5)
 
-            "👨‍🔧 Mekanik",
+        with c1:
 
-            jadwal["Mekanik"]
+            st.metric(
 
+                label="👨‍🔧 Mekanik",
+
+                value=jadwal["Mekanik"]
+
+            )
+
+        with c2:
+
+            st.metric(
+
+                label="🎫 Nomor Antrean",
+
+                value=jadwal["Nomor Antrean"]
+
+            )
+
+        with c3:
+
+            st.metric(
+
+                label="🕒 Jam Mulai",
+
+                value=f'{jadwal["Jam Mulai"]} WIB'
+
+            )
+
+        with c4:
+
+            st.metric(
+
+                label="⏱ Jam Selesai",
+
+                value=f'{jadwal["Jam Selesai"]} WIB'
+
+            )
+
+        with c5:
+
+            st.metric(
+
+                label="🏁 Status",
+
+                value=jadwal["Status"]
+
+            )
+
+        st.info(
+            "Penjadwalan dilakukan otomatis berdasarkan estimasi pekerjaan dan ketersediaan mekanik."
         )
-
-    with c2:
-
-        st.metric(
-
-            "🎫 Nomor Antrean",
-
-            jadwal["Nomor Antrean"]
-
-        )
-
-    with c3:
-
-        st.metric(
-
-            "🕒 Jadwal Mulai",
-
-            f'{jadwal["Jam Mulai"]} WIB'
-
-        )
-
-    with c4:
-
-        st.metric(
-
-            "⏱ Jadwal Selesai",
-
-            f'{jadwal["Jam Selesai"]} WIB'
-
-        )
-
-    with c5:
-
-        st.metric(
-
-            "🏁 Operasional",
-
-            "17:00 WIB"
-
-        )
-
-    st.info(
-        "Jadwal dihitung otomatis berdasarkan estimasi waktu dan ketersediaan mekanik."
-    )
