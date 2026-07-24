@@ -961,10 +961,12 @@ if "hasil_prediksi" in st.session_state:
         # Ganti dengan hasil scheduler.py nanti
         # ==============================
 
-        mekanik = "BINTANG FEBRUHAJI"
-        antrean = "A001"
-        jam_mulai = "08:00"
-        jam_selesai = "08:35"
+        jadwal = st.session_state["jadwal"]
+
+        mekanik = jadwal["Mekanik"]
+        antrean = jadwal["Nomor Antrean"]
+        jam_mulai = jadwal["Jam Mulai"]
+        jam_selesai = jadwal["Jam Selesai"]
 
         col1, col2, col3, col4 = st.columns(4)
 
