@@ -764,21 +764,12 @@ if prediksi_button:
             edited_df["Pilih"],
             "Pekerjaan"
         ].tolist()
-        
-        st.markdown(
-            """
-            <div style="
-                text-align:center;
-                color:#9ca3af;
-                font-size:14px;
-                margin-top:-8px;
-                margin-bottom:20px;
-            ">
-                Tekan tombol untuk menjalankan prediksi menggunakan model Random Forest.
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+
+        st.success("Prediksi berhasil dilakukan.")
+
+    except Exception as e:
+
+        st.error(f"Terjadi kesalahan saat melakukan prediksi.\n\n{e}")
 
 # ==========================================================
 # HASIL PREDIKSI
