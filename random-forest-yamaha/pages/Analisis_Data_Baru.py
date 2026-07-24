@@ -946,138 +946,67 @@ if "hasil_prediksi" in st.session_state:
             )
 
 # ==========================================================
-# 4. PENJADWALAN LAYANAN
+# 4 PENJADWALAN
 # ==========================================================
 
-st.markdown("## 4. Penjadwalan Layanan")
+if "jadwal" in st.session_state:
 
-jadwal = st.session_state.get("jadwal")
+    jadwal = st.session_state["jadwal"]
 
-if jadwal is not None:
+    st.markdown("## 4. Penjadwalan Layanan")
 
-    col1, col2, col3, col4, col5 = st.columns(5)
+    c1, c2, c3, c4, c5 = st.columns(5)
 
-    with col1:
+    with c1:
 
-        st.markdown("""
-        <div class="schedule-card">
+        st.metric(
 
-        <div class="schedule-title">
-        👨‍🔧 Mekanik
-        </div>
+            "👨‍🔧 Mekanik",
 
-        <div class="schedule-value">
-        {}
-        </div>
+            jadwal["Mekanik"]
 
-        <div class="schedule-sub">
-        <span class="badge-green">
-        Tersedia
-        </span>
-        </div>
+        )
 
-        </div>
-        """.format(jadwal["Mekanik"]),
-        unsafe_allow_html=True)
+    with c2:
 
-    with col2:
+        st.metric(
 
-        st.markdown("""
-        <div class="schedule-card">
+            "🎫 Nomor Antrean",
 
-        <div class="schedule-title">
-        🎫 Nomor Antrean
-        </div>
+            jadwal["Nomor Antrean"]
 
-        <div class="schedule-big">
-        {}
-        </div>
+        )
 
-        <div class="schedule-sub">
-        Hari Ini
-        </div>
+    with c3:
 
-        </div>
-        """.format(jadwal["Nomor Antrean"]),
-        unsafe_allow_html=True)
+        st.metric(
 
-    with col3:
+            "🕒 Jadwal Mulai",
 
-        st.markdown("""
-        <div class="schedule-card">
+            f'{jadwal["Jam Mulai"]} WIB'
 
-        <div class="schedule-title">
-        🕒 Jadwal Mulai
-        </div>
+        )
 
-        <div class="schedule-big">
-        {} WIB
-        </div>
+    with c4:
 
-        <div class="schedule-sub">
-        {}
-        </div>
+        st.metric(
 
-        </div>
-        """.format(
+            "⏱ Jadwal Selesai",
 
-            jadwal["Jam Mulai"],
+            f'{jadwal["Jam Selesai"]} WIB'
 
-            datetime.now().strftime("%d %B %Y")
+        )
 
-        ),
+    with c5:
 
-        unsafe_allow_html=True)
+        st.metric(
 
-    with col4:
+            "🏁 Operasional",
 
-        st.markdown("""
-        <div class="schedule-card">
+            "17:00 WIB"
 
-        <div class="schedule-title">
-        ⏱ Jadwal Selesai
-        </div>
+        )
 
-        <div class="schedule-big">
-        {} WIB
-        </div>
-
-        <div class="schedule-sub">
-        {}
-        </div>
-
-        </div>
-        """.format(
-
-            jadwal["Jam Selesai"],
-
-            datetime.now().strftime("%d %B %Y")
-
-        ),
-
-        unsafe_allow_html=True)
-
-    with col5:
-
-        st.markdown("""
-        <div class="schedule-card">
-
-        <div class="schedule-title">
-        🏁 Operasional
-        </div>
-
-        <div class="schedule-big">
-        17:00 WIB
-        </div>
-
-        <div class="schedule-sub">
-        Batas Servis
-        </div>
-
-        </div>
-        """,
-        unsafe_allow_html=True)
-
-    st.warning(
+    st.info(
         "Jadwal dihitung otomatis berdasarkan estimasi waktu dan ketersediaan mekanik."
     )
