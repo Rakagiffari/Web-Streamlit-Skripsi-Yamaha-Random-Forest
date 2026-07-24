@@ -986,3 +986,134 @@ menentukan nomor antrean, menghitung jam mulai,
 serta memperkirakan jam selesai berdasarkan total estimasi pekerjaan.
 """
     )
+
+# ==========================================================
+# 5. KONFIRMASI LAYANAN
+# ==========================================================
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+if (
+    "jadwal" in st.session_state
+    and "kategori" in st.session_state
+):
+
+    jadwal = st.session_state["jadwal"]
+
+    st.markdown("""
+    <div style="
+        border:1px solid #e5e7eb;
+        border-radius:10px;
+        background:white;
+        padding:20px;
+        margin-bottom:20px;
+    ">
+    <h4 style="margin-bottom:20px;">
+        5. Konfirmasi Layanan
+    </h4>
+    """, unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+
+    # ===========================
+    # DATA KENDARAAN
+    # ===========================
+
+    with col1:
+
+        st.markdown("#### Data Kendaraan")
+
+        st.markdown(f"""
+        <table style="width:100%;">
+            <tr>
+                <td width="45%">Nama Pelanggan</td>
+                <td><b>{st.session_state['nama']}</b></td>
+            </tr>
+
+            <tr>
+                <td>No. Polisi</td>
+                <td><b>{st.session_state['no_polisi']}</b></td>
+            </tr>
+
+            <tr>
+                <td>Jenis Motor</td>
+                <td><b>{st.session_state['model_motor']}</b></td>
+            </tr>
+
+            <tr>
+                <td>Tahun Motor</td>
+                <td><b>{st.session_state['tahun_motor']}</b></td>
+            </tr>
+
+            <tr>
+                <td>Kilometer</td>
+                <td><b>{st.session_state['kilometer']:,} km</b></td>
+            </tr>
+        </table>
+        """, unsafe_allow_html=True)
+
+    # ===========================
+    # HASIL LAYANAN
+    # ===========================
+
+    with col2:
+
+        st.markdown("#### Ringkasan Layanan")
+
+        warna = "#16a34a"
+
+        if st.session_state["kategori"] == "Berat":
+            warna = "#dc2626"
+
+        st.markdown(f"""
+        <table style="width:100%;">
+
+            <tr>
+                <td width="45%">Kategori Service</td>
+                <td>
+                    <span style="
+                        background:{warna}20;
+                        color:{warna};
+                        padding:4px 12px;
+                        border-radius:20px;
+                        font-weight:bold;
+                    ">
+                    SERVICE {st.session_state['kategori'].upper()}
+                    </span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Estimasi Waktu</td>
+                <td><b>{st.session_state['estimasi']} menit</b></td>
+            </tr>
+
+            <tr>
+                <td>Mekanik</td>
+                <td><b>{jadwal['Mekanik']}</b></td>
+            </tr>
+
+            <tr>
+                <td>Nomor Antrean</td>
+                <td><b>{jadwal['Nomor Antrean']}</b></td>
+            </tr>
+
+            <tr>
+                <td>Jam Mulai</td>
+                <td><b>{jadwal['Jam Mulai']}</b></td>
+            </tr>
+
+            <tr>
+                <td>Jam Selesai</td>
+                <td><b>{jadwal['Jam Selesai']}</b></td>
+            </tr>
+
+        </table>
+        """, unsafe_allow_html=True)
+
+    st.success(
+        "Silakan periksa kembali seluruh informasi layanan. "
+        "Apabila data sudah sesuai, klik tombol **Simpan ke Riwayat** untuk menyimpan transaksi."
+    )
+
+    st.markdown("</div>", unsafe_allow_html=True)
