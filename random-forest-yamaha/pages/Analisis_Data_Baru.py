@@ -810,8 +810,6 @@ if "hasil_prediksi" in st.session_state:
 
             if st.session_state["kategori"] == "Ringan":
 
-                st.success("### ✅ Prediksi Layanan")
-
                 st.markdown(
                     """
                     <h2 style="
@@ -826,8 +824,6 @@ if "hasil_prediksi" in st.session_state:
                 )
 
             else:
-
-                st.error("### 🔧 Prediksi Layanan")
 
                 st.markdown(
                     """
