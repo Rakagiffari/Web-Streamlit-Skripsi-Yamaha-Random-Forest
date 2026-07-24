@@ -945,72 +945,72 @@ if "hasil_prediksi" in st.session_state:
 
             )
 
-# ==========================================================
-# 4 PENJADWALAN LAYANAN
-# ==========================================================
+            # ==========================================================
+            # 4 PENJADWALAN LAYANAN
+            # ==========================================================
 
-if "jadwal" in st.session_state:
+            if "jadwal" in st.session_state:
 
-    jadwal = st.session_state["jadwal"]
+                jadwal = st.session_state["jadwal"]
 
-    st.markdown("")
+                st.markdown("")
 
-    with st.container(border=True):
+                with st.container(border=True):
 
-        st.markdown("### 4. Penjadwalan Layanan")
+                    st.markdown("### 4. Penjadwalan Layanan")
 
-        c1, c2, c3, c4, c5 = st.columns(5)
+                    c1, c2, c3, c4, c5 = st.columns(5)
 
-        with c1:
+                    with c1:
 
-            st.metric(
+                        st.metric(
 
-                label="👨‍🔧 Mekanik",
+                            label="👨‍🔧 Mekanik",
 
-                value=jadwal["Mekanik"]
+                            value=jadwal["Mekanik"]
 
-            )
+                        )
 
-        with c2:
+                    with c2:
 
-            st.metric(
+                        st.metric(
 
-                label="🎫 Nomor Antrean",
+                            label="🎫 Nomor Antrean",
 
-                value=jadwal["Nomor Antrean"]
+                            value=jadwal["Nomor Antrean"]
 
-            )
+                        )
 
-        with c3:
+                    with c3:
 
-            st.metric(
+                        st.metric(
 
-                label="🕒 Jam Mulai",
+                            label="🕒 Jam Mulai",
 
-                value=f'{jadwal["Jam Mulai"]} WIB'
+                            value=f'{jadwal["Jam Mulai"]} WIB'
 
-            )
+                        )
 
-        with c4:
+                    with c4:
 
-            st.metric(
+                        st.metric(
 
-                label="⏱ Jam Selesai",
+                            label="⏱ Jam Selesai",
 
-                value=f'{jadwal["Jam Selesai"]} WIB'
+                            value=f'{jadwal["Jam Selesai"]} WIB'
 
-            )
+                        )
 
-        with c5:
+                    with c5:
 
-            st.metric(
+                        st.metric(
 
-                label="🏁 Status",
+                            label="🏁 Status",
 
-                value=jadwal["Status"]
+                            value=jadwal["Status"]
 
-            )
+                        )
 
-        st.info(
-            "Penjadwalan dilakukan otomatis berdasarkan estimasi pekerjaan dan ketersediaan mekanik."
-        )
+                    st.info(
+                        "Penjadwalan dilakukan otomatis berdasarkan estimasi pekerjaan dan ketersediaan mekanik."
+                    )
