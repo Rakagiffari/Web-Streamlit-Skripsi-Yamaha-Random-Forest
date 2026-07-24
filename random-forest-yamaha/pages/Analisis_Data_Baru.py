@@ -764,12 +764,6 @@ if prediksi_button:
             edited_df["Pilih"],
             "Pekerjaan"
         ].tolist()
-
-        st.success("Prediksi berhasil dilakukan.")
-
-    except Exception as e:
-
-        st.error(f"Terjadi kesalahan saat melakukan prediksi.\n\n{e}")
         
 st.markdown(
     """
