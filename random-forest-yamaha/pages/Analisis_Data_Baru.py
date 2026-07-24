@@ -993,8 +993,6 @@ serta memperkirakan jam selesai berdasarkan total estimasi pekerjaan.
 
 with st.container(border=True):
 
-    st.markdown("### 5. Simpan Data")
-
     col1, col2 = st.columns(
         [5, 1.4],
         vertical_alignment="center"
