@@ -873,17 +873,3 @@ if "hasil_prediksi" in st.session_state:
                 use_container_width=True
 
             )
-
-        st.markdown("---")
-
-        if st.session_state["kategori"] == "Ringan":
-
-            st.success(
-                "Model Random Forest mengklasifikasikan kendaraan sebagai **SERVICE RINGAN**."
-            )
-
-        else:
-
-            st.error(
-                "Model Random Forest mengklasifikasikan kendaraan sebagai **SERVICE BERAT**."
-            )
