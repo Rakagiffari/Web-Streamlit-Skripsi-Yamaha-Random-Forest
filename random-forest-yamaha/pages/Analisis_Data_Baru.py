@@ -7,7 +7,8 @@ import pandas as pd
 import joblib
 
 from pathlib import Path
-
+from datetime import datetime
+from utils.scheduler import buat_jadwal
 from utils.preprocessing import preprocess_new_data
 
 # ==========================================================
@@ -839,6 +840,9 @@ if prediksi_button:
         st.session_state["pekerjaan"] = edited_df.loc[
             edited_df["Pilih"],
             "Pekerjaan"
+        st.write(st.session_state["jadwal"])
+
+st.session_state["jadwal"] = jadwal
         ].tolist()
 
         st.success("Prediksi berhasil dilakukan.")
