@@ -765,20 +765,20 @@ if prediksi_button:
             "Pekerjaan"
         ].tolist()
         
-st.markdown(
-    """
-    <div style="
-        text-align:center;
-        color:#9ca3af;
-        font-size:14px;
-        margin-top:-8px;
-        margin-bottom:20px;
-    ">
-        Tekan tombol untuk menjalankan prediksi menggunakan model Random Forest.
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+        st.markdown(
+            """
+            <div style="
+                text-align:center;
+                color:#9ca3af;
+                font-size:14px;
+                margin-top:-8px;
+                margin-bottom:20px;
+            ">
+                Tekan tombol untuk menjalankan prediksi menggunakan model Random Forest.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
 # ==========================================================
 # HASIL PREDIKSI
