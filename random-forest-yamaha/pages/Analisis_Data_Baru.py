@@ -143,80 +143,40 @@ HASIL PREDIKSI
 
 }
 
-.schedule-card{
-
-    background:white;
-
-    border:1px solid #E5E7EB;
-
+..jadwal-box{
+    border:1px solid #dcdcdc;
     border-radius:10px;
-
+    background:#ffffff;
     padding:18px;
-
     text-align:center;
-
-    min-height:165px;
-
+    height:150px;
 }
 
-.schedule-title{
-
-    color:#666;
-
-    font-size:13px;
-
+.jadwal-judul{
+    font-size:14px;
+    color:#6b7280;
     margin-bottom:12px;
-
+    font-weight:600;
 }
 
-.schedule-value{
-
-    font-size:18px;
-
-    font-weight:700;
-
-    color:#111827;
-
-    margin-top:18px;
-
-}
-
-.schedule-big{
-
-    font-size:24px;
-
+.jadwal-isi{
+    font-size:22px;
     font-weight:bold;
-
     color:#111827;
-
-    margin-top:15px;
-
 }
 
-.schedule-sub{
-
-    margin-top:18px;
-
-    color:#666;
-
+.jadwal-keterangan{
+    margin-top:10px;
+    color:#9ca3af;
     font-size:13px;
-
 }
 
-.badge-green{
+.status-operasional{
+    color:#16a34a;
+}
 
-    background:#DCFCE7;
-
-    color:#166534;
-
-    padding:5px 14px;
-
-    border-radius:20px;
-
-    font-size:12px;
-
-    font-weight:bold;
-
+.status-tutup{
+    color:#dc2626;
 }
 
 /* ===================================================
@@ -941,136 +901,90 @@ if "hasil_prediksi" in st.session_state:
 
             )
 
-# ==========================================================
-# 4. PENJADWALAN LAYANAN
-# ==========================================================
+# ======================================================
+# PENJADWALAN LAYANAN
+# ======================================================
 
-st.markdown("")
+st.markdown("<br>", unsafe_allow_html=True)
 
-if "jadwal" in st.session_state:
+st.markdown("## 4. Penjadwalan Layanan")
 
-    jadwal = st.session_state["jadwal"]
+if "jadwal" not in st.session_state:
 
-    with st.container(border=True):
-
-        st.markdown("## 4. Penjadwalan Layanan")
-
-        col1, col2, col3, col4, col5 = st.columns(5)
-
-        with col1:
-
-            st.markdown(f"""
-            <div class="schedule-card">
-
-                <div class="schedule-title">
-                    👨‍🔧 Mekanik
-                </div>
-
-                <div class="schedule-big">
-                    {jadwal["Mekanik"]}
-                </div>
-
-                <div class="schedule-sub">
-                    Ditugaskan Otomatis
-                </div>
-
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col2:
-
-            st.markdown(f"""
-            <div class="schedule-card">
-
-                <div class="schedule-title">
-                    🎫 Nomor Antrean
-                </div>
-
-                <div class="schedule-big">
-                    {jadwal["Nomor Antrean"]}
-                </div>
-
-                <div class="schedule-sub">
-                    Hari Ini
-                </div>
-
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col3:
-
-            st.markdown(f"""
-            <div class="schedule-card">
-
-                <div class="schedule-title">
-                    🕒 Jam Mulai
-                </div>
-
-                <div class="schedule-big">
-                    {jadwal["Jam Mulai"]}
-                </div>
-
-                <div class="schedule-sub">
-                    WIB
-                </div>
-
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col4:
-
-            st.markdown(f"""
-            <div class="schedule-card">
-
-                <div class="schedule-title">
-                    🏁 Jam Selesai
-                </div>
-
-                <div class="schedule-big">
-                    {jadwal["Jam Selesai"]}
-                </div>
-
-                <div class="schedule-sub">
-                    WIB
-                </div>
-
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col5:
-
-            warna = "#16a34a" if jadwal["Status"] == "Dalam Jam Operasional" else "#dc2626"
-
-            st.markdown(f"""
-            <div class="schedule-card">
-
-                <div class="schedule-title">
-                    📋 Status
-                </div>
-
-                <div class="schedule-big" style="color:{warna};">
-                    {jadwal["Status"]}
-                </div>
-
-                <div class="schedule-sub">
-                    Otomatis
-                </div>
-
-            </div>
-            """, unsafe_allow_html=True)
-
-        st.info(
-            f"""
-Estimasi pekerjaan **{st.session_state['estimasi']} menit**.
-
-Sistem secara otomatis memilih mekanik yang paling cepat tersedia,
-menghasilkan nomor antrean, menghitung jam mulai, serta memperkirakan
-jam selesai berdasarkan estimasi waktu pekerjaan.
-"""
-        )
+    st.info("Silakan lakukan prediksi layanan terlebih dahulu.")
 
 else:
 
-    st.info(
-        "Lakukan prediksi layanan terlebih dahulu untuk menghasilkan jadwal servis."
+    jadwal = st.session_state["jadwal"]
+
+    warna_status = (
+        "status-operasional"
+        if jadwal["Status"] == "Dalam Jam Operasional"
+        else "status-tutup"
+    )
+
+    col1, col2, col3, col4, col5 = st.columns(5)
+
+    with col1:
+
+        st.markdown(f"""
+        <div class="jadwal-box">
+            <div class="jadwal-judul">Mekanik</div>
+            <div class="jadwal-isi">{jadwal["Mekanik"]}</div>
+            <div class="jadwal-keterangan">Ditugaskan Otomatis</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+
+        st.markdown(f"""
+        <div class="jadwal-box">
+            <div class="jadwal-judul">Nomor Antrean</div>
+            <div class="jadwal-isi">{jadwal["Nomor Antrean"]}</div>
+            <div class="jadwal-keterangan">Hari Ini</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col3:
+
+        st.markdown(f"""
+        <div class="jadwal-box">
+            <div class="jadwal-judul">Jam Mulai</div>
+            <div class="jadwal-isi">{jadwal["Jam Mulai"]}</div>
+            <div class="jadwal-keterangan">WIB</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col4:
+
+        st.markdown(f"""
+        <div class="jadwal-box">
+            <div class="jadwal-judul">Jam Selesai</div>
+            <div class="jadwal-isi">{jadwal["Jam Selesai"]}</div>
+            <div class="jadwal-keterangan">WIB</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col5:
+
+        st.markdown(f"""
+        <div class="jadwal-box">
+            <div class="jadwal-judul">Status</div>
+            <div class="jadwal-isi {warna_status}">
+                {jadwal["Status"]}
+            </div>
+            <div class="jadwal-keterangan">Penjadwalan Otomatis</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    st.success(
+        f"""
+**Estimasi Waktu Pengerjaan : {st.session_state['estimasi']} Menit**
+
+Sistem secara otomatis memilih mekanik yang tersedia,
+menentukan nomor antrean, menghitung jam mulai,
+serta memperkirakan jam selesai berdasarkan total estimasi pekerjaan.
+"""
     )
