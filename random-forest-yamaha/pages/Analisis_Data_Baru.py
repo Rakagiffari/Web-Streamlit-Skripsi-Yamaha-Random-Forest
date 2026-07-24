@@ -792,110 +792,102 @@ st.markdown(
 
 if "hasil_prediksi" in st.session_state:
 
-    st.markdown("## 3. Hasil Prediksi (Random Forest)")
+    st.markdown("")
 
-    left, right = st.columns([1.2,1.8], gap="large")
+    with st.container(border=True):
 
-    # ======================================================
-    # CARD HASIL
-    # ======================================================
+        st.subheader("3. Hasil Prediksi (Random Forest)")
 
-    with left:
+        st.markdown("")
+
+        col1, col2 = st.columns([1.15, 1.85], gap="large")
+
+        # ==================================================
+        # CARD HASIL PREDIKSI
+        # ==================================================
+
+        with col1:
+
+            if st.session_state["kategori"] == "Ringan":
+
+                st.success("### ✅ Prediksi Layanan")
+
+                st.markdown(
+                    """
+                    <h2 style="
+                    text-align:center;
+                    color:#16a34a;
+                    margin-top:20px;
+                    margin-bottom:20px;">
+                    SERVICE RINGAN
+                    </h2>
+                    """,
+                    unsafe_allow_html=True
+                )
+
+            else:
+
+                st.error("### 🔧 Prediksi Layanan")
+
+                st.markdown(
+                    """
+                    <h2 style="
+                    text-align:center;
+                    color:#dc2626;
+                    margin-top:20px;
+                    margin-bottom:20px;">
+                    SERVICE BERAT
+                    </h2>
+                    """,
+                    unsafe_allow_html=True
+                )
+
+        # ==================================================
+        # DETAIL HASIL
+        # ==================================================
+
+        with col2:
+
+            df_hasil = pd.DataFrame({
+
+                "Informasi": [
+
+                    "🎯 Tingkat Keyakinan Model",
+                    "⏱ Total Estimasi Waktu",
+                    "🏷 Kategori Berdasarkan Model"
+
+                ],
+
+                "Hasil": [
+
+                    f"{st.session_state['confidence']:.2f}%",
+                    f"{st.session_state['estimasi']} menit",
+                    st.session_state["kategori"]
+
+                ]
+
+            })
+
+            st.dataframe(
+
+                df_hasil,
+
+                hide_index=True,
+
+                use_container_width=True
+
+            )
+
+        st.markdown("---")
 
         if st.session_state["kategori"] == "Ringan":
 
-            warna = "prediksi-hasil"
-            icon = "✅"
+            st.success(
+                "Model Random Forest mengklasifikasikan kendaraan sebagai **SERVICE RINGAN**."
+            )
 
         else:
 
-            warna = "prediksi-hasil-berat"
-            icon = "🔧"
-
-        st.markdown(
-
-            f"""
-            <div class="prediksi-card">
-
-                <div class="prediksi-icon">
-                    {icon}
-                </div>
-
-                <div class="prediksi-title">
-                    Prediksi Layanan
-                </div>
-
-                <div class="{warna}">
-                    {st.session_state["hasil_prediksi"]}
-                </div>
-
-            </div>
-            """,
-
-            unsafe_allow_html=True
-
-        )
-
-    # ======================================================
-    # DETAIL HASIL
-    # ======================================================
-
-    with right:
-
-        if st.session_state["kategori"] == "Ringan":
-
-            badge = '<span class="badge-ringan">Ringan</span>'
-
-        else:
-
-            badge = '<span class="badge-berat">Berat</span>'
-
-        st.markdown(
-
-            f"""
-
-            <table class="info-table">
-
-                <tr>
-
-                    <td class="info-left">
-                        Tingkat Keyakinan Model
-                    </td>
-
-                    <td class="info-right">
-                        {st.session_state['confidence']:.2f}%
-                    </td>
-
-                </tr>
-
-                <tr>
-
-                    <td class="info-left">
-                        Total Estimasi Waktu
-                    </td>
-
-                    <td class="info-right">
-                        {st.session_state['estimasi']} menit
-                    </td>
-
-                </tr>
-
-                <tr>
-
-                    <td class="info-left">
-                        Kategori Berdasarkan Model
-                    </td>
-
-                    <td class="info-right">
-                        {badge}
-                    </td>
-
-                </tr>
-
-            </table>
-
-            """,
-
-            unsafe_allow_html=True
-
-        )
+            st.error(
+                "Model Random Forest mengklasifikasikan kendaraan sebagai **SERVICE BERAT**."
+            )
