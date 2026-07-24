@@ -154,7 +154,7 @@ HASIL PREDIKSI
 
 .jadwal-judul{
     font-size:14px;
-    color:#6b7280;
+    color:#ffffff;
     margin-bottom:12px;
     font-weight:600;
 }
@@ -162,12 +162,12 @@ HASIL PREDIKSI
 .jadwal-isi{
     font-size:22px;
     font-weight:bold;
-    color:#111827;
+    color:#ffffff;
 }
 
 .jadwal-keterangan{
     margin-top:10px;
-    color:#9ca3af;
+    color:#ffffff;
     font-size:13px;
 }
 
@@ -904,6 +904,8 @@ if "hasil_prediksi" in st.session_state:
 # ======================================================
 # PENJADWALAN LAYANAN
 # ======================================================
+
+st.markdown("<br>", unsafe_allow_html=True)
 
 if "jadwal" not in st.session_state:
 
