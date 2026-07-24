@@ -141,6 +141,82 @@ HASIL PREDIKSI
 
 }
 
+.schedule-card{
+
+    background:white;
+
+    border:1px solid #E5E7EB;
+
+    border-radius:10px;
+
+    padding:18px;
+
+    text-align:center;
+
+    min-height:165px;
+
+}
+
+.schedule-title{
+
+    color:#666;
+
+    font-size:13px;
+
+    margin-bottom:12px;
+
+}
+
+.schedule-value{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:#111827;
+
+    margin-top:18px;
+
+}
+
+.schedule-big{
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    color:#111827;
+
+    margin-top:15px;
+
+}
+
+.schedule-sub{
+
+    margin-top:18px;
+
+    color:#666;
+
+    font-size:13px;
+
+}
+
+.badge-green{
+
+    background:#DCFCE7;
+
+    color:#166534;
+
+    padding:5px 14px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+}
+
 /* ===================================================
 SUCCESS BOX
 =================================================== */
@@ -856,3 +932,140 @@ if "hasil_prediksi" in st.session_state:
                 use_container_width=True
 
             )
+
+# ==========================================================
+# 4. PENJADWALAN LAYANAN
+# ==========================================================
+
+st.markdown("## 4. Penjadwalan Layanan")
+
+jadwal = st.session_state.get("jadwal")
+
+if jadwal is not None:
+
+    col1, col2, col3, col4, col5 = st.columns(5)
+
+    with col1:
+
+        st.markdown("""
+        <div class="schedule-card">
+
+        <div class="schedule-title">
+        👨‍🔧 Mekanik
+        </div>
+
+        <div class="schedule-value">
+        {}
+        </div>
+
+        <div class="schedule-sub">
+        <span class="badge-green">
+        Tersedia
+        </span>
+        </div>
+
+        </div>
+        """.format(jadwal["Mekanik"]),
+        unsafe_allow_html=True)
+
+    with col2:
+
+        st.markdown("""
+        <div class="schedule-card">
+
+        <div class="schedule-title">
+        🎫 Nomor Antrean
+        </div>
+
+        <div class="schedule-big">
+        {}
+        </div>
+
+        <div class="schedule-sub">
+        Hari Ini
+        </div>
+
+        </div>
+        """.format(jadwal["Nomor Antrean"]),
+        unsafe_allow_html=True)
+
+    with col3:
+
+        st.markdown("""
+        <div class="schedule-card">
+
+        <div class="schedule-title">
+        🕒 Jadwal Mulai
+        </div>
+
+        <div class="schedule-big">
+        {} WIB
+        </div>
+
+        <div class="schedule-sub">
+        {}
+        </div>
+
+        </div>
+        """.format(
+
+            jadwal["Jam Mulai"],
+
+            datetime.now().strftime("%d %B %Y")
+
+        ),
+
+        unsafe_allow_html=True)
+
+    with col4:
+
+        st.markdown("""
+        <div class="schedule-card">
+
+        <div class="schedule-title">
+        ⏱ Jadwal Selesai
+        </div>
+
+        <div class="schedule-big">
+        {} WIB
+        </div>
+
+        <div class="schedule-sub">
+        {}
+        </div>
+
+        </div>
+        """.format(
+
+            jadwal["Jam Selesai"],
+
+            datetime.now().strftime("%d %B %Y")
+
+        ),
+
+        unsafe_allow_html=True)
+
+    with col5:
+
+        st.markdown("""
+        <div class="schedule-card">
+
+        <div class="schedule-title">
+        🏁 Operasional
+        </div>
+
+        <div class="schedule-big">
+        17:00 WIB
+        </div>
+
+        <div class="schedule-sub">
+        Batas Servis
+        </div>
+
+        </div>
+        """,
+        unsafe_allow_html=True)
+
+    st.warning(
+        "Jadwal dihitung otomatis berdasarkan estimasi waktu dan ketersediaan mekanik."
+    )
