@@ -150,7 +150,7 @@ HASIL PREDIKSI
 
 }
 
-..jadwal-box{
+.jadwal-box{
     border:1px solid #dcdcdc;
     border-radius:10px;
     background:#ffffff;
@@ -1144,27 +1144,11 @@ with st.container(border=True):
 
             if st.button(
                 "🗑 Reset Riwayat",
-                use_container_width=True
+                    use_container_width=True
             ):
 
-                try:
+                reset_hari_ini()
 
-                    # kosongkan dataframe
-                    df_kosong = df_riwayat.iloc[0:0]
+                st.success("Riwayat layanan hari ini berhasil dihapus.")
 
-                    df_kosong.to_excel(
-                        FILE_RIWAYAT,
-                        index=False
-                    )
-
-                    st.success(
-                        "Riwayat layanan berhasil dihapus."
-                    )
-
-                    st.rerun()
-
-                except Exception as e:
-
-                    st.error(
-                        f"Gagal menghapus riwayat : {e}"
-                    )
+                st.rerun()
