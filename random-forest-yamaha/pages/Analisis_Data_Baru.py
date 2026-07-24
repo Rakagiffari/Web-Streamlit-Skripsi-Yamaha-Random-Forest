@@ -150,7 +150,7 @@ HASIL PREDIKSI
 
 }
 
-.jadwal-box{
+..jadwal-box{
     border:1px solid #dcdcdc;
     border-radius:10px;
     background:#1f2937;
