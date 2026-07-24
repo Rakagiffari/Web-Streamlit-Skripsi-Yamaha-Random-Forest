@@ -840,7 +840,15 @@ if prediksi_button:
         st.session_state["pekerjaan"] = edited_df.loc[
             edited_df["Pilih"],
             "Pekerjaan"
-        st.write(st.session_state["jadwal"])
+        # ==========================================
+        # MEMBUAT PENJADWALAN OTOMATIS
+        # ==========================================
+
+        jadwal = buat_jadwal(
+            estimasi_menit=int(total_estimasi)
+        )
+
+st.session_state["jadwal"] = jadwal
 
 st.session_state["jadwal"] = jadwal
         ].tolist()
