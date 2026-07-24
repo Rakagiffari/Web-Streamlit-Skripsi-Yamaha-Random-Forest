@@ -905,10 +905,6 @@ if "hasil_prediksi" in st.session_state:
 # PENJADWALAN LAYANAN
 # ======================================================
 
-st.markdown("<br>", unsafe_allow_html=True)
-
-st.markdown("## 4. Penjadwalan Layanan")
-
 if "jadwal" not in st.session_state:
 
     st.info("Silakan lakukan prediksi layanan terlebih dahulu.")
