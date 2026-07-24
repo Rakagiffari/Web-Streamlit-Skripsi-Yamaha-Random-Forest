@@ -1022,17 +1022,51 @@ with st.container(border=True):
 
     if simpan:
 
-        try:
+    try:
 
-            simpan_layanan(
-                ...
-            )
+        jadwal = st.session_state["jadwal"]
 
-            st.success("Data berhasil disimpan.")
+        simpan_layanan(
 
-        except Exception as e:
+            nama_pelanggan=st.session_state["nama"],
 
-            st.error(f"Gagal menyimpan data: {e}")
+            no_polisi=st.session_state["no_polisi"],
+
+            model_motor=st.session_state["model_motor"],
+
+            jenis_motor=st.session_state["jenis_motor"],
+
+            kilometer=st.session_state["kilometer"],
+
+            tahun_motor=st.session_state["tahun_motor"],
+
+            indikasi=st.session_state["indikasi"],
+
+            kategori=st.session_state["kategori"],
+
+            confidence=st.session_state["confidence"],
+
+            estimasi=st.session_state["estimasi"],
+
+            mekanik=jadwal["Mekanik"],
+
+            jam_mulai=jadwal["Jam Mulai"],
+
+            jam_selesai=jadwal["Jam Selesai"],
+
+            status="Menunggu",
+
+            nomor_antrean=jadwal["Nomor Antrean"]
+
+        )
+
+        st.success("Data berhasil disimpan ke Riwayat Layanan.")
+
+        st.rerun()
+
+    except Exception as e:
+
+        st.error(f"Gagal menyimpan data: {e}")
 
 # ======================================================
 # 6. RIWAYAT LAYANAN HARI INI
