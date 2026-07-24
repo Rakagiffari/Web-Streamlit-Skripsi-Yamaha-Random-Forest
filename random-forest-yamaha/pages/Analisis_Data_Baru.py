@@ -945,72 +945,62 @@ if "hasil_prediksi" in st.session_state:
 
             )
 
-            # ==========================================================
-            # 4 PENJADWALAN LAYANAN
-            # ==========================================================
+# ==========================================================
+# 4. PENJADWALAN LAYANAN
+# ==========================================================
 
-            if "jadwal" in st.session_state:
+if "hasil_prediksi" in st.session_state:
 
-                jadwal = st.session_state["jadwal"]
+    st.markdown("")
 
-                st.markdown("")
+    with st.container(border=True):
 
-                with st.container(border=True):
+        st.markdown("### 4. Penjadwalan Layanan")
 
-                    st.markdown("### 4. Penjadwalan Layanan")
+        # ==============================
+        # Contoh data sementara
+        # Ganti dengan hasil scheduler.py nanti
+        # ==============================
 
-                    c1, c2, c3, c4, c5 = st.columns(5)
+        mekanik = "BINTANG FEBRUHAJI"
+        antrean = "A001"
+        jam_mulai = "08:00"
+        jam_selesai = "08:35"
 
-                    with c1:
+        col1, col2, col3, col4 = st.columns(4)
 
-                        st.metric(
+        with col1:
 
-                            label="👨‍🔧 Mekanik",
+            st.metric(
+                label="👨‍🔧 Mekanik",
+                value=mekanik
+            )
 
-                            value=jadwal["Mekanik"]
+        with col2:
 
-                        )
+            st.metric(
+                label="🎫 Nomor Antrean",
+                value=antrean
+            )
 
-                    with c2:
+        with col3:
 
-                        st.metric(
+            st.metric(
+                label="🕒 Jam Mulai",
+                value=f"{jam_mulai} WIB"
+            )
 
-                            label="🎫 Nomor Antrean",
+        with col4:
 
-                            value=jadwal["Nomor Antrean"]
+            st.metric(
+                label="⏱ Jam Selesai",
+                value=f"{jam_selesai} WIB"
+            )
 
-                        )
+        st.info(
+            f"""
+Estimasi pekerjaan **{st.session_state['estimasi']} menit**.
 
-                    with c3:
-
-                        st.metric(
-
-                            label="🕒 Jam Mulai",
-
-                            value=f'{jadwal["Jam Mulai"]} WIB'
-
-                        )
-
-                    with c4:
-
-                        st.metric(
-
-                            label="⏱ Jam Selesai",
-
-                            value=f'{jadwal["Jam Selesai"]} WIB'
-
-                        )
-
-                    with c5:
-
-                        st.metric(
-
-                            label="🏁 Status",
-
-                            value=jadwal["Status"]
-
-                        )
-
-                    st.info(
-                        "Penjadwalan dilakukan otomatis berdasarkan estimasi pekerjaan dan ketersediaan mekanik."
-                    )
+Setelah layanan diprediksi sebagai **{st.session_state['kategori']}**, sistem secara otomatis menentukan mekanik yang tersedia serta memberikan nomor antrean.
+"""
+        )
