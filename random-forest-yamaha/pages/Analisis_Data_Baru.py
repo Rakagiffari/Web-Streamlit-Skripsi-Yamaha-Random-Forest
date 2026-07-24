@@ -5,7 +5,9 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import io
 
+from openpyxl import Workbook
 from pathlib import Path
 from datetime import datetime
 from utils.scheduler import buat_jadwal
@@ -1026,3 +1028,104 @@ with st.container(border=True):
         except Exception as e:
 
             st.error(f"Gagal menyimpan data: {e}")
+
+# ======================================================
+# 6. RIWAYAT LAYANAN HARI INI
+# ======================================================
+
+st.markdown("")
+
+with st.container(border=True):
+
+    st.markdown("### 6. Riwayat Layanan Hari Ini")
+
+    # ===========================================
+    # MEMBACA DATA
+    # ===========================================
+
+    df_riwayat = baca_hari_ini()
+
+    if df_riwayat.empty:
+
+        st.info("Belum ada data layanan hari ini.")
+
+    else:
+
+        st.dataframe(
+            df_riwayat,
+            use_container_width=True,
+            hide_index=True
+        )
+
+        st.caption(
+            f"Menampilkan {len(df_riwayat)} dari {len(df_riwayat)} data."
+        )
+
+        # ===========================================
+        # MEMBUAT FILE EXCEL
+        # ===========================================
+
+        workbook = Workbook()
+        worksheet = workbook.active
+        worksheet.title = "Riwayat Layanan"
+
+        worksheet.append(df_riwayat.columns.tolist())
+
+        for row in df_riwayat.itertuples(index=False):
+            worksheet.append(list(row))
+
+        output = io.BytesIO()
+        workbook.save(output)
+        output.seek(0)
+
+        st.markdown("")
+
+        kosong1, tombol1, tombol2, kosong2 = st.columns([2,2,2,2])
+
+        # ===========================================
+        # DOWNLOAD EXCEL
+        # ===========================================
+
+        with tombol1:
+
+            st.download_button(
+                label="📥 Simpan Excel",
+                data=output,
+                file_name="Riwayat_Layanan_Hari_Ini.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                use_container_width=True,
+                type="primary"
+            )
+
+        # ===========================================
+        # RESET RIWAYAT
+        # ===========================================
+
+        with tombol2:
+
+            if st.button(
+                "🗑 Reset Riwayat",
+                use_container_width=True
+            ):
+
+                try:
+
+                    # kosongkan dataframe
+                    df_kosong = df_riwayat.iloc[0:0]
+
+                    df_kosong.to_excel(
+                        FILE_RIWAYAT,
+                        index=False
+                    )
+
+                    st.success(
+                        "Riwayat layanan berhasil dihapus."
+                    )
+
+                    st.rerun()
+
+                except Exception as e:
+
+                    st.error(
+                        f"Gagal menghapus riwayat : {e}"
+                    )
