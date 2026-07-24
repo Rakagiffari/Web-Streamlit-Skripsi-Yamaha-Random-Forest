@@ -1074,9 +1074,7 @@ with st.container(border=True):
 st.markdown("")
 
 with st.container(border=True):
-
-    st.markdown("### 6. Riwayat Layanan Hari Ini")
-
+    
     # ===========================================
     # MEMBACA DATA
     # ===========================================
