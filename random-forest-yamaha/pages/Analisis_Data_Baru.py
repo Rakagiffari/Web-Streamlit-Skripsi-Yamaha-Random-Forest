@@ -153,7 +153,7 @@ HASIL PREDIKSI
 .jadwal-box{
     border:1px solid #dcdcdc;
     border-radius:10px;
-    background:#ffffff;
+    background:#1f2937;
     padding:18px;
     text-align:center;
     height:150px;
