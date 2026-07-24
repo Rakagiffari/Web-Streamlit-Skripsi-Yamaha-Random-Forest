@@ -945,60 +945,132 @@ if "hasil_prediksi" in st.session_state:
 # 4. PENJADWALAN LAYANAN
 # ==========================================================
 
-if "hasil_prediksi" in st.session_state:
+st.markdown("")
 
-    st.markdown("")
+if "jadwal" in st.session_state:
+
+    jadwal = st.session_state["jadwal"]
 
     with st.container(border=True):
 
-        st.markdown("### 4. Penjadwalan Layanan")
+        st.markdown("## 4. Penjadwalan Layanan")
 
-        # ==============================
-        # Contoh data sementara
-        # Ganti dengan hasil scheduler.py nanti
-        # ==============================
-
-        jadwal = st.session_state["jadwal"]
-
-        mekanik = jadwal["Mekanik"]
-        antrean = jadwal["Nomor Antrean"]
-        jam_mulai = jadwal["Jam Mulai"]
-        jam_selesai = jadwal["Jam Selesai"]
-        
-        col1, col2, col3, col4 = st.columns(4)
+        col1, col2, col3, col4, col5 = st.columns(5)
 
         with col1:
 
-            st.metric(
-                label="👨‍🔧 Mekanik",
-                value=mekanik
-            )
+            st.markdown(f"""
+            <div class="schedule-card">
+
+                <div class="schedule-title">
+                    👨‍🔧 Mekanik
+                </div>
+
+                <div class="schedule-big">
+                    {jadwal["Mekanik"]}
+                </div>
+
+                <div class="schedule-sub">
+                    Ditugaskan Otomatis
+                </div>
+
+            </div>
+            """, unsafe_allow_html=True)
 
         with col2:
 
-            st.metric(
-                label="🎫 Nomor Antrean",
-                value=antrean
-            )
+            st.markdown(f"""
+            <div class="schedule-card">
+
+                <div class="schedule-title">
+                    🎫 Nomor Antrean
+                </div>
+
+                <div class="schedule-big">
+                    {jadwal["Nomor Antrean"]}
+                </div>
+
+                <div class="schedule-sub">
+                    Hari Ini
+                </div>
+
+            </div>
+            """, unsafe_allow_html=True)
 
         with col3:
 
-            st.metric(
-                label="🕒 Jam Mulai",
-                value=f"{jam_mulai} WIB"
-            )
+            st.markdown(f"""
+            <div class="schedule-card">
+
+                <div class="schedule-title">
+                    🕒 Jam Mulai
+                </div>
+
+                <div class="schedule-big">
+                    {jadwal["Jam Mulai"]}
+                </div>
+
+                <div class="schedule-sub">
+                    WIB
+                </div>
+
+            </div>
+            """, unsafe_allow_html=True)
 
         with col4:
 
-            st.metric(
-                label="⏱ Jam Selesai",
-                value=f"{jam_selesai} WIB"
-            )
+            st.markdown(f"""
+            <div class="schedule-card">
+
+                <div class="schedule-title">
+                    🏁 Jam Selesai
+                </div>
+
+                <div class="schedule-big">
+                    {jadwal["Jam Selesai"]}
+                </div>
+
+                <div class="schedule-sub">
+                    WIB
+                </div>
+
+            </div>
+            """, unsafe_allow_html=True)
+
+        with col5:
+
+            warna = "#16a34a" if jadwal["Status"] == "Dalam Jam Operasional" else "#dc2626"
+
+            st.markdown(f"""
+            <div class="schedule-card">
+
+                <div class="schedule-title">
+                    📋 Status
+                </div>
+
+                <div class="schedule-big" style="color:{warna};">
+                    {jadwal["Status"]}
+                </div>
+
+                <div class="schedule-sub">
+                    Otomatis
+                </div>
+
+            </div>
+            """, unsafe_allow_html=True)
 
         st.info(
             f"""
 Estimasi pekerjaan **{st.session_state['estimasi']} menit**.
 
-Setelah layanan diprediksi sebagai **{st.session_state['kategori']}**, sistem secara otomatis menentukan mekanik yang tersedia serta memberikan nomor antrean.
+Sistem secara otomatis memilih mekanik yang paling cepat tersedia,
+menghasilkan nomor antrean, menghitung jam mulai, serta memperkirakan
+jam selesai berdasarkan estimasi waktu pekerjaan.
 """
         )
+
+else:
+
+    st.info(
+        "Lakukan prediksi layanan terlebih dahulu untuk menghasilkan jadwal servis."
+    )
