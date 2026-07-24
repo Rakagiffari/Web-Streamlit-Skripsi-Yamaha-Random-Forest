@@ -964,7 +964,7 @@ if "hasil_prediksi" in st.session_state:
         antrean = jadwal["Nomor Antrean"]
         jam_mulai = jadwal["Jam Mulai"]
         jam_selesai = jadwal["Jam Selesai"]
-
+        
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
