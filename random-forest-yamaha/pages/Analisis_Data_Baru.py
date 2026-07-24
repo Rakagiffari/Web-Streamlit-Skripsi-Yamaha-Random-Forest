@@ -988,56 +988,56 @@ serta memperkirakan jam selesai berdasarkan total estimasi pekerjaan.
     )
 
 # ======================================================
-# 5. KONFIRMASI LAYANAN
+# 5. SIMPAN DATA
 # ======================================================
 
 st.markdown("")
 
-if (
-    "jadwal" in st.session_state
-    and "kategori" in st.session_state
-):
+with st.container(border=True):
 
-    jadwal = st.session_state["jadwal"]
+    st.markdown("### 5. Simpan Data")
 
-    with st.container(border=True):
+    col1, col2 = st.columns([4,1])
 
-        st.markdown("### 5. Konfirmasi Layanan")
+    with col1:
 
-        col1, col2 = st.columns(2)
-
-        # ==========================
-        # DATA KENDARAAN
-        # ==========================
-        with col1:
-
-            st.markdown("#### Data Kendaraan")
-
-            st.write(f"**Nama Pelanggan :** {st.session_state['nama']}")
-            st.write(f"**No. Polisi :** {st.session_state['no_polisi']}")
-            st.write(f"**Model Motor :** {st.session_state['model_motor']}")
-            st.write(f"**Jenis Motor :** {st.session_state['jenis_motor']}")
-            st.write(f"**Tahun Motor :** {st.session_state['tahun_motor']}")
-            st.write(f"**Kilometer :** {st.session_state['kilometer']:,} km")
-            st.write(f"**Indikasi :** {st.session_state['indikasi']}")
-
-        # ==========================
-        # RINGKASAN LAYANAN
-        # ==========================
-        with col2:
-
-            st.markdown("#### Ringkasan Layanan")
-
-            st.write(f"**Kategori Service :** {st.session_state['kategori']}")
-            st.write(f"**Tingkat Keyakinan :** {st.session_state['confidence']:.2f}%")
-            st.write(f"**Estimasi Pekerjaan :** {st.session_state['estimasi']} menit")
-            st.write(f"**Mekanik :** {jadwal['Mekanik']}")
-            st.write(f"**Nomor Antrean :** {jadwal['Nomor Antrean']}")
-            st.write(f"**Jam Mulai :** {jadwal['Jam Mulai']}")
-            st.write(f"**Jam Selesai :** {jadwal['Jam Selesai']}")
-
-        st.divider()
-
-        st.success(
-            "Pastikan seluruh data kendaraan, hasil prediksi, dan jadwal layanan sudah benar sebelum menekan tombol **Simpan ke Riwayat**."
+        st.caption(
+            "Data hasil prediksi layanan beserta jadwal servis akan disimpan "
+            "ke dalam riwayat layanan."
         )
+
+    with col2:
+
+        simpan = st.button(
+            "💾 Simpan ke Riwayat",
+            use_container_width=True,
+            type="primary"
+        )
+
+        if simpan:
+
+            try:
+
+                simpan_layanan(
+                    nama=st.session_state["nama"],
+                    no_polisi=st.session_state["no_polisi"],
+                    model_motor=st.session_state["model_motor"],
+                    jenis_motor=st.session_state["jenis_motor"],
+                    tahun_motor=st.session_state["tahun_motor"],
+                    kilometer=st.session_state["kilometer"],
+                    indikasi=st.session_state["indikasi"],
+                    pekerjaan=st.session_state["pekerjaan"],
+                    kategori=st.session_state["kategori"],
+                    confidence=st.session_state["confidence"],
+                    estimasi=st.session_state["estimasi"],
+                    mekanik=st.session_state["jadwal"]["Mekanik"],
+                    nomor_antrean=st.session_state["jadwal"]["Nomor Antrean"],
+                    jam_mulai=st.session_state["jadwal"]["Jam Mulai"],
+                    jam_selesai=st.session_state["jadwal"]["Jam Selesai"]
+                )
+
+                st.success("Data berhasil disimpan ke Riwayat Layanan.")
+
+            except Exception as e:
+
+                st.error(f"Gagal menyimpan data : {e}")
