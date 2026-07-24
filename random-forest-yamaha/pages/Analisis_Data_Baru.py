@@ -1021,52 +1021,51 @@ with st.container(border=True):
         )
 
     if simpan:
+        try:
 
-    try:
+            jadwal = st.session_state["jadwal"]
 
-        jadwal = st.session_state["jadwal"]
+            simpan_layanan(
 
-        simpan_layanan(
+                nama_pelanggan=st.session_state["nama"],
 
-            nama_pelanggan=st.session_state["nama"],
+                no_polisi=st.session_state["no_polisi"],
 
-            no_polisi=st.session_state["no_polisi"],
+                model_motor=st.session_state["model_motor"],
 
-            model_motor=st.session_state["model_motor"],
+                jenis_motor=st.session_state["jenis_motor"],
 
-            jenis_motor=st.session_state["jenis_motor"],
+                kilometer=st.session_state["kilometer"],
 
-            kilometer=st.session_state["kilometer"],
+                tahun_motor=st.session_state["tahun_motor"],
 
-            tahun_motor=st.session_state["tahun_motor"],
+                indikasi=st.session_state["indikasi"],
 
-            indikasi=st.session_state["indikasi"],
+                kategori=st.session_state["kategori"],
 
-            kategori=st.session_state["kategori"],
+                confidence=st.session_state["confidence"],
 
-            confidence=st.session_state["confidence"],
+                estimasi=st.session_state["estimasi"],
 
-            estimasi=st.session_state["estimasi"],
+                mekanik=jadwal["Mekanik"],
 
-            mekanik=jadwal["Mekanik"],
+                jam_mulai=jadwal["Jam Mulai"],
 
-            jam_mulai=jadwal["Jam Mulai"],
+                jam_selesai=jadwal["Jam Selesai"],
 
-            jam_selesai=jadwal["Jam Selesai"],
+                status="Menunggu",
 
-            status="Menunggu",
+                nomor_antrean=jadwal["Nomor Antrean"]
 
-            nomor_antrean=jadwal["Nomor Antrean"]
+            )
 
-        )
+            st.success("Data berhasil disimpan ke Riwayat Layanan.")
 
-        st.success("Data berhasil disimpan ke Riwayat Layanan.")
+            st.rerun()
 
-        st.rerun()
+        except Exception as e:
 
-    except Exception as e:
-
-        st.error(f"Gagal menyimpan data: {e}")
+            st.error(f"Gagal menyimpan data: {e}")
 
 # ======================================================
 # 6. RIWAYAT LAYANAN HARI INI
