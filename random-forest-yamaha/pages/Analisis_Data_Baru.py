@@ -10,6 +10,7 @@ from pathlib import Path
 from datetime import datetime
 from utils.scheduler import buat_jadwal
 from utils.preprocessing import preprocess_new_data
+from utils.excel_handler import simpan_layanan
 
 # ==========================================================
 # PAGE CONFIG
@@ -842,15 +843,9 @@ if prediksi_button:
             "Pekerjaan"
         st.session_state["jadwal"] = jadwal
         
-        # ==================================================
-        # MEMBUAT PENJADWALAN OTOMATIS
-        # ==================================================
-
         jadwal = buat_jadwal(
             estimasi_menit=int(total_estimasi)
         )
-
-        st.session_state["jadwal"] = jadwal
 
         st.success("Prediksi berhasil dilakukan.")
 
