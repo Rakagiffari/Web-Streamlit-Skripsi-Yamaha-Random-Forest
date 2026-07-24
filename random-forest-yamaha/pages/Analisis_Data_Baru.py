@@ -225,7 +225,6 @@ st.markdown(
 )
 
 # ==========================================================
-# LANGKAH 1 - BAGIAN 2
 # DATA KENDARAAN
 # ==========================================================
 
@@ -728,7 +727,7 @@ left, center, right = st.columns([2, 2, 2])
 with center:
 
     prediksi_button = st.button(
-        "🔍 Prediksi Layanan",
+        "Prediksi Layanan",
         use_container_width=True,
         type="primary"
     )
@@ -882,9 +881,9 @@ if "hasil_prediksi" in st.session_state:
 
                 "Informasi": [
 
-                    "🎯 Tingkat Keyakinan Model",
-                    "⏱ Total Estimasi Waktu",
-                    "🏷 Kategori Berdasarkan Model"
+                    "Tingkat Keyakinan Model",
+                    "Total Estimasi Waktu",
+                    "Kategori Berdasarkan Model"
 
                 ],
 
@@ -1015,7 +1014,7 @@ with st.container(border=True):
     with col2:
 
         simpan = st.button(
-            "💾 Simpan ke Riwayat",
+            "Simpan Riwayat",
             use_container_width=True,
             type="primary"
         )
@@ -1140,7 +1139,7 @@ with st.container(border=True):
         with tombol2:
 
             if st.button(
-                "🗑 Reset Riwayat",
+                "Reset Riwayat",
                     use_container_width=True
             ):
 
