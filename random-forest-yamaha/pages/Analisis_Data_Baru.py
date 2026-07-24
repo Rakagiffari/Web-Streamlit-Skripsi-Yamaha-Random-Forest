@@ -987,11 +987,11 @@ serta memperkirakan jam selesai berdasarkan total estimasi pekerjaan.
 """
     )
 
-# ==========================================================
+# ======================================================
 # 5. KONFIRMASI LAYANAN
-# ==========================================================
+# ======================================================
 
-st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("")
 
 if (
     "jadwal" in st.session_state
@@ -1000,120 +1000,44 @@ if (
 
     jadwal = st.session_state["jadwal"]
 
-    st.markdown("""
-    <div style="
-        border:1px solid #e5e7eb;
-        border-radius:10px;
-        background:white;
-        padding:20px;
-        margin-bottom:20px;
-    ">
-    <h4 style="margin-bottom:20px;">
-        5. Konfirmasi Layanan
-    </h4>
-    """, unsafe_allow_html=True)
+    with st.container(border=True):
 
-    col1, col2 = st.columns(2)
+        st.markdown("### 5. Konfirmasi Layanan")
 
-    # ===========================
-    # DATA KENDARAAN
-    # ===========================
+        col1, col2 = st.columns(2)
 
-    with col1:
+        # ==========================
+        # DATA KENDARAAN
+        # ==========================
+        with col1:
 
-        st.markdown("#### Data Kendaraan")
+            st.markdown("#### Data Kendaraan")
 
-        st.markdown(f"""
-        <table style="width:100%;">
-            <tr>
-                <td width="45%">Nama Pelanggan</td>
-                <td><b>{st.session_state['nama']}</b></td>
-            </tr>
+            st.write(f"**Nama Pelanggan :** {st.session_state['nama']}")
+            st.write(f"**No. Polisi :** {st.session_state['no_polisi']}")
+            st.write(f"**Model Motor :** {st.session_state['model_motor']}")
+            st.write(f"**Jenis Motor :** {st.session_state['jenis_motor']}")
+            st.write(f"**Tahun Motor :** {st.session_state['tahun_motor']}")
+            st.write(f"**Kilometer :** {st.session_state['kilometer']:,} km")
+            st.write(f"**Indikasi :** {st.session_state['indikasi']}")
 
-            <tr>
-                <td>No. Polisi</td>
-                <td><b>{st.session_state['no_polisi']}</b></td>
-            </tr>
+        # ==========================
+        # RINGKASAN LAYANAN
+        # ==========================
+        with col2:
 
-            <tr>
-                <td>Jenis Motor</td>
-                <td><b>{st.session_state['model_motor']}</b></td>
-            </tr>
+            st.markdown("#### Ringkasan Layanan")
 
-            <tr>
-                <td>Tahun Motor</td>
-                <td><b>{st.session_state['tahun_motor']}</b></td>
-            </tr>
+            st.write(f"**Kategori Service :** {st.session_state['kategori']}")
+            st.write(f"**Tingkat Keyakinan :** {st.session_state['confidence']:.2f}%")
+            st.write(f"**Estimasi Pekerjaan :** {st.session_state['estimasi']} menit")
+            st.write(f"**Mekanik :** {jadwal['Mekanik']}")
+            st.write(f"**Nomor Antrean :** {jadwal['Nomor Antrean']}")
+            st.write(f"**Jam Mulai :** {jadwal['Jam Mulai']}")
+            st.write(f"**Jam Selesai :** {jadwal['Jam Selesai']}")
 
-            <tr>
-                <td>Kilometer</td>
-                <td><b>{st.session_state['kilometer']:,} km</b></td>
-            </tr>
-        </table>
-        """, unsafe_allow_html=True)
+        st.divider()
 
-    # ===========================
-    # HASIL LAYANAN
-    # ===========================
-
-    with col2:
-
-        st.markdown("#### Ringkasan Layanan")
-
-        warna = "#16a34a"
-
-        if st.session_state["kategori"] == "Berat":
-            warna = "#dc2626"
-
-        st.markdown(f"""
-        <table style="width:100%;">
-
-            <tr>
-                <td width="45%">Kategori Service</td>
-                <td>
-                    <span style="
-                        background:{warna}20;
-                        color:{warna};
-                        padding:4px 12px;
-                        border-radius:20px;
-                        font-weight:bold;
-                    ">
-                    SERVICE {st.session_state['kategori'].upper()}
-                    </span>
-                </td>
-            </tr>
-
-            <tr>
-                <td>Estimasi Waktu</td>
-                <td><b>{st.session_state['estimasi']} menit</b></td>
-            </tr>
-
-            <tr>
-                <td>Mekanik</td>
-                <td><b>{jadwal['Mekanik']}</b></td>
-            </tr>
-
-            <tr>
-                <td>Nomor Antrean</td>
-                <td><b>{jadwal['Nomor Antrean']}</b></td>
-            </tr>
-
-            <tr>
-                <td>Jam Mulai</td>
-                <td><b>{jadwal['Jam Mulai']}</b></td>
-            </tr>
-
-            <tr>
-                <td>Jam Selesai</td>
-                <td><b>{jadwal['Jam Selesai']}</b></td>
-            </tr>
-
-        </table>
-        """, unsafe_allow_html=True)
-
-    st.success(
-        "Silakan periksa kembali seluruh informasi layanan. "
-        "Apabila data sudah sesuai, klik tombol **Simpan ke Riwayat** untuk menyimpan transaksi."
-    )
-
-    st.markdown("</div>", unsafe_allow_html=True)
+        st.success(
+            "Pastikan seluruh data kendaraan, hasil prediksi, dan jadwal layanan sudah benar sebelum menekan tombol **Simpan ke Riwayat**."
+        )
