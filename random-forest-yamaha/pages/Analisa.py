@@ -483,7 +483,6 @@ if prediksi_button:
         st.session_state["hasil_prediksi"] = hasil_prediksi
         st.session_state["kategori"] = kategori
         st.session_state["confidence"] = confidence
-        st.session_state["estimasi"] = int(total_estimasi)
 
         st.session_state["nama"] = nama
         st.session_state["no_polisi"] = no_polisi
@@ -570,7 +569,6 @@ if "hasil_prediksi" in st.session_state:
                 "Informasi": [
 
                     "🎯 Tingkat Keyakinan Model",
-                    "⏱ Total Estimasi Waktu",
                     "🏷 Kategori Berdasarkan Model"
 
                 ],
@@ -578,7 +576,6 @@ if "hasil_prediksi" in st.session_state:
                 "Hasil": [
 
                     f"{st.session_state['confidence']:.2f}%",
-                    f"{st.session_state['estimasi']} menit",
                     st.session_state["kategori"]
 
                 ]
