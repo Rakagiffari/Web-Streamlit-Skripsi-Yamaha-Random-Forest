@@ -405,6 +405,319 @@ with st.container(border=True):
 
     )
 
+# ==========================================================
+# PEKERJAAN BERDASARKAN INDIKASI
+# ==========================================================
+
+with st.container(border=True):
+
+    # ======================================================
+    # DATABASE PEKERJAAN
+    # ======================================================
+
+    pekerjaan_db = {
+
+        "Mesin":[
+
+            {
+                "Pilih": True,
+                "Pekerjaan":"Ganti Oli Mesin",
+                "Deskripsi":"Penggantian oli mesin",
+                "Estimasi Waktu":10
+            },
+
+            {
+                "Pilih":True,
+                "Pekerjaan":"Ganti Busi",
+                "Deskripsi":"Penggantian busi",
+                "Estimasi Waktu":10
+            },
+
+            {
+                "Pilih":True,
+                "Pekerjaan":"Bersihkan Filter Udara",
+                "Deskripsi":"Pembersihan filter udara",
+                "Estimasi Waktu":10
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Setel Klep",
+                "Deskripsi":"Penyetelan klep / valve",
+                "Estimasi Waktu":40
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Cleaning Throttle Body",
+                "Deskripsi":"Pembersihan throttle body",
+                "Estimasi Waktu":30
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Cek Kompresi Mesin",
+                "Deskripsi":"Pemeriksaan kompresi mesin",
+                "Estimasi Waktu":20
+            }
+
+        ],
+
+        "Transmisi":[
+
+            {
+                "Pilih":True,
+                "Pekerjaan":"Servis CVT",
+                "Deskripsi":"Pembersihan CVT",
+                "Estimasi Waktu":35
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Ganti V-Belt",
+                "Deskripsi":"Penggantian V-Belt",
+                "Estimasi Waktu":25
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Ganti Roller",
+                "Deskripsi":"Penggantian roller",
+                "Estimasi Waktu":20
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Ganti Kampas Kopling",
+                "Deskripsi":"Penggantian kampas kopling",
+                "Estimasi Waktu":30
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Ganti Oli Gardan",
+                "Deskripsi":"Penggantian oli gardan",
+                "Estimasi Waktu":10
+            }
+
+        ],
+
+        "Sistem Bahan Bakar":[
+
+            {
+                "Pilih":True,
+                "Pekerjaan":"Cleaning Injector",
+                "Deskripsi":"Pembersihan injektor",
+                "Estimasi Waktu":30
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Cek Fuel Pump",
+                "Deskripsi":"Pemeriksaan fuel pump",
+                "Estimasi Waktu":20
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Cek Selang Bahan Bakar",
+                "Deskripsi":"Pemeriksaan selang bahan bakar",
+                "Estimasi Waktu":15
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Pembersihan Tangki",
+                "Deskripsi":"Pembersihan tangki bahan bakar",
+                "Estimasi Waktu":45
+            }
+
+        ],
+
+        "Kelistrikan":[
+
+            {
+                "Pilih":True,
+                "Pekerjaan":"Cek Aki",
+                "Deskripsi":"Pemeriksaan aki",
+                "Estimasi Waktu":10
+            },
+
+            {
+                "Pilih":True,
+                "Pekerjaan":"Cek Lampu",
+                "Deskripsi":"Pemeriksaan lampu",
+                "Estimasi Waktu":10
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Cek Starter",
+                "Deskripsi":"Pemeriksaan starter",
+                "Estimasi Waktu":20
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Cek Sistem Charging",
+                "Deskripsi":"Pemeriksaan sistem charging",
+                "Estimasi Waktu":20
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Cek Sekring",
+                "Deskripsi":"Pemeriksaan sekring",
+                "Estimasi Waktu":10
+            }
+
+        ],
+
+        "Pengereman":[
+
+            {
+                "Pilih":True,
+                "Pekerjaan":"Ganti Kampas Rem",
+                "Deskripsi":"Penggantian kampas rem",
+                "Estimasi Waktu":20
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Ganti Minyak Rem",
+                "Deskripsi":"Penggantian minyak rem",
+                "Estimasi Waktu":15
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Bleeding Rem",
+                "Deskripsi":"Bleeding sistem rem",
+                "Estimasi Waktu":20
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Cek Cakram",
+                "Deskripsi":"Pemeriksaan cakram rem",
+                "Estimasi Waktu":10
+            }
+
+        ],
+
+        "Roda dan Suspensi":[
+
+            {
+                "Pilih":True,
+                "Pekerjaan":"Cek Ban",
+                "Deskripsi":"Pemeriksaan ban",
+                "Estimasi Waktu":10
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Cek Bearing",
+                "Deskripsi":"Pemeriksaan bearing roda",
+                "Estimasi Waktu":20
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Ganti Shockbreaker",
+                "Deskripsi":"Penggantian shockbreaker",
+                "Estimasi Waktu":35
+            }
+
+        ],
+
+        "Body":[
+
+            {
+                "Pilih":True,
+                "Pekerjaan":"Perbaikan Cover Body",
+                "Deskripsi":"Perbaikan cover body",
+                "Estimasi Waktu":20
+            },
+
+            {
+                "Pilih":False,
+                "Pekerjaan":"Pengencangan Baut Body",
+                "Deskripsi":"Pemeriksaan baut body",
+                "Estimasi Waktu":10
+            }
+
+        ],
+
+        "Umum":[
+
+            {
+                "Pilih":True,
+                "Pekerjaan":"General Check",
+                "Deskripsi":"Pemeriksaan umum kendaraan",
+                "Estimasi Waktu":20
+            }
+
+        ]
+
+    }
+
+    df_pekerjaan = pd.DataFrame(
+        pekerjaan_db.get(indikasi, [])
+    )
+
+    edited_df = st.data_editor(
+
+        df_pekerjaan,
+
+        hide_index=True,
+
+        use_container_width=True,
+
+        num_rows="fixed",
+
+        column_config={
+
+            "Pilih": st.column_config.CheckboxColumn(
+                "Pilih"
+            ),
+
+            "Pekerjaan": st.column_config.TextColumn(
+                "Pekerjaan",
+                width="medium"
+            ),
+
+            "Deskripsi": st.column_config.TextColumn(
+                "Deskripsi",
+                width="large"
+            ),
+
+            "Estimasi Waktu": st.column_config.NumberColumn(
+                "Estimasi Waktu",
+                format="%d menit"
+            )
+
+        },
+
+        disabled=[
+            "Pekerjaan",
+            "Deskripsi",
+            "Estimasi Waktu"
+        ]
+
+    )
+
+    # ======================================================
+    # TOTAL ESTIMASI
+    # ======================================================
+
+    total_estimasi = edited_df.loc[
+        edited_df["Pilih"],
+        "Estimasi Waktu"
+    ].sum()
+
+    st.success(
+        f"Total Estimasi Waktu Pekerjaan : **{int(total_estimasi)} menit**"
+    )
 
 # ==========================================================
 # TOMBOL PREDIKSI
@@ -483,6 +796,7 @@ if prediksi_button:
         st.session_state["hasil_prediksi"] = hasil_prediksi
         st.session_state["kategori"] = kategori
         st.session_state["confidence"] = confidence
+        st.session_state["estimasi"] = int(total_estimasi)
 
         st.session_state["nama"] = nama
         st.session_state["no_polisi"] = no_polisi
@@ -569,6 +883,7 @@ if "hasil_prediksi" in st.session_state:
                 "Informasi": [
 
                     "🎯 Tingkat Keyakinan Model",
+                    "⏱ Total Estimasi Waktu",
                     "🏷 Kategori Berdasarkan Model"
 
                 ],
@@ -576,6 +891,7 @@ if "hasil_prediksi" in st.session_state:
                 "Hasil": [
 
                     f"{st.session_state['confidence']:.2f}%",
+                    f"{st.session_state['estimasi']} menit",
                     st.session_state["kategori"]
 
                 ]
