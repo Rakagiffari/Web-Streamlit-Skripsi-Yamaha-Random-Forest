@@ -63,6 +63,8 @@ def train_model(X, y):
 
         min_samples_leaf=2,
 
+        class_weight="balanced",
+
         random_state=42,
 
         n_jobs=-1
